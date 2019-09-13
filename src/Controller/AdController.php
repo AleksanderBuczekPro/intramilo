@@ -48,6 +48,8 @@ class AdController extends AbstractController
                 $manager->persist($image);
             }
 
+            $ad->setAuthor($this->getUser());
+            
             $manager->persist($ad);
             $manager->flush();
 
@@ -83,6 +85,7 @@ class AdController extends AbstractController
     public function edit(Ad $ad, Request $request, ObjectManager $manager){ // Grâce au ParamConverter on récupère l'annonce correspondante au slug
 
         $form = $this->createForm(AnnonceType::class, $ad);
+
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
@@ -92,6 +95,7 @@ class AdController extends AbstractController
                 $manager->persist($image);
             }
 
+            
             $manager->persist($ad);
             $manager->flush();
 
