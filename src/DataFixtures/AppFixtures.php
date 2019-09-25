@@ -8,6 +8,7 @@ use App\Entity\Role;
 use App\Entity\User;
 use App\Entity\Image;
 use App\Entity\Booking;
+use App\Entity\Comment;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -121,7 +122,7 @@ class AppFixtures extends Fixture
                 $duration = mt_rand(3, 10);
 
                 $endDate = (clone $startDate)->modify("+$duration days");
-                $amout = $ad->getPrice() * $duration;
+                $amount = $ad->getPrice() * $duration;
                 
                 $booker = $users[array_rand($users)];
 
@@ -132,12 +133,33 @@ class AppFixtures extends Fixture
                         ->setStartDate($startDate)
                         ->setEndDate($endDate)
                         ->setCreatedAt($createdAt)
-                        ->setAmout($amout)
+                        ->setAmount($amount)
                         ->setComment($comment);
+
+                
+                // Gestion des commentaires
+
+                if(mt_rand(0, 1)){
+
+                    $comment = new Comment;
+
+                    $rating = mt_rand(1,5);
+                    $content = $faker->paragraph();
+
+                    $comment->setAd($ad)
+                            ->setAuthor($booker)
+                            ->setRating($rating)
+                            ->setContent($content);
+
+                    $manager->persist($comment);
+
+                }
 
 
                 $manager->persist($booking);
             }
+
+            
 
         }
 

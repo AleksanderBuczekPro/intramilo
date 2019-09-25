@@ -4,14 +4,16 @@ namespace App\Controller;
 
 use App\Entity\Ad;
 use App\Entity\Booking;
+use App\Entity\Comment;
 use App\Form\AnnonceType;
 use App\Form\BookingType;
+use App\Form\CommentType;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Response;
 
 class BookingController extends AbstractController
 {
@@ -79,13 +81,47 @@ class BookingController extends AbstractController
      * @Route("/booking/{id}", name="booking_show")
      *
      * @param Booking $booking
+     * @param Request $request
+     * @param ObjectManager $manager
      * @return Response
      */
-    public function show(Booking $booking){
+    public function show(Booking $booking, Request $request, ObjectManager $manager){
+
+        $comment = new Comment;
+
+        $form = $this->createForm(CommentType::class, $comment);
+
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()){
+
+            $user = $this->getUser();
+
+            $comment->setAuthor($user)
+                    ->setAd($booking->getAd());
+
+            
+                
+                $this->addFlash(
+                    'success',
+                    "Votre commentaire a bien été pris en compte !"
+                );
+
+          
+           
+            $manager->persist($comment);
+            $manager->flush();
+
+                      
+
+        }
+
+
 
         return $this->render('booking/show.html.twig', [
 
-            'booking' => $booking
+            'booking' => $booking,
+            'form' => $form->createView()
 
         ]);
 
