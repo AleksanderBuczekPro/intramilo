@@ -6,10 +6,10 @@
 
         <meta name="viewport" content="width=device-width, user-scalable=no">
 
-        <link rel="stylesheet" href="/css/bootstrap.min.css">
+        {{ encore_entry_link_tags('css/app') }}
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.2/css/all.css" integrity="sha256-piqEf7Ap7CMps8krDQsSOTZgF+MU/0MPyPW2enj5I40=" crossorigin="anonymous" />
         
-        <link rel="stylesheet" href="/css/app.css">
+        {# <link rel="stylesheet" href="/css/app.css"> #}
         {% block stylesheets %}{% endblock %}
     </head>
     <body>
@@ -21,9 +21,8 @@
     {% include 'admin/partials/footer.html.twig'  %}
     
 
-        <script src="/js/jquery.min.js"></script>
-        <script src="/js/popper.min.js"></script>
-        <script src="/js/bootstrap.min.js"></script>
+
+        {{ encore_entry_script_tags('js/app') }}
         {% block javascripts %}{% endblock %}
     </body>
 </html>
