@@ -1,0 +1,63 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Documentation
+{% endblock %}
+
+
+{% block header %}
+    <h2>Voici mon header !</h2>
+{% endblock %}
+
+{% block body %}
+
+    <div class="jumbotron jumbotron-fluid text-center">
+        <div class="container">
+            <h1 class="display-4">Comment puis-je vous aider ?</h1>
+            <p class="lead">Toutes les ressources dont vous avez besoin en un seul endroit</p>
+            
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <form>
+                        <div class="form-group my-3">
+                            <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="Entrez un mot-clé">
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+    <div class="container">  
+
+        <div class="row">
+
+            {% for category in categories %}
+
+            <div class="col-md-4">
+                <div class="card bg-light mb-3">
+                    <div class="card-body">
+                        <h4 class="card-title">
+                        {{ category.title }}                    
+                        </h4>
+                        <hr>
+                        {% for sub in category.subCategories %}
+                            <p class="card-text">
+                                <a href="{{ path('doc_show', {'slug': category.slug, 'sub_slug': sub.slug }) }}">
+                                    {{ sub.title }} 
+                                </a>                        
+                            </p>
+                        {% endfor %}
+
+                    </div>
+                </div>
+            </div>
+
+            {% endfor %}
+           
+        </div>
+        
+    </div>
+
+{% endblock %}

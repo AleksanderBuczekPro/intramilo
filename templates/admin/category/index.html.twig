@@ -1,0 +1,66 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}
+    Administration des catégories
+{% endblock %}
+
+{% block body %}
+
+    <div class="m-5">  
+
+    <a href="{{ path('admin_category_create') }}" class="btn btn-primary mb-3">Ajouter une catégorie</a>
+
+        <div class="row">
+
+            {% for category in categories %}
+
+            <div class="col-md-4">
+                <div class="card bg-light mb-3">
+                    <div class="card-body">
+                        <h4 class="card-title">
+                        {{ category.title }}
+                        <span>
+                            <a href="{{ path('admin_category_edit', {'id': category.id }) }}" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
+                            
+                            {% if category.subCategories|length == 0 %}
+                            <a href="{{ path('admin_category_delete', {'id': category.id }) }}" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
+                            {% endif %}
+                        </span>                    
+                        </h4>
+                        <hr>
+
+                        <table class="table table-hover">
+                            <tbody>
+                                {% if category.subCategories|length > 0 %}
+
+                                    {% for sub in category.subCategories %}
+                                    <tr>
+                                        <td>{{ sub.title }}</td>
+                                        <td>
+                                            <a href="{{ path('admin_sub_category_edit', {'id': sub.id }) }}" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
+                                            <a href="{{ path('admin_sub_category_delete', {'id': sub.id }) }}" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
+                                        </td>
+                                        
+                                    </tr>
+                                    {% endfor %}
+
+                                {% else %}
+
+                                    <i> Aucune sous-catégorie pour l'instant </i>
+
+                                {% endif %}
+                            </tbody>
+                        </table>
+                        <hr>
+                        <a href="{{ path('admin_sub_category_create') }}" class="btn btn-primary  float-right">Ajouter une sous-catégorie</a>
+                    </div>
+                </div>
+            </div>
+
+            {% endfor %}
+           
+        </div>
+        
+    </div>
+
+{% endblock %}

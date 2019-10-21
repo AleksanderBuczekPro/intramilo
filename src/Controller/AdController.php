@@ -79,7 +79,7 @@ class AdController extends AbstractController
     }
 
     /**
-     * Permet de d'afficher le formulaire d'édition
+     * Permet d'afficher le formulaire d'édition
      * 
      * @Route("/ads/{slug}/edit", name="ads_edit")
      * @Security("is_granted('ROLE_USER') and user === ad.getAuthor()", message="Cette annonce ne vous appartient pas, vous nous pouvez pas la modifier")

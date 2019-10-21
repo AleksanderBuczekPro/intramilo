@@ -1,0 +1,85 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Documentation - Modification d'une fiche dans la catégorie {{ category.title }} / {{ subCategory.title }}
+{% endblock %}
+
+{% block body %}
+
+    <div class="container">
+
+    <h1 class="my-5">Modification de la fiche {{ sheet.title }}</h1>
+
+    {% form_theme form 'documentation/sheet/_collection.html.twig' %}
+
+        <div class="row">
+            <div class="col-md-12 bg-light">
+
+                <h4 class="my-5">Contenu</h4>
+
+                {{ form_start(form) }}
+
+                {{ form_widget(form) }}
+
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-check"></i> Modifier la fiche
+                </button>
+
+                {{ form_end(form) }}
+
+            </div>
+           
+        
+        </div>
+
+        
+
+
+
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+
+<script>
+$('#add-header').click(function(){
+
+    // Je récupère le numéro des futurs champs que je vais créer
+    const index = +$('#widgets-counter').val(); // + transforme la chaine de caractère en nombre
+
+    // Je récupère le prototype des entrées
+    const tmpl = $('#sheet_headers').data('prototype').replace(/__name__/g, index); // g = "pour chaque"
+
+    // J'injecte ce code au sein de la div
+    $('#sheet_headers').append(tmpl);
+
+    $('#widgets-counter').val(index + 1);
+
+    // Je gère le bouton supprimer
+    handleDeleteButtons();
+
+});
+
+function handleDeleteButtons(){
+    $('button[data-action="delete"]').click(function(){
+        const target = this.dataset.target;
+
+        $(target).remove();
+
+    });
+
+}
+
+function updateCounter(){
+    const count = +$('#sheet_headers div.form-group').length;
+
+    $('#widgets-counter').val(count);
+}
+
+updateCounter();
+handleDeleteButtons();
+
+</script>
+
+{% endblock %}

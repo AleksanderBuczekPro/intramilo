@@ -7,8 +7,14 @@ use Faker\Factory;
 use App\Entity\Role;
 use App\Entity\User;
 use App\Entity\Image;
+use App\Entity\Sheet;
+use App\Entity\Header;
 use App\Entity\Booking;
 use App\Entity\Comment;
+use App\Entity\Section;
+use App\Entity\Category;
+use Cocur\Slugify\Slugify;
+use App\Entity\SubCategory;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -163,13 +169,101 @@ class AppFixtures extends Fixture
 
         }
 
-       
-
-
-       
-
         $manager->persist($ad);
+
+        //
+        
+        // Gestion des catégories et des sous-catégories de la documentation
+        for($i = 1; $i <= 6; $i++){
+            $category = new Category();
+
+            $title = $faker->sentence(mt_rand(1,2));
+
+            $slugify = new Slugify();
+            $slug = $slugify->slugify($title);
+
+            $category->setTitle($title)
+                     ->setSlug($slug);
+
+            // Gestion des sous-catégories
+            for($j = 1; $j <= mt_rand(3,10); $j++){
+
+                $subCategory = new SubCategory;
+
+                $title = $faker->sentence(mt_rand(1,5));
+
+                $slugify = new Slugify();
+                $slug = $slugify->slugify($title);
+
+                $subCategory->setTitle($title)
+                            ->setSlug($slug)
+                            ->setCategory($category);
+
+                $manager->persist($subCategory);
+
+                // Gestion des fiches (=sheets)
+
+                for($k = 1; $k <= mt_rand(5,20); $k++){
+                    
+                    $sheet = new Sheet;
+
+                    $title = $faker->sentence(mt_rand(2,10));
+                    $organization = $faker->sentence(mt_rand(1,4));
+                    $updatedAt = $faker->dateTimeBetween('-6 months');
+                    $content = '<p>' . join('</p><p>', $faker->paragraphs(5)) . '</p>'; 
+
+                    $sheet->setTitle($title)
+                          ->setOrganization($organization)
+                          ->setUpdatedAt($updatedAt)
+                          ->setContent($content)
+                          ->setSubCategory($subCategory);
+
+
+                    // Gestion des Headers et Sections
+
+                    // Header
+                    for($l = 1; $l <= mt_rand(1,4); $l++){
+
+                        $header = new Header;
+
+                        $title = $faker->sentence(mt_rand(1, 2));
+
+                        $header->setTitle($title)
+                               ->setSheet($sheet);
+
+                        $manager->persist($header);
+
+                            // Section
+                            for($m = 1; $m <= mt_rand(2,6); $m++){
+
+                                $section = new Section;
+
+                                $title = $faker->sentence(mt_rand(1, 2));
+                                $content = $faker->sentence(mt_rand(1, 6));
+
+                                $section->setTitle($title)
+                                       ->setContent($content)
+                                       ->setHeader($header);
+
+                                $manager->persist($section);
+                                
+                            }
+
+                        
+
+                    }
+
+                    $manager->persist($sheet);
+                }
+
+
+            }
+
+            $manager->persist($category);
+        }
 
         $manager->flush();
     }
+
+    
 }

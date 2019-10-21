@@ -1,0 +1,68 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Documentation - {{ category.title }} - {{ subCategory.title }}
+{% endblock %}
+
+{% block body %}
+
+    <div class="jumbotron jumbotron-fluid">
+        <div class="container">
+            <p class="lead">{{ category.title }}</p>
+            <h1 class="display-4">{{ subCategory.title }}</h1>
+            <p class="lead">Responsable de la mise à jour : Géraldine Thomas</p>
+
+            
+            
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="filters mb-5">
+            <a href="{{ path('sheet_create', {'slug': category.slug, 'sub_slug': subCategory.slug}) }}" class="btn btn-primary">
+                Ajouter une fiche            
+            </a>
+            <span class="float-right">Trier par : Date Type Statut</span>
+        </div>
+
+        <table class="table table-hover">
+            <tbody>
+            {% for sheet in sheets %}
+                <tr>
+                    <td class="align-middle text-center"><i class="far fa-file-alt fa-lg"></i></td>
+                    <td class="align-middle">
+                        <a href="{{ path('sheet_show', {'slug': category.slug, 'sub_slug': subCategory.slug, 'sheet_slug': sheet.slug }) }}">
+                            <strong>{{ sheet.title }}</strong>
+                        </a><br>
+                        <small>{{ sheet.organization }}</small>                    
+                    </td>
+                    <td class="align-middle text-center">
+                        <span class="badge badge-pill badge-success">A jour</span>
+                    </td>
+                    <td class="align-middle text-center">{{ sheet.updatedAt|localizeddate('none', 'none', 'fr', null, 'MMMM Y') }}</td>
+                    <td class="align-middle text-center">
+
+                        <div class="dropdown">
+                            <button class="btn btn-link" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-ellipsis-h"></i>
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <a class="dropdown-item" href="{{ path('sheet_edit', {'slug': category.slug, 'sub_slug': subCategory.slug, 'sheet_slug': sheet.slug }) }}">Modifer</a>
+                                <a class="dropdown-item" href="#">Supprimer</a>
+                            </div>
+                        </div>
+
+
+
+                        
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+
+        </table>
+        
+        
+    </div>
+
+{% endblock %}
