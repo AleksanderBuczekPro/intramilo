@@ -11,23 +11,7 @@
 
 {% block body %}
 
-    <div class="jumbotron jumbotron-fluid text-center">
-        <div class="container">
-            <h1 class="display-4">Comment puis-je vous aider ?</h1>
-            <p class="lead">Toutes les ressources dont vous avez besoin en un seul endroit</p>
-            
-            <div class="row justify-content-center">
-                <div class="col-md-6">
-                    <form>
-                        <div class="form-group my-3">
-                            <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="Entrez un mot-clé">
-                        </div>
-                    </form>
-                </div>
-            </div>
-            
-        </div>
-    </div>
+{% include 'partials/search.html.twig'  %}
 
     <div class="container">  
 

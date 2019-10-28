@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Documentation - Modification d'un document dans la catégorie {{ category.title }} / {{ subCategory.title }}
+{% endblock %}
+
+{% block body %}
+
+    <div class="container">
+
+        <h1 class="my-5">Modification d'un document dans la catégorie {{ category.title }} / {{ subCategory.title }}</h1>
+
+        {{ form_start(form) }}
+
+        {{ form_row(form.title) }}
+
+        {{ form_row(form.organization) }}
+
+        {{ form_row(form.genericFile) }}
+
+        <button type="submit" class="btn btn-primary">
+            <i class="fas fa-check"></i> Modifier le document
+        </button>
+
+        {{ form_end(form) }}
+
+
+
+    </div>
+
+{% endblock %}

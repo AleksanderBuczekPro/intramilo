@@ -1,0 +1,86 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Documentation - {{ document.title }} - {{ document.organization }}
+{% endblock %}
+
+{% block body %}
+
+    <div class="container">
+
+        <div class="row justify-content-center">
+
+            <div class="col-lg-6">
+
+                <div class="card" >
+                    <div class="card-body">
+
+                        
+                                <h5 class="card-title">{{ document.title }}</h5>
+                                <h6 class="card-subtitle mb-2 text-muted">{{ document.organization }}</h6>
+                                <hr>
+                                    <table>
+                                    <tbody>
+                                        <tr>
+                                            <td><strong>Date mise à jour</strong></td>
+                                            <td>{{ document.updatedAt|localizeddate('none', 'none', 'fr', null, 'MMMM Y') }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Taille</strong></td>
+                                            <td>
+
+                                            {# gigabyte #}
+                                            {% if document.size > 1073741824 %}
+
+                                                {% set size = document.size / 1000000000 %}
+                                                {{ size|number_format(2, ',', ' ') }} <span>Mo</span>
+                                            
+                                            {# megabyte #}
+                                            {% elseif document.size > 1048576 %}
+
+                                                {% set size = document.size / 1000000 %}
+                                                {{ size|number_format(1, ',', ' ') }} <span>Mo</span>
+
+                                            {% else %}
+
+                                                {% set size = document.size / 1000 %}
+                                                {{ size|number_format(0, ',', ' ') }} <span>Ko</span>
+
+                                            {% endif %}
+
+                                            
+                                            
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Type</strong></td>
+                                            <td>{{ document.mimeType }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Nom original</strong></td>
+                                            <td>{{ document.originalName }}</td>
+                                        </tr>
+                                    </tbody>
+                                    </table>
+                                
+                                <hr>
+                                <a href="{{ vich_uploader_asset(document, 'genericFile')}}" class="btn btn-success">Télécharger</a>
+                                <a href="{{ path('document_edit', {'slug': category.slug, 'sub_slug': subCategory.slug, 'id': document.id }) }}" class="btn btn-primary">Modifier</a>
+                                <a href="{{ path('document_delete', {'slug': category.slug, 'sub_slug': subCategory.slug, 'id': document.id }) }}" class="btn btn-danger">Supprimer</a>
+                                <a href="{{ path('doc_show', {'slug': category.slug, 'sub_slug': subCategory.slug }) }}" class="btn btn-light">Retour</a>
+                            
+
+
+                        
+                        
+                        
+                    </div>
+                </div>
+
+            </div>
+    
+        </div>
+    
+    </div>
+
+{% endblock %}

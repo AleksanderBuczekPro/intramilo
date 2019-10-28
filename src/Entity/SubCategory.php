@@ -42,9 +42,16 @@ class SubCategory
      */
     private $sheets;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Document", mappedBy="subCategory")
+     */
+    private $documents;
+
+
     public function __construct()
     {
         $this->sheets = new ArrayCollection();
+        $this->documents = new ArrayCollection();
     }
 
     
@@ -137,6 +144,39 @@ class SubCategory
 
         return $this;
     }
+
+    /**
+     * @return Collection|Document[]
+     */
+    public function getDocuments(): Collection
+    {
+        return $this->documents;
+    }
+
+    public function addDocument(Document $document): self
+    {
+        if (!$this->documents->contains($document)) {
+            $this->documents[] = $document;
+            $document->setSubCategory($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDocument(Document $document): self
+    {
+        if ($this->documents->contains($document)) {
+            $this->documents->removeElement($document);
+            // set the owning side to null (unless already changed)
+            if ($document->getSubCategory() === $this) {
+                $document->setSubCategory(null);
+            }
+        }
+
+        return $this;
+    }
+
+   
 
     
 }

@@ -1,0 +1,24 @@
+<div class="jumbotron jumbotron-fluid text-center">
+        <div class="container">
+            <h1 class="display-4">Comment puis-je vous aider ?</h1>
+            <p class="lead">Toutes les ressources dont vous avez besoin en un seul endroit</p>
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <form>
+                        <div class="input-group my-3">
+
+                            <form action="{{ path('search_index') }}" method="get">
+                                <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="Entrez un mot-clé" name="q" required
+                                value="{% if query is defined %}{{ query }}{% endif %}">
+                                <div class="input-group-append">
+                                    <button class="btn btn-outline-secondary" type="submit">Rechercher</button>
+                                </div>
+                            </form>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
+        </div>
+    </div>

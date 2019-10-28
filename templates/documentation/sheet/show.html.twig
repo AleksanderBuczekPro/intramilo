@@ -24,6 +24,9 @@
                 <a href="{{ path('sheet_edit', {'slug': category.slug, 'sub_slug': subCategory.slug, 'sheet_slug': sheet.slug }) }}" class="btn btn-primary">
                 Modifier la fiche           
                 </a>
+                <a href="{{ path('sheet_delete', {'slug': category.slug, 'sub_slug': subCategory.slug, 'sheet_slug': sheet.slug }) }}" class="btn btn-danger">
+                Supprimer la fiche           
+                </a>
 
                 <div class="content mt-5">
                     {{ sheet.content|raw }}

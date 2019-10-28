@@ -18,7 +18,7 @@ class SheetController extends AbstractController
     /**
      * Permet d'ajouter une fiche dans une sous-catégorie spécifique
      * 
-     * @Route("/doc/{slug}/{sub_slug}/new", name="sheet_create")
+     * @Route("/doc/{slug}/{sub_slug}/sheet/new", name="sheet_create")
      * 
      * @ParamConverter("category",    options={"mapping": {"slug":   "slug"}})
      * @ParamConverter("subCategory", options={"mapping": {"sub_slug":   "slug"}})
@@ -62,7 +62,7 @@ class SheetController extends AbstractController
     /**
      * Permet de modifier une fiche
      * 
-     * @Route("/doc/{slug}/{sub_slug}/{sheet_slug}/edit", name="sheet_edit")
+     * @Route("/doc/{slug}/{sub_slug}/{sheet_slug}/sheet/edit", name="sheet_edit")
      * 
      * @ParamConverter("subCategory", options={"mapping": {"sub_slug":   "slug"}})
      * @ParamConverter("sheet", options={"mapping": {"sheet_slug": "slug"}})
@@ -123,6 +123,36 @@ class SheetController extends AbstractController
             'sheet' => $sheet
         ]);
     }
+
+    /**
+     * Permet d'afficher une seule annonce
+     *
+     * @Route("/doc/{slug}/{sub_slug}/{sheet_slug}/delete", name="sheet_delete")
+     * 
+     * @ParamConverter("subCategory", options={"mapping": {"sub_slug":   "slug"}})
+     * @ParamConverter("sheet", options={"mapping": {"sheet_slug": "slug"}})
+     * 
+     */
+    public function delete(Sheet $sheet, ObjectManager $manager)
+    {
+        $manager->remove($sheet);
+        $manager->flush();
+
+        $this->addFlash(
+            'success',
+            "La fiche <strong>{$sheet->getTitle()}</strong> a bien été supprimée !"
+
+        );
+
+         // Gestion des nouveaux slugs
+         $slug = $sheet->getSubCategory()->getCategory()->getSlug();
+         $subSlug = $sheet->getSubCategory()->getSlug();
+
+         return $this->redirectToRoute('doc_show', ['slug' => $slug, 'sub_slug' => $subSlug]);
+
+
+    }
+
 
     
 }

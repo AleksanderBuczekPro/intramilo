@@ -2,11 +2,16 @@
 
 namespace App\Controller;
 
+use App\Service\Docs;
 use App\Entity\Category;
+use App\Form\SearchType;
 use App\Entity\SubCategory;
-use App\Repository\CategoryRepository;
 use App\Repository\SheetRepository;
+use App\Repository\CategoryRepository;
+use App\Repository\DocumentRepository;
 use App\Repository\SubCategoryRepository;
+use Symfony\Component\HttpFoundation\Request;
+use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -19,17 +24,26 @@ class DocumentationController extends AbstractController
      * 
      * @Route("/doc", name="doc_index")
      */
-    public function index(CategoryRepository $repo)
+    public function index(CategoryRepository $repo, Request $request, ObjectManager $manager)
     {
+
+        // Gestion des catégories
         $categories = $repo->findAll();
 
+        // Gestion de la recherche
+        $query = $request->query->get('q');
+        
+        if(isset($query)){
+            return $this->redirectToRoute('search_index', ['q' => $query]);
+        }
+
         return $this->render('documentation/index.html.twig', [
-            'categories' => $categories,
+            'categories' => $categories
         ]);
     }
 
     /**
-     * Permet d'afficher le contenu d'une sous-catégorie
+     * Permet d'afficher le contenu d'une sous-catégorie (fiches et documents)
      * 
      * @Route("/doc/{slug}/{sub_slug}", name="doc_show")
      * 
@@ -37,14 +51,22 @@ class DocumentationController extends AbstractController
      * 
      * @return Response
      */
-    public function show(Category $category, SubCategory $subCategory, SheetRepository $repo)
+    public function show(Category $category, SubCategory $subCategory, SheetRepository $sheetRepo, DocumentRepository $docRepo, Docs $docs)
     {
-        $sheets = $repo->findBySubCategory($subCategory);
+        $sheets = $sheetRepo->findBySubCategory($subCategory);
+        $documents = $docRepo->findBySubCategory($subCategory);
+
+        $files = array_merge_recursive($sheets, $documents);
+
+        usort($files, function($a, $b){ 
+            return strcasecmp($a->getTitle(), $b->getTitle());
+        });
+
 
         return $this->render('documentation/show.html.twig', [
             'category' => $category,
             'subCategory' => $subCategory,
-            'sheets' => $sheets
+            'files' => $files
         ]);
     }
 }

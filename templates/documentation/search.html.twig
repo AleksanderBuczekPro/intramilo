@@ -1,35 +1,29 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-    Documentation - {{ category.title }} - {{ subCategory.title }}
+    Documentation - Résultats
 {% endblock %}
 
 
+{% block header %}
+    <h2>Voici mon header !</h2>
+{% endblock %}
+
 {% block body %}
 
-    <div class="jumbotron jumbotron-fluid">
-        <div class="container">
-            <p class="lead">{{ category.title }}</p>
-            <h1 class="display-4">{{ subCategory.title }}</h1>
-            <p class="lead">Responsable de la mise à jour : Géraldine Thomas</p>
+{% include 'partials/search.html.twig'  %}
+
+    <div class="container">  
+
+        <div class="row">
+            <a href="{{ path('doc_index') }}" class="btn btn-primary">Retour</a>
+        </div>
+        <div class="row mt-3">
 
             
-            
-        </div>
-    </div>
+            <h1>Résultats de recherche pour "{{ query }}"</h1>
 
-    <div class="container">
-        <div class="filters mb-5">
-            <a href="{{ path('sheet_create', {'slug': category.slug, 'sub_slug': subCategory.slug}) }}" class="btn btn-primary">
-                Ajouter une fiche            
-            </a>
-            <a href="{{ path('document_create', {'slug': category.slug, 'sub_slug': subCategory.slug}) }}" class="btn btn-primary ml-3">
-                Ajouter un document            
-            </a>
-            <span class="float-right">Trier par : Date Type Statut</span>
-        </div>
-
-        <table class="table table-hover">
+            <table class="table table-hover">
             <tbody>
             {% for file in files %}
 
@@ -39,6 +33,8 @@
                 {% set document = true %}
 
                 {% set chemin = "{{ vich_uploader_asset(file, 'genericFile')}}" %}
+                {% set chemin_update = "{{ path('documet_edit', {'slug': file.subcategory.category.slug, 'sub_slug': file.subCategory.slug, 'id': file.id }) }}" %}
+                {% set chemin_delete = "{{ path('document_delete', {'slug': file.subcategory.category.slug, 'sub_slug': file.subCategory.slug, 'id': file.id }) }}" %}
                 {% set fileType =  file.mimeType %}
 
                 {# autre type #}
@@ -75,9 +71,9 @@
 
                 {% set document = false  %}
 
-                {% set chemin = "{{ path('sheet_show', {'slug': category.slug, 'sub_slug': subCategory.slug, 'sheet_slug': file.slug }) }}" %}
-                {% set chemin_update = "{{ path('sheet_edit', {'slug': category.slug, 'sub_slug': subCategory.slug, 'sheet_slug': file.slug }) }}" %}
-                {% set chemin_delete = "{{ path('sheet_delete', {'slug': category.slug, 'sub_slug': subCategory.slug, 'sheet_slug': file.slug }) }}" %}
+                {% set chemin = "{{ path('sheet_show', {'slug': file.subcategory.category.slug, 'sub_slug': file.subCategory.slug, 'sheet_slug': file.slug }) }}" %}
+                {% set chemin_update = "{{ path('sheet_edit', {'slug': file.subcategory.category.slug, 'sub_slug': file.subCategory.slug, 'sheet_slug': file.slug }) }}" %}
+                {% set chemin_delete = "{{ path('sheet_delete', {'slug': file.subcategory.category.slug, 'sub_slug': file.subCategory.slug, 'sheet_slug': file.slug }) }}" %}
                 {% set fileType = "sheet" %}
 
                 {% set fileIcon = '<i class="far fa-file-alt fa-lg sheet"></i>'%}
@@ -92,10 +88,10 @@
                         <a href=
                         {% if document %}
                             
-                            {{ path('document_show', {'slug': category.slug, 'sub_slug': subCategory.slug, 'id': file.id }) }}
+                            {{ path('document_show', {'slug': file.subcategory.category.slug, 'sub_slug': file.subCategory.slug, 'id': file.id }) }}
 
                         {% else %}
-                            {{ path('sheet_show', {'slug': category.slug, 'sub_slug': subCategory.slug, 'sheet_slug': file.slug }) }}
+                            {{ path('sheet_show', {'slug': file.subcategory.category.slug, 'sub_slug': file.subCategory.slug, 'sheet_slug': file.slug }) }}
 
                         {% endif %}
 
@@ -129,41 +125,12 @@
                 </tr>
             {% endfor %}
 
-            {# {% for document in documents %}
-                <tr>
-                    <td class="align-middle text-center"><i class="far fa-file-pdf fa-lg"></i></td>
-                    <td class="align-middle">
-                        <a href="{{ vich_uploader_asset(document, 'genericFile') }}" target="_blank">
-                            <strong>{{ document.title }}</strong>
-                        </a><br>
-                        <small>{{ document.organization }}</small>                    
-                    </td>
-                    <td class="align-middle text-center">
-                        <span class="badge badge-pill badge-success">A jour</span>
-                    </td>
-                    <td class="align-middle text-center">{{ document.updatedAt|localizeddate('none', 'none', 'fr', null, 'MMMM Y') }}</td>
-                    <td class="align-middle text-center">
-
-                        <div class="dropdown">
-                            <button class="btn btn-link" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fas fa-ellipsis-h"></i>
-                            </button>
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                <a class="dropdown-item" href="#">Modifer</a>
-                                <a class="dropdown-item" href="#">Supprimer</a>
-                            </div>
-                        </div>
-
-
-
-                        
-                    </td>
-                </tr>
-            {% endfor %} #}
             </tbody>
 
         </table>
-        
+
+           
+        </div>
         
     </div>
 
