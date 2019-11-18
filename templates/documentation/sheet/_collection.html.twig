@@ -1,45 +1,12 @@
-
-{% block _sheet_headers_widget %}
-    <p>Ici vous pouvez ajouter vos propres images !</p>
-
-    {{ form_widget(form) }}
-
-    <input type="hidden" id="widgets-counter" value="0">
-
-    <div class="form-group">
-        <button type="button" id="add-header" class="btn btn-primary">
-        <i class="fas fa-plus"></i> Ajouter une section
-        </button>
-    </div>
-{% endblock %}
+{# Affichage du formulaire HeaderType #}
 
 {% block _sheet_headers_entry_row %}
     {{ form_widget(form) }}
 {% endblock %}
 
-{% block _sheet_headers_entry_widget %}
-    <div class="form-group" id="block_{{id}}">
-        <div class="row">
-            <div class="col-10">
-                {{ form_widget(form.title) }}
-            </div>
-            <div class="col-2">
-                <button type="button" data-action="delete" data-target="#block_{{id}}" class="btn btn-danger">X</button>
-            </div>
-        
-        </div>
-        
-    
-    </div>
 
-{% endblock %}
+{% block _sheet_headers_widget %}
 
-
-
-
-
-{% block _sheet_headers_sections_widget %}
-    <p>Ici vous pouvez ajouter vos propres images !</p>
 
     {{ form_widget(form) }}
 
@@ -52,19 +19,75 @@
     </div>
 {% endblock %}
 
-{% block _sheet_headers_sections_entry_row %}
-    {{ form_widget(form) }}
-{% endblock %}
 
-{% block _sheet_headers_sections_entry_widget %}
-    <div class="form-group" id="block_{{id}}">
-        <div class="row">
+{# Pour chaque Header ajouté #}
+{% block _sheet_headers_entry_widget %}
+    <div class="form-group header" id="block_{{id}}">
+        <div class="row mb-3">
             <div class="col-10">
-                {{ form_widget(form.title) }}
+                    {{ form_widget(form.title) }}
+
             </div>
             <div class="col-2">
-                <button type="button" data-action="delete" data-target="#block_{{id}}" class="btn btn-danger">X</button>
+                <button type="button" data-action="delete" data-target="#block_{{id}}" class="btn btn-danger"><i class="fas fa-times"></i></button>
             </div>
+        
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                {{ form_row(form.sections) }}
+            </div>
+        </div>
+        
+    
+    </div>
+
+{% endblock %}
+
+
+
+{# Pour chaque row (label + input + errors... ), on affiche uniquement que le input #}
+{% block _sheet_headers_entry_sections_row %}
+    {{ form_widget(form) }}
+    <hr>
+{% endblock %}
+
+{# Pour ajouter des lignes #}
+{% block _sheet_headers_entry_sections_widget %}
+
+    {{ form_widget(form) }}
+    
+    {# {% set counter_id = id|split('_') %}
+
+    {% dump(counter_id[4]) %} #}
+
+    <input type="hidden" id="widgets-section-counter-{{ id }}" value="0">
+
+    <div class="form-group">
+        <button type="button" id="{{id}}" class="btn btn-primary mt-3 add-section">
+            <i class="fas fa-plus"></i> Ajouter une ligne
+        </button>
+    </div>
+
+{% endblock %}
+
+
+
+{# Pour chaque ligne #}
+{% block _sheet_headers_entry_sections_entry_row %}
+    <div class="form-group section" id="block_section_{{id}}">
+        <div class="row">
+            <div class="col-5">
+                {{ form_widget(form.title) }}
+            </div>
+            <div class="col-5">
+                {{ form_widget(form.content) }}
+            </div>
+            <div class="col-2">
+                <button type="button" data-action="delete" data-target="#block_section_{{id}}" class="btn btn-danger"><i class="fas fa-times"></i></button>
+            </div>
+            
         
         </div>
         
@@ -72,3 +95,4 @@
     </div>
 
 {% endblock %}
+

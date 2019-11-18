@@ -21,8 +21,10 @@ class HeaderType extends AbstractType
                     
                  'entry_type' => SectionType::class,
                  'allow_add' => true,
-                 'allow_delete' => true
- 
+                 'allow_delete' => true,
+
+                 'prototype_name' => "__s__"
+  
                 ]
             )
         ;

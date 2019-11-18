@@ -85,9 +85,13 @@ class Sheet
      *
      * @return void
      */
-    public function prePersist() {
+    public function prePersist()
+    {
+        if(empty($this->updatedAt))
+        {
+            $this->updatedAt = new \DateTime();
+        }
         
-        $this->updatedAt = new \DateTime();
 
     }
 

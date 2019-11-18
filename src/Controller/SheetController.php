@@ -3,11 +3,13 @@
 namespace App\Controller;
 
 use App\Entity\Sheet;
+use App\Service\Menu;
 use App\Form\SheetType;
 use App\Entity\Category;
 use App\Entity\SubCategory;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
+use PhpParser\Node\Stmt\Foreach_;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -37,6 +39,21 @@ class SheetController extends AbstractController
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
+
+
+            foreach($sheet->getHeaders() as $header){
+
+                $header->setSheet($sheet);
+                $manager->persist($header);
+
+                foreach($header->getSections() as $section){
+
+                    $section->setHeader($header);
+                    $manager->persist($section);
+
+                }
+                
+            }
 
             $manager->persist($sheet);
             $manager->flush();
@@ -77,6 +94,20 @@ class SheetController extends AbstractController
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
+
+            foreach($sheet->getHeaders() as $header){
+
+                $header->setSheet($sheet);
+                $manager->persist($header);
+
+                foreach($header->getSections() as $section){
+
+                    $section->setHeader($header);
+                    $manager->persist($section);
+
+                }
+                
+            }
             
             $manager->persist($sheet);
             $manager->flush();
@@ -114,7 +145,7 @@ class SheetController extends AbstractController
      * 
      * @return Response
      */
-    public function show(Category $category, SubCategory $subCategory, Sheet $sheet)
+    public function show(Category $category, SubCategory $subCategory, Sheet $sheet, Menu $menu)
     {
 
         return $this->render('documentation/sheet/show.html.twig', [

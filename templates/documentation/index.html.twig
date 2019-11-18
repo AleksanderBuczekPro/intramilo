@@ -13,19 +13,19 @@
 
 {% include 'partials/search.html.twig'  %}
 
-    <div class="container">  
+    <div class="container documentation-container">  
 
         <div class="row">
 
             {% for category in categories %}
 
             <div class="col-md-4">
-                <div class="card bg-light mb-3">
+                <div class="card bg-white mb-3 documentation-card">
                     <div class="card-body">
-                        <h4 class="card-title">
+                        <h4 class="card-title mb-4">
                         {{ category.title }}                    
                         </h4>
-                        <hr>
+                        
                         {% for sub in category.subCategories %}
                             <p class="card-text">
                                 <a href="{{ path('doc_show', {'slug': category.slug, 'sub_slug': sub.slug }) }}">

@@ -8,6 +8,7 @@ use App\Form\HeaderType;
 use App\Form\SectionType;
 use App\Entity\SubCategory;
 use Symfony\Component\Form\AbstractType;
+use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -22,7 +23,7 @@ class SheetType extends ApplicationType
         $builder
             ->add('title', TextType::class, $this->getConfiguration("Titre", "Entrez le titre de la fiche"))
             ->add('organization', TextType::class, $this->getConfiguration("Organisme", "Entrez le nom de l'organisme (optionnel)"))
-            ->add('content', TextareaType::class, $this->getConfiguration("Contenu", "Ici le contenu de la fiche"))            
+            ->add('content', CKEditorType::class, $this->getConfiguration("Contenu", "Ici le contenu de la fiche"))            
             ->add('subCategory', EntityType::class, [
                 'class' => SubCategory::class,
                 'choice_label' => function($subCategory){
@@ -40,8 +41,10 @@ class SheetType extends ApplicationType
                 CollectionType::class,[
                     
                  'entry_type' => HeaderType::class,
-                 'allow_add' => true,
-                 'allow_delete' => true
+                 'allow_add' => true, 
+                 'allow_delete' => true,
+
+                 'prototype_name' => "__h__"
  
                 ]
             )

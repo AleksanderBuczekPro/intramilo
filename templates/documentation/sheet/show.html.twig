@@ -6,45 +6,64 @@
 
 {% block body %}
 
-    <div class="container-fluid">
+    <div class="container-fluid main-sheet-container">
 
         <div class="row justify-content-center mt-5">
-            <div class="col-lg-2 bg-light">
-                Menu
+            <div class="col-lg-2 bg-light sheet-menu-container">
+                <div class="row">
+                    <div class="col text-center">
+                        <a href="{{ path('doc_show', {'slug': category.slug, 'sub_slug': subCategory.slug }) }}" class="btn btn-light return mt-4"><i class="fas fa-caret-left mr-2"></i>Retour</a>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col text-center p-4 header-title">Contenu</div> 
+                </div>
+                <div class="row">
+                    <div class="col sheet-menu">
+                        <ul class="menu"></ul>
+                    </div>
+                </div>
+                
             </div>
-            <div class="col-lg-7">
-                <p>{{ category.title }} - <a href="{{ path('doc_show', {'slug': category.slug, 'sub_slug': subCategory.slug }) }}">{{ subCategory.title }}</a></p>
-                <h1>{{ sheet.title }}</h1>
-                <p>
-                    par Géraldine Thomas -
-                    {{ sheet.updatedAt|localizeddate('none', 'none', 'fr', null, 'MMMM Y') }} -
+            <div class="col-lg-7 px-5">
+            
+                <p class="fil-ariane">
+                    <a class="btn btn-light btn-sm">
+                        {{ category.title }}
+                    </a>
+                    <a class="btn btn-primary btn-sm" href="{{ path('doc_show', {'slug': category.slug, 'sub_slug': subCategory.slug }) }}">
+                        {{ subCategory.title }}
+                    </a>
+                    <div class="dropdown float-right">
+                            <button class="btn btn-link options" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-ellipsis-h options"></i>
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+                                <a class="dropdown-item" href="{{ path('sheet_edit', {'slug': category.slug, 'sub_slug': subCategory.slug, 'sheet_slug': sheet.slug }) }}">Modifer</a>
+                                <a class="dropdown-item" href="{{ path('sheet_delete', {'slug': category.slug, 'sub_slug': subCategory.slug, 'sheet_slug': sheet.slug }) }}">Supprimer</a>
+                            </div>
+                    </div>
+                </p>
+
+                <h1 class="sheet-title mt-4">{{ sheet.title }}</h1>
+                <p class="sheet-infos">
+                    par Géraldine Thomas •
+                    {{ sheet.updatedAt|localizeddate('none', 'none', 'fr', null, 'MMMM Y') }} •
                     à jour
                 </p>
 
-                <a href="{{ path('sheet_edit', {'slug': category.slug, 'sub_slug': subCategory.slug, 'sheet_slug': sheet.slug }) }}" class="btn btn-primary">
-                Modifier la fiche           
-                </a>
-                <a href="{{ path('sheet_delete', {'slug': category.slug, 'sub_slug': subCategory.slug, 'sheet_slug': sheet.slug }) }}" class="btn btn-danger">
-                Supprimer la fiche           
-                </a>
 
-                <div class="content mt-5">
+                <div class="content text-justify mt-5">
                     {{ sheet.content|raw }}
                 </div>
             </div>
 
             <div class="col-lg-3 bg-light">
                 <div class="row header-menu p-4">
-                    <div class="col-6 text-center">Infos</div>
-                    <div class="col-6 text-center">Outils</div>
+                    <div class="col-6 text-center menu active">Infos</div>
+                    <div class="col-6 text-center menu">Outils</div>
                 </div>
-                <div class="row header-image d-flex align-items-center mx-1" 
-                    style="
-                        color: white;
-                        background-image: url(http://placeimg.com/300/200/any);
-                        height: 200px;
-                        background-color: rgba(0, 0, 0, 0.5);
-                        background-blend-mode: multiply">
+                <div class="row header-image d-flex align-items-center mx-1">
 
                     <div class="col-12 text-center" style="">
 
@@ -58,10 +77,10 @@
 
                 {% for header in sheet.headers %}
 
-                    <table class="table table-hover mt-3">
+                    <table class="table table-hover table-header mt-3">
                         <thead>
                             <tr>
-                                <th class="text-center" colspan="2">{{ header.title|upper }}</th>
+                                <th class="text-center header-title" colspan="2">{{ header.title }}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -83,5 +102,50 @@
 
         
     </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    
+    <script>
+
+        function convertToSlug(Text)
+        {
+            return Text
+                .toLowerCase()
+                .replace(/ /g,'-')
+                .replace(/[^\w-]+/g,'')
+                ;
+        }
+
+        // Génération du menu de la fiche (Sheet)
+
+        $( ".content h1, .content h2" ).each(function() {
+
+            var text = $(this).text();
+            var anchor = convertToSlug(text);
+
+            var subtitle = "px-4";
+            
+            if($(this).is("h2")){
+
+                subtitle = "px-5 subtitle";
+
+            }
+
+            // Menu
+            $("ul.menu").append(
+                '<a href="#'+ anchor +'"><li class="'+ subtitle +' py-2 ">'+ text +'</li></a>'
+            );
+
+            // Ancre h1
+            $(this).attr('id', anchor);
+        });
+
+
+
+    
+    
+    </script>    
 
 {% endblock %}

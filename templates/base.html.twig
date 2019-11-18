@@ -11,7 +11,17 @@
         
         {# <link rel="stylesheet" href="/css/app.css"> #}
 
+        <link rel="stylesheet" href="/css/sidebar.css">
+
+        <link rel="stylesheet" href="/css/main.css">
         <link rel="stylesheet" href="/css/files.css">
+        <link rel="stylesheet" href="/css/sheet.css">
+        <link rel="stylesheet" href="/css/documentation.css">
+
+        {# Fonts #}
+        <link href="https://fonts.googleapis.com/css?family=Fira+Sans300,800&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Karla&display=swap" rel="stylesheet">
+        
 
         {{ encore_entry_link_tags('css/app') }}
         {% block stylesheets %}{% endblock %}
@@ -29,6 +39,9 @@
         {% block javascripts %}
         
             <script src="{{ asset('build/css/app.css') }}"></script>
+            
+            <!-- Bootstrap core JavaScript -->
+            <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
             
         
         

@@ -7,32 +7,38 @@
 {% block body %}
 
     <div class="container">
+ 
+        <h1 class="my-5">Modification d'une fiche</h1>
 
-    <h1 class="my-5">Modification de la fiche {{ sheet.title }}</h1>
+        {% form_theme form 'documentation/sheet/_collection.html.twig' %}
 
-    {% form_theme form 'documentation/sheet/_collection.html.twig' %}
+        {{ form_start(form) }}
+        
+            <div class="row">
+                <div class="col-md-8">
+                    {{ form_row(form.subCategory) }}
 
-        <div class="row">
-            <div class="col-md-12 bg-light">
+                    {{ form_row(form.title) }}
+                    {{ form_row(form.organization) }}
 
-                <h4 class="my-5">Contenu</h4>
+                    {{ form_row(form.content) }}
 
-                {{ form_start(form) }}
+                    
+                    
+                </div>
+                <div class="col-md-4">
+                    
+                    {{ form_row(form.headers) }}
 
-                {{ form_widget(form) }}
-
-                <button type="submit" class="btn btn-primary">
-                    <i class="fas fa-check"></i> Modifier la fiche
-                </button>
-
-                {{ form_end(form) }}
-
+                </div>
             </div>
-           
-        
-        </div>
 
-        
+
+            <button type="submit" class="btn btn-primary">
+                <i class="fas fa-check"></i> Modifier la fiche
+            </button>
+
+        {{ form_end(form) }}
 
 
 
@@ -40,19 +46,20 @@
 
 {% endblock %}
 
+
 {% block javascripts %}
 
 <script>
-
-
 
 $('#add-header').click(function(){
 
     // Je récupère le numéro des futurs champs que je vais créer
     const index = +$('#widgets-counter').val(); // + transforme la chaine de caractère en nombre
 
+    console.log('header_index'+ index);
+
     // Je récupère le prototype des entrées
-    const tmpl = $('#sheet_headers').data('prototype').replace(/__name__/g, index); // g = "pour chaque"
+    const tmpl = $('#sheet_headers').data('prototype').replace(/__h__/g, index); // g = "pour chaque"
 
     // J'injecte ce code au sein de la div
     $('#sheet_headers').append(tmpl);
@@ -63,6 +70,7 @@ $('#add-header').click(function(){
     handleDeleteButtons();
 
 });
+
 
 function handleDeleteButtons(){
     $('button[data-action="delete"]').click(function(){
@@ -75,9 +83,21 @@ function handleDeleteButtons(){
 }
 
 function updateCounter(){
-    const count = +$('#sheet_headers div.form-group').length;
+    const count = +$('#sheet_headers div.form-group.header').length;
 
+    /* Headers */
     $('#widgets-counter').val(count);
+
+    console.log()
+
+    /* Sections */
+    $('#sheet_headers div.form-group.header').each(function( index ) {
+
+        var count_section = +$('#sheet_headers_'+ index +'_sections div.form-group.section').length;
+        $('#widgets-section-counter-sheet_headers_' + index + '_sections').val(count_section);
+        console.log(count_section);
+    });
+
 }
 
 updateCounter();
@@ -85,6 +105,34 @@ handleDeleteButtons();
 
 
 
+$(document).on('click', '.add-section', function(event){ 
+
+    // Je récupère l'id du header pour savoir dans lequel faut ajouter une ligne
+    var id = $(this).attr('id'); // sheet_headers_0_sections
+    // id = id.split("_")[2]; // 0
+
+    var header_id = '#' + $(this).attr('id');
+
+    // Je récupère le numéro des futurs champs que je vais créer
+    var counter = $('#widgets-section-counter-'+ id).val();
+    const index = +counter; // + transforme la chaine de caractère en nombre
+
+    
+
+    console.log(counter);
+
+    // Je récupère le prototype des entrées
+    const tmpl = $(header_id).data('prototype').replace(/__s__/g, index); // g = "pour chaque"
+
+    // J'injecte ce code au sein de la div
+    $(header_id).append(tmpl);
+
+    $('#widgets-section-counter-' + id).val(index + 1);
+
+    // Je gère le bouton supprimer
+    handleDeleteButtons();
+    
+});
 
 
 

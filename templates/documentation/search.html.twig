@@ -103,7 +103,27 @@
                         <small>{{ file.organization }}</small>
                     </td>
                     <td class="align-middle text-center">
-                        <span class="badge badge-pill badge-success">A jour</span>
+
+                        {% if date(file.updatedAt) <= date('-6months', 'Europe/Paris') %}
+
+                            {% set state = "Obsotète" %}
+                            {% set state_class = "danger" %}
+
+                        {% elseif date(file.updatedAt) < date('-5months', 'Europe/Paris') %}
+
+                            {% set state = "Bientôt obsolète" %}
+                            {% set state_class = "warning" %}
+
+                        {% else %}
+
+                            {% set state = "A jour" %}
+                            {% set state_class = "success" %}
+
+                        {% endif %}
+
+                        <span class="badge badge-pill badge-{{state_class}}">
+                            {{ state }}
+                        </span>
                     </td>
                     <td class="align-middle text-center">{{ file.updatedAt|localizeddate('none', 'none', 'fr', null, 'MMMM Y') }}</td>
                     <td class="align-middle text-center">

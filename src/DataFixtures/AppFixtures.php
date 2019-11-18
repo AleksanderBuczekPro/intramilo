@@ -209,8 +209,23 @@ class AppFixtures extends Fixture
 
                     $title = $faker->sentence(mt_rand(2,10));
                     $organization = $faker->sentence(mt_rand(1,4));
-                    $updatedAt = $faker->dateTimeBetween('-6 months');
-                    $content = '<p>' . join('</p><p>', $faker->paragraphs(5)) . '</p>'; 
+                    $updatedAt = $faker->dateTimeBetween('-7 months');
+
+                    $content = '';
+
+                    // Gestion du corps d'une fiche
+                    for($p = 1; $p <= mt_rand(1,6); $p++){
+
+                        $content .= '<h1>' . $faker->sentence(mt_rand(1,4)) . '</h1><div class="mb-5">';
+                        
+                        for($t = 1; $t <= mt_rand(1,3); $t++){
+                            $content .= $faker->paragraph();
+                        }
+
+                        $content .= '</div>';
+
+                    }
+
 
                     $sheet->setTitle($title)
                           ->setOrganization($organization)

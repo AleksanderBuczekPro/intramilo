@@ -79,7 +79,7 @@ class Ad
      * @ORM\JoinColumn(nullable=false)
      */
     private $author;
-
+ 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Booking", mappedBy="ad")
      */

@@ -1,4 +1,4 @@
-<div class="jumbotron jumbotron-fluid text-center">
+<div class="jumbotron jumbotron-fluid text-center documentation-jumbotron mb-5">
         <div class="container">
             <h1 class="display-4">Comment puis-je vous aider ?</h1>
             <p class="lead">Toutes les ressources dont vous avez besoin en un seul endroit</p>
@@ -11,7 +11,7 @@
                                 <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="Entrez un mot-clé" name="q" required
                                 value="{% if query is defined %}{{ query }}{% endif %}">
                                 <div class="input-group-append">
-                                    <button class="btn btn-outline-secondary" type="submit">Rechercher</button>
+                                    <button class="btn btn-outline-secondary" type="submit"><i class="fas fa-search"></i></button>
                                 </div>
                             </form>
 
