@@ -1,0 +1,67 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Gestion des utilisateurs{% endblock %}
+
+{% block body %}
+<div class="container">
+    <h1 class="mt-5">Gestion des utilisateurs</h1>
+    <a href="{{ path('admin_user_register') }}" class="btn btn-sm btn-primary mb-5">Ajouter un utilisateur</a>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Statut</th>
+                <th>Nom</th>
+                <th>Email</th>
+                <th>Téléphone</th>
+                <th>Antenne</th>
+                <th>Groupe</th>
+                <th>Poste</th>
+                <th class="text-center">Nombre de dossiers à charge</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in pagination.data %}
+            <tr>
+                <td>
+                    {% for role in user.roles  %}
+
+                        {% if role == "ROLE_ADMIN" %}
+                            Adminitrateur
+                        {% else %}
+                            Utilisateur
+                        {% endif %}
+
+                    {% endfor %}
+                </td>
+                <td>
+                    <img src="{{ user.picture }}" alt="Avatar de {{ user.fullName }}" class="avatar avatar-micro mr-2">
+                    {{ user.fullName }}
+                </td> 
+                <td>{{ user.email }}</td>
+                <td>{{ user.phoneNumber }}</td>
+                <td>{{ user.antenne.title }}</td>
+                <td>{% if user.groupe %}
+                       {{ user.groupe.title }} 
+                    {% else %}
+                        <i>Sans groupe</i>
+                    {% endif %}
+                </td>
+                <td>{{ user.poste.title }}</td>
+                <td class="text-center"><span class="badge badge-dark">{{ user.subCategories|length }}</span></td>
+                <td class="text-center">
+                    <a href="{{ path('admin_user_edit', {'id':  user.id }) }}" class="btn btn-primary"><i class="fas fa-edit"></i></a>
+                    <a href="{{ path('admin_user_delete', {'id':  user.id }) }}" class="btn btn-danger"><i class="fas fa-trash"></i></a>
+                </td>
+                
+            </tr>
+
+            {% endfor %}
+        </tbody>
+    </table>
+
+    {{ pagination.display() }}
+
+
+</div>
+{% endblock %}

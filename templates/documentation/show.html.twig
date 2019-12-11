@@ -19,15 +19,20 @@
 
                 </p>
             <h1 class="display-4 mt-4">{{ subCategory.title }}</h1>
-            <p class="lead">Responsable de la mise à jour : Géraldine Thomas</p>
+            <p class="lead">Responsable de la mise à jour : <a href="{{ path('user_show', {'slug': subCategory.author.slug }) }}">{{ subCategory.author.fullName }}</a></p>
 
             <div class="filters mb-2">
+
+            {% if subCategory.author is same as(app.user) %}
+
                 <a href="{{ path('sheet_create', {'slug': category.slug, 'sub_slug': subCategory.slug}) }}" class="btn btn-secondary btn-sm">
                     Ajouter une fiche            
                 </a>
                 <a href="{{ path('document_create', {'slug': category.slug, 'sub_slug': subCategory.slug}) }}" class="btn btn-secondary btn-sm ml-3">
                     Ajouter un document            
                 </a>
+            {% endif %}
+
                 <span class="float-right tri">Tri : 
                     <a href="#" class="btn btn-secondary btn-sm ml-3">
                         Alphabétique
@@ -112,7 +117,7 @@
 
                     <tr class="file-row">
                         <td class="align-middle text-center file-icon">{{ fileIcon|raw }}</td>
-                        <td class="align-middle file-title">
+                        <td class="align-middle">
                         
                             <a href=
                             {% if document %}
@@ -123,11 +128,8 @@
                                 {{ path('sheet_show', {'slug': category.slug, 'sub_slug': subCategory.slug, 'sheet_slug': file.slug }) }}
 
                             {% endif %}
-
-                            
-                            
                             >
-                                <strong>{{ file.title }}</strong>
+                                <strong class="file-title">{{ file.title }}</strong>
                             </a><br>
                             <small class="file-organization">{{ file.organization }}</small>
                         </td>

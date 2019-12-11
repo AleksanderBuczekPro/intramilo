@@ -29,7 +29,13 @@
                         {% for sub in category.subCategories %}
                             <p class="card-text">
                                 <a href="{{ path('doc_show', {'slug': category.slug, 'sub_slug': sub.slug }) }}">
-                                    {{ sub.title }} 
+                                    
+                                    {% if sub.author is same as(app.user) %}
+                                        <i class="mr-1 fas fa-folder" style="color: Mediumslateblue;"></i>
+                                    {% else %}
+                                        <i class="mr-1 far fa-folder" style="color: #adb5bd;"></i>
+                                    {% endif %}
+                                    {{ sub.title }}
                                 </a>                        
                             </p>
                         {% endfor %}

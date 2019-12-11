@@ -213,4 +213,19 @@ class AccountController extends AbstractController
 
         return $this->render('account/bookings.html.twig');
     }
+
+    /**
+     * Permet de faire la liste des documentations de l'utilisateur connecté
+     * 
+     * @Route("/account/documentations", name="account_documentations")
+     *
+     * @return Response
+     */
+    public function documentations(){
+
+        return $this->render('account/documentations.html.twig');
+    }
+
+
+   
 }

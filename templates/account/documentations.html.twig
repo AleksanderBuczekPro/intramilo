@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Vos documentations{% endblock %}
+
+{% block body %}
+
+<div class="container">
+    <h1 class="my-5">Mes documentations</h1>
+    <div class="alert alert-info mt-3">
+        <p>Retrouvez ci-dessous toutes vos fiches et documents</p>
+    </div>
+
+    {{ dump(app.user.subCategories) }}
+
+    {% for subCategory in app.user.subCategories %}
+
+    <h2>{{ subCategory.title }}</h2>
+
+    {% endfor %}
+</div>
+
+{% endblock %}

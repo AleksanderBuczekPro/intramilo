@@ -145,11 +145,22 @@
     padding: 10px;
 
 }
-.file-title a{
+.file-title{
     font-family: 'Fira Sans', sans-serif;
     text-decoration: none;
     color: black;
+    font-size: 19px;
 
+}
+
+.table-documentation-list a:hover{
+
+    text-decoration: none;
+}
+
+.table-documentation-list a .file-title:hover{
+
+    color: #6777ef;
 }
 
 .table-documentation-list{
@@ -166,6 +177,8 @@
 
 }
 
+
+
 .table.table-documentation-list tr:hover{
 
     background-color: transparent;
@@ -176,20 +189,6 @@
     
 }
 
-.file-title a:hover{
-
-    text-decoration: none;
-    color: #6777ef;
-}
-
-.file-title strong{
-
-    font-size: 16px;
-    font-family: 'Karla', sans-serif;
-    font-weight: bolder;
-    
-
-}
 
 small.file-organization{
 
@@ -208,6 +207,38 @@ small.file-organization{
 
     font-size: 14px;
     color:#707173;
+}
+
+/* Admin */
+
+ul.filters li{
+ 
+    list-style-type: none;
+
+}
+
+/*put red dot before all the active list items*/
+ul.filters li.active:before {
+    content: "• "; /*don't miss the space*/
+
+
+}
+  
+/*put dot but make it invisible before the inactive list items*/
+ul.filters li:not(.active):before {
+    content: "• "; /*don't miss the space*/
+    visibility: hidden;
+}
+
+ul.filters a{
+
+    color: #58585a;
+    font-family: 'Fira Sans', sans-serif;
+    font-weight: 500;
+    font-size: 14px;
+
+    text-decoration: none;
+
 }
 
 

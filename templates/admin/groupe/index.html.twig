@@ -1,0 +1,42 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Gestion des groupes{% endblock %}
+
+{% block body %}
+<div class="container">
+    <h1 class="mt-5">Gestion des groupes</h1>
+    <a href="{{ path('admin_groupe_create') }}" class="btn btn-sm btn-primary mb-5">Ajouter un groupe</a>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Groupe</th>
+                <th>Responsable</th>
+                <th class="text-center">Nombre de salariés</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for groupe in pagination.data %}
+            <tr>
+                <td>{{ groupe.title }}</td>
+                <td>
+                    <img src="{{ groupe.responsable.picture }}" alt="Avatar de {{ groupe.responsable.fullName }}" class="avatar avatar-micro mr-2">
+                    {{ groupe.responsable.fullName }}
+                </td>
+                <td class="text-center"><span class="badge badge-dark">{{ groupe.users|length }}</span></td>
+                <td class="text-center">
+                    <a href="{{ path('admin_groupe_edit', {'id':  groupe.id }) }}" class="btn btn-primary"><i class="fas fa-edit"></i></a>
+                    <a href="{{ path('admin_groupe_delete', {'id':  groupe.id }) }}" class="btn btn-danger"><i class="fas fa-trash"></i></a>
+                </td>
+
+            </tr>
+
+            {% endfor %}
+        </tbody>
+    </table>
+
+    {{ pagination.display() }}
+
+
+</div>
+{% endblock %}

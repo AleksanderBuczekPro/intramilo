@@ -25,9 +25,17 @@
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="accountDropdownLink">
                             <a href="{{ path('ads_create') }}" class="dropdown-item">Créer une annonce</a>
                             <div class="dropdown-divider"></div>
+                            <h6 class="dropdown-header">Compte</h6>
                             <a href="{{ path('account_index') }}" class="dropdown-item">Mon compte</a>
                             <a href="{{ path('account_bookings') }}" class="dropdown-item">Mes réservations</a>
+                            <a href="{{ path('account_documentations') }}" class="dropdown-item">Mes documentations</a>
                             <a href="{{ path('account_profile') }}" class="dropdown-item">Modifier mon profil</a>
+                            <div class="dropdown-divider"></div>
+                            <h6 class="dropdown-header">Administration</h6>
+                            <a href="{{ path('admin_users_index') }}" class="dropdown-item">Gestion des utilisateurs</a>
+                            <a href="{{ path('admin_groupes_index') }}" class="dropdown-item">Gestion des groupes</a>
+                            <a href="{{ path('admin_postes_index') }}" class="dropdown-item">Gestion des postes</a>
+                            <a href="{{ path('admin_antennes_index') }}" class="dropdown-item">Gestion des antennes</a>
                             <div class="dropdown-divider"></div>
                             <a href="{{ path('account_logout') }}" class="dropdown-item">Se déconnecter</a>
                         </div>

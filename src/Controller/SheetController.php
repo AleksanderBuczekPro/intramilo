@@ -5,12 +5,15 @@ namespace App\Controller;
 use App\Entity\Sheet;
 use App\Service\Menu;
 use App\Form\SheetType;
+use App\Form\ToolsType;
 use App\Entity\Category;
 use App\Entity\SubCategory;
+use App\Form\AttachmentType;
+use PhpParser\Node\Stmt\Foreach_;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
-use PhpParser\Node\Stmt\Foreach_;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
@@ -24,6 +27,8 @@ class SheetController extends AbstractController
      * 
      * @ParamConverter("category",    options={"mapping": {"slug":   "slug"}})
      * @ParamConverter("subCategory", options={"mapping": {"sub_slug":   "slug"}})
+     * 
+     * @IsGranted("ROLE_USER")
      *
      * @return Response
      * 
@@ -83,6 +88,8 @@ class SheetController extends AbstractController
      * 
      * @ParamConverter("subCategory", options={"mapping": {"sub_slug":   "slug"}})
      * @ParamConverter("sheet", options={"mapping": {"sheet_slug": "slug"}})
+     * 
+     * @IsGranted("ROLE_USER")
      * 
      * @return Response
      */
@@ -163,6 +170,8 @@ class SheetController extends AbstractController
      * @ParamConverter("subCategory", options={"mapping": {"sub_slug":   "slug"}})
      * @ParamConverter("sheet", options={"mapping": {"sheet_slug": "slug"}})
      * 
+     * @IsGranted("ROLE_USER")
+     * 
      */
     public function delete(Sheet $sheet, ObjectManager $manager)
     {
@@ -181,6 +190,60 @@ class SheetController extends AbstractController
 
          return $this->redirectToRoute('doc_show', ['slug' => $slug, 'sub_slug' => $subSlug]);
 
+
+    }
+
+    /**
+     * Permet la gestion des outils d'une fiche
+     * 
+     * @Route("/doc/{slug}/{sub_slug}/{sheet_slug}/sheet/tools/edit", name="sheet_tools")
+     * 
+     * @ParamConverter("subCategory", options={"mapping": {"sub_slug":   "slug"}})
+     * @ParamConverter("sheet", options={"mapping": {"sheet_slug": "slug"}})
+     * 
+     * @IsGranted("ROLE_USER")
+     *
+     * @return Response
+     */
+    public function editTools(Category $category, SubCategory $subCategory, Sheet $sheet, Request $request, ObjectManager $manager){
+
+        $form = $this->createForm(ToolsType::class, $sheet);
+
+        $form->handleRequest($request);
+
+
+        if($form->isSubmitted() && $form->isValid()){
+            
+            foreach($sheet->getAttachments() as $attachment){
+
+                $attachment->setSheet($sheet);
+                $manager->persist($attachment);
+                
+            }
+            
+            $manager->persist($sheet);
+            $manager->flush();
+
+            $this->addFlash(
+                'success',
+                "Les outils de la fiche <strong>{$sheet->getTitle()}</strong> ont bien été modifiés !"
+
+            );
+
+            // Gestion des nouveaux slugs
+            $slug = $sheet->getSubCategory()->getCategory()->getSlug();
+            $subSlug = $sheet->getSubCategory()->getSlug();
+
+            // return $this->redirectToRoute('sheet_show', ['slug' => $slug, 'sub_slug' => $subSlug, 'sheet_slug' => $sheet->getSlug()]);
+
+        }
+
+        return $this->render('documentation/sheet/tools.html.twig', [
+            'form'=> $form->createView(),
+            'category' => $category,
+            'subCategory' => $subCategory,
+            'sheet' => $sheet
+        ]);
 
     }
 

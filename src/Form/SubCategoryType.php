@@ -2,6 +2,7 @@
 
 namespace App\Form;
 
+use App\Entity\User;
 use App\Entity\Category;
 use App\Entity\SubCategory;
 use Symfony\Component\Form\AbstractType;
@@ -20,6 +21,14 @@ class SubCategoryType extends ApplicationType
             'class' => Category::class,
             'choice_label' => function($category){
                 return $category->getTitle();
+
+            }
+
+        ])
+        ->add('author', EntityType::class, [
+            'class' => User::class,
+            'choice_label' => function($user){
+                return $user->getFullname();
 
             }
 

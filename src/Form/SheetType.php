@@ -46,8 +46,7 @@ class SheetType extends ApplicationType
 
                  'prototype_name' => "__h__"
  
-                ]
-            )
+                ])
             ;
     }
 

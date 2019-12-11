@@ -20,7 +20,7 @@ class DocumentType extends ApplicationType
 
         $builder->add('genericFile', VichFileType::class,[
             'required' => false,
-            'allow_delete' => false, 
+            'allow_delete' => false,
             'download_uri' => true,
             'download_label' => false,
             'asset_helper' => true,

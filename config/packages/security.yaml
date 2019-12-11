@@ -16,20 +16,20 @@ security:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
 
-        admin:
-            pattern: ^/admin
-            anonymous: true
+        # admin:
+        #     pattern: ^/admin
+        #     anonymous: true
 
-            provider: in_database
+        #     provider: in_database
 
-            form_login:
-                default_target_path: admin_ads_index
-                login_path: admin_account_login
-                check_path: admin_account_login
+        #     form_login:
+        #         default_target_path: admin_ads_index
+        #         login_path: admin_account_login
+        #         check_path: admin_account_login
             
-            logout:
-                path: admin_account_logout
-                target: homepage 
+        #     logout:
+        #         path: admin_account_logout
+        #         target: homepage 
 
 
         main:
@@ -56,4 +56,4 @@ security:
     access_control:
         - { path: ^/admin/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/admin, roles: ROLE_ADMIN }
-        # - { path: ^/profile, roles: ROLE_USER }
+        - { path: ^/doc, roles: ROLE_USER }

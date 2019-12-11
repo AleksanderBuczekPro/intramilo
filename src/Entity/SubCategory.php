@@ -47,6 +47,12 @@ class SubCategory
      */
     private $documents;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="subCategories")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $author;
+
 
     public function __construct()
     {
@@ -172,6 +178,18 @@ class SubCategory
                 $document->setSubCategory(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getAuthor(): ?User
+    {
+        return $this->author;
+    }
+
+    public function setAuthor(?User $author): self
+    {
+        $this->author = $author;
 
         return $this;
     }

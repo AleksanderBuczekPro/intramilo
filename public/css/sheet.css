@@ -84,12 +84,13 @@ i.fas.options{
 
 .table.table-header td{
 
+    padding: 8px 12px;
     font-size: 14px;
 
 }
 
 
-.header-title{
+.tools .title, .header-title{
 
     text-transform: uppercase;
     color: #9c9e9f;
@@ -97,6 +98,7 @@ i.fas.options{
     font-size: 15px;
     font-weight: 500;
     font-family: 'Fira Sans', sans-serif;
+    text-align: center;
 }
 
 .header-image{
@@ -116,6 +118,19 @@ i.fas.options{
     -moz-box-shadow: 12px 12px 23px -15px rgba(0,0,0,0.7);
     box-shadow: 12px 12px 23px -15px rgba(0,0,0,0.7);
 }
+
+
+
+a.tool{
+
+    background-color: rgba(58, 139, 255, 0.1);
+    border: none;
+    color: #3a8bff;
+    font-weight: 600;
+
+
+}
+
 
 h1.sheet-title{
 

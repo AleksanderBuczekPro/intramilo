@@ -25,7 +25,7 @@ class Header
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Sheet", inversedBy="headers")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=false) 
      */
     private $sheet;
 

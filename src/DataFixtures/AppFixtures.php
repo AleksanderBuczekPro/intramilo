@@ -7,8 +7,11 @@ use Faker\Factory;
 use App\Entity\Role;
 use App\Entity\User;
 use App\Entity\Image;
+use App\Entity\Poste;
 use App\Entity\Sheet;
+use App\Entity\Groupe;
 use App\Entity\Header;
+use App\Entity\Antenne;
 use App\Entity\Booking;
 use App\Entity\Comment;
 use App\Entity\Section;
@@ -34,6 +37,65 @@ class AppFixtures extends Fixture
     {
         $faker = Factory::create('fr-FR');
 
+        
+
+        // Gestion des antennes
+        
+        $antennes = [];
+
+        $antenneNames = array(
+            'Centre-Ville',
+            'Garantie Jeunes',
+            'Fontaine d\'Ouche',
+            'Grésilles',
+            'Longvic',
+            'Quetigny',
+            'Chenôve',
+            'Talant',
+            'Marsannay la Côte',
+            'Auxonne');
+
+        for($i = 0; $i <= 9; $i++){
+        
+            $antenne = new Antenne();
+            $city = $faker->city();
+            $antenne->setTitle($antenneNames[$i])
+                    ->setAddress($faker->streetAddress())
+                    ->setPostcode(21000)
+                    ->setCity($city)
+                    ->setPhonenumber($faker->e164PhoneNumber());
+
+            $manager->persist($antenne);
+            $antennes[] = $antenne;
+        }
+
+        
+        // Gestion des postes
+        
+        $postes = [];
+
+        $posteNames = array(
+            'Conseiller(ère) en insertion professionnelle',
+            'Chargé(e) d\'accueil',
+            'Psychologue',
+            'Responsable de Secteur Vie',
+            'Conseiller(ère) PLIE',
+            'Assitant(e) administrative',
+            'Plateforme Mobilité',
+            'Directeur',
+            'Directeur Adjoint', 
+            'Chargée de communication');
+
+        for($i = 0; $i <= 9; $i++){
+        
+            $poste = new Poste();
+            $poste->setTitle($posteNames[$i]);
+
+            $manager->persist($poste);
+            $postes[] = $poste;
+        }
+
+
         $adminRole = new Role();
         $adminRole->setTitle('ROLE_ADMIN');
         $manager->persist($adminRole);
@@ -42,19 +104,75 @@ class AppFixtures extends Fixture
         $adminUser->setFirstName('Aleksander')
                 ->setLastName('Buczek')
                 ->setEmail('aleksander@buczek.fr')
+                ->setPhonenumber($faker->e164PhoneNumber())
                 ->setIntroduction($faker->sentence())
                 ->setDescription('<p>' . join('</p><p>', $faker->paragraphs(3)) . '</p>')
                 ->setHash($this->encoder->encodePassword($adminUser, 'password'))
-                ->setPicture('https://media.licdn.com/dms/image/C5603AQHu7cPy83UvbA/profile-displayphoto-shrink_200_200/0?e=1573689600&v=beta&t=C7ocQcYLwiW4o_zB9GaSlzHCxUgb0NSpXvU1Dk1ahco')
-                ->addUserRole($adminRole);
+                ->setPicture('https://media.licdn.com/dms/image/C5603AQHu7cPy83UvbA/profile-displayphoto-shrink_200_200/0?e=1580342400&v=beta&t=jqUqsOUhcj7OUh37dGXlHLYcilbHOAo6tVYQ_QGq7mU')
+                ->addUserRole($adminRole)
+                ->setAntenne($antennes[array_rand($antennes)])
+                // ->setGroupe($groupes[array_rand($groupes)])
+                ->setPoste($postes[array_rand($postes)]);
 
         $manager->persist($adminUser);
 
+        // Gestion des groupes
+        
+        $groupes = [];
+
+        $groupeNames = array(
+            'Emploi',
+            'Formation',
+            'Vie Sociale',
+            'Communication',
+            'Accueil',
+            'Informatique',
+            'Garantie Jeunes',
+            'Administration',
+            'Direction',
+            'Autre');
+
+        for($i = 0; $i <= 9; $i++){
+        
+            $groupe = new Groupe();
+            $groupe->setTitle($groupeNames[$i])
+                   ->setResponsable($adminUser);
+
+            $manager->persist($groupe);
+            $groupes[] = $groupe;
+        }
+
+
         $users = [];
+
+        $firstNames = array(
+            'Jacques',
+            'Frédéric',
+            'Geneviève',
+            'Delphine',
+            'Karine',
+            'Carine',
+            'Amélie',
+            'Jonathan',
+            'Jennifer', 
+            'Mario');
+
+        $lastNames = array(
+            'Sennegon',
+            'Remond',
+            'Lhuiller',
+            'Belle',
+            'Léon',
+            'Malardier',
+            'Morisot',
+            'Messiant',
+            'Brocca', 
+            'Horvat');
+
         $genres = ['male', 'female'];
 
         // Nous gérons les utilisateurs
-        for($i = 1; $i <= 10; $i++){
+        for($i = 0; $i <= 9; $i++){
 
             $user = new User();
 
@@ -68,13 +186,17 @@ class AppFixtures extends Fixture
             $hash = $this->encoder->encodePassword($user, 'password');
             
 
-            $user->setFirstName($faker->firstname($genre))
-                 ->setLastName($faker->lastname)
+            $user->setFirstName($firstNames[$i])
+                 ->setLastName($lastNames[$i])
                  ->setEmail($faker->email)
+                 ->setPhonenumber($faker->e164PhoneNumber())
                  ->setIntroduction($faker->sentence())
                  ->setDescription('<p>' . join('</p><p>', $faker->paragraphs(3)) . '</p>')
                  ->setHash($hash)
-                 ->setPicture($picture);
+                 ->setPicture($picture)
+                 ->setAntenne($antennes[array_rand($antennes)])
+                 ->setGroupe($groupes[array_rand($groupes)])
+                 ->setPoste($postes[array_rand($postes)]);
 
                 $manager->persist($user);
                 $users[] = $user;
@@ -195,9 +317,12 @@ class AppFixtures extends Fixture
                 $slugify = new Slugify();
                 $slug = $slugify->slugify($title);
 
+                $author = $users[array_rand($users)];
+
                 $subCategory->setTitle($title)
                             ->setSlug($slug)
-                            ->setCategory($category);
+                            ->setCategory($category)
+                            ->setAuthor($author);
 
                 $manager->persist($subCategory);
 

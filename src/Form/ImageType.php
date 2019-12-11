@@ -23,7 +23,7 @@ class ImageType extends AbstractType
                 'attr' => [
                     'placeholder' => "Titre de l'image"
                 ]
-
+ 
             ])
         ;
     }

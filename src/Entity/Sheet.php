@@ -3,10 +3,11 @@
 namespace App\Entity;
 
 use Cocur\Slugify\Slugify;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\ManyToMany;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\SheetRepository")
@@ -56,9 +57,49 @@ class Sheet
      */
     private $headers;
 
+
+     /**
+     * Les outils (Sheet) de la fiche
+     * 
+     * @ORM\ManyToMany(targetEntity="App\Entity\Sheet", mappedBy="tool")
+     */
+    private $sheetTools;
+
+    /**
+     * Outil (Sheet) appartenant à une fiche
+     * 
+     * @ORM\ManyToMany(targetEntity="App\Entity\Sheet", inversedBy="sheetTools")
+     * @ORM\JoinTable(name="tools",
+     *      joinColumns={@ORM\JoinColumn(name="sheet_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="sheet_tool_id", referencedColumnName="id")}
+     *      )
+     */
+    private $tool;
+
+     /**
+     * Many Sheet have Many Documents (as sheetDocuments).
+     * @ORM\ManyToMany(targetEntity="App\Entity\Document", inversedBy="sheets")
+     * @ORM\JoinTable(name="sheet_document")
+     */
+    private $sheetDocuments;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Attachment", mappedBy="sheet", orphanRemoval=true)
+     */
+    private $attachments;
+
+
+
     public function __construct()
     {
         $this->headers = new ArrayCollection();
+
+        $this->sheetTools = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->tool = new \Doctrine\Common\Collections\ArrayCollection();
+
+        $this->sheetDocuments = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->attachments = new ArrayCollection();
+
     }
 
     /**
@@ -202,4 +243,120 @@ class Sheet
 
         return $this;
     }
+
+    /**
+     * @return Collection|Sheet[]
+     */
+    public function getSheetTools(): Collection
+    {
+        return $this->sheetTools;
+    }
+
+    public function addSheetTool(Sheet $sheetTool): self
+    {
+        if (!$this->sheetTools->contains($sheetTool)) {
+            $this->sheetTools[] = $sheetTool;
+            $sheetTool->addTool($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSheetTool(Sheet $sheetTool): self
+    {
+        if ($this->sheetTools->contains($sheetTool)) {
+            $this->sheetTools->removeElement($sheetTool);
+            $sheetTool->removeTool($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Sheet[]
+     */
+    public function getTool(): Collection
+    {
+        return $this->tool;
+    }
+
+    public function addTool(Sheet $tool): self
+    {
+        if (!$this->tool->contains($tool)) {
+            $this->tool[] = $tool;
+        }
+
+        return $this;
+    }
+
+    public function removeTool(Sheet $tool): self
+    {
+        if ($this->tool->contains($tool)) {
+            $this->tool->removeElement($tool);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Document[]
+     */
+    public function getSheetDocuments(): Collection
+    {
+        return $this->sheetDocuments;
+    }
+
+    public function addSheetDocument(Document $sheetDocument): self
+    {
+        if (!$this->sheetDocuments->contains($sheetDocument)) {
+            $this->sheetDocuments[] = $sheetDocument;
+        }
+
+        return $this;
+    }
+
+    public function removeSheetDocument(Document $sheetDocument): self
+    {
+        if ($this->sheetDocuments->contains($sheetDocument)) {
+            $this->sheetDocuments->removeElement($sheetDocument);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Attachment[]
+     */
+    public function getAttachments(): Collection
+    {
+        return $this->attachments;
+    }
+
+    public function addAttachment(Attachment $attachment): self
+    {
+        if (!$this->attachments->contains($attachment)) {
+            $this->attachments[] = $attachment;
+            $attachment->setSheet($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAttachment(Attachment $attachment): self
+    {
+        if ($this->attachments->contains($attachment)) {
+            $this->attachments->removeElement($attachment);
+            // set the owning side to null (unless already changed)
+            if ($attachment->getSheet() === $this) {
+                $attachment->setSheet(null);
+            }
+
+
+
+        }
+
+        return $this;
+    }
+
+
 }

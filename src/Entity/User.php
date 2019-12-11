@@ -101,6 +101,41 @@ class User implements UserInterface
      */
     private $comments;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\SubCategory", mappedBy="author")
+     */
+    private $subCategories;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Antenne", inversedBy="users")
+     */
+    private $antenne;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $phoneNumber;
+
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Poste", inversedBy="users")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $poste;
+
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Groupe", inversedBy="users")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $groupe;
+
+    /**
+     * 
+     * @ORM\OneToMany(targetEntity="App\Entity\Groupe", mappedBy="responsable")
+     */
+    private $adminGroupes;
+
 
     public function getFullName() {
 
@@ -131,6 +166,8 @@ class User implements UserInterface
         $this->userRoles = new ArrayCollection();
         $this->bookings = new ArrayCollection();
         $this->comments = new ArrayCollection();
+        $this->subCategories = new ArrayCollection();
+        $this->adminGroupes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -384,4 +421,116 @@ class User implements UserInterface
 
         return $this;
     }
+
+    /**
+     * @return Collection|SubCategory[]
+     */
+    public function getSubCategories(): Collection
+    {
+        return $this->subCategories;
+    }
+
+    public function addSubCategory(SubCategory $subCategory): self
+    {
+        if (!$this->subCategories->contains($subCategory)) {
+            $this->subCategories[] = $subCategory;
+            $subCategory->setAuthor($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSubCategory(SubCategory $subCategory): self
+    {
+        if ($this->subCategories->contains($subCategory)) {
+            $this->subCategories->removeElement($subCategory);
+            // set the owning side to null (unless already changed)
+            if ($subCategory->getAuthor() === $this) {
+                $subCategory->setAuthor(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getAntenne(): ?Antenne
+    {
+        return $this->antenne;
+    }
+
+    public function setAntenne(?Antenne $antenne): self
+    {
+        $this->antenne = $antenne;
+
+        return $this;
+    }
+
+    public function getPhoneNumber(): ?string
+    {
+        return $this->phoneNumber;
+    }
+
+    public function setPhoneNumber(?string $phoneNumber): self
+    {
+        $this->phoneNumber = $phoneNumber;
+
+        return $this;
+    }
+
+
+    public function getPoste(): ?Poste
+    {
+        return $this->poste;
+    }
+
+    public function setPoste(?Poste $poste): self
+    {
+        $this->poste = $poste;
+
+        return $this;
+    }
+
+    public function getGroupe(): ?Groupe
+    {
+        return $this->groupe;
+    }
+
+    public function setGroupe(?Groupe $groupe): self
+    {
+        $this->groupe = $groupe;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Groupe[]
+     */
+    public function getAdminGroupes(): Collection
+    {
+        return $this->adminGroupes;
+    }
+
+    public function addAdminGroupe(Groupe $groupe): self
+    {
+        if (!$this->adminGroupes->contains($groupe)) {
+            $this->adminGroupes[] = $groupe;
+            $groupe->setResponsable($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAdminGroupe(Groupe $groupe): self
+    {
+        if ($this->adminGroupes->contains($groupe)) {
+            $this->adminGroupes->removeElement($groupe);
+            // set the owning side to null (unless already changed)
+            if ($groupe->getResponsable() === $this) {
+                $groupe->setResponsable(null);
+            }
+        }
+
+        return $this;
+    }
+
 }

@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 use Symfony\Component\HttpFoundation\File\File;
@@ -68,6 +70,17 @@ class Document
      * @ORM\Column(type="string", length=255)
      */
     private $originalName;
+
+    /**
+     * Many Documents have Many Sheets.
+     * @ORM\ManyToMany(targetEntity="Sheet", mappedBy="sheetDocuments")
+     */
+    private $sheets;
+
+    public function __construct()
+    {
+        $this->sheets = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
 
     /**
@@ -198,4 +211,34 @@ class Document
 
         return $this;
     }
+
+    /**
+     * @return Collection|Sheet[]
+     */
+    public function getSheets(): Collection
+    {
+        return $this->sheets;
+    }
+
+    public function addSheet(Sheet $sheet): self
+    {
+        if (!$this->sheets->contains($sheet)) {
+            $this->sheets[] = $sheet;
+            $sheet->addSheetDocument($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSheet(Sheet $sheet): self
+    {
+        if ($this->sheets->contains($sheet)) {
+            $this->sheets->removeElement($sheet);
+            $sheet->removeSheetDocument($this);
+        }
+
+        return $this;
+    }
+
+    
 }

@@ -9,10 +9,24 @@
             <div class="col-3 text-center">
                 <img src="{{ user.picture }}" alt="Avatar de {{ user.fullName }}" class="avatar mb-3">
                 <br>
-                <span class="badge badge-primary">{{ user.ads | length }} annonces</span>
+                {# <span class="badge badge-primary">{{ user.subCategories | length }} dossiers</span> #}
             </div>
             <div class="col-9">
-                <h1> {{user.fullName}} </h1>
+                <h1> {{user.fullName}}</h1>
+
+                <h6>{{ user.poste.title }}</h6>
+                
+                <p class="mt-3">
+                    <i class="mr-3 far fa-envelope"></i> {{ user.email }}<br>
+                    <i class="mr-3 mt-2 fas fa-phone"></i>{{ user.phoneNumber }}
+                </p>
+                <span class="px-3 badge badge-pill badge-success">
+                    <i class="mr-2 fas fa-map-marker-alt"></i>{{ user.antenne.title }}
+                </span>
+                <span class="px-3 badge badge-pill badge-secondary">
+                    <i class="mr-2 fas fa-users"></i>{{ user.groupe.title }}
+                </span>
+                
 
                 {% if user is same as(app.user) %}
 
@@ -27,18 +41,30 @@
             </div>
         </div>
 
-        {{ user.description | raw }}
+        {# {{ user.description | raw }} #}
         
         <hr>
 
-        <h2>Les annonces de {{ user.fullName }}</h2>
+        <h2 class="my-5">Les dossiers de {{ user.fullName }} ({{ user.subCategories | length }})</h2>
 
-        {% if user.ads | length > 0 %}
+        {% if user.subCategories | length > 0 %}
         
         <div class="row">
-            {% for ad in user.ads %}
+            {% for subCategory in user.subCategories %}
 
-               {% include 'ad/_ad.html.twig' %}
+               {# {% include 'ad/_ad.html.twig' %} #}
+                
+                <div class="col-3">
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <span class="badge badge-primary">{{ subCategory.category.title }}</span>
+                            <a href="{{ path('doc_show', {'slug': subCategory.category.slug, 'sub_slug': subCategory.slug }) }}"><h5 class="mt-3 card-title">{{ subCategory.title }}</h5></a>
+                            
+                        </div>
+                    </div>
+                </div>         
+
+                
 
             {% endfor %}
         
@@ -46,7 +72,7 @@
         {% else %}
             <div class="alert alert-warning">
                 <p>
-                    <strong>{{ user.fullName }}</strong> n'a pas encore d'annonce sur le site !
+                    <strong>{{ user.fullName }}</strong> n'a pas encore de dossier dans Intramilo !
                 </p>
             </div>
         {% endif %}

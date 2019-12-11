@@ -1,0 +1,101 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Documentation - Gestion des outils
+{% endblock %}
+
+{% block body %}
+{{ dump(app.request.request) }}
+    <div class="container">
+        
+            <h1 class="my-5">Gestion des outils</h1>
+
+            {% form_theme form 'documentation/sheet/_collection.html.twig' %}
+
+            <div class="row">
+                <div class="col-6">
+                <h5 class="mb-4">Fiches existantes</h5>
+                    {{ form_start(form) }}
+                        {{ form_widget(form.tool, { 'attr': {'size': 10} }) }}
+
+                </div>
+                <div class="col-6">
+                <h5 class="mb-4">Documents existants</h5>
+                            {{ form_widget(form.sheetDocuments, { 'attr': {'size': 10} }) }}
+                   
+                </div>
+            </div>
+
+            <h5 class="mb-4">Nouveaux documents</h5>
+
+            <div class="row">
+                <div class="col-12">
+                        {{ form_row(form.attachments) }}
+
+                </div>
+                <div class="col-6">
+                            <button type="submit" class="btn btn-success">
+                                <i class="fas fa-check"></i> Enregistrer
+                            </button>
+                    {{ form_end(form) }}
+                </div>
+            </div>
+
+
+    </div>
+
+{% endblock %}
+
+
+
+{% block javascripts %}
+
+<script>
+
+$('#add-attachment').click(function(){
+
+    // Je récupère le numéro des futurs champs que je vais créer
+    const index = +$('#widgets-counter').val(); // + transforme la chaine de caractère en nombre
+
+    // Je récupère le prototype des entrées
+    const tmpl = $('#tools_attachments').data('prototype').replace(/__name__/g, index); // g = "pour chaque"
+
+    // J'injecte ce code au sein de la div
+    $('#tools_attachments').append(tmpl);
+
+    $('#widgets-counter').val(index + 1);
+
+    // Je gère le bouton supprimer
+    handleDeleteButtons();
+
+});
+
+
+function handleDeleteButtons(){
+    $('button[data-action="delete"]').click(function(){
+        const target = this.dataset.target;
+
+        $(target).remove();
+
+    });
+
+}
+
+function updateCounter(){
+    const count = +$('#tools_attachments div.form-group').length;
+
+    /* Attachments */
+    $('#widgets-counter').val(count);
+
+}
+
+updateCounter();
+handleDeleteButtons();
+
+
+
+
+
+</script>
+
+{% endblock %}

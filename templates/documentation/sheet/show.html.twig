@@ -47,7 +47,7 @@
 
                 <h1 class="sheet-title mt-4">{{ sheet.title }}</h1>
                 <p class="sheet-infos">
-                    par Géraldine Thomas •
+                    par <a href="{{ path('user_show', {'slug': subCategory.author.slug }) }}">{{ sheet.subCategory.author.fullName }}</a> •
                     {{ sheet.updatedAt|localizeddate('none', 'none', 'fr', null, 'MMMM Y') }} •
                     à jour
                 </p>
@@ -96,6 +96,21 @@
 
                     {% endfor %}
                    
+                </div>
+                <div class="tools mt-3">
+                    <div class="title mb-3">Outils</div>
+                    {% for tool in sheet.tool %}
+                        <div>
+                            <a target="_blank" href="{{ path('sheet_show', {'slug': tool.subCategory.category.slug, 'sub_slug': tool.subCategory.slug, 'sheet_slug': tool.slug }) }}" class="btn btn-primary tool m-1 text-left">{{ tool.title }}</a>
+                        </div>
+                    {% endfor %}
+                    {% for sheetDocument in sheet.sheetDocuments %}
+                        <div>
+                            <a target="_blank" href="{{ path('document_show', {'slug': sheetDocument.subCategory.category.slug, 'sub_slug': sheetDocument.subCategory.slug, 'id': sheetDocument.id }) }}" class="btn btn-primary tool m-1 text-left">{{ sheetDocument.title }}</a>
+                        </div>
+                    {% endfor %}
+                
+                <a href="{{ path('sheet_tools', {'slug': category.slug, 'sub_slug': subCategory.slug, 'sheet_slug': sheet.slug }) }}" class="btn btn-primary mt-3">Gestion des outils</a>
                 </div>
             </div>
         </div>
