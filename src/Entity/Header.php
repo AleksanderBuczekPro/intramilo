@@ -30,7 +30,7 @@ class Header
     private $sheet;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Section", mappedBy="header", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\Section", mappedBy="header", orphanRemoval=true,cascade={"persist"})
      */
     private $sections;
 

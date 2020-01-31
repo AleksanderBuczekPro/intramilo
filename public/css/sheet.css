@@ -119,6 +119,13 @@ i.fas.options{
     box-shadow: 12px 12px 23px -15px rgba(0,0,0,0.7);
 }
 
+.header-image h4, .header-image h6{
+    font-family: 'Fira Sans', sans-serif;
+
+    color: white;
+
+}
+
 
 
 a.tool{
@@ -189,3 +196,8 @@ p.sheet-infos{
     font-weight: normal
 
 }
+
+/* div.cke_contents.cke_reset{
+
+    height: 500px!important;
+} */

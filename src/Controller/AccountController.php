@@ -3,11 +3,14 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Service\Filter;
 use App\Form\AccountType;
 use App\Entity\PasswordUpdate;
 use App\Form\RegistrationType;
 use App\Form\PasswordUpdateType;
+use App\Repository\SheetRepository;
 use Symfony\Component\Form\FormError;
+use App\Repository\DocumentRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Routing\Annotation\Route;
@@ -72,6 +75,10 @@ class AccountController extends AbstractController
             $hash = $encoder->encodePassword($user, $user->getHash());
             
             $user->setHash($hash);
+
+            $user->setPicture("https://media-exp1.licdn.com/dms/image/C5603AQHu7cPy83UvbA/profile-displayphoto-shrink_100_100/0?e=1585785600&v=beta&t=qLyCkqMYn87M4pG_DFxBhoxNtIbPnIJhn3VLAxBU_Sk");
+            $user->setIntroduction("intro");
+            $user->setDescription("description");
 
             $manager->persist($user);
             $manager->flush();
@@ -214,16 +221,58 @@ class AccountController extends AbstractController
         return $this->render('account/bookings.html.twig');
     }
 
+
     /**
      * Permet de faire la liste des documentations de l'utilisateur connecté
      * 
-     * @Route("/account/documentations", name="account_documentations")
-     *
+     * @Route("/account/documents", name="account_documents")
+     * 
      * @return Response
      */
-    public function documentations(){
+    public function myDocuments(SheetRepository $sheetRepo, DocumentRepository $docRepo, Request $request, ObjectManager $manager, Filter $filter)
+    {
+        $subCategories = $this->getUser()->getSubCategories();
 
-        return $this->render('account/documentations.html.twig');
+        dump($subCategories);
+
+        $f = $request->query->get('filter');
+
+    
+        // Si il y a un filtre
+        if(isset($f) && $f != "all"){
+
+            $files = $filter->getResults($f, $subCategories);
+
+        }else{
+            
+            $sheets = [];
+            foreach ($subCategories as $subCategory) {
+                $sheet = $sheetRepo->findBySubCategory($subCategory);
+                $sheets = array_merge_recursive($sheets, $sheet);
+            }
+
+            $documents = [];
+            foreach ($subCategories as $subCategory) {
+                $document = $docRepo->findBySubCategory($subCategory);
+                $documents = array_merge_recursive($documents, $document);
+            }
+
+            $files = array_merge_recursive($sheets, $documents);
+
+            usort($files, function($a, $b){ 
+                return strcasecmp($a->getTitle(), $b->getTitle());
+            });
+
+        }
+
+        
+
+        return $this->render('account/documents.html.twig', [
+            // 'sheets' => $sheets,
+            // 'documents' => $documents,
+            'files' => $files,
+            'subCategories' => $subCategories
+        ]);
     }
 
 

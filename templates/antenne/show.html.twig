@@ -1,0 +1,89 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Antennes
+{% endblock %}
+
+{% block body %}
+
+
+    <div class="container">
+        <h1 class="mt-5 ">Antennes</h1>
+        <div class="row">
+
+            {% for antenne in antennes %}
+            <div class="row">
+                <div class="col-12">
+                    <div class="antenne-btn ml-1">
+                        <a href="#antenne-{{ antenne.id }}" class="btn btn-sm btn-outline-success mr-2 mb-2 px-3">{{ antenne.title }}</a>
+                    </div>
+                </div>
+            
+            </div>
+            {% endfor %}
+            
+            {% for antenne in antennes %}
+            
+
+
+            <div class="col-6">
+                <div class="card antenne">
+                    <div class="card-body">
+                        <div id="antenne-{{ antenne.id }}" class="anchor"></div>
+                        <div class="title">{{ antenne.title }}</div>
+                        <div class="address mt-2">{{ antenne.address }} - {{ antenne.postcode }} {{ antenne.city }}</div>
+                        <div class="phone">{{ antenne.phoneNumber }}</div>
+
+                        <div class="employees mt-5">
+                            
+                                    
+
+                                    
+                                        
+                                            {% for employe in antenne.users %}
+
+                                            {# Initiales #}
+                                            {% set firstName = employe.firstName|split('') %}
+                                            {% set lastName = employe.lastName|split('') %}
+
+                                            {% set initiales = firstName[0]|upper ~ lastName[0]|upper %}
+
+                                            <div class="card employees mb-2">
+                                                <div class="card-body">
+                                                    <table class="table employees">
+                                                        <tbody>
+                                                            <tr>
+                                                            <td class="align-middle initiales">
+                                                                <span class="init">{{ initiales }}</span>
+                                                            </td>
+                                                            <td>
+                                                                <div class="name">{{ employe.fullName }}</div>
+                                                                <div class="poste">{{ employe.poste.title }}</div>
+                                                                <div class="email mt-3"><i class="mr-3 far fa-envelope"></i> {{ employe.email }}</div>
+                                                                <div class="phone"><i class="mr-3 fas fa-phone-alt"></i> {{ employe.phoneNumber }}</div>
+                                                            </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+
+                                            {% endfor %}
+
+                                            
+                                
+                                        
+                                
+                        
+                        
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+            
+        </div>
+        
+    </div>
+
+{% endblock %}

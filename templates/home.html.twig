@@ -12,55 +12,242 @@
 {% block body %}
 
 
-    <div class="container">  
-        <div class="jumbotron mt-3">
-            <h1 class="display-3">Bienvenue sur SymBNB</h1>
-            <p class="lead">Nous mettons en relation les voyageurs et les propriétaires qui veulent profiter d'opportunités et gagner de l'argent en proposant leur bien à la location !</p>
-            <hr class="my-4">
-            <p>Vous êtes voyageur ? Et vous voulez voir où vous pourrez loger pour votre prochain déplacement ?</p>
-            <p class="lead">
-                <a class="btn btn-primary btn-lg" href="#" role="button">Voir nos annonces</a>
-            </p>
-        </div>
+    <div class="container">
 
-        <h2 class="h2 my-5">Nos appartements stars</h2>
+        <div class="row justify-content-around">
 
-        <div class="row">
+            <div class="col-3">
 
-            {% for data in ads %}
-
-                {% include 'ad/_ad.html.twig' with {'ad' : data.annonce} %}
-
-            {% endfor %}
-            
-            
-            
-        </div>
-
-        <h2 class="h2 my-5">Nos propriétaires stars</h2>
-
-        <div class="row">
-
-            {% for data in users %}
-
-            <div class="col">
-                <div class="card border-secondary mb-3">
+                {# Profile #}
+                <div class="card profile-card text-center py-3">
                     <div class="card-body">
-                        <h4 class="card-title">{{ data.user.firstName }} {{ data.user.lastName }}</h4>
-                        <hr>
+                        <img src="{{ app.user.picture }}" alt="Avatar de {{ app.user.fullName }}" class="avatar">
+                        <div class="card-title mt-4 mb-2">{{ app.user.firstName }} {{ app.user.lastName|upper }} </div>
+                        <div class="card-text">{{ app.user.poste.title }}</div>
+                        
+                    </div>
+                </div>
 
-                        <div class="card-text">
-                            <img src="{{ data.user.picture }}" alt="Avatar de {{ data.user.firstName }} {{ data.user.lastName }}" class="float-left mr-3 avatar avatar-medium">
-                            <p>{{ data.user.introduction }}</p>
-                            <a href="{{ path('user_show', {'slug': data.user.slug }) }}" class="btn btn-success float-right">En savoir plus</a>
+                {# Favorite Websites #}
+                <div class="card website-card p-1">
+                    <div class="card-body">
+                        <h6 class="card-title mb-3">Mes sites favoris</h6>
+                        <div class="card-text mb-1"><i class="fas fa-star fa-sm mr-2"></i> Maison des Assoc.</div>
+                        <div class="card-text mb-1"><i class="fas fa-star fa-sm mr-2"></i> Maison des Assoc.</div>
+                        <div class="card-text mb-1"><i class="fas fa-star fa-sm mr-2"></i> Maison des Assoc.</div>
+                        <div class="card-text mb-1"><i class="fas fa-star fa-sm mr-2"></i> Maison des Assoc.</div>
+                        
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="col-6">
+
+                <div class="row justify-content-around align-items-center">
+                    <div class="col-4">
+                    <a class="link" href="http://intramilo21000.fr/intranet/agenda/admin/agendaAdmin.php" target="_blank">
+                        <div class="card home-link">
+                            <div class="card-body text-center agenda">
+                                <i class="fas fa-calendar-alt fa-6x"></i>
+                                <span>AGENDA</span>
+                            </div>
+                        </div>
+                    </a>
+                    </div>
+                    <div class="col-4">
+                    <a class="link" href="http://intramilo21000.fr/intranet/epaflux/calendrier.php" target="_blank">
+                        <div class="card home-link">
+                            <div class="card-body text-center flux">
+                                <i class="fas fa-bookmark fa-6x"></i>
+                                <span>FLUX</span>
+                            </div>
+                        </div>
+                    </a>
+                    </div>
+                    <div class="col-4">
+                    <a class="link" href="" target="_blank">
+                        <div class="card home-link">
+                            <div class="card-body text-center options">
+                                <i class="fas fa-cog fa-6x"></i>
+                                <span>OPTIONS</span>
+                            </div>
+                        </div>
+                    </a>
+                    </div>
+
+                    <div class="col-12">
+                        <div class="card best-doc-card">
+                            <div class="card-body">
+                                <h6 class="card-title mb-3">Documentations à la Une</h6>
+                                <table class="table last-doc">
+                                    <tbody>
+
+
+                                    {% for front in fronts %}
+
+                                    {# Initiales #}
+                                    {% set firstName = front.subCategory.author.firstName|split('') %}
+                                    {% set lastName = front.subCategory.author.lastName|split('') %}
+
+                                    {% set initiales = firstName[0]|upper ~ lastName[0]|upper %}
+
+
+                                        <tr>
+                                        <td class="align-middle initiales">
+                                                <span class="init">{{ initiales }}</span>
+                                            </td>
+                                        <td><a class="link" href="{{ path('sheet_show', {'slug': front.subCategory.category.slug, 'sub_slug': front.subCategory.slug, 'sheet_slug': front.slug }) }}">{{ front.title }}</a><br>
+                                            {{ front.updatedAt|localizeddate('none', 'none', 'fr', null, 'MMMM Y') }}
+                                        </td>
+                                        </tr>
+
+                                    {% endfor %}
+
+                            
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="card last-doc-card">
+                            <div class="card-body">
+                                <h6 class="card-title mb-3">Dernières activités</h6>
+                                <table class="table last-doc">
+                                    <tbody>
+                                    
+                                         {% for sheet in sheets %}
+
+                                        {# Initiales #}
+                                        {% set firstName = sheet.subCategory.author.firstName|split('') %}
+                                        {% set lastName = sheet.subCategory.author.lastName|split('') %}
+
+                                        {% set initiales = firstName[0]|upper ~ lastName[0]|upper %}
+
+
+                                            <tr>
+                                            <td class="align-middle initiales">
+                                                <span class="init">{{ initiales }}</span>
+                                            </td>
+                                            <td><a class="link" href="{{ path('sheet_show', {'slug': sheet.subCategory.category.slug, 'sub_slug': sheet.subCategory.slug, 'sheet_slug': sheet.slug }) }}">{{ sheet.title }}</a><br>
+                                                {{ sheet.updatedAt|localizeddate('none', 'none', 'fr', null, 'MMMM Y') }}
+                                            </td>
+                                            </tr>
+
+                                        {% endfor %}
+
+                                        
+                            
+                                    </tbody>
+                                </table>
+                                
+
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            {% endfor %}
-            
+
+
+
+            <div class="col-3">
+                <div class="card">
+                    <div class="card-body weather-card">
+                        <div class="temp">
+                            <span>3<sup> °C</sup></span>
+                            <i class="wi wi-day-sunny"></i>
+                        </div> 
+                        <div class="date">{{ "now"|localizeddate('none', 'none', 'fr', null, 'EEEE d MMMM') }}</div>
+                    </div>
+                </div>
+
+                 <div class="card next-events-card">
+                    <div class="card-body">
+                        <h6 class="card-title mb-4">Prochains événements</h6>
+
+                        <div class="card event-card today">
+                            <div class="card-body">
+                                <div class="date">mercredi 26 juin</div>
+                                <div class="hour">9:00 - 12:00</div>
+                                <div class="title mt-2">Atelier COG'IDEES</div>
+                            </div>
+                        </div>
+
+                        <div class="card event-card">
+                            <div class="card-body">
+                                <div class="date">mercredi 26 juin</div>
+                                <div class="hour">9:00 - 12:00</div>
+                                <div class="title mt-2">Atelier COG'IDEES</div>
+                            </div>
+                        </div>
+
+                        <div class="card event-card">
+                            <div class="card-body">
+                                <div class="date">mercredi 26 juin</div>
+                                <div class="hour">9:00 - 12:00</div>
+                                <div class="title mt-2">Atelier COG'IDEES</div>
+                            </div>
+                        </div>
+
+                        <div class="card event-card">
+                            <div class="card-body">
+                                <div class="date">mercredi 26 juin</div>
+                                <div class="hour">9:00 - 12:00</div>
+                                <div class="title mt-2">Atelier COG'IDEES</div>
+                            </div>
+                        </div>
+
+                        <div class="card event-card">
+                            <div class="card-body">
+                                <div class="date">mercredi 26 juin</div>
+                                <div class="hour">9:00 - 12:00</div>
+                                <div class="title mt-2">Atelier COG'IDEES</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card next-events-card">
+                    <div class="card-body">
+                        <h6 class="card-title mb-3">Réunions</h6>
+                        <div class="card event-card">
+                            <div class="card-body">
+                                <div class="title mb-2">Equipe</div>
+                                <div class="date">mercredi 26 juin</div>
+                                <div class="hour">9:00 - 12:00</div>
+                            </div>
+                        </div>
+                        <div class="card event-card">
+                            <div class="card-body">
+                                <div class="title mb-2">Pôle Emploi</div>
+                                <div class="date">mercredi 26 juin</div>
+                                <div class="hour">9:00 - 12:00</div>
+                            </div>
+                        </div>
+                        <div class="card event-card">
+                            <div class="card-body">
+                                <div class="title mb-2">Pôle Formation</div>
+                                <div class="date">mercredi 26 juin</div>
+                                <div class="hour">9:00 - 12:00</div>
+                            </div>
+                        </div>
+                        <div class="card event-card">
+                            <div class="card-body">
+                                <div class="title mb-2">Pôle Vie Sociale</div>
+                                <div class="date">mercredi 26 juin</div>
+                                <div class="hour">9:00 - 12:00</div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+
         </div>
+       
+        
         
     </div>
 

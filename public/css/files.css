@@ -1,20 +1,38 @@
-i.pdf {
-    color: red;
+table.table-documentation-list i.file-icon{
+
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+
 }
 
-i.word {
-    color: blue;
+table.table-documentation-list i.file-icon.sheet {
+    background-color: #0067F4;
 }
 
-i.excel {
-    color: green;
+table.table-documentation-list i.file-icon.pdf {
+    background-color: #f0134d;
 }
 
-i.image {
-    color: purple;
+table.table-documentation-list i.file-icon.word {
+    background-color: #00B8D8;
 }
 
-i.ppt{
+table.table-documentation-list i.file-icon.excel {
+    background-color: #17C671;
+}
 
-    color: orangered
+table.table-documentation-list i.file-icon.image {
+    background-color: #FF007F;
+}
+
+table.table-documentation-list i.file-icon.ppt{
+
+    background-color: #FFB400;
+}
+
+table.table-documentation-list span.success i{
+
+    color: #17C671;
+
 }

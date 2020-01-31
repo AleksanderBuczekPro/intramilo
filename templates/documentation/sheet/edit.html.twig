@@ -10,31 +10,47 @@
  
         <h1 class="my-5">Modification d'une fiche</h1>
 
+        {% if sheet.status == "TO_CORRECT" %}
+
+            <div class="alert alert-warning" role="alert">
+                <h4 class="alert-heading">Fiche à corriger</h4>
+                <p>{{ sheet.comment }}</p>
+            </div>
+
+        {% endif %}
+
         {% form_theme form 'documentation/sheet/_collection.html.twig' %}
 
         {{ form_start(form) }}
         
             <div class="row">
                 <div class="col-md-8">
-                    {{ form_row(form.subCategory) }}
-
                     {{ form_row(form.title) }}
                     {{ form_row(form.organization) }}
 
                     {{ form_row(form.content) }}
 
-                    
+                    {{ form_widget(form.subCategory, { 'attr': {'class': 'd-none'} }) }}
                     
                 </div>
                 <div class="col-md-4">
-                    
+                    <h2>Coordonnées</h2>
                     {{ form_row(form.headers) }}
-
+                    
+                    <h2>Pièces jointes</h2>
+                    <div class="mt-5">
+                        
+                        {{ form_widget(form.tool, { 'attr': {'size': 10} }) }}
+                    </div>
+                    <div class="mt-5">
+                        {{ form_widget(form.sheetDocuments, { 'attr': {'size': 10} }) }}
+                    </div>
                 </div>
             </div>
 
 
-            <button type="submit" class="btn btn-primary">
+
+            <button type="submit" class="btn btn-primary mt-3">
                 <i class="fas fa-check"></i> Modifier la fiche
             </button>
 

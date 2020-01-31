@@ -39,7 +39,7 @@
                                 <i class="fas fa-ellipsis-h options"></i>
                             </button>
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
-                                <a class="dropdown-item" href="{{ path('sheet_edit', {'slug': category.slug, 'sub_slug': subCategory.slug, 'sheet_slug': sheet.slug }) }}">Modifer</a>
+                                <a class="dropdown-item" href="{{ path('sheet_edit', {'id': sheet.id }) }}">Modifer</a>
                                 <a class="dropdown-item" href="{{ path('sheet_delete', {'slug': category.slug, 'sub_slug': subCategory.slug, 'sheet_slug': sheet.slug }) }}">Supprimer</a>
                             </div>
                     </div>
@@ -49,12 +49,52 @@
                 <p class="sheet-infos">
                     par <a href="{{ path('user_show', {'slug': subCategory.author.slug }) }}">{{ sheet.subCategory.author.fullName }}</a> •
                     {{ sheet.updatedAt|localizeddate('none', 'none', 'fr', null, 'MMMM Y') }} •
-                    à jour
+                    à jour • {{ sheet.id }} • {{ sheet.status }}
                 </p>
+
+                {% if is_granted("ROLE_ADMIN") and sheet.status == "" %}
+                    <a href="{{ path('sheet_front', {'id': sheet.id }) }}" class="btn btn-sm btn-outline-dark">
+                    {% if sheet.front %}
+                        Enlever à la Une
+                    {% else %}
+                        Mettre à la Une
+                    {% endif %}
+                    </a>
+                {% endif %}
+
+                
+
+                {% if sheet.status == "TO_CORRECT" %}
+
+                    <div class="alert alert-warning" role="alert">
+                        <h4 class="alert-heading">Fiche à corriger</h4>
+                        <p>{{ sheet.comment }}</p>
+                        <a href="{{ path('sheet_edit', {'id': sheet.id }) }}" class="btn btn-danger">Corriger</a>
+                    </div>
+
+                {% endif %}
 
 
                 <div class="content text-justify mt-5">
                     {{ sheet.content|raw }}
+                </div>
+
+                <div>
+                    {% if is_granted('ROLE_ADMIN') and sheet.status == "TO_VALIDATE" %}
+                        
+                        {{ form_start(form) }}
+
+                            {{ form_row(form.comment) }}
+
+                            <button type="submit" class="btn btn-warning mb-3">
+                                Envoyer à corriger
+                            </button>
+
+                        {{ form_end(form) }}
+
+                        
+                        <a href="{{ path('admin_document_validate', {'id': sheet.id }) }}" class="btn btn-success">Valider la fiche</a>
+                    {% endif %}
                 </div>
             </div>
 
@@ -148,6 +188,8 @@
 
             }
 
+
+        
             // Menu
             $("ul.menu").append(
                 '<a href="#'+ anchor +'"><li class="'+ subtitle +' py-2 ">'+ text +'</li></a>'

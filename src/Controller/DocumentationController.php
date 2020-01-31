@@ -62,7 +62,6 @@ class DocumentationController extends AbstractController
             return strcasecmp($a->getTitle(), $b->getTitle());
         });
 
-
         return $this->render('documentation/show.html.twig', [
             'category' => $category,
             'subCategory' => $subCategory,

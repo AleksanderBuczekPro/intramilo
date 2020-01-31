@@ -1,0 +1,162 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Documentation - Tableau de bord
+{% endblock %}
+
+
+{% block body %}
+
+    <div class="background pt-2">
+        <div class="container">
+            <div class="row">
+
+            <table class="table table-hover table-documentation-list">
+                    <tbody>
+                    {% for file in files %}
+
+                    {# Si c'est un document (Document) #}
+                    {% if file.file is defined %}
+
+                        {% set document = true %}
+
+                        {% set chemin = "{{ vich_uploader_asset(file, 'genericFile')}}" %}
+                        {% set fileType =  file.mimeType %}
+
+                        {# autre type #}
+                        {% set fileIcon = '<i class="far fa-file fa-lg other"></i>'%}
+
+                        {# doc / docx / odt #}
+                        {% if (file.mimeType == 'application/msword' or file.mimeType == 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' or file.mimeType == 'application/vnd.oasis.opendocument.text' or file.mimeType == 'application/CDFV2') %}
+                            {% set fileIcon = '<i class="far fa-file-word fa-lg word"></i>'%}
+                        {% endif %}
+
+                        {# jpg / jpeg / png #}
+                        {% if (file.mimeType == 'image/jpeg' or file.mimeType == 'image/png') %}
+                            {% set fileIcon = '<i class="far fa-file-image fa-lg image"></i>'%}
+                        {% endif %}
+
+                        {# pdf #}
+                        {% if (file.mimeType == 'application/pdf') %}
+                            {% set fileIcon = '<i class="far fa-file-pdf fa-lg pdf"></i>'%}
+                        {% endif %}
+
+                        {# powerpoint #}
+                        {% if (file.mimeType == 'application/vnd.ms-powerpoint' or file.mimeType == 'application/vnd.openxmlformats-officedocument.presentationml.presentation') %}
+                            {% set fileIcon = '<i class="far fa-file-powerpoint fa-lg ppt"></i>'%}
+                        {% endif %}
+
+                        {# excel #}
+                        {% if (file.mimeType == 'application/vnd.ms-excel' or file.mimeType == 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet') %}
+                            {% set fileIcon = '<i class="far fa-file-excel fa-lg excel"></i>'%}
+                        {% endif %}
+
+
+                    {# Si c'est une fiche (Sheet) #}
+                    {% else %}
+
+                        {% set document = false  %}
+
+                        {% set chemin = "{{ path('sheet_show', {'slug': category.slug, 'sub_slug': subCategory.slug, 'sheet_slug': file.slug }) }}" %}
+                        {% set chemin_update = "{{ path('sheet_edit', {'slug': category.slug, 'sub_slug': subCategory.slug, 'sheet_slug': file.slug }) }}" %}
+                        {% set chemin_delete = "{{ path('sheet_delete', {'slug': category.slug, 'sub_slug': subCategory.slug, 'sheet_slug': file.slug }) }}" %}
+                        {% set fileType = "sheet" %}
+
+                        {% set fileIcon = '<i class="far fa-file-alt fa-lg sheet"></i>'%}
+
+                    {% endif %}
+
+                    {# {{ vich_uploader_asset(file, 'genericFile')}} #}
+
+                        <tr class="file-row">
+                            <td class="align-middle text-center file-icon">{{ fileIcon|raw }}</td>
+                            <td class="align-middle">
+                                <span class="badge badge-primary">{{ file.subCategory.category.title }}</span>
+                                <span class="badge badge-info">{{ file.subCategory.title }}</span><br>
+                                <a href=
+                                {% if document %}
+                                    
+                                    {{ path('document_show', {'slug': file.subCategory.category.slug, 'sub_slug': file.subCategory.slug, 'id': file.id }) }}
+
+                                {% else %}
+                                    {{ path('sheet_show', {'slug': file.subCategory.category.slug, 'sub_slug': file.subCategory.slug, 'sheet_slug': file.slug }) }}
+
+                                {% endif %}
+                                >
+                                    <strong class="file-title">{{ file.title }}</strong>
+                                </a><br>
+                                <small class="file-organization">{{ file.organization }}</small>
+                            </td>
+                            <td class="align-middle text-center file-status">
+
+                                {% if (file.status == "TO_VALIDATE" or file.status == "TO_CORRECT") %}
+
+                                    {% if file.status == "TO_VALIDATE" %}
+
+                                        {% set state = "En cours de validation" %}
+                                        {% set state_class = "light" %}
+
+                                    {% else %}
+
+                                        {% set state = "A corriger" %}
+                                        {% set state_class = "info" %}  
+
+                                    {% endif %}                                                              
+
+                                {% else %}
+
+                                    {% if date(file.updatedAt) <= date('-6months', 'Europe/Paris') %}
+
+                                        {% set state = "Obsolète" %}
+                                        {% set state_class = "danger" %}
+
+                                    {% elseif date(file.updatedAt) < date('-5months', 'Europe/Paris') %}
+
+                                        {% set state = "Bientôt obsolète" %}
+                                        {% set state_class = "warning" %}
+
+                                    {% else %}
+
+                                        {% set state = "À jour" %}
+                                        {% set state_class = "success" %}
+
+                                    {% endif %}
+
+                                {% endif %}
+
+
+
+                                <span class="badge badge-pill badge-{{state_class}}">
+                                    {{ state }}
+                                </span>
+                            </td>
+                            <td class="align-middle text-center file-updated-at">{{ file.updatedAt|localizeddate('none', 'none', 'fr', null, 'MMMM Y') }}</td>
+                            <td class="align-middle text-center file-options">
+
+                                <div class="dropdown">
+                                    <button class="btn btn-link" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="fas fa-ellipsis-h"></i>
+                                    </button>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                        <a class="dropdown-item" href="{{ chemin_update }}">Modifer</a>
+                                        <a class="dropdown-item" href="{{ chemin_delete }}">Supprimer</a>
+                                    </div>
+                                </div>
+
+
+
+                                
+                            </td>
+                        </tr>
+                    {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}

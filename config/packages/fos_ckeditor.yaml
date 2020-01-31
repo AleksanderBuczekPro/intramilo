@@ -6,9 +6,13 @@ twig:
 
 fos_ck_editor:
     input_sync: true
+    
+
     default_config: base_config
     configs:
         base_config:
+            autoGrow_onStartup: true
+            autoGrow_minHeight: 3000
             toolbar:
                - { name: 'styles', items: [ 'Format'] }
                - { name: 'basicstyles', items: [ 'Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'CopyFormatting', 'RemoveFormat' ] }
@@ -16,5 +20,4 @@ fos_ck_editor:
                - { name: 'links', items: [ 'Link', 'Unlink', 'Anchor' ] }
                - { name: 'insert', items: [ 'Image', 'Flash', 'Table', 'HorizontalRule', 'Smiley', 'SpecialChar', 'PageBreak', 'Iframe' ] }
 
-
-                
+            

@@ -13,7 +13,7 @@
                     <a class="btn btn-light btn-sm" href="{{ path('doc_index') }}">
                         Retour
                     </a>
-                    <a class="btn btn-primary btn-sm ml-2">
+                    <a class="btn btn-outline-primary btn-pill btn-sm  btn-category ml-2" style="color: #0067F4">
                         {{ category.title }}
                     </a>
 
@@ -24,16 +24,17 @@
             <div class="filters mb-2">
 
             {% if subCategory.author is same as(app.user) %}
-
-                <a href="{{ path('sheet_create', {'slug': category.slug, 'sub_slug': subCategory.slug}) }}" class="btn btn-secondary btn-sm">
-                    Ajouter une fiche            
+            
+                <a href="{{ path('sheet_create', {'slug': category.slug, 'sub_slug': subCategory.slug}) }}" class="btn btn-primary">
+                    Ajouter une fiche
+                               
                 </a>
-                <a href="{{ path('document_create', {'slug': category.slug, 'sub_slug': subCategory.slug}) }}" class="btn btn-secondary btn-sm ml-3">
+                <a href="{{ path('document_create', {'slug': category.slug, 'sub_slug': subCategory.slug}) }}" class= "btn btn-primary ml-3">
                     Ajouter un document            
                 </a>
             {% endif %}
 
-                <span class="float-right tri">Tri : 
+                {# <span class="float-right tri">Tri : 
                     <a href="#" class="btn btn-secondary btn-sm ml-3">
                         Alphabétique
                     </a>
@@ -46,7 +47,7 @@
                     <a href="#" class="btn btn-light btn-sm">
                         Par statut            
                     </a>
-               </span>
+               </span> #}
             </div>
 
             
@@ -58,160 +59,7 @@
         <div class="container">
             
 
-            <table class="table table-hover table-documentation-list">
-                <tbody>
-                {% for file in files %}
-
-                {# Si c'est un document (Document) #}
-                {% if file.file is defined %}
-
-                    {% set document = true %}
-
-                    {% set chemin = "{{ vich_uploader_asset(file, 'genericFile')}}" %}
-                    {% set fileType =  file.mimeType %}
-
-                    {# autre type #}
-                    {% set fileIcon = '<i class="far fa-file fa-lg other"></i>'%}
-
-                    {# doc / docx / odt #}
-                    {% if (file.mimeType == 'application/msword' or file.mimeType == 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' or file.mimeType == 'application/vnd.oasis.opendocument.text' or file.mimeType == 'application/CDFV2') %}
-                        {% set fileIcon = '<i class="far fa-file-word fa-lg word"></i>'%}
-                    {% endif %}
-
-                    {# jpg / jpeg / png #}
-                    {% if (file.mimeType == 'image/jpeg' or file.mimeType == 'image/png') %}
-                        {% set fileIcon = '<i class="far fa-file-image fa-lg image"></i>'%}
-                    {% endif %}
-
-                    {# pdf #}
-                    {% if (file.mimeType == 'application/pdf') %}
-                        {% set fileIcon = '<i class="far fa-file-pdf fa-lg pdf"></i>'%}
-                    {% endif %}
-
-                    {# powerpoint #}
-                    {% if (file.mimeType == 'application/vnd.ms-powerpoint' or file.mimeType == 'application/vnd.openxmlformats-officedocument.presentationml.presentation') %}
-                        {% set fileIcon = '<i class="far fa-file-powerpoint fa-lg ppt"></i>'%}
-                    {% endif %}
-
-                    {# excel #}
-                    {% if (file.mimeType == 'application/vnd.ms-excel' or file.mimeType == 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet') %}
-                        {% set fileIcon = '<i class="far fa-file-excel fa-lg excel"></i>'%}
-                    {% endif %}
-
-
-                {# Si c'est une fiche (Sheet) #}
-                {% else %}
-
-                    {% set document = false  %}
-
-                    {% set chemin = "{{ path('sheet_show', {'slug': category.slug, 'sub_slug': subCategory.slug, 'sheet_slug': file.slug }) }}" %}
-                    {% set chemin_update = "{{ path('sheet_edit', {'slug': category.slug, 'sub_slug': subCategory.slug, 'sheet_slug': file.slug }) }}" %}
-                    {% set chemin_delete = "{{ path('sheet_delete', {'slug': category.slug, 'sub_slug': subCategory.slug, 'sheet_slug': file.slug }) }}" %}
-                    {% set fileType = "sheet" %}
-
-                    {% set fileIcon = '<i class="far fa-file-alt fa-lg sheet"></i>'%}
-
-                {% endif %}
-
-                {# {{ vich_uploader_asset(file, 'genericFile')}} #}
-
-                    <tr class="file-row">
-                        <td class="align-middle text-center file-icon">{{ fileIcon|raw }}</td>
-                        <td class="align-middle">
-                        
-                            <a href=
-                            {% if document %}
-                                
-                                {{ path('document_show', {'slug': category.slug, 'sub_slug': subCategory.slug, 'id': file.id }) }}
-
-                            {% else %}
-                                {{ path('sheet_show', {'slug': category.slug, 'sub_slug': subCategory.slug, 'sheet_slug': file.slug }) }}
-
-                            {% endif %}
-                            >
-                                <strong class="file-title">{{ file.title }}</strong>
-                            </a><br>
-                            <small class="file-organization">{{ file.organization }}</small>
-                        </td>
-                        <td class="align-middle text-center file-status">
-
-                            {% if date(file.updatedAt) <= date('-6months', 'Europe/Paris') %}
-
-                                {% set state = "Obsolète" %}
-                                {% set state_class = "danger" %}
-
-                            {% elseif date(file.updatedAt) < date('-5months', 'Europe/Paris') %}
-
-                                {% set state = "Bientôt obsolète" %}
-                                {% set state_class = "warning" %}
-
-                            {% else %}
-
-                                {% set state = "À jour" %}
-                                {% set state_class = "success" %}
-
-                            {% endif %}
-
-
-
-                            <span class="badge badge-pill badge-{{state_class}}">
-                                {{ state }}
-                            </span>
-                        </td>
-                        <td class="align-middle text-center file-updated-at">{{ file.updatedAt|localizeddate('none', 'none', 'fr', null, 'MMMM Y') }}</td>
-                        <td class="align-middle text-center file-options">
-
-                            <div class="dropdown">
-                                <button class="btn btn-link" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i class="fas fa-ellipsis-h"></i>
-                                </button>
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                    <a class="dropdown-item" href="{{ chemin_update }}">Modifer</a>
-                                    <a class="dropdown-item" href="{{ chemin_delete }}">Supprimer</a>
-                                </div>
-                            </div>
-
-
-
-                            
-                        </td>
-                    </tr>
-                {% endfor %}
-
-                {# {% for document in documents %}
-                    <tr>
-                        <td class="align-middle text-center"><i class="far fa-file-pdf fa-lg"></i></td>
-                        <td class="align-middle">
-                            <a href="{{ vich_uploader_asset(document, 'genericFile') }}" target="_blank">
-                                <strong>{{ document.title }}</strong>
-                            </a><br>
-                            <small>{{ document.organization }}</small>                    
-                        </td>
-                        <td class="align-middle text-center">
-                            <span class="badge badge-pill badge-success">A jour</span>
-                        </td>
-                        <td class="align-middle text-center">{{ document.updatedAt|localizeddate('none', 'none', 'fr', null, 'MMMM Y') }}</td>
-                        <td class="align-middle text-center">
-
-                            <div class="dropdown">
-                                <button class="btn btn-link" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i class="fas fa-ellipsis-h"></i>
-                                </button>
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                    <a class="dropdown-item" href="#">Modifer</a>
-                                    <a class="dropdown-item" href="#">Supprimer</a>
-                                </div>
-                            </div>
-
-
-
-                            
-                        </td>
-                    </tr>
-                {% endfor %} #}
-                </tbody>
-
-            </table>
+            {% include 'documentation/_list.html.twig' %}
             
             
         </div>

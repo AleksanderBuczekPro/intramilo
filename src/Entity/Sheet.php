@@ -53,7 +53,7 @@ class Sheet
     private $organization;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Header", mappedBy="sheet", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\Header", mappedBy="sheet", orphanRemoval=true, cascade={"persist"})
      */
     private $headers;
 
@@ -87,6 +87,26 @@ class Sheet
      * @ORM\OneToMany(targetEntity="App\Entity\Attachment", mappedBy="sheet", orphanRemoval=true)
      */
     private $attachments;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $status;
+
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\Sheet", cascade={"persist", "remove"})
+     */
+    private $origin;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $comment;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $front;
 
 
 
@@ -139,6 +159,18 @@ class Sheet
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    /**
+     * Initialisation de l'ID (pour la duplication de la fiche)
+     *
+     */
+    // public function __clone() {
+    //     $this->id = null;
+    // }
+
+    public function clearId() {
+        $this->id = null;
     }
 
     public function getTitle(): ?string
@@ -354,6 +386,54 @@ class Sheet
 
 
         }
+
+        return $this;
+    }
+
+    public function getStatus(): ?string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(?string $status): self
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    public function getOrigin(): ?self
+    {
+        return $this->origin;
+    }
+
+    public function setOrigin(?self $origin): self
+    {
+        $this->origin = $origin;
+
+        return $this;
+    }
+
+    public function getComment(): ?string
+    {
+        return $this->comment;
+    }
+
+    public function setComment(?string $comment): self
+    {
+        $this->comment = $comment;
+
+        return $this;
+    }
+
+    public function getFront(): ?bool
+    {
+        return $this->front;
+    }
+
+    public function setFront(bool $front): self
+    {
+        $this->front = $front;
 
         return $this;
     }

@@ -30,11 +30,11 @@ class RegistrationType extends ApplicationType
             ->add('lastName', TextType::class, $this->getConfiguration("Nom", "Nom de famille"))
             ->add('email', EmailType::class, $this->getConfiguration("Email", "Adresse email"))
             ->add('phoneNumber', TextType::class, $this->getConfiguration("Téléphone", "Numéro de téléphone"))
-            ->add('picture', UrlType::class, $this->getConfiguration("Photo de profil", "URL de la photo de profil"))
+            // ->add('picture', UrlType::class, $this->getConfiguration("Photo de profil", "URL de la photo de profil"))
             ->add('hash', PasswordType::class, $this->getConfiguration("Mot de passe", "Choissisez un bon mot de passe"))
             ->add('passwordConfirm', PasswordType::class, $this->getConfiguration("Confirmation de mot de passe", "Veuillez confirmer votre mot de passe"))
-            ->add('introduction', TextType::class, $this->getConfiguration("Introduction", "Présentez vous en quelques mots..."))
-            ->add('description', TextareaType::class, $this->getConfiguration("Description détaillée", "C'est le moment de vous présenter en détail"))
+            // ->add('introduction', TextType::class, $this->getConfiguration("Introduction", "Présentez vous en quelques mots..."))
+            // ->add('description', TextareaType::class, $this->getConfiguration("Description détaillée", "C'est le moment de vous présenter en détail"))
             ->add('antenne', EntityType::class, [
                 'class' => Antenne::class,
                 'choice_label' => function($antenne){

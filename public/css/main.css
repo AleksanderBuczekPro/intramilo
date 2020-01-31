@@ -6,7 +6,385 @@ body{
 
 }
 
+footer.my-foot{
+
+    background-color: #58585A;
+    margin-top: 250px;
+
+}
+
+footer.my-foot p{
+
+    font-family: 'Fira Sans', sans-serif;
+    color: white;
+    padding: 0;
+    font-size: 1.1em;;
+}
+
+footer.my-foot img{
+
+    max-height: 75px;
+
+}
+
+footer.my-foot i{
+
+    color: white;
+
+}
+
+
 .background{
 
     background-color: white;
+}
+
+div.anchor{
+
+    display: block;
+    position: relative;
+    top: -100px;
+    visibility: hidden;
+    
+}
+
+
+/* Login */
+div.card.login{
+
+    margin-top: 140px;
+    font-family: "Karla";
+    padding: 30px;
+    border-top: 5px solid #0067F4!important;
+
+}
+
+div.card.login p{
+
+    font-family: "Karla";
+    font-size: 1.5em;
+
+}
+
+div.login-form{
+
+    padding: 20px;
+}
+
+div.card.login label{
+
+    font-weight: 600;
+
+}
+
+
+div.my-card{
+
+    background-color: white;
+    border-radius: 12px;
+
+
+}
+
+
+div.card{
+
+    font-family: 'Karla';
+    border: none!important;
+    border-radius: 12px;
+    margin-top: 25px;
+
+}
+
+div.card.event-card, div.card.employees{
+
+    box-shadow: none;
+
+}
+
+div.card h6{
+
+    font-size: 17px;
+    letter-spacing: 0.5px;
+
+}
+
+div.card.website-card h6, div.card.website-card i{
+
+    color: #ff006e;
+    
+}
+
+div.card.best-doc-card h6, div.card.last-doc-card h6{
+
+    color: #6777EF;
+    
+}
+
+div.card.next-events-card h6, div.card.meeting-card h6{
+
+    color: #8338EC;
+    
+}
+
+a.link{
+    text-decoration: none!important;
+}
+
+div.card.profile-card{
+
+    border: none;
+    background-color: #ff006e;
+    color: white;
+
+}
+
+div.card.home-link{
+
+    
+    min-height: 100px;
+    font-family: 'Fira Sans', sans-serif;
+    font-size: 0.9em;
+    font-weight: 500;
+    line-height: 60px;
+
+    overflow: hidden;
+
+
+}
+
+div.card.home-link .agenda i{
+
+    color: #3A86FF;
+    opacity: 0.25;
+
+    position: absolute;
+    margin-left: -40px;
+    margin-top: -30px;
+
+
+
+}
+
+div.card.home-link .agenda span{
+
+    color: #3A86FF;
+
+}
+
+div.card.home-link .flux i{
+
+    opacity: 0.25;
+
+    position: absolute;
+    margin-left: -50px;
+    margin-top: -30px;
+
+
+}
+
+div.card.home-link .flux{
+
+    color: #8338EC;
+
+}
+
+div.card.home-link .options i{
+
+    opacity: 0.25;
+
+    position: absolute;
+    margin-left: -40px;
+    margin-top: -30px;
+
+
+}
+
+div.card.home-link .options{
+
+    color: #FFB339;
+
+}
+
+
+
+
+
+div.card.profile-card .card-title{
+
+    font-family: 'Fira Sans', sans-serif;
+    margin: 0;
+    font-weight: 500;
+    font-size: 21px;
+
+    line-height: 27px;
+
+
+}
+
+div.card.profile-card .card-text{
+
+    font-size: 17px;
+    line-height: 20px;
+    opacity: 0.9;
+
+}
+
+table.last-doc td.initiales, table.best-doc td.initiales{
+
+    width: 20px;
+    text-align: center;
+    
+}
+
+table.last-doc td{
+
+    border-top: none;
+    
+}
+
+.table .initiales span.init{
+
+    font-family: 'Fira Mono', monospace;
+
+    background-color: #6777EF;
+    color: white;
+    border-radius: 50px;
+
+
+
+    padding: 8px;
+
+}
+
+table.last-doc td a{
+
+    font-family: 'Fira Sans', sans-serif;
+    font-weight: 500;
+    color: black;
+    
+}
+
+div.card-body.weather-card{
+
+    min-height: 100px;
+    font-size: 1em;
+    font-weight: 600;
+    padding: 0.8em 1em;
+}
+
+div.card-body.weather-card span{
+
+    font-size: 1.8em;
+    font-weight: 500;
+}
+
+div.card-body.weather-card span sup{
+
+    font-size: 20px;
+    font-weight: 600;
+}
+
+div.card-body.weather-card i{
+
+    font-size: 2em;
+    margin-top: 10px;
+    float: right;
+}
+
+
+/* Agenda */
+div.card.event-card{
+
+    background-color: #f5f6fa;
+    margin-top: 0.5em;
+
+}
+
+div.card.event-card.today{
+
+    background-color: #8338EC;
+    color: white;
+
+}
+
+div.card.event-card .date, div.card.event-card .hour{
+
+    font-size: 0.8em;
+
+}
+
+div.card.event-card .title{
+
+   font-weight: 600;
+
+}
+
+
+/* Antennes */
+
+div.card.antenne{
+
+    padding: 15px 25px;
+
+    font-family: 'Karla';
+}
+
+div.card.antenne div.title{
+
+    font-family: 'Fira Sans', sans-serif;
+    color: #2ECC71;
+    font-size: 1.8em;
+
+}
+
+div.card.antenne div.address, div.card.antenne div.phone{
+
+    color: #4C4C4C;
+    font-size: 1.1em;
+
+}
+
+div.card.employees{
+
+    background-color: rgba(215, 216, 217, 0.15);
+
+
+}
+
+div.card.employees .card-body{
+
+    padding: 10px 20px 0;
+
+}
+
+div.card.employees td.initiales span.init{
+
+    background-color: rgba(46, 204, 113, 0.6);
+}
+
+div.card.employees div.name{
+
+    font-size: 1.2em;
+    font-weight: 600;
+
+}
+
+div.card.employees div.poste{
+
+    font-size: 1.1em;
+
+}
+
+div.card.employees div.email, div.card.employees div.phone{
+
+    font-size: 1.1em;
+    color: #858688;
+
+}
+
+table.employees td{
+
+    border: none;
+
 }

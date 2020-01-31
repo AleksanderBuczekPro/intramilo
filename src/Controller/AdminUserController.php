@@ -51,6 +51,9 @@ class AdminUserController extends AbstractController
             $hash = $encoder->encodePassword($user, $user->getHash());
             $user->setHash($hash);
 
+            $user->setPicture("https://media-exp1.licdn.com/dms/image/C5603AQHu7cPy83UvbA/profile-displayphoto-shrink_100_100/0?e=1585785600&v=beta&t=qLyCkqMYn87M4pG_DFxBhoxNtIbPnIJhn3VLAxBU_Sk");
+            $user->setIntroduction("intro");
+            $user->setDescription("description");
             
             // Gestion du statut administrateur
             // $admin = $request->request->get('isAdmin');

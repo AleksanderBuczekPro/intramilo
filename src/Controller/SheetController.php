@@ -7,9 +7,11 @@ use App\Service\Menu;
 use App\Form\SheetType;
 use App\Form\ToolsType;
 use App\Entity\Category;
+use App\Form\CommentType;
 use App\Entity\SubCategory;
 use App\Form\AttachmentType;
 use PhpParser\Node\Stmt\Foreach_;
+use App\Repository\SheetRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Routing\Annotation\Route;
@@ -45,7 +47,6 @@ class SheetController extends AbstractController
 
         if($form->isSubmitted() && $form->isValid()){
 
-
             foreach($sheet->getHeaders() as $header){
 
                 $header->setSheet($sheet);
@@ -59,7 +60,9 @@ class SheetController extends AbstractController
                 }
                 
             }
-
+            
+            $sheet->setFront('0');
+            $sheet->setStatus("TO_VALIDATE");
             $manager->persist($sheet);
             $manager->flush();
 
@@ -82,48 +85,99 @@ class SheetController extends AbstractController
     }
 
     /**
-     * Permet de modifier une fiche
+     * Permet de modifier une fiche afin qu'elle soit validée par un responsable
      * 
-     * @Route("/doc/{slug}/{sub_slug}/{sheet_slug}/sheet/edit", name="sheet_edit")
-     * 
-     * @ParamConverter("subCategory", options={"mapping": {"sub_slug":   "slug"}})
-     * @ParamConverter("sheet", options={"mapping": {"sheet_slug": "slug"}})
+     * @Route("/doc/{id}/sheet/edit", name="sheet_edit")
      * 
      * @IsGranted("ROLE_USER")
-     * 
-     * @return Response
+     *
+     * @return void
      */
-    public function edit(Category $category, SubCategory $subCategory, Sheet $sheet, Request $request, ObjectManager $manager)
-    {
+    public function edit(Sheet $sheet, ObjectManager $manager, Request $request){
 
-        $form = $this->createForm(SheetType::class, $sheet);
+        $form = $this->createForm(SheetType::class, $sheet);        
 
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
 
-            foreach($sheet->getHeaders() as $header){
+            // Si c'est une fiche "En cours de validation" que l'on modifie
+            if($sheet->getStatus() == "TO_VALIDATE"){
 
-                $header->setSheet($sheet);
-                $manager->persist($header);
+                foreach($sheet->getHeaders() as $header){
 
-                foreach($header->getSections() as $section){
+                    $header->setSheet($sheet);
+                    $manager->persist($header);
+    
+                    foreach($header->getSections() as $section){
+    
+                        $section->setHeader($header);
+                        $manager->persist($section);
+    
+                    }
+                    
+                }
 
-                    $section->setHeader($header);
-                    $manager->persist($section);
+            
+                $manager->persist($sheet);
+                $manager->flush();
+
+            }else{
+                // Sinon c'est une fiche à corriger
+                if($sheet->getStatus() == "TO_CORRECT"){
+
+                    foreach($sheet->getHeaders() as $header){
+
+                        $header->setSheet($sheet);
+                        $manager->persist($header);
+        
+                        foreach($header->getSections() as $section){
+        
+                            $section->setHeader($header);
+                            $manager->persist($section);
+        
+                        }
+                        
+                    }
+                    
+                    $sheet->setStatus("TO_VALIDATE");
+                    $manager->persist($sheet);
+                    $manager->flush();
+
+                }else{
+
+                    // Sinon c'est une fiche qui vient d'être modifiée
+
+                    // On duplique la fiche
+                    $sheetToValidate = clone $sheet;
+                    
+                    $sheetToValidate->setOrigin($sheet);
+                    $sheetToValidate->setStatus('TO_VALIDATE');
+
+                    // On duplique les entêtes
+                    foreach($sheetToValidate->getHeaders() as $header){
+
+                        $header->setSheet($sheetToValidate);
+                        $manager->persist($header);
+        
+                        foreach($header->getSections() as $section){
+        
+                            $section->setHeader($header);
+                            $manager->persist($section);
+        
+                        }
+                        
+                    }
+
+                    $manager->refresh($sheet);
+                    $manager->persist($sheetToValidate);
+                    $manager->flush();
 
                 }
+
                 
+
             }
-            
-            $manager->persist($sheet);
-            $manager->flush();
-
-            $this->addFlash(
-                'success',
-                "La fiche <strong>{$sheet->getTitle()}</strong> a bien été modifiée !"
-
-            );
 
             // Gestion des nouveaux slugs
             $slug = $sheet->getSubCategory()->getCategory()->getSlug();
@@ -131,7 +185,11 @@ class SheetController extends AbstractController
 
             return $this->redirectToRoute('sheet_show', ['slug' => $slug, 'sub_slug' => $subSlug, 'sheet_slug' => $sheet->getSlug()]);
 
+
         }
+
+        $subCategory = $sheet->getSubcategory();
+        $category = $sheet->getSubCategory()->getCategory();
 
         return $this->render('documentation/sheet/edit.html.twig', [
             'form'=> $form->createView(),
@@ -139,6 +197,33 @@ class SheetController extends AbstractController
             'subCategory' => $subCategory,
             'sheet' => $sheet
         ]);
+
+    }
+
+
+     /**
+     * Permet de mettre à la Une une fiche
+     * 
+     * @Route("/doc/sheet/{id}/front", name="sheet_front")
+     *  
+     *
+     * @return Response
+     */
+    public function front(Sheet $sheet, ObjectManager $manager){
+
+        $sheet->setFront('1');
+
+        dump($sheet);
+
+        $manager->persist($sheet);
+        $manager->flush();
+
+        // Gestion des nouveaux slugs
+        $slug = $sheet->getSubCategory()->getCategory()->getSlug();
+        $subSlug = $sheet->getSubCategory()->getSlug();
+
+        return $this->redirectToRoute('sheet_show', ['slug' => $slug, 'sub_slug' => $subSlug, 'sheet_slug' => $sheet->getSlug()]);
+
     }
 
 
@@ -152,9 +237,43 @@ class SheetController extends AbstractController
      * 
      * @return Response
      */
-    public function show(Category $category, SubCategory $subCategory, Sheet $sheet, Menu $menu)
+    public function show(Category $category, SubCategory $subCategory, Request $request, ObjectManager $manager, Sheet $sheet, Menu $menu)
     {
 
+  
+
+        // Si la fiche est "En cours de validation"
+        if($sheet->getStatus() == "TO_VALIDATE"){
+
+            $form = $this->createForm(CommentType::class, $sheet);        
+
+            $form->handleRequest($request);
+
+            if($form->isSubmitted() && $form->isValid()){
+
+                    $sheet->setStatus("TO_CORRECT");
+                    $manager->persist($sheet);
+                    $manager->flush();
+
+                // Gestion des nouveaux slugs
+                $slug = $sheet->getSubCategory()->getCategory()->getSlug();
+                $subSlug = $sheet->getSubCategory()->getSlug();
+
+                return $this->redirectToRoute('sheet_show', ['slug' => $slug, 'sub_slug' => $subSlug, 'sheet_slug' => $sheet->getSlug()]);
+
+
+            }
+
+            return $this->render('documentation/sheet/show.html.twig', [
+                'category' => $category,
+                'subCategory' => $subCategory,
+                'sheet' => $sheet,
+                'form' => $form->createView()
+
+            ]);
+
+        }
+            
         return $this->render('documentation/sheet/show.html.twig', [
             'category' => $category,
             'subCategory' => $subCategory,
@@ -173,10 +292,41 @@ class SheetController extends AbstractController
      * @IsGranted("ROLE_USER")
      * 
      */
-    public function delete(Sheet $sheet, ObjectManager $manager)
+    public function delete(Sheet $sheet, ObjectManager $manager, SheetRepository $sheetRepo)
     {
-        $manager->remove($sheet);
-        $manager->flush();
+        // Si c'est une fiche "En cours de validation"
+        if($sheet->getStatus() == "TO_VALIDATE")
+        {
+            // Suppression de la fiche "En cours de validation"
+            $sheet->setOrigin(null);
+            $manager->remove($sheet);
+            $manager->flush();
+
+        }
+        else{
+
+            // Sinon c'est une fiche
+
+            // Recherche d'une fiche "En cours de validation" associée à la fiche que l'on souhaite 
+            $sheetToValidate = $sheetRepo->findOneByOrigin($sheet);
+
+            // S'il existe une fiche "En cours de validation"
+            if($sheetToValidate){
+
+                // Suppression de la fiche "En cours de validation"
+                $sheetToValidate->setOrigin(null);
+                $manager->remove($sheetToValidate);
+                $manager->flush();
+
+            }
+
+            // Ensuite, on supprime la fiche en question
+            $manager->remove($sheet);
+            $manager->flush();
+
+
+        }
+        
 
         $this->addFlash(
             'success',
@@ -184,7 +334,7 @@ class SheetController extends AbstractController
 
         );
 
-         // Gestion des nouveaux slugs
+        //  // Gestion des nouveaux slugs
          $slug = $sheet->getSubCategory()->getCategory()->getSlug();
          $subSlug = $sheet->getSubCategory()->getSlug();
 
@@ -247,6 +397,7 @@ class SheetController extends AbstractController
 
     }
 
+   
 
     
 }

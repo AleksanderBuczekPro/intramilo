@@ -1,0 +1,98 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Administration
+{% endblock %}
+
+
+{% block body %}
+
+    {% set f = app.request.get('filter') %}
+    <div class="background pt-2">
+        <div class="container-fluid">
+        <div class="row">
+            <div class="col-2">
+                <div class="row">
+                        <div class="col p-4 header-title">Etat</div> 
+                </div>
+                <div class="row">                    
+                    <ul class="filters">
+                        <a href="{{ path('admin_documents', {'filter': 'all'}) }}"><li class="{% if (f is empty) or (f == 'all') %} active {% endif %} py-3">Tous</li></a>
+                        <a href="{{ path('admin_documents', {'filter': 'upToDate'}) }}"><li class="{% if f == 'upToDate' %} active {% endif %} py-3">À jour</li></a>
+                        <a href="{{ path('admin_documents', {'filter': 'toValidate'}) }}"><li class="{% if f == 'toValidate' %} active {% endif %} py-3">En cours de validation</li></a>
+                        <a href="{{ path('admin_documents', {'filter': 'toCorrect'}) }}"><li class="{% if f == 'toCorrect' %} active {% endif %} py-3">À corriger</li></a>
+                        <a href="{{ path('admin_documents', {'filter': 'wellObsolete'}) }}"><li class="{% if f == 'wellObsolete' %} active {% endif %} py-3">Bientôt obsolète</li></a>
+                        <a href="{{ path('admin_documents', {'filter': 'obsolete'}) }}"><li class="{% if f == 'obsolete' %} active {% endif %} py-3">Obsolète</li></a>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-9">
+
+            <h1 class="m-3">Administration</h1>
+            <h6 class="mb-3">Mes groupes</h6>
+            <p>
+                {% for groupe in groupes %}
+
+                    <span class="badge badge-light mb-2">{{ groupe.title }}</span>
+
+                {% endfor %}
+            </p>
+            <h6 class="mb-3">Mes utilisateurs</h6>
+            <p>
+                {% for user in users %}
+
+                    <span class="badge badge-light mb-2">{{ user.fullName }}</span>
+
+                {% endfor %}
+            </p>
+            <h6 class="mb-3">Mes dossiers</h6>
+            <p>
+                {% for sub in subCategories %}
+
+                    <span class="badge badge-light mb-2">{{ sub.title }}</span>
+
+                {% endfor %}
+            </p>
+
+            <div class="d-flex">
+                <div class="mr-auto p-5 h3">Documents - 
+
+                    
+                    {% if (f is empty) or (f == 'all') %} Tous {% endif %}
+                    {% if f == 'upToDate' %} À jour {% endif %}
+                    {% if f == 'toValidate' %} En cours de validation {% endif %}
+                    {% if f == 'toCorrect' %} À corriger {% endif %}
+                    {% if f == 'wellObsolete' %} Bientôt obsolètes {% endif %}
+                    {% if f == 'obsolete' %} Obsolètes {% endif %}
+                </div>
+                <div class="p-5 tri">
+                    Tri : 
+                    <a href="#" class="btn btn-secondary btn-sm ml-3">
+                        Alphabétique
+                    </a>
+                    <a href="#" class="btn btn-light btn-sm">
+                        Par date            
+                    </a>
+                    <a href="#" class="btn btn-light btn-sm">
+                        Par type            
+                    </a>
+                    <a href="#" class="btn btn-light btn-sm">
+                        Par statut            
+                    </a>
+                </div>
+            </div>
+    
+
+            {% include 'documentation/_list.html.twig' %}
+        
+        </div>
+        </div>
+
+        
+
+           
+        </div>
+    </div>
+
+
+{% endblock %}

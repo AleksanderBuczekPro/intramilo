@@ -22,6 +22,7 @@ class ToolsType extends AbstractType
                 'class' => Sheet::class,
                 'choice_label' => 'title',
                 'multiple' => true,
+                'required' => false,
 
                 'query_builder' => function (SheetRepository $sr) {
                     return $sr->createQueryBuilder('s')
@@ -37,6 +38,7 @@ class ToolsType extends AbstractType
                 'class' => Document::class,
                 'choice_label' => 'title',
                 'multiple' => true,
+                'required' => false,
 
                 'query_builder' => function (DocumentRepository $dr) {
                     return $dr->createQueryBuilder('d')
@@ -54,7 +56,9 @@ class ToolsType extends AbstractType
                 
                 'entry_type' => AttachmentType::class,
                 'allow_add' => true, 
-                'allow_delete' => true
+                'allow_delete' => true,
+
+                'required' => false
  
             ])
         ;

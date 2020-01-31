@@ -11,6 +11,7 @@
 
 .jumbotron.documentation-jumbotron h1{
 
+    color: white;
     font-family: 'Fira Sans', sans-serif;
     font-weight: 800;
     font-size: 2.6rem;
@@ -57,17 +58,19 @@
 .card.documentation-card .card-title{
 
     font-family: 'Karla', sans-serif;
+    font-weight: 600;;
     color: #2967b2;
     text-transform: uppercase;
 
     letter-spacing: 1px;
-    font-size: 15px;
+    font-size: 1em;
 
 }
 
 .card.documentation-card .card-body{
 
     padding: 1.5rem;
+    
 
 }
 
@@ -80,9 +83,9 @@
 
 .card.documentation-card p.card-text a{
 
-    font-family: 'Karla', sans-serif;
+    font-family: 'Fira Sans', sans-serif;
     color: black;
-
+    line-height: 1.2em;
     font-size: 16px;
     text-decoration: none;
 
@@ -91,7 +94,8 @@
 
 .card.documentation-card p.card-text a:hover{
 
-    color: #6777ef;
+    font-family: 'Fira Sans', sans-serif;
+    /* color: #6777ef; */
     font-weight: 500;
 
 }
@@ -149,7 +153,7 @@
     font-family: 'Fira Sans', sans-serif;
     text-decoration: none;
     color: black;
-    font-size: 19px;
+    font-size: 1.2em;
 
 }
 
@@ -240,6 +244,28 @@ ul.filters a{
     text-decoration: none;
 
 }
+
+
+
+p.lead{
+
+    color: black;
+    font-family: 'Fira Sans', sans-serif;
+
+}
+
+.fil-ariane a.btn-category{
+
+    color: #0067F4;
+
+}
+
+.fil-ariane a.btn-category:hover{
+
+    color: white!important;
+
+}
+
 
 
 

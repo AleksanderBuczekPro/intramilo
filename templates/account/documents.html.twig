@@ -1,0 +1,77 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Documentation - Tableau de bord
+{% endblock %}
+
+
+{% block body %}
+
+
+
+    {% set f = app.request.get('filter') %}
+    <div class="background pt-2">
+        <div class="container-fluid">
+        <div class="row">
+            <div class="col-2">
+                <div class="row">
+                        <div class="col p-4 header-title">Etat</div> 
+                </div>
+                <div class="row">                    
+                    <ul class="filters">
+                        <a href="{{ path('account_documents', {'filter': 'all'}) }}"><li class="{% if (f is empty) or (f == 'all') %} active {% endif %} py-3">Tous</li></a>
+                        <a href="{{ path('account_documents', {'filter': 'upToDate'}) }}"><li class="{% if f == 'upToDate' %} active {% endif %} py-3">À jour</li></a>
+                        <a href="{{ path('account_documents', {'filter': 'toValidate'}) }}"><li class="{% if f == 'toValidate' %} active {% endif %} py-3">En cours de validation</li></a>
+                        <a href="{{ path('account_documents', {'filter': 'toCorrect'}) }}"><li class="{% if f == 'toCorrect' %} active {% endif %} py-3">À corriger</li></a>
+                        <a href="{{ path('account_documents', {'filter': 'wellObsolete'}) }}"><li class="{% if f == 'wellObsolete' %} active {% endif %} py-3">Bientôt obsolète</li></a>
+                        <a href="{{ path('account_documents', {'filter': 'obsolete'}) }}"><li class="{% if f == 'obsolete' %} active {% endif %} py-3">Obsolète</li></a>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-9">
+
+            <h1 class="m-3">Tableau de bord</h1>
+
+            <div class="d-flex">
+                <div class="mr-auto p-5 h3">Mes documents - 
+
+                    
+                    {% if (f is empty) or (f == 'all') %} Tous {% endif %}
+                    {% if f == 'upToDate' %} À jour {% endif %}
+                    {% if f == 'toValidate' %} En cours de validation {% endif %}
+                    {% if f == 'toCorrect' %} À corriger {% endif %}
+                    {% if f == 'wellObsolete' %} Bientôt obsolètes {% endif %}
+                    {% if f == 'obsolete' %} Obsolètes {% endif %}
+                </div>
+                <div class="p-5 tri">
+                    Tri : 
+                    <a href="#" class="btn btn-secondary btn-sm ml-3">
+                        Alphabétique
+                    </a>
+                    <a href="#" class="btn btn-light btn-sm">
+                        Par date
+                    </a>
+                    <a href="#" class="btn btn-light btn-sm">
+                        Par type
+                    </a>
+                    <a href="#" class="btn btn-light btn-sm">
+                        Par statut          
+                    </a>
+                </div>
+            </div>
+    
+            {% include 'documentation/_list.html.twig' %}
+                    
+                    
+
+        </div>
+        </div>
+
+        
+
+           
+        </div>
+    </div>
+
+
+{% endblock %}

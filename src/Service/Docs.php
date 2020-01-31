@@ -25,20 +25,44 @@ class Docs{
         ->setParameter('sub_category_id', $subcategory_id)
         ->getResult();
 
-        // return $this->manager->createQuery(
-        //     'SELECT *
-        //     (SELECT title, slug, organization, updatedAt, content, null as size, null as mimetype, null as original_name
-        //     FROM App\Entity\Sheet s
 
-        //     UNION ALL
-            
-        //     SELECT title, null as slug, organization, updatedAt, null as content, size, mime_type, original_name
-        //     FROM App\Entity\Document d)
-        //     Doc
-        //     ORDER BY title'
-        // )
-        // ->getResult();
+    }
 
+    public function getLastDocs(){
+
+        $limit = 5;
+
+        $sheets = $this->manager->createQuery(
+            'SELECT s FROM App\Entity\Sheet s
+            WHERE s.status IS NULL
+            ORDER BY s.updatedAt DESC
+            '
+        )
+        ->setMaxResults($limit)
+        ->getResult();
+
+        dump($sheets);
+
+        return $sheets;
+
+    }
+
+    public function getFrontDocs(){
+
+        $limit = 5;
+
+        $sheets = $this->manager->createQuery(
+            'SELECT s FROM App\Entity\Sheet s
+            WHERE s.front = 1
+            ORDER BY s.updatedAt DESC
+            '
+        )
+        ->setMaxResults($limit)
+        ->getResult();
+
+        dump($sheets);
+
+        return $sheets;
 
     }
 

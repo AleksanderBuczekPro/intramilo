@@ -3,10 +3,14 @@
 namespace App\Form;
 
 use App\Entity\Sheet;
+use App\Form\ToolsType;
 use App\Entity\Category;
+use App\Entity\Document;
 use App\Form\HeaderType;
 use App\Form\SectionType;
 use App\Entity\SubCategory;
+use App\Repository\SheetRepository;
+use App\Repository\DocumentRepository;
 use Symfony\Component\Form\AbstractType;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -46,6 +50,39 @@ class SheetType extends ApplicationType
 
                  'prototype_name' => "__h__"
  
+                ])
+            
+                ->add('tool', EntityType::class, [
+                    'class' => Sheet::class,
+                    'choice_label' => 'title',
+                    'multiple' => true,
+                    'required' => false,
+    
+                    'query_builder' => function (SheetRepository $sr) {
+                        return $sr->createQueryBuilder('s')
+                            ->orderBy('s.title', 'ASC');
+                    },
+                    
+                    'group_by' => function($tool){
+                        return $tool->getSubCategory()->getTitle();
+        
+                    }
+                ])
+                ->add('sheetDocuments', EntityType::class, [
+                    'class' => Document::class,
+                    'choice_label' => 'title',
+                    'multiple' => true,
+                    'required' => false,
+    
+                    'query_builder' => function (DocumentRepository $dr) {
+                        return $dr->createQueryBuilder('d')
+                            ->orderBy('d.title', 'ASC');
+                    },
+                    
+                    'group_by' => function($attachment){
+                        return $attachment->getSubCategory()->getTitle();
+    
+                    }
                 ])
             ;
     }

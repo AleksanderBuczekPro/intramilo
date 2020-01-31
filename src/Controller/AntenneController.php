@@ -122,4 +122,23 @@ class AntenneController extends AbstractController
 
     }
 
+
+    /**
+     * Permet d'afficher la liste des antennes
+     * 
+     * @Route("/antennes", name="antennes_show")
+     *
+     * @return void
+     */
+    public function show(AntenneRepository $antenneRepo){
+
+        $antennes = $antenneRepo->findAll();
+
+        return $this->render('antenne/show.html.twig', [
+            'antennes' => $antennes
+        ]);
+
+
+    }
+
 }
