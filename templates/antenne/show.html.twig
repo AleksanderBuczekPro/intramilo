@@ -34,7 +34,7 @@
                         <div class="address mt-2">{{ antenne.address }} - {{ antenne.postcode }} {{ antenne.city }}</div>
                         <div class="phone">{{ antenne.phoneNumber }}</div>
 
-                        <div class="employees mt-5">
+                         <div class="employees mt-5">
                             
                                     
 
@@ -44,7 +44,7 @@
 
                                             {# Initiales #}
                                             {% set firstName = employe.firstName|split('') %}
-                                            {% set lastName = employe.lastName|split('') %}
+                                            {% set lastName = employe.lastName|split('') %} 
 
                                             {% set initiales = firstName[0]|upper ~ lastName[0]|upper %}
 
@@ -54,7 +54,7 @@
                                                         <tbody>
                                                             <tr>
                                                             <td class="align-middle initiales">
-                                                                <span class="init">{{ initiales }}</span>
+                                                                {% include '_picture.html.twig' with {'user': employe, 'class': 'medium'} %}
                                                             </td>
                                                             <td>
                                                                 <div class="name">{{ employe.fullName }}</div>

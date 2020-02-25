@@ -24,31 +24,54 @@
                     
                 </ul>   
                 <ul class="navbar-nav ml-auto">
-                    <li class="nav-item">
+                    {# <li class="nav-item">
                         <a class="nav-link mr-3 dashboard {% if app.request.attributes.get('_route') starts with 'account_documents' %}active{% endif %}" href="{{ path('account_documents') }}"><i class="fas fa-table"></i> Tableau de bord</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link mr-3 admin {% if app.request.attributes.get('_route') starts with 'admin' %}active{% endif %}" href="{{ path('admin_documents') }}"><i class="fas fa-user-shield"></i> Administration</a>
-                    </li>
+
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <li class="nav-item">
+                            <a class="nav-link mr-3 admin {% if app.request.attributes.get('_route') starts with 'admin' %}active{% endif %}" href="{{ path('admin_documents') }}"><i class="fas fa-user-shield"></i> Administration</a>
+                        </li>
+                    {% endif %} #}
+
                 {% if app.user %}
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="accountDropdownLink">
-                            <img src="{{ app.user.picture }}" class="avatar avatar-mini" alt="Avatar de {{ app.user.fullName }}"> {{ app.user.fullName }}
+                            {% include '_picture.html.twig' with {'user': app.user, 'class': 'mini'} %}
+                            
+                            {{ app.user.fullName }}
                         </a>
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="accountDropdownLink">
                             {# <a href="{{ path('ads_create') }}" class="dropdown-item">Créer une annonce</a>
                             <div class="dropdown-divider"></div> #}
                             <h6 class="dropdown-header">Compte</h6>
                             <a href="{{ path('account_index') }}" class="dropdown-item">Mon profil</a>
+                            <a href="{{ path('account_picture_edit') }}" class="dropdown-item">Modifer ma photo de profil</a>
+                            <a href="{{ path('account_password') }}" class="dropdown-item">Modifer mon mot de passe</a>
+                            <div class="dropdown-divider"></div>
+                            <h6 class="dropdown-header">Documentation</h6>
+                            <a href="{{ path('account_documents') }}" class="dropdown-item">Tableau de bord</a>
+                            {% if is_granted('ROLE_ADMIN') %}
+                                <a href="{{ path('admin_documents') }}" class="dropdown-item">Suivi de la documentation</a>
+                            {% endif %}
+                           
                             {# <a href="{{ path('account_bookings') }}" class="dropdown-item">Mes réservations</a> #}
-                            <a href="{{ path('account_documents') }}" class="dropdown-item">Mes documents</a>
+                            
                             {# <a href="{{ path('account_profile') }}" class="dropdown-item">Modifier mon profil</a> #}
+                            {# {% if is_granted('ROLE_ADMIN') %}
                             <div class="dropdown-divider"></div>
                             <h6 class="dropdown-header">Administration</h6>
+                            <a href="{{ path('admin_category_index') }}" class="dropdown-item">Gestion des catégories</a>
                             <a href="{{ path('admin_users_index') }}" class="dropdown-item">Gestion des utilisateurs</a>
                             <a href="{{ path('admin_groupes_index') }}" class="dropdown-item">Gestion des groupes</a>
                             <a href="{{ path('admin_postes_index') }}" class="dropdown-item">Gestion des postes</a>
                             <a href="{{ path('admin_antennes_index') }}" class="dropdown-item">Gestion des antennes</a>
+                            {% endif %} #}
+                            {% if is_granted('ROLE_ADMIN') %}
+                            <div class="dropdown-divider"></div>
+                            <h6 class="dropdown-header">Administration</h6>
+                            <a href="/admin" target="_blank" class="dropdown-item">BackOffice</a>
+                            {% endif %}
                             <div class="dropdown-divider"></div>
                             <a href="{{ path('account_logout') }}" class="dropdown-item">Se déconnecter</a>
                         </div>

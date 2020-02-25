@@ -1,6 +1,7 @@
 div.container-fluid.main-sheet-container{
 
     margin-top: 0;
+    min-height: 500px;
 }
 
 .btn.btn-light.return{

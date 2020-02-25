@@ -1,0 +1,165 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Documentation - Ajout d'un site web
+{% endblock %}
+
+{% block body %}
+
+    <div class="container">
+ 
+        <h1 class="my-5">Mes sites favoris <a href="{{ path('homepage') }}" class="ml-3 btn btn-outline-dark">Retour à l'accueil</a></h1> 
+
+        {# {% form_theme form 'documentation/sheet/_collection.html.twig' %} #}
+
+        <div class="card">
+            <div class="card-body">        
+
+            {% if websites|length > 0 %}
+
+                    <table class="table websites">
+                        <tbody>
+                        {% for website in websites %}
+                            <tr>
+                                <td style="width: 35%" class="title">{{ website.title }}</td>
+                                <td style="width: 35%" ><a href="{{ website.url }}" target="_blank">{{ website.url }}</a></td>
+                                <td style="width: 30%" class="text-right">
+                                    <a href="{{ path('website_update', { 'id': website.id }) }}" class="btn btn-warning">Modifier</a>
+                                    <a href="{{ path('website_delete', { 'id': website.id }) }}" class="ml-3 btn btn-danger">Supprimer</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+    
+            {% else %}
+        
+                <p class="text">Aucun site favori.</p>
+
+            {% endif %}
+
+            {{ form_start(form) }}
+
+                <table class="table websites">
+                    <tbody>
+                        <tr>
+                            <td style="width: 35%" >{{ form_row(form.title) }}</td>
+                            <td style="width: 35%">{{ form_row(form.url) }}</td>
+                            <td style="width: 30%">
+                                <button type="submit" class="btn btn-primary float-right">
+                                    <i class="fas fa-plus"></i> Ajouter
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>        
+
+            {{ form_end(form) }}
+
+            </div>
+         </div>
+
+            
+
+
+        
+
+
+
+    </div>
+
+{% endblock %}
+
+
+{% block javascripts %}
+{# 
+<script>
+
+$('#add-header').click(function(){
+
+    // Je récupère le numéro des futurs champs que je vais créer
+    const index = +$('#widgets-counter').val(); // + transforme la chaine de caractère en nombre
+
+    console.log('header_index'+ index);
+
+    // Je récupère le prototype des entrées
+    const tmpl = $('#sheet_headers').data('prototype').replace(/__h__/g, index); // g = "pour chaque"
+
+    // J'injecte ce code au sein de la div
+    $('#sheet_headers').append(tmpl);
+
+    $('#widgets-counter').val(index + 1);
+
+    // Je gère le bouton supprimer
+    handleDeleteButtons();
+
+});
+
+
+function handleDeleteButtons(){
+    $('button[data-action="delete"]').click(function(){
+        const target = this.dataset.target;
+
+        $(target).remove();
+
+    });
+
+}
+
+function updateCounter(){
+    const count = +$('#sheet_headers div.form-group.header').length;
+
+    /* Headers */
+    $('#widgets-counter').val(count);
+
+    console.log()
+
+    /* Sections */
+    $('#sheet_headers div.form-group.header').each(function( index ) {
+
+        var count_section = +$('#sheet_headers_'+ index +'_sections div.form-group.section').length;
+        $('#widgets-section-counter-' + index).val(count_section);
+        console.log(count_section);
+    });
+
+}
+
+updateCounter();
+handleDeleteButtons();
+
+
+
+$(document).on('click', '.add-section', function(event){ 
+
+    // Je récupère l'id du header pour savoir dans lequel faut ajouter une ligne
+    var id = $(this).attr('id'); // sheet_headers_0_sections
+    // id = id.split("_")[2]; // 0
+
+    var header_id = '#' + $(this).attr('id');
+
+    // Je récupère le numéro des futurs champs que je vais créer
+    var counter = $('#widgets-section-counter-'+ id).val();
+    const index = +counter; // + transforme la chaine de caractère en nombre
+
+    
+
+    console.log('index ' + '#widgets-section-counter-'+ id);
+
+    // Je récupère le prototype des entrées
+    const tmpl = $(header_id).data('prototype').replace(/__s__/g, index); // g = "pour chaque"
+
+    // J'injecte ce code au sein de la div
+    $(header_id).append(tmpl);
+
+    $('#widgets-section-counter-' + id).val(index + 1);
+
+    // Je gère le bouton supprimer
+    handleDeleteButtons();
+    
+});
+
+
+
+</script> #}
+
+{% endblock %}

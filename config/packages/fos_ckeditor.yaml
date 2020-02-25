@@ -11,13 +11,21 @@ fos_ck_editor:
     default_config: base_config
     configs:
         base_config:
-            autoGrow_onStartup: true
-            autoGrow_minHeight: 3000
+            # autoGrow_onStartup: true
+            # autoGrow_minHeight: 3000
+            # full.colors: [ "TextColor", "BGColor" ]
             toolbar:
                - { name: 'styles', items: [ 'Format'] }
                - { name: 'basicstyles', items: [ 'Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'CopyFormatting', 'RemoveFormat' ] }
+               - { name: 'colors', items: [ 'TextColor', 'BGColor' ] }
                - { name: 'paragraph', items: [ 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote', 'CreateDiv', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'BidiLtr', 'BidiRtl', 'Language' ] }
                - { name: 'links', items: [ 'Link', 'Unlink', 'Anchor' ] }
                - { name: 'insert', items: [ 'Image', 'Flash', 'Table', 'HorizontalRule', 'Smiley', 'SpecialChar', 'PageBreak', 'Iframe' ] }
+
+    # plugins:
+    #     colorbutton:
+    #         path:   "/bundles/fosckeditor/plugins/colorbutton/"
+    #         filename: "plugin.js"
+               
 
             

@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-    Bienvenue sur le meilleur réseau d'appartements
+    Bienvenue sur le site Intranet de Dijon !
 {% endblock %}
 
 
@@ -18,12 +18,16 @@
 
             <div class="col-3">
 
+
                 {# Profile #}
                 <div class="card profile-card text-center py-3">
-                    <div class="card-body">
-                        <img src="{{ app.user.picture }}" alt="Avatar de {{ app.user.fullName }}" class="avatar">
+                    <div class="card-body text-center">
+
+                        {% include '_picture.html.twig' with {'user': app.user, 'class': 'large'} %}
+
                         <div class="card-title mt-4 mb-2">{{ app.user.firstName }} {{ app.user.lastName|upper }} </div>
                         <div class="card-text">{{ app.user.poste.title }}</div>
+                        <a href="{{ path('account_index') }}" class="btn btn-outline-light">Voir mon profil</a>
                         
                     </div>
                 </div>
@@ -31,11 +35,37 @@
                 {# Favorite Websites #}
                 <div class="card website-card p-1">
                     <div class="card-body">
-                        <h6 class="card-title mb-3">Mes sites favoris</h6>
-                        <div class="card-text mb-1"><i class="fas fa-star fa-sm mr-2"></i> Maison des Assoc.</div>
-                        <div class="card-text mb-1"><i class="fas fa-star fa-sm mr-2"></i> Maison des Assoc.</div>
-                        <div class="card-text mb-1"><i class="fas fa-star fa-sm mr-2"></i> Maison des Assoc.</div>
-                        <div class="card-text mb-1"><i class="fas fa-star fa-sm mr-2"></i> Maison des Assoc.</div>
+                        <h6 class="card-title mb-3">Mes sites favoris
+                            <a href="{{ path('website_index') }}"><i class="mt-1 float-right fas fa-cog fa-xs modify"></i></a>
+                        </h6>
+
+                        {% if websites|length > 0 %}
+
+                            {% for website in websites %}
+
+                                <div class="card-text mb-1">
+                                    <i class="fas fa-star fa-sm mr-2"></i>
+                                    <a class="website" href="{{ website.url }}" target="_blank">
+
+                                        {% if website.title|length > 20 %}
+                                            {{ website.title|slice(0, 20) }}...
+                                        {% else %}
+                                            {{ website.title }}
+                                        {% endif %}
+                                    </a>
+                                </div>
+
+                            {% endfor %}
+
+                        {% else %}
+
+                            <p class="text">Vous n'avez pas encore ajouté de sites favoris.</p>
+
+                            <a href="{{ path('website_index') }}" class="btn btn-outline-dark">Ajouter</a>
+
+                        {% endif %}
+
+
                         
                     </div>
                 </div>
@@ -66,11 +96,11 @@
                     </a>
                     </div>
                     <div class="col-4">
-                    <a class="link" href="" target="_blank">
+                    <a class="link" href="https://app.manatime.com/connexion" target="_blank">
                         <div class="card home-link">
                             <div class="card-body text-center options">
-                                <i class="fas fa-cog fa-6x"></i>
-                                <span>OPTIONS</span>
+                                <i class="fas fa-chart-pie fa-6x"></i>
+                                <span>MANATIME</span>
                             </div>
                         </div>
                     </a>
@@ -83,26 +113,21 @@
                                 <table class="table last-doc">
                                     <tbody>
 
+                                    {% if fronts|length > 0 %}
 
-                                    {% for front in fronts %}
+                                        {% for file in fronts %}
 
-                                    {# Initiales #}
-                                    {% set firstName = front.subCategory.author.firstName|split('') %}
-                                    {% set lastName = front.subCategory.author.lastName|split('') %}
+                                        {% set subtitle = "organization" %}
 
-                                    {% set initiales = firstName[0]|upper ~ lastName[0]|upper %}
+                                        {% include 'documentation/_home_list.html.twig' %}
 
+                                        {% endfor %}
+                                    
+                                    {% else %}
 
-                                        <tr>
-                                        <td class="align-middle initiales">
-                                                <span class="init">{{ initiales }}</span>
-                                            </td>
-                                        <td><a class="link" href="{{ path('sheet_show', {'slug': front.subCategory.category.slug, 'sub_slug': front.subCategory.slug, 'sheet_slug': front.slug }) }}">{{ front.title }}</a><br>
-                                            {{ front.updatedAt|localizeddate('none', 'none', 'fr', null, 'MMMM Y') }}
-                                        </td>
-                                        </tr>
+                                        <p class="text text-center pt-4">Aucune documentation à la Une</p>
 
-                                    {% endfor %}
+                                    {% endif %}
 
                             
                                     </tbody>
@@ -117,25 +142,22 @@
                                 <table class="table last-doc">
                                     <tbody>
                                     
-                                         {% for sheet in sheets %}
+                                    {% if files|length > 0 %}
 
-                                        {# Initiales #}
-                                        {% set firstName = sheet.subCategory.author.firstName|split('') %}
-                                        {% set lastName = sheet.subCategory.author.lastName|split('') %}
+                                         {% for file in files %}
 
-                                        {% set initiales = firstName[0]|upper ~ lastName[0]|upper %}
+                                        
+                                        {% set subtitle = "date" %}
 
-
-                                            <tr>
-                                            <td class="align-middle initiales">
-                                                <span class="init">{{ initiales }}</span>
-                                            </td>
-                                            <td><a class="link" href="{{ path('sheet_show', {'slug': sheet.subCategory.category.slug, 'sub_slug': sheet.subCategory.slug, 'sheet_slug': sheet.slug }) }}">{{ sheet.title }}</a><br>
-                                                {{ sheet.updatedAt|localizeddate('none', 'none', 'fr', null, 'MMMM Y') }}
-                                            </td>
-                                            </tr>
+                                        {% include 'documentation/_home_list.html.twig' %}
 
                                         {% endfor %}
+
+                                    {% else %}
+
+                                        <p class="text text-center pt-4">Aucune activité enregistrée</p>
+
+                                    {% endif %}
 
                                         
                             

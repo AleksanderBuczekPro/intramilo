@@ -11,13 +11,28 @@
         <div class="row justify-content-center">
 
             <div class="col-lg-6">
-
+ 
                 <div class="card" >
                     <div class="card-body">
 
                         
                                 <h5 class="card-title">{{ document.title }}</h5>
                                 <h6 class="card-subtitle mb-2 text-muted">{{ document.organization }}</h6>
+
+                                {% if is_granted("ROLE_ADMIN") and document.status == "" %}
+
+                                    <a href="{{ path('document_front', {'id': document.id }) }}" class="btn btn-sm btn-outline-dark">
+
+                                    {% if document.front %}
+                                        Enlever à la Une
+                                    {% else %}
+                                        Mettre à la Une
+                                    {% endif %}
+
+                                    </a>
+
+                                {% endif %}
+
                                 <hr>
                                     <table>
                                     <tbody>
@@ -64,7 +79,7 @@
                                     </table>
                                 
                                 <hr>
-                                <a href="{{ vich_uploader_asset(document, 'genericFile')}}" class="btn btn-success">Télécharger</a>
+                                <a href="{{ vich_uploader_asset(document, 'genericFile')}}" target="_blank" class="btn btn-success">Télécharger</a>
                                 <a href="{{ path('document_edit', {'slug': category.slug, 'sub_slug': subCategory.slug, 'id': document.id }) }}" class="btn btn-primary">Modifier</a>
                                 <a href="{{ path('document_delete', {'slug': category.slug, 'sub_slug': subCategory.slug, 'id': document.id }) }}" class="btn btn-danger">Supprimer</a>
                                 <a href="{{ path('doc_show', {'slug': category.slug, 'sub_slug': subCategory.slug }) }}" class="btn btn-light">Retour</a>

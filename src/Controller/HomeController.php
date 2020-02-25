@@ -3,8 +3,8 @@
 namespace App\Controller;
 
 use App\Service\Docs;
-use App\Repository\AdRepository;
 use App\Repository\UserRepository;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -40,22 +40,26 @@ class HomeController extends Controller{
      * @Route("/", name="homepage")
      *
      */
-    public function home(AdRepository $adRepo, UserRepository $userRepo, Docs $docs){
+    public function home(UserRepository $userRepo, Docs $docs, Request $request){
 
         $fronts = $docs->getFrontDocs();
-        $sheets = $docs->getLastDocs();
+        $files = $docs->getLastDocs();
+        
 
         return $this->render(
             'home.html.twig',
             [ 
                 'fronts' => $fronts,
-                'sheets' => $sheets
+                'files' => $files,
+                'websites' => $this->getUser()->getWebsites()
             
             ]
 
         );
 
     }
+
+
 
     
 }

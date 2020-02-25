@@ -1,0 +1,19 @@
+
+                {% if user.pictureFilename %}
+
+                    <div class="center-cropped {{ class }}" 
+                        style="background-image: url({{ asset('files/pictures/' ~ user.pictureFilename) }});">
+                    </div>
+
+                {% else %}
+
+                    {# Initiales #}
+                    {% set firstName = user.firstName|split('') %}
+                    {% set lastName = user.lastName|split('') %}
+
+                    {% set initiales = firstName[0]|upper ~ lastName[0]|upper %}
+
+                    <span class="init">{{ initiales }}</span>
+
+
+                {% endif %}

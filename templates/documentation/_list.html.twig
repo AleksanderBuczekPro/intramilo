@@ -68,7 +68,7 @@
                         {{ path('document_show', {'slug': file.subCategory.category.slug, 'sub_slug': file.subCategory.slug, 'id': file.id }) }}
 
                     {% else %}
-                        {{ path('sheet_show', {'slug': file.subCategory.category.slug, 'sub_slug': file.subCategory.slug, 'sheet_slug': file.slug }) }}
+                        {{ path('sheet_show', {'slug': file.subCategory.category.slug, 'sub_slug': file.subCategory.slug, 'sheet_slug': file.slug, 'sheet_id': file.id }) }}
 
                     {% endif %}
                     >
@@ -141,7 +141,7 @@
                     </span>
                 </td>
                 <td class="align-middle text-center file-updated-at">{{ file.updatedAt|localizeddate('none', 'none', 'fr', null, 'MMMM Y') }}</td>
-                <td class="align-middle text-center file-options">
+                {# <td class="align-middle text-center file-options">
 
                     <div class="dropdown">
                         <button class="btn btn-link" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -156,7 +156,7 @@
 
 
                     
-                </td>
+                </td> #}
             </tr>
         {% endfor %}
 

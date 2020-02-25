@@ -6,10 +6,11 @@ use Cocur\Slugify\Slugify;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Component\Security\Core\User\UserInterface;
-
 use Symfony\Component\Validator\Constraints as Assert;
+
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 
 /**
@@ -48,12 +49,6 @@ class User implements UserInterface
     private $email;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     * @Assert\Url(message="Veuilez donner une URL valide pour votre avatar !")
-     */
-    private $picture;
-
-    /**
      * @ORM\Column(type="string", length=255)
      */
     private $hash;
@@ -66,40 +61,19 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\Length(min=10, minMessage="Votre introduction doit faire au moins 10 caractères")
      */
     private $introduction;
-
-    /**
-     * @ORM\Column(type="text")
-     * @Assert\Length(min=100, minMessage="Votre introduction doit faire au moins 100 caractères")
-     */
-    private $description;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
     private $slug;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Ad", mappedBy="author")
-     */
-    private $ads;
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Role", mappedBy="users")
      */
     private $userRoles;
-
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Booking", mappedBy="booker")
-     */
-    private $bookings;
-
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="author", orphanRemoval=true)
-     */
-    private $comments;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\SubCategory", mappedBy="author")
@@ -108,6 +82,7 @@ class User implements UserInterface
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Antenne", inversedBy="users")
+     * @ORM\JoinColumn(nullable=false)
      */
     private $antenne;
 
@@ -126,7 +101,7 @@ class User implements UserInterface
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Groupe", inversedBy="users")
-     * @ORM\JoinColumn(nullable=true)
+     * @ORM\JoinColumn(nullable=false)
      */
     private $groupe;
 
@@ -135,6 +110,27 @@ class User implements UserInterface
      * @ORM\OneToMany(targetEntity="App\Entity\Groupe", mappedBy="responsable")
      */
     private $adminGroupes;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Website", mappedBy="author", orphanRemoval=true)
+     */
+    private $websites;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $token;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $passwordRequestedAt;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * 
+     */
+    private $pictureFilename;
 
 
     public function getFullName() {
@@ -162,13 +158,18 @@ class User implements UserInterface
 
     public function __construct()
     {
-        $this->ads = new ArrayCollection();
         $this->userRoles = new ArrayCollection();
-        $this->bookings = new ArrayCollection();
-        $this->comments = new ArrayCollection();
         $this->subCategories = new ArrayCollection();
         $this->adminGroupes = new ArrayCollection();
+        $this->websites = new ArrayCollection();
     }
+
+    public function __toString()
+    {
+        return $this->getFullName();
+    }
+
+    
 
     public function getId(): ?int
     {
@@ -211,18 +212,6 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getPicture(): ?string
-    {
-        return $this->picture;
-    }
-
-    public function setPicture(?string $picture): self
-    {
-        $this->picture = $picture;
-
-        return $this;
-    }
-
     public function getHash(): ?string
     {
         return $this->hash;
@@ -247,17 +236,6 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getDescription(): ?string
-    {
-        return $this->description;
-    }
-
-    public function setDescription(string $description): self
-    {
-        $this->description = $description;
-
-        return $this;
-    }
 
     public function getSlug(): ?string
     {
@@ -267,37 +245,6 @@ class User implements UserInterface
     public function setSlug(string $slug): self
     {
         $this->slug = $slug;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Ad[]
-     */
-    public function getAds(): Collection
-    {
-        return $this->ads;
-    }
-
-    public function addAd(Ad $ad): self
-    {
-        if (!$this->ads->contains($ad)) {
-            $this->ads[] = $ad;
-            $ad->setAuthor($this);
-        }
-
-        return $this;
-    }
-
-    public function removeAd(Ad $ad): self
-    {
-        if ($this->ads->contains($ad)) {
-            $this->ads->removeElement($ad);
-            // set the owning side to null (unless already changed)
-            if ($ad->getAuthor() === $this) {
-                $ad->setAuthor(null);
-            }
-        }
 
         return $this;
     }
@@ -360,67 +307,7 @@ class User implements UserInterface
         return $this;
     }
 
-    /**
-     * @return Collection|Booking[]
-     */
-    public function getBookings(): Collection
-    {
-        return $this->bookings;
-    }
 
-    public function addBooking(Booking $booking): self
-    {
-        if (!$this->bookings->contains($booking)) {
-            $this->bookings[] = $booking;
-            $booking->setBooker($this);
-        }
-
-        return $this;
-    }
-
-    public function removeBooking(Booking $booking): self
-    {
-        if ($this->bookings->contains($booking)) {
-            $this->bookings->removeElement($booking);
-            // set the owning side to null (unless already changed)
-            if ($booking->getBooker() === $this) {
-                $booking->setBooker(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Comment[]
-     */
-    public function getComments(): Collection
-    {
-        return $this->comments;
-    }
-
-    public function addComment(Comment $comment): self
-    {
-        if (!$this->comments->contains($comment)) {
-            $this->comments[] = $comment;
-            $comment->setAuthor($this);
-        }
-
-        return $this;
-    }
-
-    public function removeComment(Comment $comment): self
-    {
-        if ($this->comments->contains($comment)) {
-            $this->comments->removeElement($comment);
-            // set the owning side to null (unless already changed)
-            if ($comment->getAuthor() === $this) {
-                $comment->setAuthor(null);
-            }
-        }
-
-        return $this;
-    }
 
     /**
      * @return Collection|SubCategory[]
@@ -529,6 +416,73 @@ class User implements UserInterface
                 $groupe->setResponsable(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Website[]
+     */
+    public function getWebsites(): Collection
+    {
+        return $this->websites;
+    }
+
+    public function addWebsite(Website $website): self
+    {
+        if (!$this->websites->contains($website)) {
+            $this->websites[] = $website;
+            $website->setAuthor($this);
+        }
+
+        return $this;
+    }
+
+    public function removeWebsite(Website $website): self
+    {
+        if ($this->websites->contains($website)) {
+            $this->websites->removeElement($website);
+            // set the owning side to null (unless already changed)
+            if ($website->getAuthor() === $this) {
+                $website->setAuthor(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getToken(): ?string
+    {
+        return $this->token;
+    }
+
+    public function setToken(?string $token): self
+    {
+        $this->token = $token;
+
+        return $this;
+    }
+
+    public function getPasswordRequestedAt(): ?\DateTimeInterface
+    {
+        return $this->passwordRequestedAt;
+    }
+
+    public function setPasswordRequestedAt(?\DateTimeInterface $passwordRequestedAt): self
+    {
+        $this->passwordRequestedAt = $passwordRequestedAt;
+
+        return $this;
+    }
+
+    public function getPictureFilename(): ?string
+    {
+        return $this->pictureFilename;
+    }
+
+    public function setPictureFilename(?string $pictureFilename): self
+    {
+        $this->pictureFilename = $pictureFilename;
 
         return $this;
     }

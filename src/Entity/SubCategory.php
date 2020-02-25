@@ -49,7 +49,7 @@ class SubCategory
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="subCategories")
-     * @ORM\JoinColumn(nullable=true)
+     * @ORM\JoinColumn(nullable=false)
      */
     private $author;
 
@@ -75,6 +75,11 @@ class SubCategory
         $this->slug = $slugify->slugify($this->title);
         
 
+    }
+
+    public function __toString()
+    {
+        return $this->title;
     }
 
     

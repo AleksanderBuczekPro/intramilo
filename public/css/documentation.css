@@ -267,5 +267,11 @@ p.lead{
 }
 
 
+span.pole{
+
+    text-transform: none;
+    letter-spacing: 0.5px;
+}
+
 
 

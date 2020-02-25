@@ -6,6 +6,7 @@ use App\Entity\Category;
 use App\Form\CategoryType;
 use App\Entity\SubCategory;
 use App\Form\SubCategoryType;
+use App\Repository\PoleRepository;
 use App\Repository\CategoryRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -19,13 +20,13 @@ class AdminCategoryController extends AbstractController
      * 
      * @Route("/admin/category", name="admin_category_index")
      */
-    public function index(CategoryRepository $repo)
+    public function index(PoleRepository $repo)
     {
 
-        $categories = $repo->findAll();
+        $poles = $repo->findAll();
 
         return $this->render('admin/category/index.html.twig', [
-            'categories' => $categories,
+            'poles' => $poles,
         ]);
     }
 

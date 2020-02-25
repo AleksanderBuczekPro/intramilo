@@ -36,11 +36,23 @@ class Category
      */
     private $subCategories;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Pole", inversedBy="category")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $pole;
+
     public function __construct()
     {
         $this->subCategories = new ArrayCollection();
     }
+
+    public function __toString()
+    {
+        return $this->title;
+    }
     
+     
     /**
      * Permet d'initialiser le slug !
      * 
@@ -113,6 +125,18 @@ class Category
                 $subCategory->setCategory(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getPole(): ?Pole
+    {
+        return $this->pole;
+    }
+
+    public function setPole(?Pole $pole): self
+    {
+        $this->pole = $pole;
 
         return $this;
     }

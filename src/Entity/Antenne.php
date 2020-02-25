@@ -11,6 +11,8 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Antenne
 {
+
+    
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -51,6 +53,11 @@ class Antenne
     public function __construct()
     {
         $this->users = new ArrayCollection();
+    }
+
+    public function __toString()
+    {
+        return $this->title;
     }
 
     public function getId(): ?int

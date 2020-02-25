@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Documentation - Ajout d'un site web
+{% endblock %}
+
+{% block body %}
+
+    <div class="container">
+ 
+        <h1 class="my-5">Mes sites favoris <a href="{{ path('homepage') }}" class="ml-3 btn btn-outline-dark">Retour à l'accueil</a></h1> 
+
+        {# {% form_theme form 'documentation/sheet/_collection.html.twig' %} #}
+
+        <div class="card">
+            <div class="card-body">        
+            <h6>Modification d'un site web favori</h6>
+
+            {{ form_start(form) }}
+
+                <table class="table websites">
+                    <tbody>
+                        <tr>
+                            <td style="width: 35%" >{{ form_row(form.title) }}</td>
+                            <td style="width: 35%">{{ form_row(form.url) }}</td>
+                            <td style="width: 30%">
+                                <button type="submit" class="btn btn-primary float-right">
+                                    Modifier
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>        
+
+            {{ form_end(form) }}
+
+            </div>
+         </div>
+
+            
+
+
+        
+
+
+
+    </div>
+
+{% endblock %}
+
+
+{% block javascripts %}
+
+{% endblock %}

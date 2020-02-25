@@ -56,11 +56,17 @@
     </div>
 
     <div class="background pt-2">
-        <div class="container">
+        <div class="container files-container">
             
+        {% if files|length > 0 %}
 
             {% include 'documentation/_list.html.twig' %}
-            
+
+        {% else %}
+
+            <div class="text text-center p-4" style="min-height: 700px;">Aucune fiche ou document dans ce dossier</div>
+
+        {% endif %}
             
         </div>
     </div>

@@ -30,7 +30,7 @@ class Docs{
 
     public function getLastDocs(){
 
-        $limit = 5;
+        $limit = 3;
 
         $sheets = $this->manager->createQuery(
             'SELECT s FROM App\Entity\Sheet s
@@ -41,15 +41,31 @@ class Docs{
         ->setMaxResults($limit)
         ->getResult();
 
-        dump($sheets);
+        $documents = $this->manager->createQuery(
+            'SELECT d FROM App\Entity\Document d
+            WHERE d.status IS NULL
+            ORDER BY d.updatedAt DESC
+            '
+        )
+        ->setMaxResults($limit)
+        ->getResult();
 
-        return $sheets;
+        $files = array_merge_recursive($sheets, $documents);
+
+        usort($files, function($a, $b){ 
+            // return strcasecmp($a->getTitle(), $b->getTitle());
+            return strtotime($b->getUpdatedAt()->format('Y-m-d H:i:s')) - strtotime($a->getUpdatedAt()->format('Y-m-d H:i:s'));
+        });
+
+        dump($files);
+
+        return $files;
 
     }
 
     public function getFrontDocs(){
 
-        $limit = 5;
+        // $limit = 3;
 
         $sheets = $this->manager->createQuery(
             'SELECT s FROM App\Entity\Sheet s
@@ -57,12 +73,25 @@ class Docs{
             ORDER BY s.updatedAt DESC
             '
         )
-        ->setMaxResults($limit)
+        // ->setMaxResults($limit)
         ->getResult();
 
-        dump($sheets);
+        $documents = $this->manager->createQuery(
+            'SELECT d FROM App\Entity\Document d
+            WHERE d.front = 1
+            ORDER BY d.updatedAt DESC
+            '
+        )
+        // ->setMaxResults($limit)
+        ->getResult();
 
-        return $sheets;
+        $files = array_merge_recursive($sheets, $documents);
+
+        usort($files, function($a, $b){ 
+            return strcasecmp($a->getTitle(), $b->getTitle());
+        });
+
+        return $files;
 
     }
 

@@ -43,7 +43,7 @@ class SheetType extends ApplicationType
             ->add(
                 'headers',
                 CollectionType::class,[
-                    
+                 'label' => "Coordonnées",
                  'entry_type' => HeaderType::class,
                  'allow_add' => true, 
                  'allow_delete' => true,
@@ -53,6 +53,7 @@ class SheetType extends ApplicationType
                 ])
             
                 ->add('tool', EntityType::class, [
+                    "label" => "Pièces jointes (fiches)",
                     'class' => Sheet::class,
                     'choice_label' => 'title',
                     'multiple' => true,
@@ -69,6 +70,7 @@ class SheetType extends ApplicationType
                     }
                 ])
                 ->add('sheetDocuments', EntityType::class, [
+                    "label" => "Pièces jointes (documents)",
                     'class' => Document::class,
                     'choice_label' => 'title',
                     'multiple' => true,

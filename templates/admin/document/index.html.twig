@@ -4,32 +4,168 @@
     Administration
 {% endblock %}
 
-
 {% block body %}
 
     {% set f = app.request.get('filter') %}
     <div class="background pt-2">
-        <div class="container-fluid">
+        <div class="container">
+        <h1 class="m-3">Suivi de la documentation</h1>
+
         <div class="row">
-            <div class="col-2">
-                <div class="row">
-                        <div class="col p-4 header-title">Etat</div> 
-                </div>
-                <div class="row">                    
-                    <ul class="filters">
-                        <a href="{{ path('admin_documents', {'filter': 'all'}) }}"><li class="{% if (f is empty) or (f == 'all') %} active {% endif %} py-3">Tous</li></a>
-                        <a href="{{ path('admin_documents', {'filter': 'upToDate'}) }}"><li class="{% if f == 'upToDate' %} active {% endif %} py-3">À jour</li></a>
-                        <a href="{{ path('admin_documents', {'filter': 'toValidate'}) }}"><li class="{% if f == 'toValidate' %} active {% endif %} py-3">En cours de validation</li></a>
-                        <a href="{{ path('admin_documents', {'filter': 'toCorrect'}) }}"><li class="{% if f == 'toCorrect' %} active {% endif %} py-3">À corriger</li></a>
-                        <a href="{{ path('admin_documents', {'filter': 'wellObsolete'}) }}"><li class="{% if f == 'wellObsolete' %} active {% endif %} py-3">Bientôt obsolète</li></a>
-                        <a href="{{ path('admin_documents', {'filter': 'obsolete'}) }}"><li class="{% if f == 'obsolete' %} active {% endif %} py-3">Obsolète</li></a>
-                    </ul>
+            <div class="col-6">
+                <div class="card dashboard-card">
+                    <div class="card-body">
+                        <h6 class="mb-3 card-title">Mes groupes</h6>
+                        <p>
+                            {% for groupe in groupes %}
+
+                                {# <span class="badge badge-light mb-2">{{ groupe.title }}</span> #}
+
+                                <a class="btn btn-sm btn-pill btn-outline-secondary m-1 profile">{{ groupe.title|upper }}</a>
+
+                            {% endfor %}
+                        </p>
+                    </div>
                 </div>
             </div>
-            <div class="col-9">
+            <div class="col-6">
+                <div class="card dashboard-card">
+                    <div class="card-body">
+                        <h6 class="mb-3 card-title">Mes utilisateurs</h6>
+                        <p>
+                            {% for user in users %}
 
-            <h1 class="m-3">Administration</h1>
-            <h6 class="mb-3">Mes groupes</h6>
+                                {# <span class="badge badge-light mb-2">{{ user.fullName }}</span> #}
+
+                                <a class="btn btn-sm btn-pill btn-outline-secondary m-1 profile">{{ user.fullName|upper }}</a>
+
+                            {% endfor %}
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-12">
+                <div class="card dashboard-card">
+                    <div class="card-body">
+                        <h6 class="mb-3 card-title">Mes dossiers</h6>
+                        <p>
+                            {% for sub in subCategories %}
+
+                                {# <span class="badge badge-light mb-2">{{ sub.title }}</span> #}
+                                {# <a href="{{ path('doc_show', {'slug': sub.category.slug, 'sub_slug': sub.slug }) }}" class="btn btn-sm btn-pill btn-outline-secondary m-1 profile">{{ sub.title|upper }}</a> #}
+                                <a class="btn btn-sm btn-pill btn-outline-secondary m-1 profile">{{ sub.title|upper }}</a>
+                            {% endfor %}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+
+        <div class="row">
+            <div class="col-6">
+            <div class="card">
+                    <div class="card-body">
+                    <h6 class="card-title mb-3">A jour</h6>
+                    <table class="table table-documentation-list dashboard-list up-to-date">
+                        <tbody>
+                            {% for file in filesUpToDate %}
+
+                                {% include 'documentation/_dashboard_list.html.twig' %}
+
+                            {% endfor %}                    
+                        </tbody>
+                    </table>
+                    
+
+                    </div>
+                </div>
+                
+            </div>
+            <div class="col-6">
+                <div class="card">
+                    <div class="card-body">
+                    <h6 class="card-title mb-3">A corriger</h6>
+                    <table class="table table-documentation-list dashboard-list to-correct">
+                        <tbody>
+                            
+                            {% for file in filesToCorrect %}
+
+                                {% include 'documentation/_dashboard_list.html.twig' %}
+
+                            {% endfor %}                    
+                        </tbody>
+                    </table>             
+
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                    <h6 class="card-title mb-3">En cours de validation</h6>
+                    <table class="table table-documentation-list dashboard-list to-validate">
+                        <tbody>
+
+                            {% for file in filesToValidate %}
+
+                                {% include 'documentation/_dashboard_list.html.twig' %}
+
+                            {% endfor %}                    
+                        </tbody>
+                    </table>                  
+
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                    <h6 class="card-title mb-3">Obsolète</h6>
+                    <table class="table table-documentation-list dashboard-list obsolete">
+                        <tbody>
+                            {% for file in filesObsolete %}
+
+                                {% include 'documentation/_dashboard_list.html.twig' %}
+
+                            {% endfor %}                    
+                        </tbody>
+                    </table>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                    <h6 class="card-title mb-3">Bientôt obsolète</h6>
+                    <table class="table table-documentation-list dashboard-list well-obsolete">
+                        <tbody>
+                            {% for file in filesWellObsolete %}
+
+                                {% include 'documentation/_dashboard_list.html.twig' %}
+
+                            {% endfor %}                    
+                        </tbody>
+                    </table>                 
+
+                    </div>
+                </div>
+            </div>
+            
+            
+        </div>
+        </div>
+
+        
+
+        
+
+           
+        </div>
+    </div>
+
+
+{% endblock %}
+
+
+{# <h6 class="mb-3">Mes groupes</h6>
             <p>
                 {% for groupe in groupes %}
 
@@ -52,47 +188,4 @@
                     <span class="badge badge-light mb-2">{{ sub.title }}</span>
 
                 {% endfor %}
-            </p>
-
-            <div class="d-flex">
-                <div class="mr-auto p-5 h3">Documents - 
-
-                    
-                    {% if (f is empty) or (f == 'all') %} Tous {% endif %}
-                    {% if f == 'upToDate' %} À jour {% endif %}
-                    {% if f == 'toValidate' %} En cours de validation {% endif %}
-                    {% if f == 'toCorrect' %} À corriger {% endif %}
-                    {% if f == 'wellObsolete' %} Bientôt obsolètes {% endif %}
-                    {% if f == 'obsolete' %} Obsolètes {% endif %}
-                </div>
-                <div class="p-5 tri">
-                    Tri : 
-                    <a href="#" class="btn btn-secondary btn-sm ml-3">
-                        Alphabétique
-                    </a>
-                    <a href="#" class="btn btn-light btn-sm">
-                        Par date            
-                    </a>
-                    <a href="#" class="btn btn-light btn-sm">
-                        Par type            
-                    </a>
-                    <a href="#" class="btn btn-light btn-sm">
-                        Par statut            
-                    </a>
-                </div>
-            </div>
-    
-
-            {% include 'documentation/_list.html.twig' %}
-        
-        </div>
-        </div>
-
-        
-
-           
-        </div>
-    </div>
-
-
-{% endblock %}
+            </p> #}

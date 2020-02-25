@@ -9,6 +9,7 @@ use App\Entity\SubCategory;
 use App\Repository\SheetRepository;
 use App\Repository\CategoryRepository;
 use App\Repository\DocumentRepository;
+use App\Repository\PoleRepository;
 use App\Repository\SubCategoryRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -24,11 +25,11 @@ class DocumentationController extends AbstractController
      * 
      * @Route("/doc", name="doc_index")
      */
-    public function index(CategoryRepository $repo, Request $request, ObjectManager $manager)
+    public function index(PoleRepository $repo, Request $request, ObjectManager $manager)
     {
 
         // Gestion des catégories
-        $categories = $repo->findAll();
+        $poles = $repo->findAll();
 
         // Gestion de la recherche
         $query = $request->query->get('q');
@@ -38,7 +39,7 @@ class DocumentationController extends AbstractController
         }
 
         return $this->render('documentation/index.html.twig', [
-            'categories' => $categories
+            'poles' => $poles
         ]);
     }
 

@@ -1,0 +1,113 @@
+{# Si c'est un document (Document) #}
+        {% if file.file is defined %}
+
+            {% set document = true %}
+
+            {% set chemin = "{{ vich_uploader_asset(file, 'genericFile')}}" %}
+            {% set chemin_update = "" %}
+            {% set chemin_delete = "" %}
+            {% set fileType =  file.mimeType %}
+
+        {# Si c'est une fiche (Sheet) #}
+        {% else %}
+
+            {% set document = false  %}
+
+            {% set chemin = "{{ path('sheet_show', {'slug': category.slug, 'sub_slug': subCategory.slug, 'sheet_slug': file.slug, 'sheet_id': file.id }) }}" %}
+            {% set chemin_update = "{{ path('sheet_edit', {'slug': category.slug, 'sub_slug': subCategory.slug, 'sheet_slug': file.slug, 'sheet_id': file.id }) }}" %}
+            {% set chemin_delete = "{{ path('sheet_delete', {'slug': category.slug, 'sub_slug': subCategory.slug, 'sheet_slug': file.slug, 'sheet_id': file.id }) }}" %}
+            {% set fileType = "sheet" %}
+
+        {% endif %}
+
+        
+            <tr class="file-row">
+             
+                <tr>
+                <td class="align-middle initiales">
+                        {% include '_picture.html.twig' with {'user': file.subCategory.author, 'class': 'medium'} %}
+                </td>
+                <td class="align-middle">
+                
+                    <a href=
+                    {% if document %}
+                        
+                        {{ path('document_show', {'slug': file.subCategory.category.slug, 'sub_slug': file.subCategory.slug, 'id': file.id }) }}
+
+                    {% else %}
+                        {{ path('sheet_show', {'slug': file.subCategory.category.slug, 'sub_slug': file.subCategory.slug, 'sheet_slug': file.slug, 'sheet_id': file.id }) }}
+
+                    {% endif %}
+                    >
+                        {{ file.title }}
+                    </a><br>
+                        {{ file.updatedAt|localizeddate('none', 'none', 'fr', null, 'd MMMM Y') }}
+                </td>
+                
+                
+                <td class="align-middle text-center file-status">
+
+                {% if document %}
+
+                    {% if date(file.updatedAt) <= date('-6months', 'Europe/Paris') %}
+
+                        {% set state = "Obsolète" %}
+                        {% set state_class = "danger" %}
+
+                    {% elseif date(file.updatedAt) < date('-5months', 'Europe/Paris') %}
+
+                        {% set state = "Bientôt obsolète" %}
+                        {% set state_class = "warning" %}
+
+                    {% else %}
+
+                        {% set state = "À jour" %}
+                        {% set state_class = "success" %}
+
+                    {% endif %}
+                
+                {% else %}
+
+                    {% if file.status == "TO_VALIDATE" %}
+
+                        {% set state = "En cours de validation" %}
+                        {% set state_class = "light" %}
+
+                    {% elseif file.status == "TO_CORRECT" %}
+
+                        {% set state = "À corriger" %}
+                        {% set state_class = "primary" %}
+
+                    {% else %}
+
+                        {% if date(file.updatedAt) <= date('-6months', 'Europe/Paris') %}
+
+                            {% set state = "Obsolète" %}
+                            {% set state_class = "danger" %}
+
+                        {% elseif date(file.updatedAt) < date('-5months', 'Europe/Paris') %}
+
+                            {% set state = "Bientôt obsolète" %}
+                            {% set state_class = "warning" %}
+
+                        {% else %}
+
+                            {% set state = "À jour" %}
+                            {% set state_class = "success" %}
+
+                        {% endif %}
+
+                    {% endif %}
+
+                {% endif %}
+{# 
+                {% set state_class = "light" %} #}
+
+
+
+                    <span class="badge badge-pill badge-{{state_class}}">
+                        {{ state }}
+                    </span>
+                </td>
+                
+            </tr>

@@ -82,6 +82,11 @@ class Document
      */
     private $status;
 
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $front;
+
     public function __construct()
     {
         $this->sheets = new \Doctrine\Common\Collections\ArrayCollection();
@@ -253,6 +258,18 @@ class Document
     public function setStatus(?string $status): self
     {
         $this->status = $status;
+
+        return $this;
+    }
+
+    public function getFront(): ?bool
+    {
+        return $this->front;
+    }
+
+    public function setFront(?bool $front): self
+    {
+        $this->front = $front;
 
         return $this;
     }

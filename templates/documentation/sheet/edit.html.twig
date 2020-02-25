@@ -1,59 +1,90 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-    Documentation - Modification d'une fiche dans la catégorie {{ category.title }} / {{ subCategory.title }}
+    Documentation - Modification d'une fiche
 {% endblock %}
 
 {% block body %}
 
     <div class="container">
  
-        <h1 class="my-5">Modification d'une fiche</h1>
-
-        {% if sheet.status == "TO_CORRECT" %}
-
-            <div class="alert alert-warning" role="alert">
-                <h4 class="alert-heading">Fiche à corriger</h4>
-                <p>{{ sheet.comment }}</p>
-            </div>
-
-        {% endif %}
+        
 
         {% form_theme form 'documentation/sheet/_collection.html.twig' %}
 
         {{ form_start(form) }}
         
             <div class="row">
-                <div class="col-md-8">
-                    {{ form_row(form.title) }}
-                    {{ form_row(form.organization) }}
+                <div class="col-md-10 offset-md-1">
 
-                    {{ form_row(form.content) }}
+                    <h1 class="my-5">Modification d'une fiche</h1>
 
-                    {{ form_widget(form.subCategory, { 'attr': {'class': 'd-none'} }) }}
-                    
-                </div>
-                <div class="col-md-4">
-                    <h2>Coordonnées</h2>
-                    {{ form_row(form.headers) }}
-                    
-                    <h2>Pièces jointes</h2>
-                    <div class="mt-5">
-                        
-                        {{ form_widget(form.tool, { 'attr': {'size': 10} }) }}
+                    <div class="card p-4">
+                        <div class="card-body">
+                        <h6 class="card-title mb-3"><span class="doc-step">Etape 1 :</span> Titre et entête</h6>
+                            {{ form_row(form.title) }}
+                            {{ form_row(form.organization) }}
+   
+                            {{ form_row(form.headers) }}
+                        </div>
                     </div>
-                    <div class="mt-5">
-                        {{ form_widget(form.sheetDocuments, { 'attr': {'size': 10} }) }}
+
+                    <div class="card p-4">
+                        <div class="card-body">
+                        <h6 class="card-title mb-3"><span class="doc-step">Etape 2 :</span> Contenu</h6>
+                            {{ form_row(form.content) }}
+                        </div>
                     </div>
+
+                    <div class="card p-4">
+                        <div class="card-body">
+                        <h6 class="card-title mb-3"><span class="doc-step">Etape 3 :</span> Pièces jointes</h6>
+                            <div class="row">
+                                <div class="col">
+                                    {{ form_row(form.tool, { 'attr': {'size': 10} }) }}
+                                </div>
+                                <div class="col">
+                                    {{ form_row(form.sheetDocuments, { 'attr': {'size': 10} }) }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                     {{ form_widget(form.subCategory, { 'attr': {'class': 'd-none'} }) }}
+
+                      <div class="card p-4">
+                        <div class="card-body">
+                        <h6 class="card-title mb-3">Vous y êtes presque !</h6>
+                            <p class="text">Vérifiez bien toutes les informations que vous avez renseigné avant de valider. <br>
+                            Cette fiche sera envoyée à corriger auprès de votre responsable <strong> {{ app.user.groupe.responsable.fullName }} </strong></p>
+                            
+                            <button type="submit" class="btn btn-success success float-right">
+                                <i class="fas fa-check"></i> Modifier la fiche
+                            </button>
+                        </div>
+                    </div>
+        
+                    
+
+                   
+
+                    
+
+                    
+
+
+                    
+
+                    
+
+                    
+                    
                 </div>
             </div>
 
 
 
-            <button type="submit" class="btn btn-primary mt-3">
-                <i class="fas fa-check"></i> Modifier la fiche
-            </button>
-
+            
         {{ form_end(form) }}
 
 
@@ -110,7 +141,7 @@ function updateCounter(){
     $('#sheet_headers div.form-group.header').each(function( index ) {
 
         var count_section = +$('#sheet_headers_'+ index +'_sections div.form-group.section').length;
-        $('#widgets-section-counter-sheet_headers_' + index + '_sections').val(count_section);
+        $('#widgets-section-counter-' + index).val(count_section);
         console.log(count_section);
     });
 
@@ -135,7 +166,7 @@ $(document).on('click', '.add-section', function(event){
 
     
 
-    console.log(counter);
+    console.log('index ' + '#widgets-section-counter-'+ id);
 
     // Je récupère le prototype des entrées
     const tmpl = $(header_id).data('prototype').replace(/__s__/g, index); // g = "pour chaque"

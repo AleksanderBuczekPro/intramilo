@@ -5,77 +5,103 @@
 {% block body %}
 
     <div class="container">
-        <div class="row align-items-center mb-5">
+        <div class="row mb-5">
             <div class="col-3 text-center">
-                <img src="{{ user.picture }}" alt="Avatar de {{ user.fullName }}" class="avatar mb-3">
-                <br>
-                {# <span class="badge badge-primary">{{ user.subCategories | length }} dossiers</span> #}
-            </div>
-            <div class="col-9">
-                <h1> {{user.fullName}}</h1>
+                <div class="card profile-card documentation text-center py-3">
+                    <div class="card-body">
 
-                <h6>{{ user.poste.title }}</h6>
-                
-                <p class="mt-3">
-                    <i class="mr-3 far fa-envelope"></i> {{ user.email }}<br>
-                    <i class="mr-3 mt-2 fas fa-phone"></i>{{ user.phoneNumber }}
-                </p>
-                <span class="px-3 badge badge-pill badge-success">
-                    <i class="mr-2 fas fa-map-marker-alt"></i>{{ user.antenne.title }}
-                </span>
-                <span class="px-3 badge badge-pill badge-secondary">
-                    <i class="mr-2 fas fa-users"></i>{{ user.groupe.title }}
-                </span>
-                
-
-                {% if user is same as(app.user) %}
-
-                    <div class="mt-3">
-                        {# <a href="{{ path('account_profile') }}" class="btn btn-primary mr-2 mb-2">Modifier mes informations</a> #}
-                        <a href="{{ path('account_password') }}" class="btn btn-primary mb-2">Modifier mon mot de passe</a>
+                        {% include '_picture.html.twig' with {'user': user, 'class': 'large'} %}
+                        
+                        <div class="card-title mt-4 mb-2">{{ user.firstName }} {{ user.lastName|upper }} </div>
+                        <div class="card-text">{{ user.poste.title }}</div>
+                        <a href="{{ path('account_picture_edit') }}" class="btn btn-sm btn-outline-light">Modifier ma photo de profil</a>
+                        <a href="{{ path('account_password') }}" class="btn btn-sm btn-outline-light mt-2">Modifier mon mot de passe</a>
+                        
                     </div>
-                    
-
-                {% endif %}
+                </div>
 
             </div>
-        </div>
 
-        {# {{ user.description | raw }} #}
-        
-        <hr>
+            {% if app.user == user %}
 
-        <h2 class="my-5">Les dossiers de {{ user.fullName }} ({{ user.subCategories | length }})</h2>
+                {% set prefix = "Mes" %}
 
-        {% if user.subCategories | length > 0 %}
-        
-        <div class="row">
-            {% for subCategory in user.subCategories %}
+            {% else %}
 
-               {# {% include 'ad/_ad.html.twig' %} #}
-                
-                <div class="col-3">
-                    <div class="card mb-4">
-                        <div class="card-body">
-                            <span class="badge badge-primary">{{ subCategory.category.title }}</span>
-                            <a href="{{ path('doc_show', {'slug': subCategory.category.slug, 'sub_slug': subCategory.slug }) }}"><h5 class="mt-3 card-title">{{ subCategory.title }}</h5></a>
+                {% set prefix = "Ses" %}
+
+            {% endif %}
+
+
+            <div class="col-9">
+                <div class="card">
+                        <div class="card-body p-5">
+                            <h4 class="">{{ prefix }} informations personnelles
+            
+                            </h4>
+                            {% if user is same as(app.user) %}
+
+                                
+
+                                <span class="mt-3">
+                                    {# <a href="{{ path('account_profile') }}" class="btn btn-primary mr-2 mb-2">Modifier mes informations</a> #}
+                                    
+                                </span>
+                                
+                            {% endif %} 
+                             <div class="row">
+                                <div class="col">
+                                    <div class="h6 mt-4 mb-0">Email</div>
+                                    <div class="info"><a href="mailto:{{ user.email }}">{{ user.email }}</a></div>
+                                    <div class="h6 mt-4 mb-0">Antenne</div>
+                                    <div class="info">{{ user.antenne.title }}</div>
+                                </div>
+                                <div class="col">
+                                    <div class="h6 mt-4 mb-0">Téléphone</div>
+                                    <div class="info">{{ user.phoneNumber }}</div>
+                                    <div class="h6 mt-4 mb-0">Groupe</div>
+                                    <div class="info">{{ user.groupe.title }}</div>
+                                
+                                </div>
+                            </div>
+
+                            <hr class="mt-4">
+                            <h4 class="mt-4">{{ prefix }} dossiers</h4>
                             
+                            {% if user.subCategories | length > 0 %}
+                                <div class="row p-2">
+                                    {% for subCategory in user.subCategories %}
+
+                                        <a href="{{ path('doc_show', {'slug': subCategory.category.slug, 'sub_slug': subCategory.slug }) }}" class="btn btn-sm btn-pill btn-outline-secondary m-1 profile">{{ subCategory.title|upper }}</a>
+                                        
+                                        {# <div class="col-3">
+                                            <div class="card mb-4">
+                                                <div class="card-body">
+                                                    <span class="badge badge-primary">{{ subCategory.category.title }}</span>
+                                                    <a href=""><h5 class="mt-3 card-title">{{ subCategory.title }}</h5></a>
+                                                    
+                                                </div>
+                                            </div>
+                                        </div>          #}
+
+                                    {% endfor %}
+                                
+                                </div>
+                            {% else %}
+
+                                <div>Aucun dossier</div>
+
+                            {% endif %}
+                            <hr class="mt-4">
+                            <h4 class="mt-4">{{ prefix }} événements</h4>
+                            <div>Aucun événement</div>
                         </div>
                     </div>
-                </div>         
-
                 
 
-            {% endfor %}
-        
-        </div>
-        {% else %}
-            <div class="alert alert-warning">
-                <p>
-                    <strong>{{ user.fullName }}</strong> n'a pas encore de dossier dans Intramilo !
-                </p>
             </div>
-        {% endif %}
+        </div>
+
     </div>
 
 {% endblock %}

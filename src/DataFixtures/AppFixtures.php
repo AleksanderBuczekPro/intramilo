@@ -109,7 +109,7 @@ class AppFixtures extends Fixture
                 ->setDescription('<p>' . join('</p><p>', $faker->paragraphs(3)) . '</p>')
                 ->setHash($this->encoder->encodePassword($adminUser, 'password'))
                 ->setPicture('https://media.licdn.com/dms/image/C5603AQHu7cPy83UvbA/profile-displayphoto-shrink_200_200/0?e=1580342400&v=beta&t=jqUqsOUhcj7OUh37dGXlHLYcilbHOAo6tVYQ_QGq7mU')
-                ->addUserRole($adminRole)
+                ->addUserRole($adminRole) 
                 ->setAntenne($antennes[array_rand($antennes)])
                 // ->setGroupe($groupes[array_rand($groupes)])
                 ->setPoste($postes[array_rand($postes)]);

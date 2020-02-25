@@ -16,38 +16,101 @@
     <div class="container documentation-container">  
 
         <div class="row">
+            <div class="col-12 text-center">
+                <div id="filters">
 
-            {% for category in categories %}
-
-            <div class="col-md-4">
-                <div class="card bg-white mb-3 documentation-card">
-                    <div class="card-body">
-                        <h4 class="card-title mb-4">
-                        {{ category.title }}                    
-                        </h4>
+                    
+                    <button type="button" class="btn btn-outline-dark btn-pill mx-1 mb-4 filter active" data-filter="">Tous</button>
+                    {% for pole in poles %}
                         
-                        {% for sub in category.subCategories %}
-                            <p class="card-text">
-                                <a href="{{ path('doc_show', {'slug': category.slug, 'sub_slug': sub.slug }) }}">
-                                    
-                                    {% if sub.author is same as(app.user) %}
-                                        <i class="mr-1 fas fa-folder" style="color: Mediumslateblue;"></i>
-                                    {% else %}
-                                        <i class="mr-1 far fa-folder" style="color: #adb5bd;"></i>
-                                    {% endif %}
-                                    {{ sub.title }}
-                                </a>                        
-                            </p>
-                        {% endfor %}
+                        {% if pole.category|length > 0 %}
+                        <button type="button" class="btn btn-outline-dark btn-pill mx-1 mb-4 filter" data-filter="{{ pole.id }}">{{ pole.title }}</button>
+                        {% endif %}
+                    {% endfor %}
 
+                </div>
+            </div>
+        
+        </div>
+
+        <div class="row">
+
+        {% for pole in poles %}
+
+            {% for category in pole.category %}
+        
+            <div class="col-md-4 filterCard" data-pole="{{ pole.id }}">
+                <div class="container">
+                    <div class="card bg-white mb-3 documentation-card card-item">
+                        <div class="card-body">
+                            <h4 class="card-title mb-4">
+                            {{ category.title }} <span class="badge badge-pill badge-primary pole float-right" style="background-color: {{ pole.color }}">{{ pole.title }}</span>    
+                            </h4>
+
+                            {% if category.subCategories|length > 0 %}
+
+                                {% for sub in category.subCategories %}
+                                    <p class="card-text">
+                                        <a href="{{ path('doc_show', {'slug': category.slug, 'sub_slug': sub.slug }) }}">
+                                            
+                                            {% if sub.author is same as(app.user) %}
+                                                <i class="mr-1 fas fa-folder" style="color: Mediumslateblue;"></i>
+                                            {% else %}
+                                                <i class="mr-1 far fa-folder" style="color: #adb5bd;"></i>
+                                            {% endif %}
+                                            {{ sub.title }}
+                                        </a>                        
+                                    </p>
+                                {% endfor %}
+
+                            {% else %}
+
+                            <p class="text">Aucun dossier</p>
+
+                            {% endif %}
+
+                        </div>
                     </div>
                 </div>
             </div>
 
             {% endfor %}
+
+        {% endfor %}
            
         </div>
         
     </div>
+
+{% endblock %}
+
+{% block javascripts %}
+
+<script>
+
+$( ".filter" ).click(function() {
+
+    $('.filter').removeClass('active');
+    $(this).addClass('active');
+
+    var id = $(this).data('filter');
+
+    if(id){
+
+        $('.filterCard').addClass('d-none');
+        $('.filterCard[data-pole="'+ id +'"]').removeClass('d-none');
+
+    }else{
+
+        $('.filterCard').removeClass('d-none');
+
+    }
+
+   
+
+});
+
+
+</script>
 
 {% endblock %}

@@ -6,15 +6,30 @@
 
 {% block body %}
 
-    <div class="m-5">  
+    <div class="container">
 
-    <a href="{{ path('admin_category_create') }}" class="btn btn-primary mb-3">Ajouter une catégorie</a>
+    <a href="{{ path('admin_pole_create') }}" class="btn btn-primary mb-3">Ajouter un pôle</a> 
 
-        <div class="row">
+    {% if poles|length > 0 %} <a href="{{ path('admin_category_create') }}" class="btn btn-primary mb-3">Ajouter une catégorie</a> {% endif %}
 
-            {% for category in categories %}
+        
 
-            <div class="col-md-4">
+        {% for pole in poles %}
+
+
+        <div class="row justify-content-start">    
+            <h2> {{ pole.title }}
+            <a href="{{ path('admin_pole_edit', {'id': pole.id }) }}" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a> 
+
+            {% if pole.category|length == 0 %}
+                <a href="{{ path('admin_pole_delete', {'id': pole.id }) }}" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
+            {% endif %}
+
+            </h2>
+
+            {% for category in pole.category %}
+
+            <div class="col-4">
                 <div class="card bg-light mb-3">
                     <div class="card-body">
                         <h4 class="card-title">
@@ -58,8 +73,12 @@
             </div>
 
             {% endfor %}
-           
+        
         </div>
+
+        {% endfor %}
+           
+        
         
     </div>
 

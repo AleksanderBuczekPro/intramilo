@@ -2,20 +2,28 @@
 
 namespace App\Controller;
 
+use DateTime;
+use Swift_Mailer;
 use App\Entity\User;
 use App\Service\Filter;
-use App\Form\AccountType;
+use App\Form\PictureType;
+use App\Form\EmailResetType;
 use App\Entity\PasswordUpdate;
+use App\Form\AdminAccountType;
 use App\Form\RegistrationType;
 use App\Form\PasswordUpdateType;
+use App\Repository\UserRepository;
 use App\Repository\SheetRepository;
 use Symfony\Component\Form\FormError;
 use App\Repository\DocumentRepository;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoder;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
@@ -73,7 +81,6 @@ class AccountController extends AbstractController
         if($form->isSubmitted() && $form->isValid()){
 
             $hash = $encoder->encodePassword($user, $user->getHash());
-            
             $user->setHash($hash);
 
             $user->setPicture("https://media-exp1.licdn.com/dms/image/C5603AQHu7cPy83UvbA/profile-displayphoto-shrink_100_100/0?e=1585785600&v=beta&t=qLyCkqMYn87M4pG_DFxBhoxNtIbPnIJhn3VLAxBU_Sk");
@@ -100,23 +107,48 @@ class AccountController extends AbstractController
     }
 
     /**
-     * Permet d'afficher et de traiter le formulaire de modification de profile
+     * Permet d'afficher et de traiter le formulaire de modification de profil
      * 
      * @Route("/account/profile", name="account_profile")
      * @IsGranted("ROLE_USER")
      *
      * @return Response
      */
-    public function profile(Request $request, ObjectManager $manager) {
+    public function edit(Request $request, ObjectManager $manager) {
 
         $user = $this->getUser();
         
-        $form = $this->createForm(AccountType::class, $user);
+        $form = $this->createForm(AdminAccountType::class, $user);
 
         $form->handleRequest($request);
 
-
         if($form->isSubmitted() && $form->isValid()){
+
+            $pictureFile = $form->get('pic')->getData();
+
+            // this condition is needed because the 'brochure' field is not required
+            // so the PDF file must be processed only when a file is uploaded
+            if ($pictureFile) {
+
+                $originalFilename = pathinfo($pictureFile->getClientOriginalName(), PATHINFO_FILENAME);
+                // this is needed to safely include the file name as part of the URL
+                $safeFilename = transliterator_transliterate('Any-Latin; Latin-ASCII; [^A-Za-z0-9_] remove; Lower()', $originalFilename);
+                $newFilename = $safeFilename.'-'.uniqid().'.'.$pictureFile->guessExtension();
+
+                // Move the file to the directory where brochures are stored
+                try {
+                    $pictureFile->move(
+                        $this->getParameter('pictures_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+
+                // updates the 'brochureFilename' property to store the PDF file name
+                // instead of its contents
+                $user->setPictureFilename($newFilename);
+            }
 
             
             $manager->persist($user);
@@ -125,17 +157,132 @@ class AccountController extends AbstractController
             $this->addFlash(
                 'success',
                 "Les données du profil ont été modifiées avec succès !"
-
             );
 
-        
         }
         
-        return $this->render('account/profile.html.twig', [
+        return $this->render('account/edit.html.twig', [
             'form' => $form->createView()
         ]);
 
     }
+
+    /**
+     * Permet de modifier ou d'ajouter une photo de profil
+     * 
+     * @Route("/account/profile/picture/edit", name="account_picture_edit")
+     * @IsGranted("ROLE_USER")
+     *
+     * @return Response
+     */
+    public function editPicture(Request $request, ObjectManager $manager) {
+
+        $user = $this->getUser();
+        
+        $form = $this->createForm(PictureType::class, $user);
+
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()){
+
+            $pictureFile = $form->get('pic')->getData();
+
+            // this condition is needed because the 'brochure' field is not required
+            // so the PDF file must be processed only when a file is uploaded
+            if ($pictureFile) {
+
+                $originalFilename = pathinfo($pictureFile->getClientOriginalName(), PATHINFO_FILENAME);
+                // this is needed to safely include the file name as part of the URL
+                $safeFilename = transliterator_transliterate('Any-Latin; Latin-ASCII; [^A-Za-z0-9_] remove; Lower()', $originalFilename);
+                $newFilename = $safeFilename.'-'.uniqid().'.'.$pictureFile->guessExtension();
+
+                // Move the file to the directory where brochures are stored
+                try {
+                    $pictureFile->move(
+                        $this->getParameter('pictures_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+
+                // updates the 'brochureFilename' property to store the PDF file name
+                // instead of its contents
+
+                // Si une photo de profil existe déjà, on la supprime
+                $oldFilename = $user->getPictureFilename();
+                if($oldFilename){
+                    
+                    $path = $this->getParameter('pictures_directory').'/'.$oldFilename;
+
+                    $filesystem = new Filesystem();
+                    $filesystem->remove($path);                    
+
+                }
+
+                $user->setPictureFilename($newFilename);
+                
+            }
+            
+            $manager->persist($user);
+            $manager->flush();
+
+            $this->addFlash(
+                'success',
+                "La photo de profil a été modifiée avec succès !"
+            );
+            
+
+            return $this->redirectToRoute('account_index');
+
+        }
+        
+        return $this->render('account/picture.html.twig', [
+            'form' => $form->createView()
+        ]);
+
+    }
+
+    /**
+     * Permet de supprimer la photo de profil
+     * 
+     * @Route("/account/profile/picture/delete/", name="account_picture_delete")
+     * 
+     * @IsGranted("ROLE_USER")
+     */
+    public function deletePicture(ObjectManager $manager)
+    {
+            $user = $this->getUser();
+
+            $filename = $user->getPictureFilename();
+
+            $path = $this->getParameter('pictures_directory').'/'.$filename;
+
+            $filesystem = new Filesystem();
+            $filesystem->remove($path);
+
+            // $filesystem->remove(
+            //     $this->getParameter('pictures_directory'),
+            //     $filename);
+
+            
+            $user->setPictureFilename(null);
+
+            $manager->persist($user);
+            $manager->flush();
+
+            $this->addFlash(
+                'success',
+                "Votre photo de profil a bien été supprimée a bien été supprimé !"
+
+            );
+
+            return $this->redirectToRoute('account_index');
+        
+        
+    }
+
+
 
     /**
      * Permet de modifier le mot de passe
@@ -169,6 +316,7 @@ class AccountController extends AbstractController
                 $hash = $encoder->encodePassword($user, $newPassword);
 
                 $user->setHash($hash);
+                
 
                 $manager->persist($user);
                 $manager->flush();
@@ -179,7 +327,7 @@ class AccountController extends AbstractController
     
                 );
 
-                return $this->redirectToRoute('homepage');
+                return $this->redirectToRoute('account_index');
             }
 
             
@@ -190,6 +338,159 @@ class AccountController extends AbstractController
         return $this->render('account/password.html.twig', [
             'form' => $form->createView()
         ]);
+
+    }
+
+    /**
+     * Fonction permettant d'initialiser son mot de passe (mot de passe oublié)
+     * 
+     * @Route("/account/reset-password", name="account_reset_password")
+     *
+     * @return void
+     */
+    public function resetPassword(UserRepository $userRepo, Request $request, ObjectManager $manager, Swift_Mailer $mailer){
+
+        $email = $request->request->get('email');
+
+        $user = $userRepo->findOneByEmail($email);
+
+        dump($email);
+        
+        // Si le mail existe
+        if ($user !== null) {
+
+            // Token
+            $token = uniqid();
+            $user->setToken($token);
+            $user->setPasswordRequestedAt(new DateTime());
+
+            $manager->persist($user);
+            $manager->flush();
+
+            // Envoie du mail
+            $message = (new \Swift_Message('Mot de pass oublié - Intramilo'))
+            ->setFrom('intramilo.dijon@gmail.com')
+            ->setTo($email)
+            ->setBody(
+                $this->renderView(
+                    // emails/registration.html.twig
+                    'emails/reset-password.html.twig',
+                    ['user' => $user]
+                ),
+                'text/html'
+            );
+
+            $mailer->send($message);
+
+            return $this->render('account/reset-password-email-confirm.html.twig');
+
+            // return $this->render('account/login.html.twig', [ 'hasError' => null, 'username' => $email ]);
+
+        }else{
+
+
+            
+
+            // $this->addFlash(
+            //     'danger',
+            //     "Cet email n'existe pas."
+
+            // );
+            
+            // Ouverture de la page
+            if ($email == null) {
+
+                return $this->render('account/reset-password.html.twig',  [ 'no_email' => false ]);
+
+            }else{
+                // Mauvais mail
+                return $this->render('account/reset-password.html.twig',  [ 'no_email' => true ]);
+
+            }
+
+            
+
+        }
+        // }
+
+        return $this->render('account/reset-password.html.twig', array(
+            // 'form' => $form->createView(),
+        ));
+
+    }
+
+    /**
+     * Permet d'initialiser le mot de passe
+     * 
+     * @Route("/account/reset-password-token", name="account_reset_password_token")
+     *
+     * @param UserRepository $userRepo
+     * @param Request $request
+     * @param UserPasswordEncoder $encoder
+     * @param ObjectManager $manager
+     * @return void
+     */
+    public function resetPasswordToken(UserRepository $userRepo, Request $request, UserPasswordEncoderInterface $encoder, ObjectManager $manager){
+
+        $token = $request->query->get('token');
+
+
+
+        // S'il existe un jeton
+        if ($token !== null) {
+
+            $user = $userRepo->findOneByToken($token);
+
+            dump($user);
+
+                // Si l'utilisateur existe
+                if ($user !== null) {
+
+                    $passwordRequestedAt = $user->getPasswordRequestedAt();
+
+                    $now = new DateTime();
+                    $interval = $now->getTimestamp() - $passwordRequestedAt->getTimestamp();
+
+                    $daySeconds = 60 * 60 * 24; // 24h
+                    $expired = $interval > $daySeconds ? true : $expired = false;
+
+                    dump($passwordRequestedAt);
+                    dump($expired);
+
+
+                    // Si le lien a expiré
+                    if($expired){
+
+                        return $this->render('account/reset-password-email-expired.html.twig');    
+                    }
+
+                    $pwd = $request->request->get('password');
+                    $pwd2 = $request->request->get('password2');
+
+                    // Et que les 2 mot de passe sont identiques
+
+                    if ($pwd == $pwd2 && $pwd != null) {
+
+                        $encoded = $encoder->encodePassword($user, $pwd);
+                        $user->setHash($encoded);
+
+                        $manager->persist($user);
+                        $manager->flush();
+
+                        //add flash
+
+                        return $this->render('account/login.html.twig', [ 'hasError' => null, 'username' => $user->getEmail() ]);
+                    }
+
+                    return $this->render('account/reset-password-token.html.twig', array(
+                        'user' => $user
+                    ));       
+                }
+                // N'est plus valide
+                return $this->render('account/reset-password-email-expired.html.twig');
+
+        }
+
 
     }
 
@@ -208,6 +509,22 @@ class AccountController extends AbstractController
         ]);
 
     }
+
+    /**
+     * Undocumented function
+     *
+     * @return void
+     */
+    public function picture(){
+
+
+        return $this->render('user/index.html.twig', [
+            'user' => $this->getUser()
+        ]);
+
+
+    }
+
 
     /**
      * Permet de faire la liste des réservations de l'utilisateur connecté
@@ -233,44 +550,17 @@ class AccountController extends AbstractController
     {
         $subCategories = $this->getUser()->getSubCategories();
 
-        dump($subCategories);
+        $files = $filter->getFiles($subCategories);
 
-        $f = $request->query->get('filter');
+        dump($files);
 
-    
-        // Si il y a un filtre
-        if(isset($f) && $f != "all"){
+        return $this->render('account/dashboard.html.twig', [
 
-            $files = $filter->getResults($f, $subCategories);
-
-        }else{
-            
-            $sheets = [];
-            foreach ($subCategories as $subCategory) {
-                $sheet = $sheetRepo->findBySubCategory($subCategory);
-                $sheets = array_merge_recursive($sheets, $sheet);
-            }
-
-            $documents = [];
-            foreach ($subCategories as $subCategory) {
-                $document = $docRepo->findBySubCategory($subCategory);
-                $documents = array_merge_recursive($documents, $document);
-            }
-
-            $files = array_merge_recursive($sheets, $documents);
-
-            usort($files, function($a, $b){ 
-                return strcasecmp($a->getTitle(), $b->getTitle());
-            });
-
-        }
-
-        
-
-        return $this->render('account/documents.html.twig', [
-            // 'sheets' => $sheets,
-            // 'documents' => $documents,
-            'files' => $files,
+            'filesToValidate' => $files['filesToValidate'],
+            'filesToCorrect' => $files['filesToCorrect'],
+            'filesUpToDate' => $files['filesUpToDate'],
+            'filesWellObsolete' => $files['filesWellObsolete'],
+            'filesObsolete' => $files['filesObsolete'],
             'subCategories' => $subCategories
         ]);
     }

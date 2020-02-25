@@ -115,7 +115,13 @@ div.card.website-card h6, div.card.website-card i{
     
 }
 
-div.card.best-doc-card h6, div.card.last-doc-card h6{
+div.card.website-card i.modify{
+
+    color: grey;
+    
+}
+
+div.card.best-doc-card h6, div.card.last-doc-card h6, div.card.dashboard-card h6{
 
     color: #6777EF;
     
@@ -138,6 +144,14 @@ div.card.profile-card{
     color: white;
 
 }
+
+div.card.profile-card.documentation{
+
+    background-color: #6777ef;
+
+}
+
+
 
 div.card.home-link{
 
@@ -194,7 +208,7 @@ div.card.home-link .options i{
     opacity: 0.25;
 
     position: absolute;
-    margin-left: -40px;
+    margin-left: -35px;
     margin-top: -30px;
 
 
@@ -237,13 +251,13 @@ table.last-doc td.initiales, table.best-doc td.initiales{
     
 }
 
-table.last-doc td{
+table.last-doc td, table.dashboard-list td, table.websites td{
 
     border-top: none;
     
 }
 
-.table .initiales span.init{
+.table .initiales span.init, .table.users span.init{
 
     font-family: 'Fira Mono', monospace;
 
@@ -257,7 +271,15 @@ table.last-doc td{
 
 }
 
-table.last-doc td a{
+.table.table-documentation-list .initiales span.init{
+
+    background-color: #bdc3c7;
+    color: white;
+
+}
+
+
+table.last-doc td a, table.dashboard-list td a, table.websites .title{
 
     font-family: 'Fira Sans', sans-serif;
     font-weight: 500;
@@ -376,7 +398,7 @@ div.card.employees div.poste{
 
 }
 
-div.card.employees div.email, div.card.employees div.phone{
+div.card.employees div.email, div.card.employees div.phone, div.card div.info{
 
     font-size: 1.1em;
     color: #858688;
@@ -386,5 +408,126 @@ div.card.employees div.email, div.card.employees div.phone{
 table.employees td{
 
     border: none;
+
+}
+
+.btn-outline-light.success:hover {
+    color: #212529!important;
+}
+
+p.text{
+
+    font-family: "Karla";
+    font-size: 0.9em;
+
+}
+
+.card.profile-card span.init{
+
+
+    font-family: 'Fira Mono', monospace;
+    font-size: 4em;
+    font-weight: 400;
+    background-color: white;
+    color: #ff006e;
+    /* color:rgba(0,0,0,.5); */
+    border-radius: 50%;
+    padding: 15px;
+
+}
+
+.card.profile-card.documentation span.init{
+
+
+    color: #6777ef;
+
+}
+
+
+.nav-item span.init{
+
+    font-family: 'Fira Mono', monospace;
+    background-color: #ff006e;
+    font-size: 0.8em;
+    color: white;
+    border-radius: 50px;
+    padding: 6px;
+
+}
+
+.center-cropped{
+    width: 125px;
+    height: 125px;
+    background-position: center center;
+    background-repeat: no-repeat;
+    border-radius: 50%;
+    background-size: auto 100%;
+  
+}
+
+.center-cropped.large{
+
+    margin:auto;
+
+}
+
+/* Affichage photo de profil Admin */
+.datagrid .image.admin-profile .easyadmin-thumbnail img{
+
+    box-shadow: 0 0 0 2px var(--white),0 0 4px 1px var(--gray-600);
+    margin-bottom: 2px;
+    margin-top: 2px;
+    max-height: 50px!important;
+    max-width: 50px!important;
+
+}
+
+.easyadmin aside.main-sidebar{
+
+    background-color: transparent;
+
+}
+
+.datagrid td.actions{
+    min-width: 150px;
+}
+
+.center-cropped.mini, .admin-profile div {
+
+    height: 24px;
+    width: 24px;
+
+}
+
+.center-cropped.medium{
+
+    height: 36px;
+    width: 36px;
+
+}
+
+.nav-item .center-cropped{
+    display: inline-block;
+    vertical-align: middle
+}
+
+
+
+a.website{
+
+    color: black;
+
+}
+
+a.website:hover{
+
+    color: black;
+
+}
+
+.files-container{
+
+    min-height: 500px;
+
 
 }

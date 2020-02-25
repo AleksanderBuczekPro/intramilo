@@ -1,50 +1,90 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-    Documentation - Ajout d'une fiche dans la catégorie {{ category.title }} / {{ subCategory.title }}
+    Documentation - Ajout d'une fiche
 {% endblock %}
 
 {% block body %}
 
     <div class="container">
  
-        <h1 class="my-5">Ajout d'une nouvelle fiche</h1>
+        
 
         {% form_theme form 'documentation/sheet/_collection.html.twig' %}
 
         {{ form_start(form) }}
         
             <div class="row">
-                <div class="col-md-8">
-                    {{ form_row(form.title) }}
-                    {{ form_row(form.organization) }}
+                <div class="col-md-10 offset-md-1">
 
-                    {{ form_row(form.content) }}
+                    <h1 class="my-5">Ajout d'une nouvelle fiche</h1>
 
-                    {{ form_widget(form.subCategory, { 'attr': {'class': 'd-none'} }) }}
-                    
-                </div>
-                <div class="col-md-4">
-                    <h2>Coordonnées</h2>
-                    {{ form_row(form.headers) }}
-                    
-                    <h2>Pièces jointes</h2>
-                    <div class="mt-5">
-                        
-                        {{ form_widget(form.tool, { 'attr': {'size': 10} }) }}
+                    <div class="card p-4">
+                        <div class="card-body">
+                        <h6 class="card-title mb-3"><span class="doc-step">Etape 1 :</span> Titre et entête</h6>
+                            {{ form_row(form.title) }}
+                            {{ form_row(form.organization) }}
+   
+                            {{ form_row(form.headers) }}
+                        </div>
                     </div>
-                    <div class="mt-5">
-                        {{ form_widget(form.sheetDocuments, { 'attr': {'size': 10} }) }}
+
+                    <div class="card p-4">
+                        <div class="card-body">
+                        <h6 class="card-title mb-3"><span class="doc-step">Etape 2 :</span> Contenu</h6>
+                            {{ form_row(form.content) }}
+                        </div>
                     </div>
+
+                    <div class="card p-4">
+                        <div class="card-body">
+                        <h6 class="card-title mb-3"><span class="doc-step">Etape 3 :</span> Pièces jointes</h6>
+                            <div class="row">
+                                <div class="col">
+                                    {{ form_row(form.tool, { 'attr': {'size': 10} }) }}
+                                </div>
+                                <div class="col">
+                                    {{ form_row(form.sheetDocuments, { 'attr': {'size': 10} }) }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                     {{ form_widget(form.subCategory, { 'attr': {'class': 'd-none'} }) }}
+
+                      <div class="card p-4">
+                        <div class="card-body">
+                        <h6 class="card-title mb-3">Vous y êtes presque !</h6>
+                            <p class="text">Vérifiez bien toutes les informations que vous avez renseigné avant de valider. <br>
+                            Cette fiche sera envoyée à corriger auprès de votre responsable <strong> {{ app.user.groupe.responsable.fullName }} </strong></p>
+                            
+                            <button type="submit" class="btn btn-success success float-right">
+                                <i class="fas fa-check"></i> Ajouter la fiche
+                            </button>
+                        </div>
+                    </div>
+        
+                    
+
+                   
+
+                    
+
+                    
+
+
+                    
+
+                    
+
+                    
+                    
                 </div>
             </div>
 
 
 
-            <button type="submit" class="btn btn-primary mt-3">
-                <i class="fas fa-check"></i> Ajouter la fiche
-            </button>
-
+            
         {{ form_end(form) }}
 
 

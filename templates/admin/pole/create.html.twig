@@ -1,0 +1,22 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Ajout d'un pôle{% endblock %}
+
+{% block body %}
+<div class="container">
+    <h1 class="my-5">Ajout d'un pôle</h1>
+
+    {{ form_start(form) }}
+
+    {{ form_widget(form) }}
+
+    <button type="submit" class="btn btn-primary">
+        <i class="fas fa-check"></i> Ajouter le pôle
+    </button>
+
+    {{ form_end(form) }}
+
+
+
+</div>
+{% endblock %}

@@ -124,6 +124,37 @@ class DocumentController extends AbstractController
     }
 
     /**
+     * Permet de mettre à la Une un document
+     * 
+     * @Route("/doc/document/{id}/front", name="document_front")
+     *  
+     *
+     * @return Response
+     */
+    public function front(Document $document, ObjectManager $manager){
+
+        if($document->getFront() == '0'){
+
+            $document->setFront('1');
+
+        }else{
+
+            $document->setFront('0');
+
+        }
+
+        $manager->persist($document);
+        $manager->flush();
+
+        // Gestion des nouveaux slugs
+        $slug = $document->getSubCategory()->getCategory()->getSlug();
+        $subSlug = $document->getSubCategory()->getSlug();
+
+        return $this->redirectToRoute('document_show', ['slug' => $slug, 'sub_slug' => $subSlug, 'id' => $document->getId()]);
+
+    }
+ 
+    /**
      * Permet de supprimer un fichier (Document)
      *
      * @Route("/doc/{slug}/{sub_slug}/document/{id}/delete", name="document_delete")

@@ -1,0 +1,245 @@
+#easy_admin:
+#    entities:
+#        # List the entity class name you want to manage
+#        - App\Entity\Product
+#        - App\Entity\Category
+#        - App\Entity\User
+
+easy_admin:
+
+    site_name: 'BackOffice'
+
+    design:
+      menu:
+            - { label: 'Organigramme' }
+            - { entity: 'User', label: 'Utilisateurs', icon: 'users', params: { sortField: 'lastName', sortDirection: 'ASC' }, permission: 'ROLE_ADMIN'}  
+            - { entity: 'Groupe', label: 'Groupes', icon: 'layer-group', params: { sortField: 'title', sortDirection: 'ASC' }, permission: 'ROLE_ADMIN' }  
+            - { entity: 'Poste', label: 'Postes', icon: 'briefcase', params: { sortField: 'title', sortDirection: 'ASC' }, permission: 'ROLE_ADMIN' }  
+            - { entity: 'Antenne', label: 'Antennes', icon: 'map-marker-alt', params: { sortField: 'title', sortDirection: 'ASC' }, permission: 'ROLE_ADMIN' }
+            - { label: 'Documentation' }
+            - { entity: 'Pole', label: 'Pôles', icon: 'square', params: { sortField: 'title', sortDirection: 'ASC' }, permission: 'ROLE_ADMIN'}  
+            - { entity: 'Category', label: 'Catégories', icon: 'th-large', params: { sortField: 'pole', sortDirection: 'ASC' }, permission: 'ROLE_ADMIN' }  
+            - { entity: 'SubCategory', label: 'Sous-catégories', icon: 'th', params: { sortField: 'category.pole', sortDirection: 'DESC' }, permission: 'ROLE_ADMIN' }  
+      
+      
+      assets:
+            # all kinds of assets are supported and linked accordingly
+            css:
+                - '/css/main.css'
+
+
+    user:
+        name_property_path: 'fullName'
+        # avatar_property_path: 'pictureFilename'        
+
+    list:
+      max_results: 30
+      actions:
+        - { name: 'new', icon: 'plus', label: 'Ajouter', title: 'Ajouter'}
+        - { name: 'edit', icon: 'pencil', label: false, title: 'Modifier', css_class: 'btn btn-secondary'}
+        - { name: 'delete', icon: 'times', label: false, title: 'Supprimer', css_class: 'btn btn-danger'}
+
+    edit:
+      actions:
+        - { name: 'delete', label: Supprimer}
+        - { name: 'list', label: Retour à la liste}
+
+    new:
+      actions:
+        - { name: 'list', label: Retour à la liste}
+
+
+    entities:
+        User:
+          class : App\Entity\User
+          help: 'A noter : vous ne pouvez pas supprimer un utilisateur qui possède des dossiers ou des dossiers Administrateur'
+          label: 'Utilisateurs'
+          list:
+            title: "Utilisateurs"
+            fields:
+              - { property: 'pictureFilename', label: 'Profil', type: 'image', base_path: '/files/pictures/', css_class: 'admin-profile'}
+              - { property: 'lastName', label: 'Nom'}
+              - { property: 'firstName', label: 'Prénom' }
+              - { property: 'email', label: 'Email', type: 'email' }
+              - { property: 'phoneNumber', label: 'Téléphone' }
+              - { property: 'poste.title', label: 'Poste' }
+              - { property: 'groupe.title', label: 'Groupe' }
+              - { property: 'groupe.responsable', label: 'Responsable' }              
+              - { property: 'antenne.title', label: 'Antenne' }
+              - { property: 'subCategories', label: 'Dossiers' }
+              - { property: 'adminGroupes', label: 'Dossiers Admin' }
+
+
+          new: 
+            title: "Ajout d'un utilisateur"
+              
+
+          form:
+            fields:
+              - { property: 'firstName', label: 'Prénom' }
+              - { property: 'lastName', label: 'Nom' }
+              - { property: 'email', label: 'Email', type: 'email' }
+              - { property: 'phoneNumber', label: 'Téléphone' }
+              - { property: 'antenne', label: 'Antenne' }
+              - { property: 'groupe', label: 'Groupe' }
+              - { property: 'poste', label: 'Poste' }
+              - { property: 'introduction', label: 'Spécialité', attr: { placeholder: 'Bâtiment, Commerce, Numérique...' } }              
+              - { property: 'hash', label: 'Mot de passe', type: 'password' }
+              - { property: 'passwordConfirm', label: 'Mot de passe à nouveau', type: 'password' }
+
+          edit:
+            title: "Modification d'un utilisateur"
+            fields:
+              - '-hash'
+              - '-passwordConfirm'
+
+
+
+        Groupe:
+          class: App\Entity\Groupe
+          help: 'A noter : vous ne pouvez pas supprimer un groupe où il existe des utilisateurs'
+          list:
+            title: "Groupes"
+            fields:
+              - { property: 'title', label: 'Titre' }
+              - { property: 'users', label: 'Utilisateurs' }
+              - { property: 'responsable.fullName', label: 'Responsable' }
+          
+          edit: 
+            title: "Modification d'un groupe"
+            
+          new: 
+            title: "Ajout d'un groupe"
+
+          form:
+            fields:
+              - { property: 'title', label: 'Titre' }
+              - { property: 'responsable', label: 'Responsable' }
+
+
+        Poste:
+          class: App\Entity\Poste
+          help: 'A noter : vous ne pouvez pas supprimer un poste qui appartient à un utilisateur'
+          list:
+            title: "Postes"
+            fields:
+              - { property: 'title', label: 'Titre' }
+              - { property: 'users', label: 'Utilisateurs' }
+
+          form:
+            fields:
+              - { property: 'title', label: 'Titre' }
+
+        Antenne:
+          class: App\Entity\Antenne
+          help: 'A noter : vous ne pouvez pas supprimer une antenne où il existe des utilisateurs'
+          list:
+            title: "Antennes"
+            fields:
+              - { property: 'title', label: 'Titre' }
+              - { property: 'address', label: 'Adresse' }
+              - { property: 'postcode', label: 'Code postal' }
+              - { property: 'city', label: 'Ville' }
+              - { property: 'phoneNumber', label: 'Téléphone' }
+              - { property: 'users', label: 'Utilisateurs' }
+          
+          edit: 
+            title: "Modification d'un poste"
+            
+          new: 
+            title: "Ajout d'un poste"
+
+          form:
+            fields:
+              - { property: 'title', label: 'Titre' }
+              - { property: 'address', label: 'Adresse' }
+              - { property: 'postcode', label: 'Code postal' }
+              - { property: 'city', label: 'Ville' }
+              - { property: 'phoneNumber', label: 'Téléphone' }
+
+        
+        Pole:
+          class: App\Entity\Pole
+          help: 'A noter : vous ne pouvez pas supprimer un pôle où il existe des catégories'
+          list:
+            title: "Pôles"
+            fields:
+              - { property: 'title', label: 'Titre' }
+              - { property: 'category', label: 'Catégories' }
+              - { property: 'labelColor', label: 'Couleur' }
+          
+          edit: 
+            title: "Modification d'un pôle"
+            
+          new: 
+            title: "Ajout d'un pôle"
+
+          form:
+            fields:
+              - { property: 'title', label: 'Titre' }
+              - { property: 'color',
+                  type: 'choice',
+                  label: 'Couleur',
+                  type_options:
+                    { choices:
+                      {'Turquoise': '#00b8d8',
+                      'Violet': '#3f20e7',
+                      'Jaune': '#ffb400',
+                      'Vert': '#1adba2',
+                      'Rouge': '#ff4169',
+                      'Noir': '#0a0c0d',
+                      } }}
+
+        Category:
+          class: App\Entity\Category
+          help: 'A noter : vous ne pouvez pas supprimer une catégorie où il existe des sous-catégories'
+          list:
+            title: "Catégories"
+            fields:
+              - { property: 'title', label: 'Titre' }
+              - { property: 'pole', label: 'Pôle', type: 'text' }
+              - { property: 'subCategories', label: 'Sous-catégories'}
+              
+          
+          edit: 
+            title: "Modification d'une catégorie"
+            
+          new: 
+            title: "Ajout d'une catégorie"
+
+          form:
+            fields:
+              - { property: 'title', label: 'Titre' }
+              - { property: 'pole', label: 'Pôle' }
+
+        
+        SubCategory:
+          class: App\Entity\SubCategory
+          help: 'A noter : vous ne pouvez pas supprimer une sous-catégorie où il existe des fiches ou documents'
+          list:
+            title: "Sous-Catégories"
+            fields:
+              - { property: 'title', label: 'Titre' }
+              - { property: 'category', label: 'Catégorie', type: 'text' }
+              - { property: 'category.pole', label: 'Pôle', type: 'text' }
+              - { property: 'author', label: 'Responsable de la mise à jour' }
+              - { property: 'author.groupe.responsable', label: 'Responsable de la validation' }
+              - { property: 'sheets', label: 'Fiches' }
+              - { property: 'documents', label: 'Documents' }
+          
+          edit: 
+            title: "Modification d'une sous-catégorie"
+            
+          new: 
+            title: "Ajout d'une sous-catégorie"
+
+          form:
+            fields:
+              - { property: 'title', label: 'Titre' }
+              - { property: 'category', label: 'Catégorie' }
+              - { property: 'author', label: 'Responsable de la mise à jour' }
+    
+        
+framework:
+    translator:
+        fallbacks: [ "fr" ]

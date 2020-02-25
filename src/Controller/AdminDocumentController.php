@@ -27,6 +27,8 @@ class AdminDocumentController extends AbstractController
         // Recherche des groupes dont l'utilisateur est responsable
         $groupes = $this->getUser()->getAdminGroupes();
 
+        dump($groupes);
+
         // Recherche des utilisateurs appartenant à ces groupes
         $users = [];
         foreach ($groupes as $groupe) {
@@ -42,59 +44,44 @@ class AdminDocumentController extends AbstractController
         }
 
 
-        $f = $request->query->get('filter');
+        // $subCategories = $this->getUser()->getSubCategories();
 
-        dump($f);
+        $files = $filter->getFiles($subCategories);
 
-        // Si il y a un filtre
-        if(isset($f) && $f != "all"){
-
-            $files = $filter->getResults($f, $subCategories);
-
-        }else{
-
-            // Récupération des fiches
-            $sheets = [];
-            foreach ($subCategories as $subCategory) {
-                $sheet = $sheetRepo->findBySubCategory($subCategory);
-                $sheets = array_merge_recursive($sheets, $sheet);
-            }
-
-            // Récupération des documents
-            $documents = [];
-            foreach ($subCategories as $subCategory) {
-                $document = $docRepo->findBySubCategory($subCategory);
-                $documents = array_merge_recursive($documents, $document);
-            }
-
-            $files = array_merge_recursive($sheets, $documents);
-
-            usort($files, function($a, $b){ 
-                return strcasecmp($a->getTitle(), $b->getTitle());
-            });
-        
-        }
-
-        
+        dump($files);
 
         return $this->render('admin/document/index.html.twig', [
-            'groupes' => $groupes,
-            'users' => $users,
+
+            'filesToValidate' => $files['filesToValidate'],
+            'filesToCorrect' => $files['filesToCorrect'],
+            'filesUpToDate' => $files['filesUpToDate'],
+            'filesWellObsolete' => $files['filesWellObsolete'],
+            'filesObsolete' => $files['filesObsolete'],
             'subCategories' => $subCategories,
-            'files' => $files,
+            'groupes' => $groupes,
+            'users' => $users
         ]);
+
     }
 
     /**
      * Permet de valider une fiche "En cours de validation"
      * 
-     * @Route("/admin/document/validate/{id}", name="admin_document_validate")
+     * @Route("/admin/document/validate/", name="admin_document_validate")
+     *  
      * 
      * @IsGranted("ROLE_USER")
      *
      * @return void
      */
-    public function validate(Sheet $sheet, ObjectManager $manager, Request $request){
+    public function validate(ObjectManager $manager, Request $request, SheetRepository $repo){
+
+        dump($request);
+
+        $id = $request->request->get('id');
+        $sheet = $repo->findOneById($id);
+
+        dump($id);
 
         // On récupère l'ancienne fiche
         $oldSheet = $sheet->getOrigin();
@@ -102,6 +89,11 @@ class AdminDocumentController extends AbstractController
         // On initilaise les paramètres
         $sheet->setOrigin(null);
         $sheet->setStatus(null);
+
+        dump($request->request->get('content'));
+
+        // On remplace le texte par le texte formaté (sans couleurs)
+        $sheet->setContent($request->request->get('content'));
 
         dump($oldSheet);
 

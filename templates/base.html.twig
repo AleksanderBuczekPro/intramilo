@@ -6,6 +6,11 @@
 
         <meta name="viewport" content="width=device-width, user-scalable=no">
 
+        {# Filter JS #}
+         
+
+        
+
         {# <link rel="stylesheet" href="{{ asset('build/css/app.css') }}"> #}
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.2/css/all.css" integrity="sha256-piqEf7Ap7CMps8krDQsSOTZgF+MU/0MPyPW2enj5I40=" crossorigin="anonymous" />
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
@@ -14,7 +19,6 @@
         <link rel="stylesheet" href="https://unpkg.com/shards-ui@latest/dist/css/shards.min.css">
 
         <link rel="stylesheet" href="/css/sidebar.css">
-
         <link rel="stylesheet" href="/css/main.css">
         <link rel="stylesheet" href="/css/files.css">
         <link rel="stylesheet" href="/css/sheet.css">
@@ -22,13 +26,27 @@
         <link rel="stylesheet" href="/css/admin.css">
         <link rel="stylesheet" href="/css/header.css">
 
-        <link rel="stylesheet" href="/css/login.css">
-        <link rel="stylesheet" href="/css/util.css">
+        {# <link rel="stylesheet" href="/css/login.css">
+        <link rel="stylesheet" href="/css/util.css"> #}
+
+        <script src="{{ asset('build/css/app.css') }}"></script>
+        
+        <!-- Bootstrap core JavaScript -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+        <script src="{{ asset('build/js/bootstrap.bundle.min.js') }}"></script>
+              
 
         {# Fonts #}
         <link href="https://fonts.googleapis.com/css?family=Fira+Sans300,800&display=swap" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Karla&display=swap" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Fira+Mono&display=swap" rel="stylesheet">
+
+        <!-- Shards -->
+        <script src="https://unpkg.com/shards-ui@latest/dist/js/shards.min.js"></script> 
+
+        {# <script src="https://unpkg.com/isotope-layout@3/dist/isotope.pkgd.min.js"></script> #}
+        <script src="{{ asset('js/isotope.pkgd.js') }}"></script>
+        <script src="{{ asset('js/mixitup.min.js') }}"></script>
 
 
         
@@ -38,26 +56,20 @@
     </head>
     <body>
 
-    {% if app.request.attributes.get('_route') != 'account_login' %}
+
     {% include 'partials/header.html.twig'  %}
-    {% endif %}
+
     
     {% block body %}{% endblock %}
 
-    {% if app.request.attributes.get('_route') != 'account_login' %}
+
     {% include 'partials/footer.html.twig'  %}
-    {% endif %}
-    
+
+        
+        
 
         {{ encore_entry_script_tags('js/app') }}
-        {% block javascripts %}
-        
-            <script src="{{ asset('build/css/app.css') }}"></script>
-            
-            <!-- Bootstrap core JavaScript -->
-            <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-            <script src="https://unpkg.com/shards-ui@latest/dist/js/shards.min.js"></script>
-
+        {% block javascripts %}    
         
 
                   

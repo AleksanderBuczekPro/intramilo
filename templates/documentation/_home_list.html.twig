@@ -1,0 +1,63 @@
+{# Si c'est un document (Document) #}
+        {% if file.file is defined %}
+
+            {% set document = true %}
+
+            {% set chemin = "{{ vich_uploader_asset(file, 'genericFile')}}" %}
+            {% set chemin_update = "" %}
+            {% set chemin_delete = "" %}
+            {% set fileType =  file.mimeType %}
+
+        {# Si c'est une fiche (Sheet) #}
+        {% else %}
+
+            {% set document = false  %}
+
+            {% set chemin = "{{ path('sheet_show', {'slug': category.slug, 'sub_slug': subCategory.slug, 'sheet_slug': file.slug }) }}" %}
+            {% set chemin_update = "{{ path('sheet_edit', {'slug': category.slug, 'sub_slug': subCategory.slug, 'sheet_slug': file.slug }) }}" %}
+            {% set chemin_delete = "{{ path('sheet_delete', {'slug': category.slug, 'sub_slug': subCategory.slug, 'sheet_slug': file.slug }) }}" %}
+            {% set fileType = "sheet" %}
+
+        {% endif %}
+
+        
+            <tr class="file-row">
+                {# <td>{{ file.id }}</td> #}
+                {# Initiales #}
+                {% set firstName = file.subCategory.author.firstName|split('') %}
+                {% set lastName = file.subCategory.author.lastName|split('') %}
+
+                {% set initiales = firstName[0]|upper ~ lastName[0]|upper %}
+
+
+                <tr>
+                <td class="align-middle initiales">
+                        {% include '_picture.html.twig' with {'user': file.subCategory.author, 'class': 'medium'} %}
+                </td>
+                <td class="align-middle">
+                
+                    <a href=
+                    {% if document %}
+                        
+                        {{ path('document_show', {'slug': file.subCategory.category.slug, 'sub_slug': file.subCategory.slug, 'id': file.id }) }}
+
+                    {% else %}
+                        {{ path('sheet_show', {'slug': file.subCategory.category.slug, 'sub_slug': file.subCategory.slug, 'sheet_slug': file.slug, 'sheet_id': file.id }) }}
+
+                    {% endif %}
+                    >
+                        {{ file.title }}
+                    </a><br>
+                    {% if subtitle == "organization" %}
+
+                        {{ file.organization }}
+
+                    {% else %} 
+
+                        {{ file.updatedAt|localizeddate('none', 'none', 'fr', null, 'd MMMM Y') }}
+
+                    {% endif %}
+                        
+                </td>
+                
+            </tr>

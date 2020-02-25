@@ -183,7 +183,7 @@ class SheetController extends AbstractController
             $slug = $sheet->getSubCategory()->getCategory()->getSlug();
             $subSlug = $sheet->getSubCategory()->getSlug();
 
-            return $this->redirectToRoute('sheet_show', ['slug' => $slug, 'sub_slug' => $subSlug, 'sheet_slug' => $sheet->getSlug()]);
+            return $this->redirectToRoute('sheet_show', ['slug' => $slug, 'sub_slug' => $subSlug, 'sheet_slug' => $sheet->getSlug(), 'sheet_id' => $sheet->getId()]);
 
 
         }
@@ -211,9 +211,15 @@ class SheetController extends AbstractController
      */
     public function front(Sheet $sheet, ObjectManager $manager){
 
-        $sheet->setFront('1');
+        if($sheet->getFront() == '0'){
 
-        dump($sheet);
+            $sheet->setFront('1');
+
+        }else{
+
+            $sheet->setFront('0');
+
+        }
 
         $manager->persist($sheet);
         $manager->flush();
@@ -222,7 +228,7 @@ class SheetController extends AbstractController
         $slug = $sheet->getSubCategory()->getCategory()->getSlug();
         $subSlug = $sheet->getSubCategory()->getSlug();
 
-        return $this->redirectToRoute('sheet_show', ['slug' => $slug, 'sub_slug' => $subSlug, 'sheet_slug' => $sheet->getSlug()]);
+        return $this->redirectToRoute('sheet_show', ['slug' => $slug, 'sub_slug' => $subSlug, 'sheet_slug' => $sheet->getSlug(), 'sheet_id' => $sheet->getId()]);
 
     }
 
@@ -230,10 +236,11 @@ class SheetController extends AbstractController
     /**
      * Permet d'afficher le contenu d'une fiche (Sheet)
      * 
-     * @Route("/doc/{slug}/{sub_slug}/{sheet_slug}", name="sheet_show")
+     * @Route("/doc/{slug}/{sub_slug}/{sheet_slug}/{sheet_id}", name="sheet_show")
      * 
      * @ParamConverter("subCategory", options={"mapping": {"sub_slug":   "slug"}})
      * @ParamConverter("sheet", options={"mapping": {"sheet_slug": "slug"}})
+     * @ParamConverter("sheet", options={"mapping": {"sheet_id":   "id"}})
      * 
      * @return Response
      */
@@ -259,7 +266,7 @@ class SheetController extends AbstractController
                 $slug = $sheet->getSubCategory()->getCategory()->getSlug();
                 $subSlug = $sheet->getSubCategory()->getSlug();
 
-                return $this->redirectToRoute('sheet_show', ['slug' => $slug, 'sub_slug' => $subSlug, 'sheet_slug' => $sheet->getSlug()]);
+                return $this->redirectToRoute('sheet_show', ['slug' => $slug, 'sub_slug' => $subSlug, 'sheet_slug' => $sheet->getSlug(), 'sheet_id' => $sheet->getId()]);
 
 
             }
@@ -284,10 +291,11 @@ class SheetController extends AbstractController
     /**
      * Permet d'afficher une seule annonce
      *
-     * @Route("/doc/{slug}/{sub_slug}/{sheet_slug}/delete", name="sheet_delete")
+     * @Route("/doc/{slug}/{sub_slug}/{sheet_slug}/{sheet_id}/delete", name="sheet_delete")
      * 
      * @ParamConverter("subCategory", options={"mapping": {"sub_slug":   "slug"}})
      * @ParamConverter("sheet", options={"mapping": {"sheet_slug": "slug"}})
+     * @ParamConverter("sheet", options={"mapping": {"sheet_id":   "id"}})
      * 
      * @IsGranted("ROLE_USER")
      * 

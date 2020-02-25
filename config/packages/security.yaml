@@ -1,8 +1,9 @@
 security:
 
+
     encoders:
         App\Entity\User:
-            algorithm: bcrypt
+            algorithm: sha512
 
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:
@@ -44,6 +45,11 @@ security:
             logout:
                 path: account_logout
                 target: account_login
+            
+            remember_me:
+                secret:   '%kernel.secret%'
+                lifetime: 604800 # 1 week in seconds
+                path:     /
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#firewalls-authentication

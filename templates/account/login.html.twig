@@ -1,4 +1,4 @@
-{% extends 'base.html.twig' %}
+{% extends 'login-base.html.twig' %}
 
 {% block title %}Connexion au site{% endblock %}
 
@@ -32,9 +32,13 @@
                                 <label for="password">Mot de passe</label>
                                 <input type="password" name="_password" id="password" placeholder="Mot de passe" class="form-control" required>
                             </div>
-                            <div class="form-group text-center">
+                            <input type="checkbox" id="remember_me" name="_remember_me" checked/>
+                            <label for="remember_me">Se souvenir de moi</label>
+                            <div class="form-group text-center mt-4">
                                 <button type="submit" class="btn btn-primary btn-pill mt-3">Se connecter</button>
                             </div>
+                            <div class="text-center"><a href="{{ path('account_reset_password') }}">Mot de passe oublié</a></div>
+                            
                         </form>
                     </div>
                 </div>

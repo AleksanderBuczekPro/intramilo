@@ -3,14 +3,15 @@
 {% block title %}Gestion des utilisateurs{% endblock %}
 
 {% block body %}
-<div class="container">
+<div class="container-fluid">
     <h1 class="mt-5">Gestion des utilisateurs</h1>
     <a href="{{ path('admin_user_register') }}" class="btn btn-sm btn-primary mb-5">Ajouter un utilisateur</a>
-    <table class="table table-hover">
+    <table class="table users table-hover">
         <thead>
             <tr>
-                <th>Statut</th>
-                <th>Nom</th>
+                <th>Id</th>
+                <th>Admin</th>
+                <th colspan="2">Nom</th>
                 <th>Email</th>
                 <th>Téléphone</th>
                 <th>Antenne</th>
@@ -22,22 +23,43 @@
         </thead>
         <tbody>
             {% for user in pagination.data %}
+
+            {# Gestion administrateur #}
+
+            {# Initialisation des variables #}
+            {% set libelle_role = "Utilisateur" %}
+            {% set checked = "" %}
+
+
+            {% for role in user.roles  %}
+
+                {% if role == "ROLE_ADMIN" %}
+                    {% set libelle_role = "Administrateur"  %}
+                    {% set checked = "checked" %}
+                {% endif %}
+
+            {% endfor %}
+
             <tr>
-                <td>
-                    {% for role in user.roles  %}
-
-                        {% if role == "ROLE_ADMIN" %}
-                            Adminitrateur
-                        {% else %}
-                            Utilisateur
-                        {% endif %}
-
-                    {% endfor %}
+                <td class="text-center">
+                    {{ user.id }}
                 </td>
-                <td>
-                    <img src="{{ user.picture }}" alt="Avatar de {{ user.fullName }}" class="avatar avatar-micro mr-2">
-                    {{ user.fullName }}
-                </td> 
+                <td class="text-center">
+                    <div class="custom-control custom-switch">
+                        <input type="checkbox" class="custom-control-input admin-switch" id="customSwitch{{ user.id }}" data-id={{ user.id }} {{ checked }}
+                        {% if user.id == app.user.id %}
+                            disabled
+                        {% endif %}>
+
+
+                        <label class="custom-control-label" for="customSwitch{{ user.id }}"></label>
+                    </div>
+                </td>
+                {# <td>
+                    {{ libelle_role }}
+                </td> #}
+                <td>{% include '_picture.html.twig' with {'picture': user.pictureFilename, 'class': 'mini'} %}</td>
+                <td>{{ user.fullName }}</td> 
                 <td>{{ user.email }}</td>
                 <td>{{ user.phoneNumber }}</td>
                 <td>{{ user.antenne.title }}</td>
@@ -64,4 +86,39 @@
 
 
 </div>
+{% endblock %}
+
+
+{% block javascripts %}
+
+<script>
+
+
+    $( ".admin-switch" ).change(function() {
+
+        // Id User
+        var id = $(this).data('id');
+
+        if($(this).is(':checked')){
+
+            var path = "{{ path('admin_user_admin_add') }}";
+
+        }else{
+
+            var path = "{{ path('admin_user_admin_remove') }}";
+        }
+
+        $.ajax({
+            method: "POST",
+            url: path,
+            data: {id: id},
+            success: function(){
+
+            }
+        });
+
+    });
+
+</script>
+
 {% endblock %}
