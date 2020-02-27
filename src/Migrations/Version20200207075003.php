@@ -23,7 +23,7 @@ final class Version20200207075003 extends AbstractMigration
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
         $this->addSql('CREATE TABLE pole (id INT AUTO_INCREMENT NOT NULL, title VARCHAR(255) NOT NULL, slug VARCHAR(255) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
-        $this->addSql('ALTER TABLE category ADD pole_id INT');
+        $this->addSql('ALTER TABLE category ADD pole_id INT NOT NULL');
         $this->addSql('ALTER TABLE category ADD CONSTRAINT FK_64C19C1419C3385 FOREIGN KEY (pole_id) REFERENCES pole (id)');
         $this->addSql('CREATE INDEX IDX_64C19C1419C3385 ON category (pole_id)');
     }

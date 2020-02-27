@@ -29,7 +29,7 @@ final class Version20200225104133 extends AbstractMigration
         $this->addSql('DROP TABLE booking');
         $this->addSql('DROP TABLE comment');
         $this->addSql('DROP TABLE image');
-        $this->addSql('ALTER TABLE sub_category CHANGE author_id author_id INT NOT NULL');
+        // $this->addSql('ALTER TABLE sub_category CHANGE author_id author_id INT NOT NULL');
     }
 
     public function down(Schema $schema) : void

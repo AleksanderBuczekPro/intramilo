@@ -24,7 +24,7 @@ final class Version20200224121950 extends AbstractMigration
 
         $this->addSql('ALTER TABLE pole ADD label_color VARCHAR(255) NOT NULL');
         $this->addSql('ALTER TABLE category CHANGE pole_id pole_id INT NOT NULL');
-        $this->addSql('ALTER TABLE user CHANGE antenne_id antenne_id INT NOT NULL, CHANGE groupe_id groupe_id INT NOT NULL');
+        // $this->addSql('ALTER TABLE user CHANGE antenne_id antenne_id INT NOT NULL, CHANGE groupe_id groupe_id INT NOT NULL');
     }
 
     public function down(Schema $schema) : void

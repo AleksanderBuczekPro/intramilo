@@ -25,9 +25,9 @@ final class Version20191119133512 extends AbstractMigration
         $this->addSql('CREATE TABLE tools (sheet_id INT NOT NULL, sheet_tool_id INT NOT NULL, INDEX IDX_EAFADE778B1206A5 (sheet_id), INDEX IDX_EAFADE773073771 (sheet_tool_id), PRIMARY KEY(sheet_id, sheet_tool_id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
         $this->addSql('ALTER TABLE tools ADD CONSTRAINT FK_EAFADE778B1206A5 FOREIGN KEY (sheet_id) REFERENCES sheet (id)');
         $this->addSql('ALTER TABLE tools ADD CONSTRAINT FK_EAFADE773073771 FOREIGN KEY (sheet_tool_id) REFERENCES sheet (id)');
-        $this->addSql('ALTER TABLE sheet DROP FOREIGN KEY FK_873C91E28B1206A5');
-        $this->addSql('DROP INDEX IDX_873C91E28B1206A5 ON sheet');
-        $this->addSql('ALTER TABLE sheet DROP sheet_id');
+        // $this->addSql('ALTER TABLE sheet DROP FOREIGN KEY FK_873C91E28B1206A5');
+        // $this->addSql('DROP INDEX IDX_873C91E28B1206A5 ON sheet');
+        // $this->addSql('ALTER TABLE sheet DROP sheet_id');
     }
 
     public function down(Schema $schema) : void

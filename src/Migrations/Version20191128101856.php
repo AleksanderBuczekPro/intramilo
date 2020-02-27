@@ -24,12 +24,14 @@ final class Version20191128101856 extends AbstractMigration
 
         $this->addSql('CREATE TABLE groupe (id INT AUTO_INCREMENT NOT NULL, title VARCHAR(255) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
         $this->addSql('CREATE TABLE poste (id INT AUTO_INCREMENT NOT NULL, title VARCHAR(255) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
-        $this->addSql('ALTER TABLE user ADD poste_id INT NOT NULL, ADD admin_groupe_id INT DEFAULT NULL, ADD groupe_id INT DEFAULT');
+        
+        
+        $this->addSql('ALTER TABLE user ADD poste_id INT NOT NULL, ADD groupe_id INT NOT NULL');
+
         $this->addSql('ALTER TABLE user ADD CONSTRAINT FK_8D93D649A0905086 FOREIGN KEY (poste_id) REFERENCES poste (id)');
-        $this->addSql('ALTER TABLE user ADD CONSTRAINT FK_8D93D64993B230BE FOREIGN KEY (admin_groupe_id) REFERENCES groupe (id)');
         $this->addSql('ALTER TABLE user ADD CONSTRAINT FK_8D93D6497A45358C FOREIGN KEY (groupe_id) REFERENCES groupe (id)');
+
         $this->addSql('CREATE INDEX IDX_8D93D649A0905086 ON user (poste_id)');
-        $this->addSql('CREATE INDEX IDX_8D93D64993B230BE ON user (admin_groupe_id)');
         $this->addSql('CREATE INDEX IDX_8D93D6497A45358C ON user (groupe_id)');
     }
 

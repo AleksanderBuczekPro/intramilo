@@ -25,7 +25,7 @@ final class Version20191121135421 extends AbstractMigration
         $this->addSql('CREATE TABLE sheet_document (sheet_id INT NOT NULL, document_id INT NOT NULL, INDEX IDX_6D3539528B1206A5 (sheet_id), INDEX IDX_6D353952C33F7837 (document_id), PRIMARY KEY(sheet_id, document_id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
         $this->addSql('ALTER TABLE sheet_document ADD CONSTRAINT FK_6D3539528B1206A5 FOREIGN KEY (sheet_id) REFERENCES sheet (id) ON DELETE CASCADE');
         $this->addSql('ALTER TABLE sheet_document ADD CONSTRAINT FK_6D353952C33F7837 FOREIGN KEY (document_id) REFERENCES document (id) ON DELETE CASCADE');
-        $this->addSql('DROP TABLE sheetdocument');
+        // $this->addSql('DROP TABLE sheetdocument');
     }
 
     public function down(Schema $schema) : void
