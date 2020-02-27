@@ -6,7 +6,7 @@ use App\Entity\Website;
 use App\Form\WebsiteType;
 use App\Repository\UserRepository;
 use Symfony\Component\HttpFoundation\Request;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -20,7 +20,7 @@ class WebsiteController extends AbstractController
      * 
      * @IsGranted("ROLE_USER")
      */
-    public function index(Request $request, ObjectManager $manager, UserRepository $userRepo)
+    public function index(Request $request, EntityManagerInterface $manager, UserRepository $userRepo)
     {
 
         $website = new Website;
@@ -59,7 +59,7 @@ class WebsiteController extends AbstractController
      * 
      * @IsGranted("ROLE_USER")
      */
-    public function update(Website $website, Request $request, ObjectManager $manager, UserRepository $userRepo)
+    public function update(Website $website, Request $request, EntityManagerInterface $manager, UserRepository $userRepo)
     {
 
         $form = $this->createForm(WebsiteType::class, $website);
@@ -96,7 +96,7 @@ class WebsiteController extends AbstractController
      * 
      * @IsGranted("ROLE_USER")
      */
-    public function delete(Website $website, ObjectManager $manager)
+    public function delete(Website $website, EntityManagerInterface $manager)
     {
 
             $manager->remove($website);

@@ -16,9 +16,9 @@ use App\Repository\UserRepository;
 use App\Repository\SheetRepository;
 use Symfony\Component\Form\FormError;
 use App\Repository\DocumentRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\Request;
-use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoder;
@@ -70,7 +70,7 @@ class AccountController extends AbstractController
      *
      * @return Response
      */
-    public function register(Request $request, ObjectManager $manager, UserPasswordEncoderInterface $encoder) {
+    public function register(Request $request, EntityManagerInterface $manager, UserPasswordEncoderInterface $encoder) {
 
         $user = new User();
 
@@ -114,7 +114,7 @@ class AccountController extends AbstractController
      *
      * @return Response
      */
-    public function edit(Request $request, ObjectManager $manager) {
+    public function edit(Request $request, EntityManagerInterface $manager) {
 
         $user = $this->getUser();
         
@@ -175,7 +175,7 @@ class AccountController extends AbstractController
      *
      * @return Response
      */
-    public function editPicture(Request $request, ObjectManager $manager) {
+    public function editPicture(Request $request, EntityManagerInterface $manager) {
 
         $user = $this->getUser();
         
@@ -250,7 +250,7 @@ class AccountController extends AbstractController
      * 
      * @IsGranted("ROLE_USER")
      */
-    public function deletePicture(ObjectManager $manager)
+    public function deletePicture(EntityManagerInterface $manager)
     {
             $user = $this->getUser();
 
@@ -292,7 +292,7 @@ class AccountController extends AbstractController
      *
      * @return Response
      */
-    public function updatePassword(Request $request, ObjectManager $manager, UserPasswordEncoderInterface $encoder) {
+    public function updatePassword(Request $request, EntityManagerInterface $manager, UserPasswordEncoderInterface $encoder) {
 
         $user = $this->getUser();
 
@@ -348,7 +348,7 @@ class AccountController extends AbstractController
      *
      * @return void
      */
-    public function resetPassword(UserRepository $userRepo, Request $request, ObjectManager $manager, Swift_Mailer $mailer){
+    public function resetPassword(UserRepository $userRepo, Request $request, EntityManagerInterface $manager, Swift_Mailer $mailer){
 
         $email = $request->request->get('email');
 
@@ -427,10 +427,10 @@ class AccountController extends AbstractController
      * @param UserRepository $userRepo
      * @param Request $request
      * @param UserPasswordEncoder $encoder
-     * @param ObjectManager $manager
+     * @param EntityManagerInterface $manager
      * @return void
      */
-    public function resetPasswordToken(UserRepository $userRepo, Request $request, UserPasswordEncoderInterface $encoder, ObjectManager $manager){
+    public function resetPasswordToken(UserRepository $userRepo, Request $request, UserPasswordEncoderInterface $encoder, EntityManagerInterface $manager){
 
         $token = $request->query->get('token');
 
@@ -546,7 +546,7 @@ class AccountController extends AbstractController
      * 
      * @return Response
      */
-    public function myDocuments(SheetRepository $sheetRepo, DocumentRepository $docRepo, Request $request, ObjectManager $manager, Filter $filter)
+    public function myDocuments(SheetRepository $sheetRepo, DocumentRepository $docRepo, Request $request, EntityManagerInterface $manager, Filter $filter)
     {
         $subCategories = $this->getUser()->getSubCategories();
 

@@ -6,8 +6,8 @@ use App\Entity\Groupe;
 use App\Form\GroupeType;
 use App\Service\Pagination;
 use App\Repository\GroupeRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
@@ -36,7 +36,7 @@ class GroupeController extends AbstractController
      * @return Response
      * 
      */
-    public function create(Request $request, ObjectManager $manager) {
+    public function create(Request $request, EntityManagerInterface $manager) {
 
         $groupe = new Groupe();
 
@@ -73,7 +73,7 @@ class GroupeController extends AbstractController
      *
      * @return Response
      */
-    public function edit(Request $request, ObjectManager $manager, Groupe $groupe) {
+    public function edit(Request $request, EntityManagerInterface $manager, Groupe $groupe) {
 
         $form = $this->createForm(GroupeType::class, $groupe);
 
@@ -106,7 +106,7 @@ class GroupeController extends AbstractController
      * @Route("/admin/groupe/{id}/delete", name="admin_groupe_delete")
      * 
      */
-    public function delete(Groupe $groupe, ObjectManager $manager)
+    public function delete(Groupe $groupe, EntityManagerInterface $manager)
     {
         $manager->remove($groupe);
         $manager->flush();

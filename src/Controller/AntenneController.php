@@ -6,8 +6,8 @@ use App\Entity\Antenne;
 use App\Form\AntenneType;
 use App\Service\Pagination;
 use App\Repository\AntenneRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
@@ -36,7 +36,7 @@ class AntenneController extends AbstractController
      * @return Response
      * 
      */
-    public function create(Request $request, ObjectManager $manager) {
+    public function create(Request $request, EntityManagerInterface $manager) {
 
         $antenne = new Antenne();
 
@@ -72,7 +72,7 @@ class AntenneController extends AbstractController
      *
      * @return Response
      */
-    public function edit(Request $request, ObjectManager $manager, Antenne $antenne) {
+    public function edit(Request $request, EntityManagerInterface $manager, Antenne $antenne) {
 
         $form = $this->createForm(AntenneType::class, $antenne);
 
@@ -105,7 +105,7 @@ class AntenneController extends AbstractController
      * @Route("/admin/antenne/{id}/delete", name="admin_antenne_delete")
      * 
      */
-    public function delete(Antenne $antenne, ObjectManager $manager)
+    public function delete(Antenne $antenne, EntityManagerInterface $manager)
     {
         $manager->remove($antenne);
         $manager->flush();

@@ -6,8 +6,8 @@ use App\Entity\Category;
 use App\Entity\Document;
 use App\Form\DocumentType;
 use App\Entity\SubCategory;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -22,7 +22,7 @@ class DocumentController extends AbstractController
      * @ParamConverter("category",    options={"mapping": {"slug":   "slug"}})
      * @ParamConverter("subCategory", options={"mapping": {"sub_slug":   "slug"}})
      */
-    public function create(Category $category, SubCategory $subCategory, Request $request, ObjectManager $manager)
+    public function create(Category $category, SubCategory $subCategory, Request $request, EntityManagerInterface $manager)
     {
 
         $document = new Document();
@@ -87,7 +87,7 @@ class DocumentController extends AbstractController
      * 
      * @return Response
      */
-    public function edit(Category $category, SubCategory $subCategory, Document $document, Request $request, ObjectManager $manager)
+    public function edit(Category $category, SubCategory $subCategory, Document $document, Request $request, EntityManagerInterface $manager)
     {
 
         $form = $this->createForm(DocumentType::class, $document);
@@ -131,7 +131,7 @@ class DocumentController extends AbstractController
      *
      * @return Response
      */
-    public function front(Document $document, ObjectManager $manager){
+    public function front(Document $document, EntityManagerInterface $manager){
 
         if($document->getFront() == '0'){
 
@@ -164,7 +164,7 @@ class DocumentController extends AbstractController
      * @ParamConverter("document", options={"mapping": {"id": "id"}})
      * 
      */
-    public function delete(Document $document, ObjectManager $manager)
+    public function delete(Document $document, EntityManagerInterface $manager)
     {
         $manager->remove($document);
         $manager->flush();

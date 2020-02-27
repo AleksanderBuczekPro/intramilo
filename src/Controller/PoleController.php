@@ -5,8 +5,8 @@ namespace App\Controller;
 use App\Entity\Pole;
 use App\Form\PoleType;
 use App\Service\Color;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
@@ -15,7 +15,7 @@ class PoleController extends AbstractController
     /**
      * @Route("/admin/pole/add", name="admin_pole_create")
      */
-    public function create(Request $request, ObjectManager $manager, Color $color)
+    public function create(Request $request, EntityManagerInterface $manager, Color $color)
     {
         $pole = new Pole();
 
@@ -51,7 +51,7 @@ class PoleController extends AbstractController
      * 
      * @Route("/admin/pole/{id}/edit", name="admin_pole_edit")
      */
-    public function editCategory(Pole $pole, Request $request, ObjectManager $manager)
+    public function editCategory(Pole $pole, Request $request, EntityManagerInterface $manager)
     {
 
         $form = $this->createForm(PoleType::class, $pole);
@@ -84,7 +84,7 @@ class PoleController extends AbstractController
      * 
      * @Route("/admin/pole/{id}/delete", name="admin_pole_delete")
      */
-    public function deleteCategory(Pole $pole, ObjectManager $manager)
+    public function deleteCategory(Pole $pole, EntityManagerInterface $manager)
     {
 
         $manager->remove($pole);

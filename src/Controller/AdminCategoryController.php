@@ -8,8 +8,8 @@ use App\Entity\SubCategory;
 use App\Form\SubCategoryType;
 use App\Repository\PoleRepository;
 use App\Repository\CategoryRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
@@ -37,7 +37,7 @@ class AdminCategoryController extends AbstractController
      *
      * @return Response
      */
-    public function createCategory(Request $request, ObjectManager $manager) {
+    public function createCategory(Request $request, EntityManagerInterface $manager) {
 
         $category = new Category();
 
@@ -73,7 +73,7 @@ class AdminCategoryController extends AbstractController
      *
      * @return Response
      */
-    public function createSubCategory(Request $request, ObjectManager $manager) {
+    public function createSubCategory(Request $request, EntityManagerInterface $manager) {
 
         $subCategory = new SubCategory();
 
@@ -107,7 +107,7 @@ class AdminCategoryController extends AbstractController
      * 
      * @Route("/admin/category/{id}/edit", name="admin_category_edit")
      */
-    public function editCategory(Category $category, Request $request, ObjectManager $manager)
+    public function editCategory(Category $category, Request $request, EntityManagerInterface $manager)
     {
 
         $form = $this->createForm(CategoryType::class, $category);
@@ -140,7 +140,7 @@ class AdminCategoryController extends AbstractController
      * 
      * @Route("/admin/sub-category/{id}/edit", name="admin_sub_category_edit")
      */
-    public function editSubCategory(SubCategory $subCategory, Request $request, ObjectManager $manager)
+    public function editSubCategory(SubCategory $subCategory, Request $request, EntityManagerInterface $manager)
     {
 
         $form = $this->createForm(SubCategoryType::class, $subCategory);
@@ -173,7 +173,7 @@ class AdminCategoryController extends AbstractController
      * 
      * @Route("/admin/category/{id}/delete", name="admin_category_delete")
      */
-    public function deleteCategory(Category $Category, ObjectManager $manager)
+    public function deleteCategory(Category $Category, EntityManagerInterface $manager)
     {
 
         $manager->remove($Category);
@@ -196,7 +196,7 @@ class AdminCategoryController extends AbstractController
      * 
      * @Route("/admin/sub-category/{id}/delete", name="admin_sub_category_delete")
      */
-    public function deleteSubCategory(SubCategory $subCategory, ObjectManager $manager)
+    public function deleteSubCategory(SubCategory $subCategory, EntityManagerInterface $manager)
     {
 
         $manager->remove($subCategory);

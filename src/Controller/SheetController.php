@@ -12,8 +12,8 @@ use App\Entity\SubCategory;
 use App\Form\AttachmentType;
 use PhpParser\Node\Stmt\Foreach_;
 use App\Repository\SheetRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -35,7 +35,7 @@ class SheetController extends AbstractController
      * @return Response
      * 
      */
-    public function create(Category $category, SubCategory $subCategory, Request $request, ObjectManager $manager) {
+    public function create(Category $category, SubCategory $subCategory, Request $request, EntityManagerInterface $manager) {
 
         $sheet = new Sheet();
 
@@ -93,7 +93,7 @@ class SheetController extends AbstractController
      *
      * @return void
      */
-    public function edit(Sheet $sheet, ObjectManager $manager, Request $request){
+    public function edit(Sheet $sheet, EntityManagerInterface $manager, Request $request){
 
         $form = $this->createForm(SheetType::class, $sheet);        
 
@@ -209,7 +209,7 @@ class SheetController extends AbstractController
      *
      * @return Response
      */
-    public function front(Sheet $sheet, ObjectManager $manager){
+    public function front(Sheet $sheet, EntityManagerInterface $manager){
 
         if($sheet->getFront() == '0'){
 
@@ -244,7 +244,7 @@ class SheetController extends AbstractController
      * 
      * @return Response
      */
-    public function show(Category $category, SubCategory $subCategory, Request $request, ObjectManager $manager, Sheet $sheet, Menu $menu)
+    public function show(Category $category, SubCategory $subCategory, Request $request, EntityManagerInterface $manager, Sheet $sheet, Menu $menu)
     {
 
   
@@ -300,7 +300,7 @@ class SheetController extends AbstractController
      * @IsGranted("ROLE_USER")
      * 
      */
-    public function delete(Sheet $sheet, ObjectManager $manager, SheetRepository $sheetRepo)
+    public function delete(Sheet $sheet, EntityManagerInterface $manager, SheetRepository $sheetRepo)
     {
         // Si c'est une fiche "En cours de validation"
         if($sheet->getStatus() == "TO_VALIDATE")
@@ -363,7 +363,7 @@ class SheetController extends AbstractController
      *
      * @return Response
      */
-    public function editTools(Category $category, SubCategory $subCategory, Sheet $sheet, Request $request, ObjectManager $manager){
+    public function editTools(Category $category, SubCategory $subCategory, Sheet $sheet, Request $request, EntityManagerInterface $manager){
 
         $form = $this->createForm(ToolsType::class, $sheet);
 

@@ -8,9 +8,9 @@ use App\Repository\UserRepository;
 use App\Repository\SheetRepository;
 use App\Repository\GroupeRepository;
 use App\Repository\DocumentRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\SubCategoryRepository;
 use Symfony\Component\HttpFoundation\Request;
-use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -22,7 +22,7 @@ class AdminDocumentController extends AbstractController
      * 
      * @Route("/admin/document", name="admin_documents")
      */
-    public function index(SheetRepository $sheetRepo, DocumentRepository $docRepo, UserRepository $userRepo, SubCategoryRepository $subRepo, Request $request, ObjectManager $manager, Filter $filter)
+    public function index(SheetRepository $sheetRepo, DocumentRepository $docRepo, UserRepository $userRepo, SubCategoryRepository $subRepo, Request $request, EntityManagerInterface $manager, Filter $filter)
     {
         // Recherche des groupes dont l'utilisateur est responsable
         $groupes = $this->getUser()->getAdminGroupes();
@@ -74,7 +74,7 @@ class AdminDocumentController extends AbstractController
      *
      * @return void
      */
-    public function validate(ObjectManager $manager, Request $request, SheetRepository $repo){
+    public function validate(EntityManagerInterface $manager, Request $request, SheetRepository $repo){
 
         dump($request);
 

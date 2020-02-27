@@ -3,13 +3,13 @@
 namespace App\Controller;
 
 use App\Entity\User;
-use App\Form\AdminAccountType;
 use App\Service\Pagination;
+use App\Form\AdminAccountType;
 use App\Form\RegistrationType;
 use App\Repository\RoleRepository;
 use App\Repository\UserRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
@@ -39,7 +39,7 @@ class AdminUserController extends AbstractController
      *
      * @return Response
      */
-    public function register(Request $request, ObjectManager $manager, UserPasswordEncoderInterface $encoder) {
+    public function register(Request $request, EntityManagerInterface $manager, UserPasswordEncoderInterface $encoder) {
 
         $user = new User();
 
@@ -122,7 +122,7 @@ class AdminUserController extends AbstractController
      *
      * @return Response
      */
-    public function edit(Request $request, ObjectManager $manager, User $user, RoleRepository $repo) {
+    public function edit(Request $request, EntityManagerInterface $manager, User $user, RoleRepository $repo) {
 
         $form = $this->createForm(AdminAccountType::class, $user);
 
@@ -184,7 +184,7 @@ class AdminUserController extends AbstractController
      * @Route("/admin/user/{id}/delete", name="admin_user_delete")
      * 
      */
-    public function delete(User $user, ObjectManager $manager)
+    public function delete(User $user, EntityManagerInterface $manager)
     {
         $manager->remove($user);
         $manager->flush();
@@ -207,7 +207,7 @@ class AdminUserController extends AbstractController
      * @Route("/admin/user/admin/add", name="admin_user_admin_add")
      * 
      */
-    public function admin(ObjectManager $manager, RoleRepository $roleRepo, UserRepository $userRepo, Request $request)
+    public function admin(EntityManagerInterface $manager, RoleRepository $roleRepo, UserRepository $userRepo, Request $request)
     {
         // Solution temporaire : récupération du role admin
         $adminRole = $roleRepo->findOneByTitle("ROLE_ADMIN");
@@ -235,7 +235,7 @@ class AdminUserController extends AbstractController
      * @Route("/admin/user/admin/remove", name="admin_user_admin_remove")
      * 
      */
-    public function user(ObjectManager $manager, RoleRepository $roleRepo, UserRepository $userRepo, Request $request)
+    public function user(EntityManagerInterface $manager, RoleRepository $roleRepo, UserRepository $userRepo, Request $request)
     {
         // Solution temporaire : récupération du role admin
         $adminRole = $roleRepo->findOneByTitle("ROLE_ADMIN");

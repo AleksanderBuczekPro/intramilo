@@ -5,8 +5,8 @@ namespace App\Controller;
 use App\Entity\Poste;
 use App\Form\PosteType;
 use App\Service\Pagination;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
@@ -35,7 +35,7 @@ class PosteController extends AbstractController
      * @return Response
      * 
      */
-    public function create(Request $request, ObjectManager $manager) {
+    public function create(Request $request, EntityManagerInterface $manager) {
 
         $poste = new Poste();
 
@@ -72,7 +72,7 @@ class PosteController extends AbstractController
      *
      * @return Response
      */
-    public function edit(Request $request, ObjectManager $manager, Poste $poste) {
+    public function edit(Request $request, EntityManagerInterface $manager, Poste $poste) {
 
         $form = $this->createForm(PosteType::class, $poste);
 
@@ -105,7 +105,7 @@ class PosteController extends AbstractController
      * @Route("/admin/poste/{id}/delete", name="admin_poste_delete")
      * 
      */
-    public function delete(Poste $poste, ObjectManager $manager)
+    public function delete(Poste $poste, EntityManagerInterface $manager)
     {
         $manager->remove($poste);
         $manager->flush();

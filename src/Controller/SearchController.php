@@ -3,8 +3,8 @@
 namespace App\Controller;
 
 use App\Service\Search;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
@@ -15,7 +15,7 @@ class SearchController extends AbstractController
      * 
      * @Route("/search", name="search_index")
      */
-    public function index(ObjectManager $manager, Request $request, Search $search)
+    public function index(EntityManagerInterface $manager, Request $request, Search $search)
     {
 
         $query = $request->query->get('q');
