@@ -18,22 +18,10 @@
         {# <link rel="stylesheet" href="/css/app.css"> #}
         <link rel="stylesheet" href="https://unpkg.com/shards-ui@latest/dist/css/shards.min.css">
 
-        <link rel="stylesheet" href="/css/sidebar.css">
-        <link rel="stylesheet" href="/css/main.css">
-        <link rel="stylesheet" href="/css/files.css">
-        <link rel="stylesheet" href="/css/sheet.css">
-        <link rel="stylesheet" href="/css/documentation.css">
-        <link rel="stylesheet" href="/css/admin.css">
-        <link rel="stylesheet" href="/css/header.css">
 
-        {# <link rel="stylesheet" href="/css/login.css">
-        <link rel="stylesheet" href="/css/util.css"> #}
-
-        <script src="{{ asset('build/css/app.css') }}"></script>
-        
         <!-- Bootstrap core JavaScript -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-        <script src="{{ asset('build/js/bootstrap.bundle.min.js') }}"></script>
+        {# <script src="{{ asset('build/js/bootstrap.bundle.min.js') }}"></script> #}
               
 
         {# Fonts #}
@@ -44,15 +32,18 @@
         <!-- Shards -->
         <script src="https://unpkg.com/shards-ui@latest/dist/js/shards.min.js"></script> 
 
-        {# <script src="https://unpkg.com/isotope-layout@3/dist/isotope.pkgd.min.js"></script> #}
-        <script src="{{ asset('js/isotope.pkgd.js') }}"></script>
-        <script src="{{ asset('js/mixitup.min.js') }}"></script>
+            {{ encore_entry_link_tags('css/app') }}
+            {{ encore_entry_link_tags('css/documentation') }}
+            {{ encore_entry_link_tags('css/files') }}
+            {{ encore_entry_link_tags('css/header') }}
+            {{ encore_entry_link_tags('css/main') }}
+            {{ encore_entry_link_tags('css/sheet') }}
 
-
-        
-
-        {{ encore_entry_link_tags('css/app') }}
-        {% block stylesheets %}{% endblock %}
+        {% block stylesheets %}
+            {# CSS #}
+            
+            
+        {% endblock %}
     </head>
     <body>
 
