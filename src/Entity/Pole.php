@@ -87,12 +87,13 @@ class Pole
 
         $colors = [
             "turquoise" => "#00b8d8",
-            "violet" => "foo",
+            "violet" => "#3f20e7",
             "jaune" => "#ffb400",
             "vert" => "#1adba2",
             "rouge" => "#ff4169",
             "noir" => "#0a0c0d"
         ];
+        
 
         $this->labelColor = array_search($this->color, $colors);
         
