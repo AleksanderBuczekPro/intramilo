@@ -281,18 +281,22 @@
 
             var path = "{{ path('sheet_validate') }}";
 
-            // alert(path);
-
             $.ajax({
                 type: 'POST',
                 url: path,
                 data: { id: id, content: content},
                 success: function(data) {
-                    alert("Validé !")
+                    location.reload();
+                    
+                },
+                error: function(data) {
+                    alert("Error !")
                 }
+
+
             });
     
-            location.reload();
+            //location.reload();
         
         }); 
         
