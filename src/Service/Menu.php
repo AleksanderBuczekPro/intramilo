@@ -3,13 +3,13 @@
 namespace App\Service;
 
 use voku\helper\HtmlDomParser;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\ORM\EntityManagerInterface;
 
 class Menu{
 
     private $manager;
 
-    public function __construct(ObjectManager $manager){
+    public function __construct(EntityManagerInterface $manager){
         $this->manager = $manager;
 
     }

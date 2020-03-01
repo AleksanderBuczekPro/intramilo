@@ -266,7 +266,9 @@
 
 
 
-        $("#validation").click(function() {      
+        $("#validation").click(function() {    
+
+            
 
             // Permet d'enlever les span (couleur) du contenu
             $("div.content span").contents().unwrap();
@@ -275,12 +277,11 @@
             var id = $("#sheetId").text();
             var content = $("div.content").html();
 
-            console.log(id);
-            console.log(content);
-
             // $("#validation").attr('href').text().replace("_uniformized", content);
 
-            var path = "{{ path('admin_document_validate') }}";
+            var path = "{{ path('sheet_validate') }}";
+
+            // alert(path);
 
             $.ajax({
                 type: 'POST',

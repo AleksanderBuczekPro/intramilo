@@ -200,6 +200,62 @@ class SheetController extends AbstractController
 
     }
 
+    /**
+     * Permet de valider une fiche "En cours de validation"
+     * 
+     * @Route("/validate", name="sheet_validate")
+     *  
+     * 
+     * @IsGranted("ROLE_ADMIN")
+     *
+     * @return void
+     */
+    public function validate(EntityManagerInterface $manager, Request $request, SheetRepository $repo){
+
+        dump($request);
+
+        $id = $request->request->get('id');
+        $sheet = $repo->findOneById($id);
+
+        // dump($id);
+
+        // On initilaise les paramètres
+        $sheet->setOrigin(null);
+        $sheet->setStatus(null);
+
+        dump($request->request->get('content'));
+
+        // On remplace le texte par le texte formaté (sans couleurs)
+        $sheet->setContent($request->request->get('content'));
+
+        // On récupère l'ancienne fiche
+        $oldSheet = $sheet->getOrigin();
+
+        dump($oldSheet);
+
+        // On supprime l'ancienne fiche
+        if($oldSheet != null){
+
+            $manager->remove($oldSheet);
+
+        }
+
+        $manager->persist($sheet);
+        $manager->flush();
+        
+
+        // $subCategory = $sheet->getSubCategory();
+        // $category = $subCategory->getCategory();
+
+        // Gestion des slugs
+        $slug = $sheet->getSubCategory()->getCategory()->getSlug();
+        $subSlug = $sheet->getSubCategory()->getSlug();
+
+        return $this->redirectToRoute('sheet_show', ['slug' => $slug, 'sub_slug' => $subSlug, 'sheet_slug' => $sheet->getSlug(), 'sheet_id' => $sheet->getId()]);
+
+    }
+
+
 
      /**
      * Permet de mettre à la Une une fiche
