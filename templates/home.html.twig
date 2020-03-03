@@ -178,8 +178,8 @@
                 <div class="card">
                     <div class="card-body weather-card">
                         <div class="temp">
-                            <span>3<sup> °C</sup></span>
-                            <i class="wi wi-day-sunny"></i>
+                            <span id="temperature"></span>
+                            <i class="wi"></i>
                         </div> 
                         <div class="date">{{ "now"|localizeddate('none', 'none', 'fr', null, 'EEEE d MMMM') }}</div>
                     </div>
@@ -272,5 +272,72 @@
         
         
     </div>
+
+{% endblock %}
+
+{% block javascripts %}
+
+<script>
+
+const weatherIcons = {
+
+    "Rain": "wi wi-day-rain",
+    "Clouds": "wi wi-day-cloudy",
+    "Clear": "wi wi-day-sunny",
+    "Snow": "wi wi-day-snow",
+    "mist": "wi wi-day-fog",
+    "Drizzle": "wi wi-day-sleet"
+
+}
+
+async function main(){
+
+    // Récupérer la position du PC
+
+    const ip = await fetch('https://api.ipify.org?format=json')
+        .then(resultat => resultat.json())
+        .then(json => json.ip)
+
+    // Charger la ville grâce à l'IP
+    const ville = await fetch('http://freegeoip.app/json/' + ip)
+        .then(resultat => resultat.json())
+        .then(json => json.city)
+
+
+    // Appeler OpenWeatherMap
+    // api key = 67485703371f20b1d8486a1bb4501d32
+    const meteo = await fetch('http://api.openweathermap.org/data/2.5/weather?q=' + ville + ',fr&APPID=67485703371f20b1d8486a1bb4501d32&units=metric')
+        .then(resultat => resultat.json())
+        .then(json => json)
+           
+    // Afficher les informations sur le page
+    displayWeatherInfos(meteo)
+
+
+}
+
+function displayWeatherInfos(data){
+
+    const name = data.name;
+    const temperature = data.main.temp;
+    const condition = data.weather[0].main;
+    const description = data.weather[0].description;
+
+    console.log(data);
+
+    $('#temperature').html(Math.round(temperature) + "<sup> °C</sup>");
+    $('i.wi').addClass(weatherIcons[condition]);
+}
+    
+
+
+
+
+main();
+
+
+
+
+</script>
 
 {% endblock %}

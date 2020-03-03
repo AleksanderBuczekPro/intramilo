@@ -138,23 +138,23 @@ class Sheet
 
     }
 
-    /**
-     * Callback appelé à chaque fois qu'on crée ou modifie une fiche
-     * 
-     * @ORM\PrePersist
-     * @ORM\PreUpdate
-     *
-     * @return void
-     */
-    public function prePersist()
-    {
-        if(empty($this->updatedAt))
-        {
-            $this->updatedAt = new \DateTime();
-        }
+    // /**
+    //  * Callback appelé à chaque fois qu'on crée ou modifie une fiche
+    //  * 
+    //  * @ORM\PrePersist
+    //  * @ORM\PreUpdate
+    //  *
+    //  * @return void
+    //  */
+    // public function prePersist()
+    // {
+    //     if(empty($this->updatedAt))
+    //     {
+    //         $this->updatedAt = new \DateTime();
+    //     }
         
 
-    }
+    // }
 
     public function getId(): ?int
     {

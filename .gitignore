@@ -3,7 +3,6 @@
 /.env.local
 /.env.local.php
 /.env.*.local
-/public/bundles/
 /var/
 /vendor/
 ###< symfony/framework-bundle ###
@@ -22,3 +21,4 @@
 npm-debug.log
 yarn-error.log
 ###< symfony/webpack-encore-bundle ###
+/public/files/

@@ -64,54 +64,6 @@ class AdminDocumentController extends AbstractController
 
     }
 
-    /**
-     * Permet de valider une fiche "En cours de validation"
-     * 
-     * @Route("/admin/document/validate/", name="admin_document_validate")
-     *  
-     * 
-     * @IsGranted("ROLE_USER")
-     *
-     * @return void
-     */
-    public function validate(EntityManagerInterface $manager, Request $request, SheetRepository $repo){
-
-        dump($request);
-
-        $id = $request->request->get('id');
-        $sheet = $repo->findOneById($id);
-
-        dump($id);
-
-        // On récupère l'ancienne fiche
-        $oldSheet = $sheet->getOrigin();
-
-        // On initilaise les paramètres
-        $sheet->setOrigin(null);
-        $sheet->setStatus(null);
-
-        dump($request->request->get('content'));
-
-        // On remplace le texte par le texte formaté (sans couleurs)
-        $sheet->setContent($request->request->get('content'));
-
-        dump($oldSheet);
-
-        // On supprime l'ancienne fiche
-        if($oldSheet != null){
-
-            $manager->remove($oldSheet);
-
-        }
-       
-        $manager->flush();
-
-        $subCategory = $sheet->getSubCategory();
-        $category = $subCategory->getCategory();
-
-        return $this->redirectToRoute('doc_show', ['slug' => $category->getSlug(), 'sub_slug' => $subCategory->getSlug()]);
-
-    }
 
     /**
      * Permet d'envoyer une fiche à corriger
