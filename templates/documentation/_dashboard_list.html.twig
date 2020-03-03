@@ -41,7 +41,19 @@
                     >
                         {{ file.title }}
                     </a><br>
-                        {{ file.updatedAt|localizeddate('none', 'none', 'fr', null, 'd MMMM Y') }}
+                        {{ file.updatedAt|localizeddate('none', 'none', 'fr', null, 'd MMMM Y') }}<br>
+                    <span class="badge badge-pill badge-light">
+                        {{ file.subcategory.category.pole }}
+                    </span>
+                    <span class="badge badge-pill badge-light">
+                        {{ file.subcategory.category }}
+                    </span>
+                    <span class="badge badge-pill badge-light">
+                        {{ file.subcategory }}
+                    </span>
+                    <span class="ml-1 badge badge-pill badge-light">
+                        <i class="far fa-eye"></i> {{ file.views }}
+                    </span>
                 </td>
                 
                 

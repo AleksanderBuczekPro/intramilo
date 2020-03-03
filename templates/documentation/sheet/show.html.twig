@@ -80,12 +80,20 @@
 
                 <h1 class="sheet-title mt-4">{{ sheet.title }}</h1>
                 <p class="sheet-infos">
+
+                {% if sheet.status != "TO_VALIDATE" and sheet.status != "TO_CORRECT" %}
+                    <span class="badge badge-pill badge-secondary">
+                        <i class="far fa-eye"></i> {{ sheet.views }}
+                    </span>
+                {% endif %}
+
                 <span class="badge badge-pill badge-{{state_class}}">
                     {{ state }}
                 </span>
                 <span class="badge badge-pill badge-secondary">
                     {{ sheet.updatedAt|localizeddate('none', 'none', 'fr', null, 'MMMM Y') }}
                 </span>
+                
                 <a href="{{ path('user_show', {'slug': subCategory.author.slug }) }}">
                     <span class="badge badge-pill badge-light">
                         {{ sheet.subCategory.author.fullName }}

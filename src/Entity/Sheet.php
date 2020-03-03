@@ -108,6 +108,11 @@ class Sheet
      */
     private $front;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $views;
+
 
 
     public function __construct()
@@ -434,6 +439,18 @@ class Sheet
     public function setFront(bool $front): self
     {
         $this->front = $front;
+
+        return $this;
+    }
+
+    public function getViews(): ?int
+    {
+        return $this->views;
+    }
+
+    public function setViews(int $views): self
+    {
+        $this->views = $views;
 
         return $this;
     }

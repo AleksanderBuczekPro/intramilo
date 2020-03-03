@@ -6,6 +6,7 @@ use App\Entity\Category;
 use App\Entity\Document;
 use App\Form\DocumentType;
 use App\Entity\SubCategory;
+use App\Repository\DocumentRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -66,12 +67,38 @@ class DocumentController extends AbstractController
      * 
      * @return Response
      */
-    public function show(Category $category, SubCategory $subCategory, Document $document)
+    public function show(Category $category, SubCategory $subCategory, Document $document, EntityManagerInterface $manager)
     {
 
         return $this->render('documentation/document/show.html.twig', [
             'category' => $category,
             'subCategory' => $subCategory,
+            'document' => $document
+        ]);
+    }
+
+    /**
+     * Permet d'incrémenter le compteur de vues pour un document (à l'ouverture du fichier)
+     * 
+     * @Route("/doc/views", name="document_views")
+     *
+     * @return void
+     */
+    public function view(Request $request, DocumentRepository $repo, EntityManagerInterface $manager){
+
+        $id = $request->request->get('id');
+        $document = $repo->findOneById($id);
+
+        $views = $document->getViews();
+        $views++;
+        $document->setViews($views);
+
+        $manager->persist($document);
+        $manager->flush();
+
+        return $this->render('documentation/document/show.html.twig', [
+            'category' => $document->getSubCategory(),
+            'subCategory' => $document->getSubCategory()->getCategory(),
             'document' => $document
         ]);
     }

@@ -53,6 +53,7 @@ class SheetController extends AbstractController
         // On supprime l'ancienne fiche
         if($oldSheet != null){
 
+            $sheet->setViews($oldSheet->getViews());
             $manager->remove($oldSheet);
 
         }
@@ -65,14 +66,14 @@ class SheetController extends AbstractController
         $manager->flush();
         
         
-        // $subCategory = $sheet->getSubCategory();
-        // $category = $subCategory->getCategory();
+        $subCategory = $sheet->getSubCategory();
+        $category = $subCategory->getCategory();
 
         // Gestion des slugs
         $slug = $sheet->getSubCategory()->getCategory()->getSlug();
         $subSlug = $sheet->getSubCategory()->getSlug();
 
-        return $this->redirectToRoute('sheet_show', ['slug' => $slug, 'sub_slug' => $subSlug, 'sheet_slug' => $sheet->getSlug(), 'sheet_id' => $sheet->getId()]);
+        return $this->redirectToRoute('doc_show', ['slug' => $category->getSlug(), 'sub_slug' => $subCategory->getSlug()]);
 
     }
 
@@ -341,6 +342,19 @@ class SheetController extends AbstractController
                 'form' => $form->createView()
 
             ]);
+
+        }
+
+
+        // Si la fiche n'est pas en cours de validation ou à corriger
+        if($sheet->getStatus() === null){
+
+            $views = $sheet->getViews();
+            $views++;
+            $sheet->setViews($views);
+
+            $manager->persist($sheet);
+            $manager->flush();
 
         }
             

@@ -74,7 +74,8 @@
                     >
                         <strong class="file-title">{{ file.title }}</strong>
                     </a><br>
-                    <small class="file-organization">{{ file.organization }}</small>
+                    <small class="file-organization">{{ file.organization }}</small><br>
+                    {% if (file.status is defined) and (file.status != "TO_VALIDATE" and file.status != "TO_CORRECT")%} <i class="far fa-eye"></i> {{ file.views }} {% endif %}
                 </td>
                 <td class="align-middle text-center file-status">
 
