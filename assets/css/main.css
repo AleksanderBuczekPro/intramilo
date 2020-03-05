@@ -244,6 +244,12 @@ div.card.profile-card .card-text{
 
 }
 
+table.last-doc td{
+
+    padding: 15px;
+
+}
+
 table.last-doc td.initiales, table.best-doc td.initiales{
 
     width: 20px;

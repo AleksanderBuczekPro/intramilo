@@ -48,7 +48,8 @@
                     >
                         {{ file.title }}
                     </a><br>
-                    {% if subtitle == "organization" %}
+                    {{ file.organization }}<br>
+                    {# {% if subtitle == "organization" %}
 
                         {{ file.organization }}
 
@@ -56,18 +57,22 @@
 
                         {{ file.updatedAt|localizeddate('none', 'none', 'fr', null, 'd MMMM Y') }}
 
-                    {% endif %}<br>
-                    <span class="badge badge-pill badge-light">
+                    {% endif %}<br> #}
+                    {# <span class="badge badge-pill badge-light">
                         {{ file.subcategory.category.pole }}
+                    </span> #}
+                    <div>
+                    <span class="badge badge-light mt-2" style="color: #3a86ff; background-color: rgba(58, 134, 255, 0.15)">
+                       <strong> • {{ file.subcategory.category }} </strong>
                     </span>
-                    <span class="badge badge-pill badge-light">
-                        {{ file.subcategory.category }}
-                    </span>
-                    <span class="badge badge-pill badge-light">
+                    {# <span class="badge badge-pill badge-light">
                         {{ file.subcategory }}
+                    </span> #}
+                    <span class="ml-1 badge badge-light mt-2" style="color: #6777ef; background-color: rgba(103, 119, 239, 0.15);">
+                        <strong> <i class="far fa-clock mr-1"></i> {{ file.updatedAt|localizeddate('none', 'none', 'fr', null, 'd MMMM Y') }} </strong>
                     </span>
-                    <span class="ml-1 badge badge-pill badge-light">
-                        <i class="far fa-eye"></i> {{ file.views }}
+                    <span class="ml-1 badge badge-light mt-2">
+                        <strong> <i class="far fa-eye mr-1"></i> {{ file.views }} </strong>
                     </span>
 
                         
