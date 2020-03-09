@@ -119,6 +119,8 @@ class SheetController extends AbstractController
             $sheet->setFront('0');
             $sheet->setStatus("TO_VALIDATE");
             $sheet->setUpdatedAt(new \DateTime());
+            $sheet->setViews(0);
+
             $manager->persist($sheet);
             $manager->flush();
 
