@@ -36,6 +36,7 @@ class DocumentController extends AbstractController
 
         if($form->isSubmitted() && $form->isValid()){
 
+            $document->setViews(0);
             $manager->persist($document);
             $manager->flush();
 
