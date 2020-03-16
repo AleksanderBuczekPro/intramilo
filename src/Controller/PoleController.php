@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Pole;
 use App\Form\PoleType;
 use App\Service\Color;
+use App\Repository\PoleRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -12,6 +13,21 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class PoleController extends AbstractController
 {
+
+    /**
+     * Permet d'afficher la liste de tous les poles
+     * 
+     * @Route("/admin/poles", name="admin_poles_index")
+     */
+    public function index(PoleRepository $repo)
+    {
+        $poles =$repo->findAll();
+
+        return $this->render('admin/pole/index.html.twig', [
+            'poles' => $poles
+        ]);
+    }
+
     /**
      * @Route("/admin/pole/add", name="admin_pole_create")
      */
@@ -37,7 +53,7 @@ class PoleController extends AbstractController
 
             );
 
-            return $this->redirectToRoute('admin_category_index');
+            return $this->redirectToRoute('admin_poles_index');
         
         }
 
@@ -51,7 +67,7 @@ class PoleController extends AbstractController
      * 
      * @Route("/admin/pole/{id}/edit", name="admin_pole_edit")
      */
-    public function editCategory(Pole $pole, Request $request, EntityManagerInterface $manager)
+    public function edit(Pole $pole, Request $request, EntityManagerInterface $manager)
     {
 
         $form = $this->createForm(PoleType::class, $pole);
@@ -69,7 +85,7 @@ class PoleController extends AbstractController
 
             );
 
-            return $this->redirectToRoute('admin_category_index');
+            return $this->redirectToRoute('admin_poles_index');
 
         }
 
@@ -84,7 +100,7 @@ class PoleController extends AbstractController
      * 
      * @Route("/admin/pole/{id}/delete", name="admin_pole_delete")
      */
-    public function deleteCategory(Pole $pole, EntityManagerInterface $manager)
+    public function delete(Pole $pole, EntityManagerInterface $manager)
     {
 
         $manager->remove($pole);
@@ -92,11 +108,11 @@ class PoleController extends AbstractController
 
         $this->addFlash(
             'success',
-            "Le pole <strong>{$pole->getTitle()}</strong> a bien été supprimé !"
+            "Le pôle <strong>{$pole->getTitle()}</strong> a bien été supprimé !"
 
         );
 
-        return $this->redirectToRoute('admin_category_index');
+        return $this->redirectToRoute('admin_poles_index');
 
 
     }

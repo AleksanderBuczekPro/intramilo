@@ -16,9 +16,10 @@ class SubCategoryType extends ApplicationType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-        ->add('title', TextType::class, $this->getConfiguration("Nom de la sous-catégorie", "Entrez le nom de la catégorie ici"))
+        ->add('title', TextType::class, $this->getConfiguration("Nom de la sous-catégorie", "Entrez le nom de la sous-catégorie ici"))
         ->add('category', EntityType::class, [
             'class' => Category::class,
+            'label' => "Catégorie",
             'choice_label' => function($category){
                 return $category->getTitle();
 
@@ -27,6 +28,7 @@ class SubCategoryType extends ApplicationType
         ])
         ->add('author', EntityType::class, [
             'class' => User::class,
+            'label' => "Responsable de la mise à jour",
             'choice_label' => function($user){
                 return $user->getFullname();
 

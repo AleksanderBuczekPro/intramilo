@@ -263,7 +263,7 @@ table.last-doc td, table.dashboard-list td, table.websites td{
     
 }
 
-.table .initiales span.init, .table.users span.init{
+.table .initiales span.init, .table.admin span.init{
 
     font-family: 'Fira Mono', monospace;
 
@@ -535,5 +535,41 @@ a.website:hover{
 
     min-height: 500px;
 
+}
+
+.notification .mybadge{
+
+    position: absolute;
+    top: 10px;
+    right: 0px;
+    height: 15px;
+    width: 15px;
+    background-color: red;
+    border-radius: 50%;
+    display: inline-block;
+    color: white;
+    text-align: center;
+    font-size: 11px;
+    
+}
+
+table.admin td{
+
+    text-align: middle!important;
+
+}
+
+table.admin td{
+
+    text-align: middle!important;
+    border: none!important;
+    padding: 1rem;
+
+}
+
+table.admin th{
+
+    font-size: 1.2em;
+    border: none!important;
 
 }

@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Poste;
 use App\Form\PosteType;
+use App\Repository\PosteRepository;
 use App\Service\Pagination;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,15 +16,16 @@ class PosteController extends AbstractController
     /**
      * Permet d'afficher la liste de tous les postes
      * 
-     * @Route("/admin/postes/{page<\d+>?1}", name="admin_postes_index")
+     * @Route("/admin/postes", name="admin_postes_index")
      */
-    public function index($page, Pagination $pagination)
+    public function index(PosteRepository $repo)
     {
-        $pagination ->setEntityClass(Poste::class)
-                    ->setPage($page);
+        $postes = $repo->findAll();
+
+        dump($postes);
 
         return $this->render('admin/poste/index.html.twig', [
-            'pagination' => $pagination
+            'postes' => $postes
         ]);
     }
 

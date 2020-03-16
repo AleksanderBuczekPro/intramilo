@@ -3,6 +3,7 @@ namespace App\Service;
 use Twig\Environment;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 /**
  * Classe de pagination qui extrait toute notion de calcul et de récupération de données de nos controllers
@@ -71,7 +72,7 @@ class Pagination {
      * @param RequestStack $request
      * @param string $templatePath
      */
-    public function __construct(ObjectManager $manager, Environment $twig, RequestStack $request, string $templatePath) {
+    public function __construct(EntityManagerInterface $manager, Environment $twig, RequestStack $request, string $templatePath) {
 
         // On récupère le nom de la route à utiliser à partir des attributs de la requête actuelle
         $this->route        = $request->getCurrentRequest()->attributes->get('_route');        

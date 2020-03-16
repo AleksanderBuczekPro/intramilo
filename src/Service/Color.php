@@ -3,13 +3,13 @@
 namespace App\Service;
 
 use App\Repository\PoleRepository;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\ORM\EntityManagerInterface;
 
 class Color{
 
     private $manager;
 
-    public function __construct(ObjectManager $manager){
+    public function __construct(EntityManagerInterface $manager){
         $this->manager = $manager;
 
     }

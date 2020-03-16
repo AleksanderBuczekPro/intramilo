@@ -1,42 +1,56 @@
 {% extends 'admin/base.html.twig' %}
 
-{% block title %}Gestion des antennes{% endblock %}
+{% block title %}Liste des antennes{% endblock %}
 
 {% block body %}
 <div class="container">
-    <h1 class="mt-5">Gestion des antennes</h1>
-    <a href="{{ path('admin_antenne_create') }}" class="btn btn-sm btn-primary mb-5">Ajouter une antenne</a>
-    <table class="table table-hover">
-        <thead>
-            <tr>
-                <th>Antenne</th>
-                <th>Adresse</th>
-                <th>Ville</th>
-                <th>Numéro de téléphone</th>
-                <th>Nombre de salariés</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for antenne in pagination.data %}
-            <tr>
-                <td>{{ antenne.title }}</td>
-                <td>{{ antenne.address }}</td>
-                <td>{{ antenne.postcode }} {{ antenne.city }}</td>
-                <td>{{ antenne.phoneNumber }}</td>
-                <td class="text-center"><span class="badge badge-dark">{{ antenne.users|length }}</span></td>
-                <td class="text-center">
-                    <a href="{{ path('admin_antenne_edit', {'id':  antenne.id }) }}" class="btn btn-primary"><i class="fas fa-edit"></i></a>
-                    <a href="{{ path('admin_antenne_delete', {'id':  antenne.id }) }}" class="btn btn-danger"><i class="fas fa-trash"></i></a>
-                </td>
 
-            </tr>
+    <div class="card p-1">
+        <div class="card-body">
+            <h2 class="card-title mb-3">Liste des antennes <a href="{{ path('admin_antenne_create') }}" class="btn btn-primary float-right m-3">Ajouter une antenne</a></h2>
+            <table class="table admin table-hover">
+                <thead>
+                    <tr>
+                        <th>Antenne</th>
+                        <th>Coordonnées</th>
+                        <th class="text-center">Utilisateurs</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for antenne in antennes %}
+                    <tr>
+                        <td><strong>{{ antenne.title }}</strong></td>
+                        <td>{{ antenne.address }}<br>
+                            {{ antenne.postcode }} {{ antenne.city }} <br>
+                            {{ antenne.phoneNumber }}
+                        </td>
+                        <td class="text-center">
+                        <span class="badge badge-info" data-toggle="tooltip" data-placement="top" title="
+                            {% if antenne.users|length > 0 %}
 
-            {% endfor %}
-        </tbody>
-    </table>
+                                {% for user in antenne.users %}
+                                    {{ user }} <br>
+                                {% endfor %}
 
-    {{ pagination.display() }}
+                            {% else %}
+
+                                Aucun utilisateur
+
+                            {% endif %}                                    
+                        ">{{ antenne.users|length }}</span>
+                        
+                        </td>
+                        <td class="text-center">
+                            <a href="{{ path('admin_antenne_edit', {'id':  antenne.id }) }}" class="btn btn-link">Modifier</a>
+                            <a href="{{ path('admin_antenne_delete', {'id':  antenne.id }) }}" class="btn btn-link">Supprimer</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
 
 
 </div>

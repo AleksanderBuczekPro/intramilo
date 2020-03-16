@@ -18,13 +18,12 @@ class AntenneController extends AbstractController
      * 
      * @Route("/admin/antennes/{page<\d+>?1}", name="admin_antennes_index")
      */
-    public function index(AntenneRepository $repo, $page, Pagination $pagination)
+    public function index(AntenneRepository $repo)
     {
-        $pagination ->setEntityClass(Antenne::class)
-                    ->setPage($page);
+        $antennes =$repo->findAll();
 
         return $this->render('admin/antenne/index.html.twig', [
-            'pagination' => $pagination
+            'antennes' => $antennes
         ]);
     }
 

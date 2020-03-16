@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Pole;
 use App\Entity\Category;
 use App\Form\CategoryType;
 use App\Entity\SubCategory;
@@ -12,6 +13,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 class AdminCategoryController extends AbstractController
 {
@@ -33,13 +35,16 @@ class AdminCategoryController extends AbstractController
     /**
      * Permet d'ajouter une catégorie
      * 
-     * @Route("/admin/category/new", name="admin_category_create")
+     * @Route("/admin/pole/{id}/category/new", name="admin_category_create")
+     * 
+     * @ParamConverter("pole", options={"mapping": {"id": "id"}})
      *
      * @return Response
      */
-    public function createCategory(Request $request, EntityManagerInterface $manager) {
+    public function createCategory(Request $request, EntityManagerInterface $manager, Pole $pole) {
 
         $category = new Category();
+        $category->setPole($pole);
 
         $form = $this->createForm(CategoryType::class, $category);
 
@@ -61,6 +66,7 @@ class AdminCategoryController extends AbstractController
         }
 
         return $this->render('admin/category/create.html.twig', [
+            'pole' => $pole,
             'form' => $form->createView()
         ]);
 
@@ -69,13 +75,17 @@ class AdminCategoryController extends AbstractController
     /**
      * Permet d'ajouter une sous-catégorie
      * 
-     * @Route("/admin/sub-category/new", name="admin_sub_category_create")
+     * @Route("/admin/category/{id}/sub-category/new", name="admin_sub_category_create")
+     * 
+     * @ParamConverter("category", options={"mapping": {"id": "id"}})
      *
      * @return Response
      */
-    public function createSubCategory(Request $request, EntityManagerInterface $manager) {
+    public function createSubCategory(Request $request, EntityManagerInterface $manager, Category $category) {
 
         $subCategory = new SubCategory();
+
+        $subCategory->setCategory($category);
 
         $form = $this->createForm(SubCategoryType::class, $subCategory);
 
@@ -97,6 +107,8 @@ class AdminCategoryController extends AbstractController
         }
 
         return $this->render('admin/category/create_sub.html.twig', [
+            'pole' => $category->getPole(),
+            'category' => $category,
             'form' => $form->createView()
         ]);
 
@@ -136,7 +148,7 @@ class AdminCategoryController extends AbstractController
     }
 
     /**
-     * Permet de modifier une catégorie
+     * Permet de modifier une sous-catégorie
      * 
      * @Route("/admin/sub-category/{id}/edit", name="admin_sub_category_edit")
      */
@@ -164,6 +176,8 @@ class AdminCategoryController extends AbstractController
 
         return $this->render('admin/category/edit_sub.html.twig', [
             'form'=> $form->createView(),
+            'pole' => $subCategory->getCategory()->getPole(),
+            'category' => $subCategory->getCategory(),
             'subCategory' => $subCategory
         ]);
     }
@@ -173,15 +187,29 @@ class AdminCategoryController extends AbstractController
      * 
      * @Route("/admin/category/{id}/delete", name="admin_category_delete")
      */
-    public function deleteCategory(Category $Category, EntityManagerInterface $manager)
+    public function deleteCategory(Category $category, EntityManagerInterface $manager)
     {
 
-        $manager->remove($Category);
+        $subCategories = $category->getSubCategories();
+
+        if(count($subCategories) > 0){
+
+            $this->addFlash(
+                'danger',
+                "La catégorie <strong>{$category->getTitle()}</strong> ne peut être suprimée car elle contient des sous-catégories !"
+    
+            );
+            
+            return $this->redirectToRoute('admin_category_index');
+
+        }
+
+        $manager->remove($category);
         $manager->flush();
 
         $this->addFlash(
             'success',
-            "La categorie <strong>{$Category->getTitle()}</strong> a bien été supprimée !"
+            "La categorie <strong>{$category->getTitle()}</strong> a bien été supprimée !"
 
         );
 
@@ -198,6 +226,23 @@ class AdminCategoryController extends AbstractController
      */
     public function deleteSubCategory(SubCategory $subCategory, EntityManagerInterface $manager)
     {
+
+        $sheets = $subCategory->getSheets();
+        $documents = $subCategory->getDocuments();
+
+        $counter = count($sheets) + count($documents);
+
+        if($counter > 0){
+
+            $this->addFlash(
+                'danger',
+                "La sous-categorie <strong>{$subCategory->getTitle()}</strong> ne peut être supprimée car elle contient des fiches ou des documents !"
+    
+            );
+            
+            return $this->redirectToRoute('admin_category_index');
+
+        }
 
         $manager->remove($subCategory);
         $manager->flush();

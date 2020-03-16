@@ -20,15 +20,15 @@ class AdminUserController extends AbstractController
     /**
      * Permet d'afficher la liste de tous les utilisateurs
      * 
-     * @Route("/admin/users/{page<\d+>?1}", name="admin_users_index")
+     * @Route("/admin/users", name="admin_users_index")
      */
-    public function index(UserRepository $repo, $page, Pagination $pagination)
+    public function index(UserRepository $repo)
     {
-        $pagination ->setEntityClass(User::class)
-                    ->setPage($page);
+        $users = $repo->findAll();
 
         return $this->render('admin/user/index.html.twig', [
-            'pagination' => $pagination
+            'users' => $users
+    
         ]);
     }
 
@@ -52,49 +52,6 @@ class AdminUserController extends AbstractController
             // Gestion du mot de passe
             $hash = $encoder->encodePassword($user, $user->getHash());
             $user->setHash($hash);
-
-            $user->setPicture("https://media-exp1.licdn.com/dms/image/C5603AQHu7cPy83UvbA/profile-displayphoto-shrink_100_100/0?e=1585785600&v=beta&t=qLyCkqMYn87M4pG_DFxBhoxNtIbPnIJhn3VLAxBU_Sk");
-            $user->setDescription("description"); 
-            
-            // Gestion du statut administrateur
-            // $admin = $request->request->get('isAdmin');
-            // if(isset($admin)){
-
-            //     $user->addUserRole('ROLE_ADMIN');
-
-            // }else{
-
-                
-            //     $administrateur = "";
-
-            // }
-
-            $pictureFile = $form->get('pic')->getData();
-
-            // this condition is needed because the 'brochure' field is not required
-
-            // so the PDF file must be processed only when a file is uploaded
-            if ($pictureFile) {
-
-                $originalFilename = pathinfo($pictureFile->getClientOriginalName(), PATHINFO_FILENAME);
-                // this is needed to safely include the file name as part of the URL
-                $safeFilename = transliterator_transliterate('Any-Latin; Latin-ASCII; [^A-Za-z0-9_] remove; Lower()', $originalFilename);
-                $newFilename = $safeFilename.'-'.uniqid().'.'.$pictureFile->guessExtension();
-
-                // Move the file to the directory where brochures are stored
-                try {
-                    $pictureFile->move(
-                        $this->getParameter('pictures_directory'),
-                        $newFilename
-                    );
-                } catch (FileException $e) {
-                    // ... handle exception if something happens during file upload
-                }
-
-                // updates the 'brochureFilename' property to store the PDF file name
-                // instead of its contents
-                $user->setPictureFilename($newFilename);
-            }
 
             $manager->persist($user);
             $manager->flush();
@@ -129,35 +86,6 @@ class AdminUserController extends AbstractController
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
-
-            // Gestion de la photo de profil
-
-            $pictureFile = $form->get('pic')->getData();
-
-            // this condition is needed because the 'brochure' field is not required
-
-            // so the PDF file must be processed only when a file is uploaded
-            if ($pictureFile) {
-
-                $originalFilename = pathinfo($pictureFile->getClientOriginalName(), PATHINFO_FILENAME);
-                // this is needed to safely include the file name as part of the URL
-                $safeFilename = transliterator_transliterate('Any-Latin; Latin-ASCII; [^A-Za-z0-9_] remove; Lower()', $originalFilename);
-                $newFilename = $safeFilename.'-'.uniqid().'.'.$pictureFile->guessExtension();
-
-                // Move the file to the directory where brochures are stored
-                try {
-                    $pictureFile->move(
-                        $this->getParameter('pictures_directory'),
-                        $newFilename
-                    );
-                } catch (FileException $e) {
-                    // ... handle exception if something happens during file upload
-                }
-
-                // updates the 'brochureFilename' property to store the PDF file name
-                // instead of its contents
-                $user->setPictureFilename($newFilename);
-            }
 
             $manager->persist($user);
             $manager->flush();

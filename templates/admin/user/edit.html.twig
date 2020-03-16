@@ -1,35 +1,65 @@
 {% extends 'admin/base.html.twig' %}
 
-{% block title %}Modification d'un compte utilisateur{% endblock %}
+{% block title %}Modification d'un utilisateur{% endblock %}
 
 {% block body %}
 
     <div class="container">
-        <h1 class="my-5">Modification d'un compte utilisateur</h1>
+        <h1 class="my-5"></h1>
 
         {{ form_start(form) }}
 
         <div class="row">
-            <div class="col">
+            <div class="col-md-10 offset-md-1">
+                <a href="{{ path('admin_users_index') }}" class="btn btn-primary">Retour à la liste des utilisateurs</a>
+                <h1 class="my-5">Modification d'un utilisateur</h1>
+
+                    <div class="card p-4">
+                        <div class="card-body">
+                        <h6 class="card-title mb-3">Informations générales</h6>
+                            {{ form_row(form.firstName) }}
+                            {{ form_row(form.lastName) }}
+                            {{ form_row(form.email) }}
+                        </div>
+                    </div>
+
+                    <div class="card p-4">
+                        <div class="card-body">
+                        <h6 class="card-title mb-3">Poste et coordonnées</h6>
+                            {{ form_row(form.poste) }}
+                            {{ form_row(form.introduction) }}
+                            {{ form_row(form.groupe) }}    
+
+                            {{ form_row(form.antenne) }}
+                            {{ form_row(form.phoneNumber) }}
+
+                            <button type="submit" class="btn btn-success float-right mt-2">Modifier l'utilisateur</button>
+                            <a href="{{ path('admin_users_index') }}" class="btn btn-outline-danger float-right mr-1 mt-2">Annuler</a>    
+                                                    
+                        </div>
+                    </div>
+            </div>
+            {# <div class="col">
+
+            
                 <div class="alert alert-light">
-                    <h2>Informations générales</h2>
+                    <h2>Détails</h2>
                     <hr>
-                    {{ form_row(form.firstName) }}
-                    {{ form_row(form.lastName) }}
-                    {{ form_row(form.email) }}
-                    {{ form_row(form.phoneNumber) }}
-                    {{ form_row(form.pic) }}
-                    {{ form_row(form.antenne) }}
-                    {{ form_row(form.groupe) }}
-                    {{ form_row(form.poste) }}
                     {{ form_row(form.introduction) }}
+                    {{ form_row(form.description) }}
+
                     <hr>
+                    <p>Vous y êtes presque, confirmez votre inscription et rejoignez nous !</p>
                     <button type="submit" class="btn btn-success">
-                        <i class="fas fa-check"></i> Confirmez les modifications
+                        <i class="fas fa-check"></i> Confirmez l'inscription
                     </button>
                 </div>
-            </div>
+            </div> #}
         </div>
+
+
+
+        
         {{ form_end(form) }}
     </div>
 

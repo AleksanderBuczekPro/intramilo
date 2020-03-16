@@ -16,15 +16,15 @@ class GroupeController extends AbstractController
     /**
      * Permet d'afficher la liste de tous les groupes
      * 
-     * @Route("/admin/groupes/{page<\d+>?1}", name="admin_groupes_index")
+     * @Route("/admin/groupes", name="admin_groupes_index")
      */
-    public function index(GroupeRepository $repo, $page, Pagination $pagination)
+    public function index(GroupeRepository $repo)
     {
-        $pagination ->setEntityClass(Groupe::class)
-                    ->setPage($page);
+
+        $groupes = $repo->findAll();
 
         return $this->render('admin/groupe/index.html.twig', [
-            'pagination' => $pagination
+            'groupes' => $groupes
         ]);
     }
 
@@ -51,7 +51,7 @@ class GroupeController extends AbstractController
 
             $this->addFlash(
                 'success',
-                "L'antenne <strong>{$groupe->getTitle()}</strong> a bien été créée !"
+                "Le groupe <strong>{$groupe->getTitle()}</strong> a bien été créée !"
 
             );
 

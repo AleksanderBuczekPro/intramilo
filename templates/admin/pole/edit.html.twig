@@ -3,20 +3,32 @@
 {% block title %}Modification d'un pôle{% endblock %}
 
 {% block body %}
-<div class="container">
-    <h1 class="my-5">Modification d'un pôle</h1>
 
-    {{ form_start(form) }}
+    <div class="container">
 
-    {{ form_widget(form) }}
+        {{ form_start(form) }}
 
-    <button type="submit" class="btn btn-primary">
-        <i class="fas fa-check"></i> Modifier le pôle
-    </button>
+        <div class="row">
+            <div class="col-md-10 offset-md-1">
 
-    {{ form_end(form) }}
+                <a href="{{ path('admin_poles_index') }}" class="btn btn-primary">Retour à la liste des pôles</a>
+                <h1 class="my-5">Modification d'un pôle</h1>
 
+                <div class="card">
+                    <div class="card-body">
 
+                        {{ form_widget(form) }}
 
-</div>
+                        <button type="submit" class="btn btn-success float-right mt-2">
+                            <i class="fas fa-check"></i> Modifier le pôle
+                        </button>
+                        <a href="{{ path('admin_poles_index') }}" class="btn btn-outline-danger float-right mr-1 mt-2">Annuler</a>      
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+        {{ form_end(form) }}
+    </div>
+
 {% endblock %}

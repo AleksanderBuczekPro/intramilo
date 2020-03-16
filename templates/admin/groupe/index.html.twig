@@ -4,38 +4,63 @@
 
 {% block body %}
 <div class="container">
-    <h1 class="mt-5">Gestion des groupes</h1>
-    <a href="{{ path('admin_groupe_create') }}" class="btn btn-sm btn-primary mb-5">Ajouter un groupe</a>
-    <table class="table table-hover">
-        <thead>
-            <tr>
-                <th>Groupe</th>
-                <th>Responsable</th>
-                <th class="text-center">Nombre de salariés</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for groupe in pagination.data %}
-            <tr>
-                <td>{{ groupe.title }}</td>
-                <td>
-                    <img src="{{ groupe.responsable.picture }}" alt="Avatar de {{ groupe.responsable.fullName }}" class="avatar avatar-micro mr-2">
-                    {{ groupe.responsable.fullName }}
-                </td>
-                <td class="text-center"><span class="badge badge-dark">{{ groupe.users|length }}</span></td>
-                <td class="text-center">
-                    <a href="{{ path('admin_groupe_edit', {'id':  groupe.id }) }}" class="btn btn-primary"><i class="fas fa-edit"></i></a>
-                    <a href="{{ path('admin_groupe_delete', {'id':  groupe.id }) }}" class="btn btn-danger"><i class="fas fa-trash"></i></a>
-                </td>
 
-            </tr>
+    <div class="card p-1">
+        <div class="card-body">
+            <h2 class="card-title mb-3">Liste des groupes <a href="{{ path('admin_groupe_create') }}" class="btn btn-primary float-right m-3">Ajouter un groupe</a></h2>
+            <table class="table admin table-hover">
+                <thead>
+                    <tr>
+                        <th>Groupe</th>
+                        <th colspan="2">Responsable</th>
+                        <th class="text-center">Utilisateurs</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for groupe in groupes %}
 
-            {% endfor %}
-        </tbody>
-    </table>
+                    <tr>
+                        <td><strong>{{ groupe.title }}</strong></td>
+                        <td class="align-middle">{% include '_picture.html.twig' with {'user': groupe.responsable, 'class': 'medium'} %}</td>
+                        <td class="align-middle" >
+                                <strong>{{ groupe.responsable }}</strong> <br>
+                                {{ groupe.responsable.email }}
+                            </td>
+                        <td class="text-center">
+                            <span class="badge badge-info" data-toggle="tooltip" data-placement="top" title="
+                                {% if groupe.users|length > 0 %}
 
-    {{ pagination.display() }}
+                                        {% for user in groupe.users %}
+                                            {{ user }} <br>
+                                        {% endfor %}
+
+                                    {% else %}
+
+                                        Aucun utilisateur
+
+                                    {% endif %}                                    
+                                ">{{ groupe.users|length }}
+                            </span>
+                        <td class="text-center">
+                            {# <a href="{{ path('admin_groupe_edit', {'id':  groupe.id }) }}" class="btn btn-primary"><i class="fas fa-edit"></i></a>
+                            <a href="{{ path('admin_groupe_delete', {'id':  groupe.id }) }}" class="btn btn-danger"><i class="fas fa-trash"></i></a> #}
+
+                            <a href="{{ path('admin_groupe_edit', {'id':  groupe.id }) }}" class="btn btn-link">Modifier</a>
+                            <a href="{{ path('admin_groupe_delete', {'id':  groupe.id }) }}" class="btn btn-link">Supprimer</a>
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+                </tbody>
+            </table>
+        
+        
+        </div>
+    
+    </div>
+    
 
 
 </div>

@@ -1,0 +1,89 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}
+    Administration des pôles
+{% endblock %}
+
+{% block body %}
+
+    <div class="container">
+
+        <div class="card">
+            <div class="card-body">
+                <h2 class="card-title mb-3">Liste des pôles<a href="{{ path('admin_pole_create') }}" class="btn btn-primary float-right m-3">Ajouter un pôle</a></h2>
+                
+                <div>
+                    {# {% for pole in poles %} #}
+
+                    <table class="table admin table-hover">
+                        <thead>
+                            <tr>
+                                <th>Pôle</th>
+                                <th class="text-center">Catégories</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for pole in poles %}
+                            <tr>
+                                <td><span class="badge badge-pill badge-primary pole align-middle" style="background-color: {{ pole.color }}">{{ pole.title }}</span></td>
+                                <td class="text-center">
+                                <span class="badge badge-dark" data-toggle="tooltip" data-placement="top" title="
+                                    {% if pole.category|length > 0 %}
+
+                                        {% for category in pole.category %}
+                                            {{ category.title }} <br>
+                                        {% endfor %}
+
+                                    {% else %}
+
+                                        Aucune catégorie
+
+                                    {% endif %}                
+                                ">{{ pole.category|length }}</span>
+                                
+                                </td>
+                                <td class="text-center">
+                                    <a href="{{ path('admin_pole_edit', {'id':  pole.id }) }}" class="btn btn-link">Modifier</a>
+                                    <a href="{{ path('admin_pole_delete', {'id':  pole.id }) }}" class="btn btn-link">Supprimer</a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>    
+
+{% endblock %}
+
+
+{% block javascripts %}
+
+    <script>
+
+    $( ".filter" ).click(function() {
+
+        $('.filter').removeClass('active');
+        $(this).addClass('active');
+
+        var id = $(this).data('filter');
+
+        if(id){
+
+            $('.filterCard').addClass('d-none');
+            $('.filterCard[data-pole="'+ id +'"]').removeClass('d-none');
+
+        }else{
+
+            $('.filterCard').removeClass('d-none');
+
+        }
+
+    });
+
+
+    </script>
+
+{% endblock %}

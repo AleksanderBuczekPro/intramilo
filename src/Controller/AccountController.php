@@ -20,12 +20,17 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\SerializerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoder;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
 
 class AccountController extends AbstractController
 {
@@ -564,6 +569,33 @@ class AccountController extends AbstractController
             'subCategories' => $subCategories
         ]);
     }
+
+
+    // /**
+    //  * Permet de récupérer les notifications de l'utilisateur
+    //  * 
+    //  * @Route("/doc/notification", name="account_notification")
+    //  *
+    //  * @param Filter $filter
+    //  * @return void
+    //  */
+    // public function notification(Filter $filter){
+
+    //     $subCategories = $this->getUser()->getSubCategories();
+    //     $files = $filter->getFiles($subCategories);
+
+    //     $encoder = [new JsonEncoder()];
+    //     $normalizer = [new ObjectNormalizer()];
+
+    //     $serializer = new Serializer($normalizer, $encoder);
+
+    //     $jsonContent = $serializer->normalize($files, 'json');
+    //     $data = $serializer->normalize($user, null, [AbstractNormalizer::ATTRIBUTES => ['familyName', 'company' => ['name']]]);
+
+
+
+    //     return $this->json([$jsonContent]);
+    // }
 
 
    
