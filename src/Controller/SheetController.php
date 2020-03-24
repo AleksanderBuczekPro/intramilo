@@ -7,9 +7,11 @@ use App\Service\Menu;
 use App\Form\SheetType;
 use App\Form\ToolsType;
 use App\Entity\Category;
+use App\Entity\Interlocutor;
 use App\Form\CommentType;
 use App\Entity\SubCategory;
 use App\Form\AttachmentType;
+use App\Repository\InterlocutorRepository;
 use PhpParser\Node\Stmt\Foreach_;
 use App\Repository\SheetRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -90,7 +92,7 @@ class SheetController extends AbstractController
      * @return Response
      * 
      */
-    public function create(Category $category, SubCategory $subCategory, Request $request, EntityManagerInterface $manager) {
+    public function create(Category $category, SubCategory $subCategory, Request $request, EntityManagerInterface $manager, InterlocutorRepository $repo) {
 
         $sheet = new Sheet();
 
@@ -101,6 +103,24 @@ class SheetController extends AbstractController
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
+
+            // Récupération de toutes les variables POST
+            $data = $request->request->all();
+            
+            // Pour chaque variable POST
+            foreach($data as $key => $val) {
+
+                // Si la clé contient 'interlocutor'
+                if (strpos($key, 'interlocutor') !== false) {
+                    
+                    // On ajoute l'interlocuteur
+                    $sheet->addInterlocutor($repo->findOneById($val));
+
+                }
+
+            }
+
+            
 
             foreach($sheet->getHeaders() as $header){
 
@@ -151,13 +171,36 @@ class SheetController extends AbstractController
      *
      * @return void
      */
-    public function edit(Sheet $sheet, EntityManagerInterface $manager, Request $request){
+    public function edit(Sheet $sheet, EntityManagerInterface $manager, Request $request, InterlocutorRepository $repo){
 
         $form = $this->createForm(SheetType::class, $sheet);        
 
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
+
+            // Initialisation des interlocuteurs
+            foreach($sheet->getInterlocutors() as $interlocutor){
+
+                $sheet->removeInterlocutor($interlocutor);
+            
+            }
+
+            // Récupération de toutes les variables POST
+            $data = $request->request->all();
+            
+            // Pour chaque variable POST
+            foreach($data as $key => $val) {
+
+                // Si la clé contient 'interlocutor'
+                if (strpos($key, 'interlocutor') !== false) {
+                    
+                    // On ajoute l'interlocuteur
+                    $sheet->addInterlocutor($repo->findOneById($val));
+
+                }
+
+            }
 
 
             // Si c'est une fiche "En cours de validation" que l'on modifie

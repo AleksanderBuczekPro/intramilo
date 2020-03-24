@@ -7,14 +7,15 @@ use App\Form\SectionType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
-class HeaderType extends AbstractType
+class HeaderType extends ApplicationType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('title')
+            ->add('title', TextType::class, $this->getConfiguration("Titre", "Titre principal (exemple: Description de l'action)"))
             ->add(
                 'sections',
                 CollectionType::class,[

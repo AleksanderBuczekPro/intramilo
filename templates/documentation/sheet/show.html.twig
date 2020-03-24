@@ -173,6 +173,40 @@
                 </div>
                 <div class="row header-table mx-1">
 
+                {% for interlocutor in sheet.interlocutors %}
+
+                    <table class="table table-hover table-header mt-3">
+                        <thead>
+                            <tr>
+                                <th class="text-center header-title" colspan="2">{{ interlocutor.function }}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            <tr>
+                                <td>Prénom / Nom</td>
+                                <td><strong>{{ interlocutor.fullName }}</strong></td>
+                            </tr>
+
+                            {% if interlocutor.phoneNumber %}
+                            <tr>
+                                <td>Téléphone</td>
+                                <td><strong>{{ interlocutor.phoneNumber }}</strong></td>
+                            </tr>
+                            {% endif %}
+
+                            {% if interlocutor.email %}
+                            <tr>
+                                <td>Mail</td>
+                                <td><strong>{{ interlocutor.email }}</strong></td>
+                            </tr>
+                            {% endif %}
+                        </tbody>
+                    </table>
+
+
+                {% endfor %}
+
                 {% for header in sheet.headers %}
 
                     <table class="table table-hover table-header mt-3">

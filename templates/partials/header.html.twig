@@ -41,27 +41,7 @@
                             <span class="mybadge">1</span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="accountDropdownLink">
-
-                            <h6 class="dropdown-header">Compte</h6>
-                            <a href="{{ path('account_index') }}" class="dropdown-item">Mon profil</a>
-                            <a href="{{ path('account_picture_edit') }}" class="dropdown-item">Modifer ma photo de profil</a>
-                            <a href="{{ path('account_password') }}" class="dropdown-item">Modifer mon mot de passe</a>
-                            <div class="dropdown-divider"></div>
-                            <h6 class="dropdown-header">Documentation</h6>
-                            <a href="{{ path('account_documents') }}" class="dropdown-item">Tableau de bord</a>
-
-                            {% if is_granted('ROLE_ADMIN') %}
-                                <a href="{{ path('admin_documents') }}" class="dropdown-item">Suivi de la documentation</a>
-                            {% endif %}
-
-                            {% if is_granted('ROLE_ADMIN') %}
-                                <div class="dropdown-divider"></div>
-                                <h6 class="dropdown-header">Administration</h6>
-                                <a href="/admin" target="_blank" class="dropdown-item">BackOffice</a>
-                            {% endif %}
-
-                            <div class="dropdown-divider"></div>
-                            <a href="{{ path('account_logout') }}" class="dropdown-item">Se déconnecter</a>
+                            <a href="" class="dropdown-item">A venir</a>
                         </div>
                     </li>
                     
@@ -79,6 +59,7 @@
                             <a href="{{ path('account_password') }}" class="dropdown-item">Modifer mon mot de passe</a>
                             <div class="dropdown-divider"></div>
                             <h6 class="dropdown-header">Documentation</h6>
+                            <a href="{{ path('organizations_index') }}" class="dropdown-item">Liste des organismes</a>
                             <a href="{{ path('account_documents') }}" class="dropdown-item">Tableau de bord</a>
 
                             {% if is_granted('ROLE_ADMIN') %}

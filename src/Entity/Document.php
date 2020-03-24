@@ -28,11 +28,6 @@ class Document
     private $title;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $organization;
-
-    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\SubCategory", inversedBy="documents")
      */
     private $subCategory;
@@ -92,6 +87,12 @@ class Document
      */
     private $views;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Organization", inversedBy="documents")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $organization;
+
     public function __construct()
     {
         $this->sheets = new \Doctrine\Common\Collections\ArrayCollection();
@@ -139,18 +140,6 @@ class Document
     public function setTitle(string $title): self
     {
         $this->title = $title;
-
-        return $this;
-    }
-
-    public function getOrganization(): ?string
-    {
-        return $this->organization;
-    }
-
-    public function setOrganization(string $organization): self
-    {
-        $this->organization = $organization;
 
         return $this;
     }
@@ -287,6 +276,18 @@ class Document
     public function setViews(int $views): self
     {
         $this->views = $views;
+
+        return $this;
+    }
+
+    public function getOrganization(): ?Organization
+    {
+        return $this->organization;
+    }
+
+    public function setOrganization(?Organization $organization): self
+    {
+        $this->organization = $organization;
 
         return $this;
     }

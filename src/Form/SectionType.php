@@ -6,14 +6,15 @@ use App\Entity\Section;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
-class SectionType extends AbstractType
+class SectionType extends ApplicationType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('title')
-            ->add('content')
+            ->add('title', TextType::class, $this->getConfiguration(false, "Titre secondaire (exemple: Nom,, Date)"))
+            ->add('content', TextType::class, $this->getConfiguration(false, "Contenu court"))
         ;
     }
 

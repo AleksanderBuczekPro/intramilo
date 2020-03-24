@@ -18,7 +18,7 @@ class AntenneType extends ApplicationType
             ->add('address', TextType::class, $this->getConfiguration("Adresse", "Adresse"))
             ->add('postcode', NumberType::class, $this->getConfiguration("Code postal", "CP"))
             ->add('city', TextType::class, $this->getConfiguration("Ville", "Entrez la ville"))
-            ->add('phoneNumber', TextType::class, $this->getConfiguration("Titre", "Entrez le numéro de téléphone de l'antenne"))
+            ->add('phoneNumber', TextType::class, $this->getConfiguration("Téléphone", "Entrez le numéro de téléphone de l'antenne"))
         ;
     }
 

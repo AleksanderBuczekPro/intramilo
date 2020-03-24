@@ -1,0 +1,85 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Documentation - Listes des organismes
+{% endblock %}
+
+{% block body %}
+
+    <div class="container">
+ 
+        <h1 class="my-5">Liste des organismes <a href="{{ path('homepage') }}" class="ml-3 btn btn-outline-dark">Retour à l'accueil</a></h1> 
+
+
+        <div class="card">
+            <div class="card-body">    
+
+            <a href="{{ path('organization_create') }}" class="btn btn-outline-dark float-right">Ajouter un organisme</a>    
+
+            {% if organizations|length > 0 %}
+
+                {% for org in organizations %}
+
+                    <div>
+                        <strong>{{ org.name  }}</strong>
+                        
+                        <a href="{{ path('organization_edit', {'id': org.id }) }}" class="btn btn-link">Modifier</a>
+                        <a href="{{ path('organization_delete', {'id': org.id }) }}" class="btn btn-link">Supprimer</a>
+                        
+                    </div>
+
+                    <div class="org-infos">
+                        {{ org.fullAddress }} <br>
+                        {{ org.phoneNumber }} <br>
+                        {{ org.email }} <br>
+                        {{ org.website }} <br>
+
+                        {% if org.interlocutors|length > 0 %}
+
+                            <div class="row">
+                                {% for interlocutor in org.interlocutors %}
+
+                                    <div class="col-4">
+
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <div>{{ interlocutor.function }}</div>
+                                                <div class="mt-2">
+                                                    <strong>{{ interlocutor.fullName }}</strong>
+                                                </div>
+                                                
+                                                {{ interlocutor.phoneNumber }} <br>
+                                                {{ interlocutor.email }} <br>
+                                            </div>
+                                        </div>
+                                        
+                                    </div>
+
+                                {% endfor %}
+                            </div>
+
+                        {% else %}
+
+                            <p class="text">Aucun interlocuteur</p>
+
+                        {% endif %}
+
+                        <a href="{{ path('interlocutor_create', {'id': org.id} ) }}" class="btn btn-link">Ajouter un interlocuteur</a>
+                        <hr>
+                    
+                    </div>
+                {% endfor %}
+
+            {% else %}
+
+                <p class="text">Aucun organisme</p>
+
+            {% endif %}
+            
+
+            </div>
+         </div>
+
+    </div>
+
+{% endblock %}

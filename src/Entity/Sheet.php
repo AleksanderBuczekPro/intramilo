@@ -48,11 +48,6 @@ class Sheet
     private $subCategory;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $organization;
-
-    /**
      * @ORM\OneToMany(targetEntity="App\Entity\Header", mappedBy="sheet", orphanRemoval=true, cascade={"persist"})
      */
     private $headers;
@@ -113,6 +108,17 @@ class Sheet
      */
     private $views;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Organization", inversedBy="sheets")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $organization;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Interlocutor", inversedBy="sheets")
+     */
+    private $interlocutors;
+
 
 
     public function __construct()
@@ -124,6 +130,7 @@ class Sheet
 
         $this->sheetDocuments = new \Doctrine\Common\Collections\ArrayCollection();
         $this->attachments = new ArrayCollection();
+        $this->interlocutors = new ArrayCollection();
 
     }
 
@@ -234,18 +241,6 @@ class Sheet
     public function setSubCategory(?SubCategory $subCategory): self
     {
         $this->subCategory = $subCategory;
-
-        return $this;
-    }
-
-    public function getOrganization(): ?string
-    {
-        return $this->organization;
-    }
-
-    public function setOrganization(?string $organization): self
-    {
-        $this->organization = $organization;
 
         return $this;
     }
@@ -451,6 +446,44 @@ class Sheet
     public function setViews(int $views): self
     {
         $this->views = $views;
+
+        return $this;
+    }
+
+    public function getOrganization(): ?Organization
+    {
+        return $this->organization;
+    }
+
+    public function setOrganization(?Organization $organization): self
+    {
+        $this->organization = $organization;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|interlocutor[]
+     */
+    public function getInterlocutors(): Collection
+    {
+        return $this->interlocutors;
+    }
+
+    public function addInterlocutor(interlocutor $interlocutor): self
+    {
+        if (!$this->interlocutors->contains($interlocutor)) {
+            $this->interlocutors[] = $interlocutor;
+        }
+
+        return $this;
+    }
+
+    public function removeInterlocutor(interlocutor $interlocutor): self
+    {
+        if ($this->interlocutors->contains($interlocutor)) {
+            $this->interlocutors->removeElement($interlocutor);
+        }
 
         return $this;
     }

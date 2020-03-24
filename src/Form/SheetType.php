@@ -6,6 +6,7 @@ use App\Entity\Sheet;
 use App\Form\ToolsType;
 use App\Entity\Category;
 use App\Entity\Document;
+use App\Entity\Organization;
 use App\Form\HeaderType;
 use App\Form\SectionType;
 use App\Entity\SubCategory;
@@ -26,7 +27,14 @@ class SheetType extends ApplicationType
     {
         $builder
             ->add('title', TextType::class, $this->getConfiguration("Titre", "Entrez le titre de la fiche"))
-            ->add('organization', TextType::class, $this->getConfiguration("Organisme", "Entrez le nom de l'organisme (optionnel)"))
+            ->add('organization', EntityType::class, [
+                'label' => "Organisme",
+                'placeholder' => "Sélectionnez un organisme",
+                'class' => Organization::class,
+                'choice_label' => function($organization){
+                    return $organization->getName();
+                }
+            ])
             ->add('content', CKEditorType::class, $this->getConfiguration("Contenu", "Ici le contenu de la fiche"))            
             ->add('subCategory', EntityType::class, [
                 'class' => SubCategory::class,
@@ -43,9 +51,9 @@ class SheetType extends ApplicationType
             ->add(
                 'headers',
                 CollectionType::class,[
-                 'label' => "Coordonnées",
+                 'label' => "Informations complémentaires",
                  'entry_type' => HeaderType::class,
-                 'allow_add' => true, 
+                 'allow_add' => true,
                  'allow_delete' => true,
 
                  'prototype_name' => "__h__"

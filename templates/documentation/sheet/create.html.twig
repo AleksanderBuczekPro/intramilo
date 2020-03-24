@@ -24,7 +24,16 @@
                         <h6 class="card-title mb-3"><span class="doc-step">Etape 1 :</span> Titre et entête</h6>
                             {{ form_row(form.title) }}
                             {{ form_row(form.organization) }}
-   
+
+                            <div>Interlocuteurs</div>
+                            <div id="interlocutors-message">
+                                <p class="text">Aucun organisme sélectionné. Sélectionnez un organisme pour voir la liste des interlocuteurs disponibles.
+                                </p>
+                            </div>
+                            
+                            <div class="row" id="interlocutors">
+                            </div>
+                            
                             {{ form_row(form.headers) }}
                         </div>
                     </div>
@@ -63,17 +72,7 @@
                             </button>
                         </div>
                     </div>
-        
-                    
-
-                   
-
-                    
-
-                    
-
-
-                    
+   
 
                     
 
@@ -180,6 +179,81 @@ $(document).on('click', '.add-section', function(event){
     handleDeleteButtons();
     
 });
+
+// Fonction permettant de charger les interlocuteurs (quand l'organisme est sélectionné)
+function loadInterlocutors() {
+
+    $("#interlocutors-message").html("<p class='text'>Chargement des interlocuteurs en cours... </p>");
+
+    // Si un organisme est selectionné
+    var organization_id = $("select#sheet_organization").find("option:selected").val();
+
+    if(organization_id){
+        
+        
+
+        var path = "{{ path('interlocutor_load') }}";
+
+        $.ajax({
+            type: 'POST',
+            url: path,
+            data: { id: organization_id},
+            success: function(data) {
+                var interlocutors = JSON.parse(data);
+                // console.log(interlocutors);
+
+                var cards = "";
+
+                for (var item in interlocutors) {
+                    console.log(interlocutors[item]);
+                    cards += " <div class='col-4'><div class='card'><div class='card-body'><div class='form-group'><label class='interlocutor_label'><input name='interlocutor-" + interlocutors[item]['id'] + "' type='checkbox' value='" + interlocutors[item]['id'] + "' class='interlocutor_checkbox'><span> Non sélectionné </span></label> <br>" + interlocutors[item]['function'] + "</div><div class='mt-2'><strong>" + interlocutors[item]['fullName'] + "</strong></div>" + interlocutors[item]['phoneNumber'] + " <br>" + interlocutors[item]['email'] + " <br> </div></div></div>";
+                    
+                }
+
+                $("#interlocutors").html(cards);
+                $("#interlocutors-message").html("<p class='text'>Sélectionnez les interlocuteurs que vous souhaitez joindre à votre fiche.</p>");
+
+                // Gestion des checkbox
+                $('.interlocutor_label').click(function () {
+
+                    var checked = $('input', this).is(':checked');
+
+                    $('span', this).text(checked ? ' Sélectionné' : ' Non sélectionné');
+                });
+                
+            },
+            error: function(data) {
+                alert("Error !")
+            }
+
+
+        });
+
+    // Si aucun organisme sélectionné
+    }else{
+        
+        $("#interlocutors-message").html("<p class='text'>Aucun organisme sélectionné. Sélectionnez un organisme pour voir la liste des interlocuteurs disponibles. </p>");
+        $("#interlocutors").html("");
+    }
+
+}
+
+// Quand le document a fini de se charger, on charge les interlocuteurs
+$(document).ready(function() {
+    loadInterlocutors();
+});
+
+
+
+/* Quand l'organisme change, on change également les interlocuteurs */
+$("select#sheet_organization").change(function() {
+    loadInterlocutors();
+});
+
+
+
+
+    
 
 
 
