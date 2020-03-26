@@ -53,7 +53,7 @@ class PoleController extends AbstractController
 
             );
 
-            return $this->redirectToRoute('admin_poles_index');
+            return $this->redirectToRoute('admin_documentation_index');
         
         }
 
@@ -85,13 +85,13 @@ class PoleController extends AbstractController
 
             );
 
-            return $this->redirectToRoute('admin_poles_index');
+            return $this->redirectToRoute('admin_documentation_index');
 
         }
 
         return $this->render('admin/pole/edit.html.twig', [
             'form'=> $form->createView(),
-            'category' => $pole
+            'pole' => $pole
         ]);
     }
 
@@ -112,7 +112,7 @@ class PoleController extends AbstractController
 
         );
 
-        return $this->redirectToRoute('admin_poles_index');
+        return $this->redirectToRoute('admin_documentation_index');
 
 
     }

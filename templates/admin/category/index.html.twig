@@ -1,136 +1,70 @@
 {% extends 'admin/base.html.twig' %}
 
-{% block title %}
-    Administration des pôles
-{% endblock %}
+{% block title %}{{ category }}{% endblock %}
 
 {% block body %}
 
-    <div class="container">
 
-    <div class="card">
-        <div class="card-body">
-            <h2 class="card-title mb-3">Gestion des catégories / sous-catégories</h2>
-            
-                {% for pole in poles %}
-                    
-                    {% if pole.category|length == 0 %}
-
-                        <div>
-                            Le pôle <span class="badge badge-pill badge-primary pole align-middle" style="background-color: {{ pole.color }}">{{ pole.title }}</span> ne contient aucun catégorie.
-                            <a href="{{ path('admin_category_create', { 'id': pole.id }) }}" class="btn btn-link">Ajouter une catégorie à ce pôle</a>
-                            <a href="{{ path('admin_pole_delete', { 'id': pole.id }) }}" class="btn btn-link">Supprimer ce pôle</a>
-                        </div>
-
-                    {% endif %}
-                {% endfor %}
-            
-            
-        </div>
-    </div>
-        <div class="row">
-            
-            <div class="col-12 text-center mt-4">
-                <div id="filters">    
-                    <button type="button" class="btn btn-outline-dark btn-pill mx-1 mb-4 filter active" data-filter="">Tous</button>
-                    {% for pole in poles %}
-                        
-                        {% if pole.category|length > 0 %}
-                            
-                            <button type="button" class="btn btn-outline-dark btn-pill mx-1 mb-4 filter" data-filter="{{ pole.id }}">{{ pole.title }}</button>
-
-                        {% endif %}
-                    {% endfor %}
-                </div>
-            </div>
-
-                {% for pole in poles %}
-
-                    {% for category in pole.category %}
-                
-                    <div class="col-md-4 filterCard" data-pole="{{ pole.id }}">
-                        <div class="container">
-                            <div class="card bg-white mb-3 documentation-card card-item">
-                                <div class="card-body">
-                                    <h4 class="card-title mb-4">
-                                    {{ category.title }}
-                                    <a href="{{ path('admin_category_edit', { 'id': category.id }) }}" class="btn btn-sm"><i class="fas fa-pen"></i></a>
-                                    <a href="{{ path('admin_category_delete', { 'id': category.id }) }}" class="btn btn-sm"><i class="fas fa-trash"></i></a>
-
-                                    <span class="badge badge-pill badge-primary pole float-right" style="background-color: {{ pole.color }}">{{ pole.title }}</span>    
-                                    </h4>
-
-                                    {% if category.subCategories|length > 0 %}
-
-                                        {% for sub in category.subCategories %}
-                                            <p class="card-text">
-                                                <a href="{{ path('doc_show', {'slug': category.slug, 'sub_slug': sub.slug }) }}">
-                                                    
-                                                    {% if sub.author is same as(app.user) %}
-                                                        <i class="mr-1 fas fa-folder" style="color: Mediumslateblue;"></i>
-                                                    {% else %}
-                                                        <i class="mr-1 far fa-folder" style="color: #adb5bd;"></i>
-                                                    {% endif %}
-                                                    {{ sub.title }} <span class="badge badge-pill badge-dark ml-1">{{ sub.sheets|length }}</span><span class="badge badge-pill badge-secondary ml-1">{{ sub.documents|length }}</span>
-                                                    <a href="{{ path('admin_sub_category_edit', { 'id': sub.id }) }}" class="btn btn-sm"><i class="fas fa-pen fa-xs"></i></a>
-                                                    <a href="{{ path('admin_sub_category_delete', { 'id': sub.id }) }}" class="btn btn-sm"><i class="fas fa-trash fa-xs"></i></a>
-                                                
-                                                    
-                                                </a>                        
-                                            </p>
-                                        {% endfor %}
-
-                                    {% else %}
-
-                                    <p class="text">Aucun dossier</p>
-
-                                    {% endif %}
-
-                                    <hr>
-                                    <a href="{{ path('admin_sub_category_create', {'id': category.id}) }}" class="btn btn-primary btn-sm mt-1">Ajouter une sous-catégorie</a>
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    {% endfor %}
-
-                {% endfor %}
-
- 
-    </div>
-
-    
-
-{% endblock %}
+<div class="container">
+        
+    <h1 class="my-h1">
+        <a href="{{ path('admin_documentation_index') }}" class="btn btn-my-dark"><i class="uil uil-arrow-left"></i> Retour à la liste des catégories</a> <br>
+        {{ category }}
+        <a href="{{ path('admin_category_delete', {'id': category.id }) }}" class="btn btn-my-danger float-right mr-4"><i class="uil uil-times"></i> Supprimer</a>
+        <a href="{{ path('admin_category_edit', {'id': category.id }) }}" class="btn btn-my-warning float-right mr-4"><i class="uil uil-pen"></i> Modifier</a>
+         <br>
+        <a href="" class="btn btn-my-primary">{{ category.pole }}</a>
+    </h1>
 
 
-{% block javascripts %}
+    <h5>Sous-catégories <a href="{{ path('admin_sub_category_create', {'id': category.id }) }}" class="btn btn-my-add-admin"><i class="uil uil-plus"></i> Ajouter une sous-catégorie</a></h5>
 
-    <script>
+    <table class="table my-table">
+        <thead>
+            <tr>
+                <th>Sous-catégorie</th>
+                <th colspan="2" class="text-left">Responsable de la mise à jour</th>
+                <th>Fiches</th>
+                <th>Documents</th>
+                <th colspan="2"></th>
+            </tr>
+        </thead>
+        <tbody>
 
-    $( ".filter" ).click(function() {
+        {% for sub in category.subcategories %}
 
-        $('.filter').removeClass('active');
-        $(this).addClass('active');
+            <tr>
+                <td>{{ sub.title }}</td>
+                <td class="pr-0">
+                    {% include '_picture.html.twig' with {'user': sub.author, 'class': 'medium'} %}
+                </td>
+                <td class="text-left pl-0">
+                    {{ sub.author.fullName }} <br>
+                    <span class="my-secondary">{{ sub.author.email }}</span>
+                </td>
+                <td>
+                    {{ sub.sheets|length }}
+                </td>
+                <td>
+                    {{ sub.documents|length }}
+                </td>
+                <td class="pr-0">
+                    <a href="{{ path('admin_sub_category_edit', {'id':  sub.id }) }}" class="btn btn-my-warning">
+                        <i class="uil uil-pen"></i> Modifier
+                    </a>
+                </td>
+                <td class="pl-0">
+                    <a href="{{ path('admin_sub_category_delete', {'id':  sub.id }) }}" class="btn btn-my-danger">
+                        <i class="uil uil-times"></i> Supprimer
+                    </a>
+                </td>
+            </tr>
+        {% endfor %}
 
-        var id = $(this).data('filter');
+        </tbody>
+    </table>            
 
-        if(id){
+</div>
 
-            $('.filterCard').addClass('d-none');
-            $('.filterCard[data-pole="'+ id +'"]').removeClass('d-none');
-
-        }else{
-
-            $('.filterCard').removeClass('d-none');
-
-        }
-
-    });
-
-
-    </script>
 
 {% endblock %}

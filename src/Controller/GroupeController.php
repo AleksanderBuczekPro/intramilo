@@ -95,7 +95,8 @@ class GroupeController extends AbstractController
         }
 
         return $this->render('admin/groupe/edit.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'groupe' => $groupe
         ]);
 
     }

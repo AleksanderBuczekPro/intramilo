@@ -1,0 +1,233 @@
+:root
+{
+    --blue-color: #3a86ff;
+    --purple-color: #8338ec;
+    --pink-color: #ff006e;
+    --orange-color: #fb5607;
+    --yellow-color: #ffbe0b;
+
+    --red-color: #e20613;
+
+    --light-transparent-color: rgba(255,255,255,0.2);
+    --blue-transparent-color: rgba(58,134,255,0.2);
+    --purple-transparent-color:rgba(131,56,236,0.2);
+    --pink-transparent-color:rgba(255,0,110,0.2);
+    --orange-transparent-color: rgba(251,86,7,0.2);
+    --yellow-transparent-color: rgba(255,190,11,0.2);
+
+    --red-transparent-color: rgba(226,6,19,0.2);
+
+    
+    --grey-50-color: #868686;
+    --grey-20-color: #d9d9d9;
+}
+
+body{
+
+    background-color: white;
+    padding-bottom: 80px;
+
+}
+
+h1, h2, h3, h4, h5, h6{
+
+    font-family: 'Poppins', sans-serif;
+    color: black;
+    font-weight: 700;
+}
+
+h1{
+    margin-top: 80px;
+    margin-bottom: 40px;
+    font-size: 48px;
+}
+
+h3{
+    margin-top: 60px;
+    margin-bottom: 20px;
+    font-size: 28px;
+}
+
+h3.my-h3{
+    margin-top: 80px;
+    margin-bottom: 20px;
+    font-size: 28px;
+}
+
+h4{
+    /* margin-top: 60px; */
+    margin-bottom: 40px; 
+}
+
+h5{
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+/* Tableaux */
+table.my-table{
+
+    font-family: 'Poppins', sans-serif;
+
+}
+
+table.my-table th, table.my-table td{
+
+    border: none;
+    text-align: center;
+
+    vertical-align: middle;
+
+}
+
+table.my-table th{
+
+    color: var(--grey-50-color);
+    font-weight: 600;
+    font-size: 1.1em;
+
+}
+
+table.my-table td{
+
+    font-weight: 500;
+
+    padding-top: 20px;
+    padding-bottom: 20px;
+
+}
+
+div.card table.my-table td{
+
+    font-weight: 500;
+
+    padding-top: 5px;
+    padding-bottom: 5px;
+
+}
+
+/* Switch */
+.custom-control-input:checked ~ .custom-control-label::before {
+
+    color: #fff;
+    border-color: var(--purple-color);
+    background-color: var(--purple-color);
+}
+
+.custom-switch .custom-control-input:disabled:checked ~ .custom-control-label::before{
+    border-color: var(--purple-transparent-color);
+    background-color: var(--purple-transparent-color);
+}
+
+
+/* Initiales */
+table.my-table .init-circle{
+
+    background-color: var(--grey-20-color);
+
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    text-align: center;
+
+}
+
+
+table.my-table .init-circle .init{
+
+    font-size: 0.9em;
+    line-height: 36px;
+
+}
+
+table.my-table .init-circle.small{
+
+    width: 24px;
+    height: 24px;
+
+}
+
+table.my-table .init-circle.small .init{
+
+    font-size: 0.9em;
+    line-height: 24px;
+
+}
+
+
+/* Texte */
+span.my-secondary{
+
+    color: var(--grey-50-color);
+
+}
+
+
+/* Formulaires */
+form{
+
+    font-family: 'Poppins', sans-serif;
+
+    font-size: 0.9em;
+
+}
+
+form label{
+
+    font-weight: 500;
+
+
+}
+
+form input.form-control, form select.form-control{
+
+    margin-top: 15px;
+    margin-bottom: 15px;
+    border-radius: 9px;
+
+    font-size: 0.9em;
+
+}
+
+/* Cards */
+div.card.my-card{
+
+    padding: 10px;
+    padding-bottom: 0;
+
+    box-shadow: none;
+
+    border-style: solid!important;
+    border-width: 1px!important;
+    border-color: var(--grey-20-color)!important;
+
+}
+
+div.card.pole-admin-card{
+
+    margin-top: 80px;
+
+    background-color: var(--purple-color);
+}
+
+div.card.pole-admin-card .card-body h4, div.card.pole-admin-card .card-body table td{
+
+    color:white;
+}
+
+/* Liste des sous-catégories */
+
+span.subcategory{
+
+    margin-top: 10px;
+    margin-bottom: 10px;
+
+}
+
+/* Avatar */
+div.center-cropped.small{
+
+    height: 24px;
+    width: 24px;
+
+}

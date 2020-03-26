@@ -1,0 +1,116 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Liste des groupes{% endblock %}
+
+{% block body %}
+
+<div class="container">
+
+    <div class="row">
+        
+        <div class="col-3">
+
+            <div class="card pole-admin-card">
+                <div class="card-body">
+                    <h4>Pôles <a href="{{ path('admin_pole_create') }}" class="btn btn-my-light float-right"><i class="uil uil-plus"></i> Ajouter</a></h4>
+
+                    <table class="table my-table">
+                        <tbody>
+                            {% for pole in poles %}
+
+                                <tr>
+                                    <td class="text-left pl-0">
+                                        {{ pole }}
+                                    </td>
+                                    <td class="pr-0">
+                                        <a href="{{ path('admin_pole_edit', {'id':  pole.id }) }}" class="btn btn-my-transparent">
+                                            <i class="uil uil-pen"></i>
+                                        </a>
+                                    </td>
+                                    <td class="pl-0">
+                                        <a href="{{ path('admin_pole_delete', {'id':  pole.id }) }}" class="btn btn-my-transparent">
+                                            <i class="uil uil-times"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            
+            </div>
+        
+        </div>
+        
+        {# <div class="col-8 offset-md-1"> #}
+        <div class="col-9">
+
+            <h1 class="my-h1">Catégories et sous-catégories</h1>
+        
+            {% for pole in poles %}
+
+                <h3 class="my-h3">{{ pole.title }} <a href="{{ path('admin_category_create', {'id': pole.id}) }}" class="btn btn-my-add-admin"><i class="uil uil-plus"></i> Ajouter une catégorie</a></h3>
+
+                <div class="row">
+
+                    {% for category in pole.category %}
+                        <div class="col-4">
+                            <div class="card my-card">
+                                <div class="card-body">
+
+                                    <a href="" class="btn btn-my-primary small"> • {{ pole }}</a> <a href="{{ path('admin_category_index', {'id': category.id }) }}" class="btn btn-my-dark small float-right"><i class="uil uil-cog"></i> Gérer</a>
+                                    <h5>{{ category.title }}</h5>
+                                    
+                                        
+
+                                            <table class="table my-table">
+                                                <tbody>
+                                                    {% for sub in category.subCategories %}
+                                                        <tr>
+                                                            <td class="text-left pl-0 w-75">
+
+                                                                <span class="my-secondary">
+                                                                    {{ sub.title }}
+                                                                </span>
+
+                                                            </td>
+                                                            <td class="text-right p-0 w-25">
+                                                                <div class="float-right card-init">
+                                                                    {% include '_picture.html.twig' with {'user': sub.author, 'class': 'small'} %}
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    {% endfor %}  
+                                                </tbody>
+                                            
+                                            </table>
+
+                                            
+
+                                                              
+
+                                </div>
+                            
+                            </div>
+                        </div>
+                        
+                        
+
+                    {% endfor %}
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+    
+    
+    </div>
+
+{% endblock %}
+
+
+{% block javascripts %}
+
+{% endblock %}

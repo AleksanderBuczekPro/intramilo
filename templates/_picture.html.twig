@@ -12,8 +12,8 @@
                     {% set lastName = user.lastName|split('') %}
 
                     {% set initiales = firstName[0]|upper ~ lastName[0]|upper %}
-
-                    <span class="init">{{ initiales }}</span>
-
+                    <div class="init-circle {{ class }}">
+                        <span class="init">{{ initiales }}</span>
+                    </div>
 
                 {% endif %}

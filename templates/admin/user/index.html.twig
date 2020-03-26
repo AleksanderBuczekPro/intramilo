@@ -1,122 +1,80 @@
 {% extends 'admin/base.html.twig' %}
 
-{% block title %}Gestion des utilisateurs{% endblock %}
+{% block title %}Liste des utilisateurs{% endblock %}
 
 {% block body %}
-<div class="container-fluid">
 
-    <div class="col-12">
-        <div class="card p-1">
-            <div class="card-body">
+<div class="container">
+    <h1 class="my-h1">Liste des utilisateurs <a href="{{ path('admin_user_register') }}" class="btn btn-my-add-admin"><i class="uil uil-plus"></i> Ajouter un utilisateur</a></h1>
 
-                <h2 class="card-title mb-3">Liste des utilisateurs <a href="{{ path('admin_user_register') }}" class="btn btn-primary float-right m-3">Ajouter un utilisateur</a></h2>
-                <p class="text">Liste de tous les utilisateurs. Un utilisateur ne peut être supprimé s'il possède des fiches ou documents. Vous devez d'abord rétribuer ses sous-catégories</p>
-                <table class="table last-doc">
-                    <tbody>
-                        <table class="table admin table-hover">
-                            <thead>
-                                <tr>
-                                    <th>Admin</th>
-                                    <th colspan="2">Utilisateur</th>
-                                    <th>Poste / Domaine</th>
-                                    <th>Antenne / Téléphone</th>
-                                    <th>Groupe / Responsable</th>                                    
-                                    <th class="text-center">Dossiers</th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for user in users %}
+    <table class="table my-table">
+        <thead>
+            <tr>
+                <th>Administrateur</th>
+                <th colspan="2" class="text-left">Nom</th>
+                <th>Date de création</th>
+                <th colspan="2"></th>
+            </tr>
+        </thead>
+        <tbody>
 
-                                {# Gestion administrateur #}
+        
 
-                                {# Initialisation des variables #}
-                                {% set libelle_role = "Utilisateur" %}
-                                {% set checked = "" %}
+        {% for user in users %}
+            <tr>
+                <td>
+                        {# Gestion du Switch #}
+                    {% set checked = "" %}
 
+                    {% for role in user.roles  %}
 
-                                {% for role in user.roles  %}
+                        {% if role == "ROLE_ADMIN" %}
+                            {% set checked = "checked" %}
+                        {% endif %}
 
-                                    {% if role == "ROLE_ADMIN" %}
-                                        {% set libelle_role = "Administrateur"  %}
-                                        {% set checked = "checked" %}
-                                    {% endif %}
+                    {% endfor %}
 
-                                {% endfor %}
+                    <div class="custom-control custom-switch">
 
-                                <tr>
-                                    <td class="align-middle text-center">
-                                        <div class="custom-control custom-switch">
-                                            <input type="checkbox" class="custom-control-input admin-switch" id="customSwitch{{ user.id }}" data-id={{ user.id }} {{ checked }}
-                                            {% if user.id == app.user.id %}
-                                                disabled
-                                            {% endif %}>
+                        <input type="checkbox" class="custom-control-input admin-switch" id="customSwitch{{ user.id }}" data-id={{ user.id }} {{ checked }}
+                        
+                        {% if user.id == app.user.id %}
+                            disabled
+                        {% endif %}>
 
+                        <label class="custom-control-label" for="customSwitch{{ user.id }}"></label>
+                    </div>
+                </td>
+                <td class="pr-0">
+                    {% include '_picture.html.twig' with {'user': user, 'class': 'medium'} %}
+                </td>
+                <td class="text-left pl-0">
+                    {{ user.fullName }} <br>
+                    <span class="my-secondary">{{ user.email }}</span>
+                </td>
+                <td>
+                    {{ user.createdAt|localizeddate('none', 'none', 'fr', null, 'd MMMM Y') }}
+                </td>
+                <td class="pr-0">
+                    <a href="{{ path('admin_user_edit', {'id':  user.id }) }}" class="btn btn-my-warning">
+                        <i class="uil uil-pen"></i> Modifier
+                    </a>
+                </td>
+                <td class="pl-0">
+                    <a href="{{ path('admin_user_delete', {'id':  user.id }) }}" class="btn btn-my-danger">
+                        <i class="uil uil-times"></i> Supprimer
+                    </a>
+                </td>
+            </tr>
+        {% endfor %}
 
-                                            <label class="custom-control-label" for="customSwitch{{ user.id }}"></label>
-                                        </div>
-                                    </td>
-                                    <td class="align-middle">{% include '_picture.html.twig' with {'user': user, 'class': 'medium'} %}</td>
-                                    <td class="align-middle" >
-                                        <strong>{{ user.fullName }}</strong> <br>
-                                        {{ user.email }}
-                                    </td>
-                                    <td class="align-middle">
-                                        <strong>{{ user.poste.title }}</strong> <br>
-                                        {{ user.introduction }}
-                                    </td>
-                                    <td class="align-middle">
-                                        <strong>{{ user.antenne.title }}</strong> <br>
-                                        {{ user.phoneNumber }}
-                                    </td>
-                                    <td class="align-middle">{% if user.groupe %}
-                                        <strong>{{ user.groupe.title }}</strong> <br>
-                                        {{ user.groupe.responsable }} 
-
-                                        {% else %}
-                                            <i>Sans groupe</i>
-                                        {% endif %}
-                                    </td>
-                                    <td class="align-middle text-center">
-                                    <span class="badge badge-info" data-toggle="tooltip" data-placement="top" title="
-                                        {% if user.subCategories|length > 0 %}
-
-                                            {% for sub in user.subCategories %}
-                                                {{ sub.title }} <br>
-                                            {% endfor %}
-
-                                        {% else %}
-
-                                            Aucun dossier
-
-                                        {% endif %}                                    
-                                    ">{{ user.subCategories|length }}</span>
-                                    </td>
-                                    <td class="align-middle text-center">
-                                        {# <a href="{{ path('admin_user_edit', {'id':  user.id }) }}" class="btn btn-sm btn-outline-secondary"><i class="fas fa-edit"></i></a>
-                                        <a href="{{ path('admin_user_delete', {'id':  user.id }) }}" class="btn btn-sm btn-outline-secondary"><i class="fas fa-trash"></i></a> #}
-
-                                        <a href="{{ path('admin_user_edit', {'id':  user.id }) }}" class="btn btn-link">Modifier</a>
-                                        <a href="{{ path('admin_user_delete', {'id':  user.id }) }}" class="btn btn-link">Supprimer</a>
-
-                                    </td>
-                                    
-                                </tr>
-
-                                {% endfor %}
-                            </tbody>
-                        </table>            
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-
-    
-    {# {{ pagination.display() }} #}
-
+        </tbody>
+    </table>            
 
 </div>
+
+
+
 {% endblock %}
 
 

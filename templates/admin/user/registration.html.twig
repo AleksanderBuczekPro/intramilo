@@ -4,56 +4,151 @@
 
 {% block body %}
 
-    <div class="container">
-        <h1 class="my-5"></h1>
+<div class="container">
 
-        {{ form_start(form) }}
-
-        <div class="row">
-            <div class="col-md-10 offset-md-1">
-                <a href="{{ path('admin_users_index') }}" class="btn btn-primary">Retour à la liste des utilisateurs</a>
-                <h1 class="my-5">Ajout d'un nouveau utilisateur</h1>
-
-                    <div class="card p-4">
-                        <div class="card-body">
-                        <h6 class="card-title mb-3">Informations générales</h6>
-                            {{ form_row(form.firstName) }}
-                            {{ form_row(form.lastName) }}
-                            {{ form_row(form.email) }}
-                        </div>
-                    </div>
-
-                    <div class="card p-4">
-                        <div class="card-body">
-                        <h6 class="card-title mb-3">Poste et coordonnées</h6>
-                            {{ form_row(form.poste) }}
-                            {{ form_row(form.introduction) }}
-                            {{ form_row(form.groupe) }}    
-
-                            {{ form_row(form.antenne) }}
-                            {{ form_row(form.phoneNumber) }}
-                                                    
-                        </div>
-                    </div>
-
-                    <div class="card p-4">
-                        <div class="card-body">
-                        <h6 class="card-title mb-3">Mot de passe</h6>
-                            {{ form_row(form.hash) }}
-                            {{ form_row(form.passwordConfirm) }}    
-                            
-                            
-                            <button type="submit" class="btn btn-success float-right mt-2">Ajouter l'utilisateur</button>
-                            <a href="{{ path('admin_users_index') }}" class="btn btn-outline-danger float-right mr-1 mt-2">Annuler</a>                   
-                        </div>
-                    </div>
-            </div>
-        </div>
-
-
-
+    <div class="row">
+        <div class="col-8 offset-md-2">
         
-        {{ form_end(form) }}
+            <h1 class="my-h1">
+                <a href="{{ path('admin_users_index') }}" class="btn btn-my-dark"><i class="uil uil-arrow-left"></i> Retour à la liste des utilisateurs</a> <br>
+                Nouvel utilisateur
+            </h1>
+
+            {{ form_start(form) }}
+
+                <h4 class="my-h2">Général</h4>
+
+                <div class="row">
+
+                    {# Prénom #}
+                    <div class="col-2 text-right my-auto">
+                        <span class="align-middle">{{ form_label(form.firstName) }}</span>
+                    </div>
+
+                    <div class="col-10">
+                        {{ form_widget(form.firstName) }}
+                    </div>
+
+                    {# Nom #}
+                    <div class="col-2 text-right my-auto">
+                        <span class="align-middle">{{ form_label(form.lastName) }}</span>
+                    </div>
+
+                    <div class="col-10">
+                        {{ form_widget(form.lastName) }}
+                    </div>
+
+                    {# Email #}
+                    <div class="col-2 text-right my-auto">
+                        <span class="align-middle">{{ form_label(form.email) }}</span>
+                    </div>
+
+                    <div class="col-10">
+                        {{ form_widget(form.email) }}
+                    </div>
+
+                </div>
+
+                <h4 class="my-h2">Groupe et poste</h4>
+
+                <div class="row">
+
+                    {# Groupe #}
+                    <div class="col-2 text-right my-auto">
+                        <span class="align-middle">{{ form_label(form.groupe) }}</span>
+                    </div>
+
+                    <div class="col-10">
+                        {{ form_widget(form.groupe) }}
+                    </div>
+
+                    {# Poste #}
+                    <div class="col-2 text-right my-auto">
+                        <span class="align-middle">{{ form_label(form.poste) }}</span>
+                    </div>
+
+                    <div class="col-10">
+                        {{ form_widget(form.poste) }}
+                    </div>
+
+                    {# Domaine #}
+                    <div class="col-2 text-right my-auto">
+                        <span class="align-middle">{{ form_label(form.introduction) }}</span>
+                    </div>
+
+                    <div class="col-10">
+                        {{ form_widget(form.introduction) }}
+                    </div>
+
+                </div>
+
+                <h4 class="my-h2">Coordonnées</h4>
+
+                <div class="row">
+
+                    {# Antenne #}
+                    <div class="col-2 text-right my-auto">
+                        <span class="align-middle">{{ form_label(form.antenne) }}</span>
+                    </div>
+
+                    <div class="col-10">
+                        {{ form_widget(form.antenne) }}
+                    </div>
+
+                    {# Téléphone #}
+                    <div class="col-2 text-right my-auto">
+                        <span class="align-middle">{{ form_label(form.phoneNumber) }}</span>
+                    </div>
+
+                    <div class="col-10">
+                        {{ form_widget(form.phoneNumber) }}
+                    </div>
+
+                    {# Ligne directe #}
+                    {# <div class="col-3 text-right ">
+                        <span class="align-middle">{{ form_label(form.directPhone) }}</span>
+                    </div>
+
+                    <div class="col-9">
+                        {{ form_widget(form.directPhone) }}
+                    </div> #}
+                
+                </div>
+
+                <h4 class="my-h2">Mot de passe initial</h4>
+
+                <div class="row">
+
+                    {# Mot de passe #}
+                    <div class="col-2 text-right my-auto">
+                        <span class="align-middle">{{ form_label(form.hash) }}</span>
+                    </div>
+
+                    <div class="col-10">
+                        {{ form_widget(form.hash) }}
+                    </div>
+
+                    {# Confirmez mot de passe #}
+                    <div class="col-2 text-right my-auto"
+                        <span class="align-middle">{{ form_label(form.passwordConfirm) }}</span>
+                    </div>
+
+                    <div class="col-10">
+                        {{ form_widget(form.passwordConfirm) }}
+                    </div>
+                
+                </div>
+
+                <div class="mt-4 mb-4">
+                    <button type="submit" class="btn btn-my-add-admin float-right"><i class="uil uil-plus"></i> Ajouter l'utilisateur</button>
+                    <a href="{{ path('admin_users_index') }}" class="btn btn-my-danger float-right"><i class="uil uil-times"></i> Annuler</a>
+                </div>
+
+            {{ form_end(form) }}
+
+        </div>
     </div>
 
+
+</div>
 {% endblock %}

@@ -28,7 +28,7 @@ final class Version20200318103859 extends AbstractMigration
         $this->addSql('ALTER TABLE document ADD organization_id INT NOT NULL, DROP organization, CHANGE sub_category_id sub_category_id INT DEFAULT NULL, CHANGE status status VARCHAR(255) DEFAULT NULL, CHANGE front front TINYINT(1) DEFAULT NULL');
         $this->addSql('ALTER TABLE document ADD CONSTRAINT FK_D8698A7632C8A3DE FOREIGN KEY (organization_id) REFERENCES organization (id)');
         $this->addSql('CREATE INDEX IDX_D8698A7632C8A3DE ON document (organization_id)');
-        $this->addSql('ALTER TABLE sub_category CHANGE author_id author_id INT NOT NULL');
+        // $this->addSql('ALTER TABLE sub_category CHANGE author_id author_id INT NOT NULL');
         // $this->addSql('ALTER TABLE sub_category RENAME INDEX uniq_bce3f79812469de2 TO IDX_BCE3F79812469DE2');
         $this->addSql('ALTER TABLE groupe CHANGE responsable_id responsable_id INT NOT NULL');
         $this->addSql('ALTER TABLE sheet ADD organization_id INT NOT NULL, DROP organization, CHANGE sub_category_id sub_category_id INT DEFAULT NULL, CHANGE origin_id origin_id INT DEFAULT NULL, CHANGE status status VARCHAR(255) DEFAULT NULL');

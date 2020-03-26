@@ -2,12 +2,13 @@
 
 namespace App\Entity;
 
+use DateTimeZone;
 use Cocur\Slugify\Slugify;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Component\Validator\Constraints as Assert;
 
+use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -132,6 +133,11 @@ class User implements UserInterface
      */
     private $pictureFilename;
 
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $createdAt;
+
 
     public function getFullName() {
 
@@ -153,6 +159,31 @@ class User implements UserInterface
             $slugify = new Slugify();
             $this->slug = $slugify->slugify($this->firstName . ' ' . $this->lastName);
         }
+
+    }
+
+    /**
+     * Permet de formater en majuscule le nom de l'utilisateur
+     * 
+     * @ORM\PrePersist
+     * @ORM\PreUpdate
+     * @return void
+     */
+    public function uppercaseLastName(){
+
+        $this->lastName = strtoupper($this->lastName);
+
+    }
+
+    /**
+     * Permet de définir la date de création du compte
+     * 
+     * @ORM\PrePersist
+     * @return void
+     */
+    public function initCreatedAt(){
+
+        $this->setCreatedAt(new \DateTime(null, new DateTimeZone('Europe/Paris')));
 
     }
 
@@ -483,6 +514,18 @@ class User implements UserInterface
     public function setPictureFilename(?string $pictureFilename): self
     {
         $this->pictureFilename = $pictureFilename;
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    {
+        $this->createdAt = $createdAt;
 
         return $this;
     }

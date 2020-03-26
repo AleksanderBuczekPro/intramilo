@@ -1,42 +1,81 @@
 {% extends 'admin/base.html.twig' %}
 
-{% block title %}Ajout d'une antenne{% endblock %}
+{% block title %}Création d'une antenne{% endblock %}
 
 {% block body %}
 
-    <div class="container">
+<div class="container">
 
-        {{ form_start(form) }}
+    <div class="row">
+        <div class="col-8 offset-md-2">
+        
+            <h1 class="my-h1">
+                <a href="{{ path('admin_antennes_index') }}" class="btn btn-my-dark"><i class="uil uil-arrow-left"></i> Retour à la liste des antennes</a> <br>
+                Nouvelle antenne
+            </h1>
 
-        <div class="row">
-            <div class="col-md-10 offset-md-1">
+            {{ form_start(form) }}
 
-                <a href="{{ path('admin_antennes_index') }}" class="btn btn-primary">Retour à la liste des antennes</a>
-                <h1 class="my-5">Ajout d'une antenne</h1>
+                <div class="row">
 
-                <div class="card">
-                    <div class="card-body">
-                        {{ form_row(form.title) }}
-                    
-                        <div class="row">
-                            <div class="col-5">{{ form_row(form.address) }}</div>
-                            <div class="col-2">{{ form_row(form.postcode) }}</div>
-                            <div class="col-5">{{ form_row(form.city) }}</div>
-                        </div>
-                        
-                        
-                        {{ form_row(form.phoneNumber) }}
-
-                        <button type="submit" class="btn btn-success float-right mt-2">
-                            <i class="fas fa-check"></i> Ajouter l'antenne
-                        </button>
-                        <a href="{{ path('admin_antennes_index') }}" class="btn btn-outline-danger float-right mr-1 mt-2">Annuler</a>      
+                    {# Titre #}
+                    <div class="col-2 text-right my-auto">
+                        <span class="align-middle">{{ form_label(form.title) }}</span>
                     </div>
+
+                    <div class="col-10">
+                        {{ form_widget(form.title) }}
+                    </div>
+
+                    {# Adresse #}
+                    <div class="col-2 text-right my-auto">
+                        <span class="align-middle">{{ form_label(form.address) }}</span>
+                    </div>
+
+                    <div class="col-10">
+                        {{ form_widget(form.address) }}
+                    </div>
+
+                    {# Code postal #}
+                    <div class="col-2 text-right my-auto">
+                        <span class="align-middle">{{ form_label(form.postcode) }}</span>
+                    </div>
+
+                    <div class="col-10">
+                        {{ form_widget(form.postcode) }}
+                    </div>
+
+                    {# Ville #}
+                    <div class="col-2 text-right my-auto">
+                        <span class="align-middle">{{ form_label(form.city) }}</span>
+                    </div>
+
+                    <div class="col-10">
+                        {{ form_widget(form.city) }}
+                    </div>
+
+                    {# Téléphone #}
+                    <div class="col-2 text-right my-auto">
+                        <span class="align-middle">{{ form_label(form.phoneNumber) }}</span>
+                    </div>
+
+                    <div class="col-10">
+                        {{ form_widget(form.phoneNumber) }}
+                    </div>
+
                 </div>
-                
-            </div>
+
+                <div class="mt-4 mb-4">
+                    <button type="submit" class="btn btn-my-add-admin float-right"><i class="uil uil-plus"></i> Ajouter l'antenne</button>
+                    <a href="{{ path('admin_antennes_index') }}" class="btn btn-my-danger float-right"><i class="uil uil-times"></i> Annuler</a>
+                </div>
+
+            {{ form_end(form) }}
+
         </div>
-        {{ form_end(form) }}
     </div>
 
+
+</div>
 {% endblock %}
+

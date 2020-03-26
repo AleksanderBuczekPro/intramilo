@@ -1,35 +1,53 @@
 {% extends 'admin/base.html.twig' %}
 
-{% block title %}Ajout d'un groupe{% endblock %}
+{% block title %}Création d'un groupe{% endblock %}
 
 {% block body %}
 
-    <div class="container">
+<div class="container">
+
+    <div class="row">
+        <div class="col-8 offset-md-2">
         
+            <h1 class="my-h1">
+                <a href="{{ path('admin_groupes_index') }}" class="btn btn-my-dark"><i class="uil uil-arrow-left"></i> Retour à la liste des groupes</a> <br>
+                Nouveau groupe
+            </h1>
 
-        {{ form_start(form) }}
+            {{ form_start(form) }}
 
-        <div class="row">
-            <div class="col-md-10 offset-md-1">
+                <div class="row">
 
-                <a href="{{ path('admin_groupes_index') }}" class="btn btn-primary">Retour à la liste des groupes</a>
-                <h1 class="my-5">Ajout d'un groupe</h1>
-
-                <div class="card">
-                    <div class="card-body">
-                        {{ form_row(form.title) }}
-                        {{ form_row(form.responsable) }}
-
-                        <button type="submit" class="btn btn-success float-right mt-2">
-                            <i class="fas fa-check"></i> Ajouter le groupe
-                        </button>
-                        <a href="{{ path('admin_groupes_index') }}" class="btn btn-outline-danger float-right mr-1 mt-2">Annuler</a>      
+                    {# Titre #}
+                    <div class="col-2 text-right my-auto">
+                        <span class="align-middle">{{ form_label(form.title) }}</span>
                     </div>
+
+                    <div class="col-10">
+                        {{ form_widget(form.title) }}
+                    </div>
+
+                    {# Responsable #}
+                    <div class="col-2 text-right my-auto">
+                        <span class="align-middle">{{ form_label(form.responsable) }}</span>
+                    </div>
+
+                    <div class="col-10">
+                        {{ form_widget(form.responsable) }}
+                    </div>
+
                 </div>
-                
-            </div>
+
+                <div class="mt-4 mb-4">
+                    <button type="submit" class="btn btn-my-add-admin float-right"><i class="uil uil-plus"></i> Ajouter le groupe</button>
+                    <a href="{{ path('admin_groupes_index') }}" class="btn btn-my-danger float-right"><i class="uil uil-times"></i> Annuler</a>
+                </div>
+
+            {{ form_end(form) }}
+
         </div>
-        {{ form_end(form) }}
     </div>
 
+
+</div>
 {% endblock %}

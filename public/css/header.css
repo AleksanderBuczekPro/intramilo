@@ -1,0 +1,51 @@
+nav.navbar-admin{
+
+    background-color: #8338ec;
+
+}
+
+.navbar-brand {
+    color: white;
+}
+
+nav.navbar-admin ul li a.nav-link{
+
+    color: white;
+    opacity: 0.6;
+
+}
+
+nav.navbar-admin ul li a.nav-link.nav-my-avatar{
+
+    opacity: 1;
+
+}
+
+nav.navbar-admin ul li a.nav-link.active i{
+
+    color: #ff006e;
+
+}
+
+nav.navbar-admin ul li a.nav-link.active{
+
+    color: white;
+    opacity: 1;
+
+}
+
+/* Padding du Menu  */
+.navbar-expand-lg .navbar-nav .nav-link {
+
+    padding: 1.2rem;
+    vertical-align: middle;
+
+}
+
+a.btn.btn-my-light.intramilo{
+
+    /* Code à améliorer */
+    margin-top: 21px;
+    margin-right: 20px;
+
+}

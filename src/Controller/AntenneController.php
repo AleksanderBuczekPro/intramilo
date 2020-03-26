@@ -73,6 +73,8 @@ class AntenneController extends AbstractController
      */
     public function edit(Request $request, EntityManagerInterface $manager, Antenne $antenne) {
 
+        dump($antenne);
+
         $form = $this->createForm(AntenneType::class, $antenne);
 
         $form->handleRequest($request);
@@ -93,7 +95,8 @@ class AntenneController extends AbstractController
         }
 
         return $this->render('admin/antenne/edit.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'antenne' => $antenne
         ]);
 
     }

@@ -20,15 +20,17 @@ class AdminCategoryController extends AbstractController
     /**
      * Gestion des catégories et des sous-catégories
      * 
-     * @Route("/admin/category", name="admin_category_index")
+     * @Route("/admin/category/{id}", name="admin_category_index")
      */
-    public function index(PoleRepository $repo)
+    public function index(CategoryRepository $repo, Request $request, Category $category)
     {
-
-        $poles = $repo->findAll();
+        // $id = $request->query->get('id');
+        // $category = $repo->findOneById($id);
+        
+        // $poles = $repo->findAll();
 
         return $this->render('admin/category/index.html.twig', [
-            'poles' => $poles,
+            'category' => $category,
         ]);
     }
 
@@ -61,7 +63,7 @@ class AdminCategoryController extends AbstractController
 
             );
 
-            return $this->redirectToRoute('admin_category_index');
+            return $this->redirectToRoute('admin_documentation_index');
         
         }
 
@@ -102,7 +104,9 @@ class AdminCategoryController extends AbstractController
 
             );
 
-            return $this->redirectToRoute('admin_category_index');
+            return $this->redirectToRoute('admin_category_index', [
+                'id' => $category->getId()
+            ]);
         
         }
 
@@ -137,7 +141,9 @@ class AdminCategoryController extends AbstractController
 
             );
 
-            return $this->redirectToRoute('admin_category_index');
+            return $this->redirectToRoute('admin_category_index', [
+                'id' => $category->getId()
+            ]);
 
         }
 
@@ -170,8 +176,9 @@ class AdminCategoryController extends AbstractController
 
             );
 
-            return $this->redirectToRoute('admin_category_index');
-
+            return $this->redirectToRoute('admin_category_index', [
+                'id' => $subCategory->getCategory()->getId()
+            ]);
         }
 
         return $this->render('admin/category/edit_sub.html.twig', [
@@ -200,7 +207,9 @@ class AdminCategoryController extends AbstractController
     
             );
             
-            return $this->redirectToRoute('admin_category_index');
+            return $this->redirectToRoute('admin_category_index', [
+                'id' => $category->getId()
+            ]);
 
         }
 
@@ -213,7 +222,7 @@ class AdminCategoryController extends AbstractController
 
         );
 
-        return $this->redirectToRoute('admin_category_index');
+        return $this->redirectToRoute('admin_documentation_index');
 
 
     }
@@ -240,7 +249,9 @@ class AdminCategoryController extends AbstractController
     
             );
             
-            return $this->redirectToRoute('admin_category_index');
+            return $this->redirectToRoute('admin_category_index', [
+                'id' => $subCategory->getCategory()->getId()
+            ]);
 
         }
 
@@ -253,7 +264,9 @@ class AdminCategoryController extends AbstractController
 
         );
 
-        return $this->redirectToRoute('admin_category_index');
+        return $this->redirectToRoute('admin_category_index', [
+            'id' => $subCategory->getCategory()->getId()
+        ]);
 
 
     }

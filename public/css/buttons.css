@@ -1,0 +1,135 @@
+.btn{
+    font-family: 'Karla';
+    font-weight: 600;
+
+    padding: 0.3em 1em 0.3em 0.5em;
+    border-radius: 8px;
+    letter-spacing: 0.3px;
+}
+
+.btn.small{
+
+   font-size: 0.7em; 
+
+}
+
+
+.btn.btn-my-add-admin{
+
+    background: var(--purple-transparent-color);
+    color: var(--purple-color);
+
+    font-weight: 600;
+    margin-left: 20px;
+
+}
+
+.btn.btn-my-add-admin:hover{
+
+    background-color: var(--purple-color);
+    color:white;
+
+}
+
+.btn.btn-my-transparent{
+
+    background: transparent;
+    color: white;
+    padding: 0;
+
+    font-weight: 600;
+
+}
+
+.btn.btn-my-transparent:hover{
+
+    color:white;
+
+}
+
+
+.btn.btn-my-light{
+
+    background: var(--light-transparent-color);
+    color:white;
+
+    font-weight: 600;
+
+}
+
+.btn.btn-my-light:hover{
+
+    background: white;
+    color:black;
+
+}
+
+.btn.btn-my-dark{
+
+    background: var(--grey-20-color);
+    color:black;
+
+    font-weight: 600;
+
+}
+
+.btn.btn-my-dark:hover{
+
+    background: black;
+    color:white;
+
+}
+
+.btn.btn-my-primary{
+
+    background: var(--blue-transparent-color);
+    color: var(--blue-color);
+
+    font-weight: 600;
+
+}
+
+.btn.btn-my-primary:hover{
+
+    background: var(--blue-color);
+    color: white;
+
+    font-weight: 600;
+
+}
+
+.btn.btn-my-warning{
+
+    background: var(--orange-transparent-color);
+    color: var(--orange-color);
+
+    font-weight: 600;
+
+}
+
+.btn.btn-my-warning:hover{
+
+    background: var(--orange-color);
+    color: white;
+
+    font-weight: 600;
+
+}
+
+.btn.btn-my-danger{
+
+    background: var(--red-transparent-color);
+    color: var(--red-color);
+
+    font-weight: 600;
+
+}
+
+.btn.btn-my-danger:hover{
+
+    background: var(--red-color);
+    color: white;
+
+    font-weight: 600;
+
+}

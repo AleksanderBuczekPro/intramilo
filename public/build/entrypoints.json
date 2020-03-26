@@ -2,57 +2,57 @@
   "entrypoints": {
     "js/app": {
       "js": [
-        "/build/runtime.js",
-        "/build/vendors~js/app.js",
-        "/build/js/app.js"
+        "/build/runtime.4f911793.js",
+        "/build/0.53d74478.js",
+        "/build/js/app.6a090feb.js"
       ]
     },
     "css/app": {
       "js": [
-        "/build/runtime.js"
+        "/build/runtime.4f911793.js"
       ],
       "css": [
-        "/build/css/app.css"
+        "/build/css/app.43a16d71.css"
       ]
     },
     "css/documentation": {
       "js": [
-        "/build/runtime.js"
+        "/build/runtime.4f911793.js"
       ],
       "css": [
-        "/build/css/documentation.css"
+        "/build/css/documentation.4e848482.css"
       ]
     },
     "css/files": {
       "js": [
-        "/build/runtime.js"
+        "/build/runtime.4f911793.js"
       ],
       "css": [
-        "/build/css/files.css"
+        "/build/css/files.71d200f1.css"
       ]
     },
     "css/header": {
       "js": [
-        "/build/runtime.js"
+        "/build/runtime.4f911793.js"
       ],
       "css": [
-        "/build/css/header.css"
+        "/build/css/header.91500b27.css"
       ]
     },
     "css/main": {
       "js": [
-        "/build/runtime.js"
+        "/build/runtime.4f911793.js"
       ],
       "css": [
-        "/build/css/main.css"
+        "/build/css/main.3c68cbe4.css"
       ]
     },
     "css/sheet": {
       "js": [
-        "/build/runtime.js"
+        "/build/runtime.4f911793.js"
       ],
       "css": [
-        "/build/css/sheet.css"
+        "/build/css/sheet.c758f434.css"
       ]
     }
   }

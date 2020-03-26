@@ -69,7 +69,7 @@
                             {% if is_granted('ROLE_ADMIN') %}
                                 <div class="dropdown-divider"></div>
                                 <h6 class="dropdown-header">Administration</h6>
-                                <a href="/admin" target="_blank" class="dropdown-item">BackOffice</a>
+                                <a href="{{ path('admin_users_index') }}" target="_blank" class="dropdown-item">BackOffice</a>
                             {% endif %}
 
                             <div class="dropdown-divider"></div>

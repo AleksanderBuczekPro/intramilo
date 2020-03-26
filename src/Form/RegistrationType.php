@@ -31,7 +31,7 @@ class RegistrationType extends ApplicationType
             ->add('email', EmailType::class, $this->getConfiguration("Email", "Adresse email"))
             ->add('phoneNumber', TextType::class, $this->getConfiguration("Téléphone", "Numéro de téléphone"))
             ->add('hash', PasswordType::class, $this->getConfiguration("Mot de passe", "Choissisez un bon mot de passe"))
-            ->add('passwordConfirm', PasswordType::class, $this->getConfiguration("Confirmation de mot de passe", "Veuillez confirmer votre mot de passe"))
+            ->add('passwordConfirm', PasswordType::class, $this->getConfiguration("Confirmer mot de passe", "Veuillez confirmer votre mot de passe"))
             ->add('introduction', TextType::class, $this->getConfiguration("Domaine (optionnel)", "Bâtiment, Commerce, Numérique..."))
             ->add('antenne', EntityType::class, [
                 'class' => Antenne::class,

@@ -26,62 +26,32 @@ class AdminAccountType extends ApplicationType
         $builder
             
 
-            ->add('firstName', TextType::class, $this->getConfiguration("Prénom", "Votre prénom"))
-            ->add('lastName', TextType::class, $this->getConfiguration("Nom", "Votre nom de famille"))
-            ->add('email', EmailType::class, $this->getConfiguration("Email", "Votre adresse email"))
-            ->add('phoneNumber', TextType::class, $this->getConfiguration("Téléphone", "Numéro de téléphone"))
-            ->add('introduction', TextType::class, $this->getConfiguration("Introduction", "Présentez vous en quelques mots..."))
-            ->add('antenne', EntityType::class, [
-                'class' => Antenne::class,
-                'choice_label' => function($antenne){
-                    return $antenne->getTitle();
-    
-                }
-            ])
-            ->add('groupe', EntityType::class, [
-                'class' => Groupe::class,
-                'choice_label' => function($groupe){
-                    return $groupe->getTitle();
-    
-                }
-            ]) 
-            ->add('poste', EntityType::class, [
-                'class' => Poste::class,
-                'choice_label' => function($poste){
-                    return $poste->getTitle();
-    
-                }
-            ]);
-            // ->add('userRoles', EntityType::class, [
-            //     'class' => Role::class,
-            //     'choice_label' => function($role){
-            //         return $role->getTitle();
-            //     },
-            //     'multiple' => true,
-            //     'expanded' => true
-            // ])
-            // ->add('pic', FileType::class, [
-            //     'label' => 'Photo de profil (JPEG)',
+        ->add('firstName', TextType::class, $this->getConfiguration("Prénom", "Prénom"))
+        ->add('lastName', TextType::class, $this->getConfiguration("Nom", "Nom de famille"))
+        ->add('email', EmailType::class, $this->getConfiguration("Email", "Adresse email"))
+        ->add('phoneNumber', TextType::class, $this->getConfiguration("Téléphone", "Numéro de téléphone"))
+        ->add('introduction', TextType::class, $this->getConfiguration("Domaine (optionnel)", "Bâtiment, Commerce, Numérique..."))
+        ->add('antenne', EntityType::class, [
+            'class' => Antenne::class,
+            'choice_label' => function($antenne){
+                return $antenne->getTitle();
 
-            //     // unmapped means that this field is not associated to any entity property
-            //     'mapped' => false,
+            }
+        ])
+        ->add('groupe', EntityType::class, [
+            'class' => Groupe::class,
+            'choice_label' => function($groupe){
+                return $groupe->getTitle();
 
-            //     // make it optional so you don't have to re-upload the PDF file
-            //     // everytime you edit the Product details
-            //     'required' => false,
+            }
+        ])
+        ->add('poste', EntityType::class, [
+            'class' => Poste::class,
+            'choice_label' => function($poste){
+                return $poste->getTitle();
 
-            //     // unmapped fields can't define their validation using annotations
-            //     // in the associated entity, so you can use the PHP constraint classes
-            //     'constraints' => [
-            //         new File([
-            //             'maxSize' => '1024k',
-            //             'mimeTypes' => [
-            //                 'image/jpeg'
-            //             ],
-            //             'mimeTypesMessage' => 'Please upload a valid PDF document',
-            //         ])
-            //     ],
-            // ]);
+            }
+        ]);
         ;
     }
 

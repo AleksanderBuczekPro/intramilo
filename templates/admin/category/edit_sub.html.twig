@@ -4,31 +4,61 @@
 
 {% block body %}
 
-    <div class="container">
+<div class="container">
 
-        {{ form_start(form) }}
+    <div class="row">
+        <div class="col-8 offset-md-2">
+        
+            <h1 class="my-h1">
+                <a href="{{ path('admin_category_index', {'id': category.id }) }}" class="btn btn-my-dark"><i class="uil uil-arrow-left"></i> Retour à la liste des sous-catégories</a> <br>
+                {{ category.title }}
+            </h1>
 
-        <div class="row">
-            <div class="col-md-10 offset-md-1">
+            {{ form_start(form) }}
 
-                <a href="{{ path('admin_category_index') }}" class="btn btn-primary">Retour à la liste des catégories</a>
-                <h1 class="my-5">Modification d'une sous-catégorie dans la catégorie {{ category.title }} (pôle {{ pole }})</h1>
+                <div class="row">
 
-                <div class="card">
-                    <div class="card-body">
-
-                        {{ form_widget(form) }}
-
-                        <button type="submit" class="btn btn-success float-right mt-2">
-                            <i class="fas fa-check"></i> Modifier la sous-catégorie
-                        </button>
-                        <a href="{{ path('admin_category_index') }}" class="btn btn-outline-danger float-right mr-1 mt-2">Annuler</a>      
-                    </div>
-                </div>
                 
-            </div>
+                    {# Titre #}
+                    <div class="col-2 text-right my-auto">
+                        <span class="align-middle">{{ form_label(form.category) }}</span>
+                    </div>
+
+                    <div class="col-10">
+                        {{ form_widget(form.category) }}
+                    </div>
+
+                    {# Titre #}
+                    <div class="col-2 text-right my-auto">
+                        <span class="align-middle">{{ form_label(form.title) }}</span>
+                    </div>
+
+                    <div class="col-10">
+                        {{ form_widget(form.title) }}
+                    </div>
+
+
+                    {# Auteur #}
+                    <div class="col-2 text-right my-auto">
+                        <span class="align-middle">{{ form_label(form.author) }}</span>
+                    </div>
+
+                    <div class="col-10">
+                        {{ form_widget(form.author) }}
+                    </div>
+
+                </div>
+
+                <div class="mt-4 mb-4">
+                    <button type="submit" class="btn btn-my-add-admin float-right"><i class="uil uil-plus"></i> Modifier la sous-catégorie</button>
+                    <a href="{{ path('admin_category_index', {'id': category.id }) }}" class="btn btn-my-danger float-right"><i class="uil uil-times"></i> Annuler</a>
+                </div>
+
+            {{ form_end(form) }}
+
         </div>
-        {{ form_end(form) }}
     </div>
 
+
+</div>
 {% endblock %}

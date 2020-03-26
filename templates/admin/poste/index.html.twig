@@ -1,53 +1,55 @@
 {% extends 'admin/base.html.twig' %}
 
-{% block title %}Gestion des postes{% endblock %}
+{% block title %}Liste des postes{% endblock %}
 
 {% block body %}
+
 <div class="container">
+    <h1 class="my-h1">Liste des postes <a href="{{ path('admin_poste_create') }}" class="btn btn-my-add-admin"><i class="uil uil-plus"></i> Ajouter un poste</a></h1>
 
-    <div class="card p-1">
-        <div class="card-body">
+    <table class="table my-table">
+        <thead>
+            <tr>
+                <th class="text-left" colspan="2">Poste</th>
+                <th colspan="2"></th>
+            </tr>
+        </thead>
+        <tbody>
+
         
-            <h2 class="card-title mb-3">Liste des postes <a href="{{ path('admin_poste_create') }}" class="btn btn-primary float-right m-3">Ajouter un poste</a></h2>
-            <table class="table admin table-hover">
-            <thead>
-                <tr>
-                    <th>Poste</th>
-                    <th class="text-center">Utilisateurs</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for poste in postes %}
-                <tr>
-                    <td><strong>{{ poste.title }}</strong></td>
-                    <td class="text-center">
-                    <span class="badge badge-info" data-toggle="tooltip" data-placement="top" title="
-                        {% if poste.users|length > 0 %}
 
-                            {% for user in poste.users %}
-                                {{ user }} <br>
-                            {% endfor %}
+        {% for poste in postes %}
+            <tr>
+                <td class="text-left">
+                    {{ poste }}
+                </td>
+                <td>
+                    {% for user in poste.users %}
+                        {% include '_picture.html.twig' with {'user': user, 'class': 'medium'} %}
+                    {% endfor %}
+                </td>
+                <td class="pr-0">
+                    <a href="{{ path('admin_poste_edit', {'id':  poste.id }) }}" class="btn btn-my-warning">
+                        <i class="uil uil-pen"></i> Modifier
+                    </a>
+                </td>
+                <td class="pl-0">
+                    <a href="{{ path('admin_poste_delete', {'id':  poste.id }) }}" class="btn btn-my-danger">
+                        <i class="uil uil-times"></i> Supprimer
+                    </a>
+                </td>
+            </tr>
+        {% endfor %}
 
-                        {% else %}
-
-                            Aucun utilisateur
-
-                        {% endif %}                                    
-                    ">{{ poste.users|length }}</span>
-                    <td class="text-center">
-                        <a href="{{ path('admin_poste_edit', {'id':  poste.id }) }}" class="btn btn-link">Modifier</a>
-                        <a href="{{ path('admin_poste_delete', {'id':  poste.id }) }}" class="btn btn-link">Supprimer</a>
-                    </td>
-
-                </tr>
-
-                {% endfor %}
-            </tbody>
-        </table>
-        </div>
-    </div>
-
-
+        </tbody>
+    </table>            
 </div>
+
+
+
+{% endblock %}
+
+
+{% block javascripts %}
+
 {% endblock %}
