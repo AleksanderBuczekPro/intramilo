@@ -1,0 +1,20 @@
+<div class="card my-card user">
+    <div class="card-body p-0">   
+
+        <table class="my-table">
+            <tbody>
+                <tr>
+                    <td class="p-2">
+                        {% include '_picture.html.twig' with {'user': user, 'class': 'medium'} %}
+                    </td>
+                    <td class="text-left pl-2">
+                        {{ user }}<br>
+                        <div class="my-secondary">{{ user.poste }}</div>
+                    </td>
+                    
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+</div>

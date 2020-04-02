@@ -1,0 +1,44 @@
+<a href=
+
+    {% if file.file is defined %}
+                        
+        {{ path('document_show', {'slug': file.subCategory.category.slug, 'sub_slug': file.subCategory.slug, 'id': file.id }) }}
+
+    {% else %}
+        {{ path('sheet_show', {'slug': file.subCategory.category.slug, 'sub_slug': file.subCategory.slug, 'sheet_slug': file.slug, 'sheet_id': file.id }) }}
+
+    {% endif %}
+
+>
+    <div class="card my-card file">
+        <div class="card-body">   
+
+            <table class="my-table">
+                <tbody>
+                    <tr>
+                        <td class="w-20 file-icon">
+                            <div class="my-circle">
+                                <span class="icon">
+                                    <i class="uil uil-bars"></i>
+                                </span>
+                            </div>
+                        </td>
+                        <td class="w-60 text-left file-content">
+
+                            <span class="file-title">{{ file.title }} {% include 'documentation/_file_icon.html.twig' with {'file': file} %}</span>
+                            <div class="my-secondary file-organization">{{ file.organization }}</div>
+
+                            <div class="w-20 my-secondary file-data mt-3">
+                                <i class="far fa-star mr-2"></i>
+                                {{ file.updatedAt|localizeddate('none', 'none', 'fr', null, 'd MMMM Y') }} • {{ file.views }} vue{% if file.views > 1 %}s{% endif %}
+                            
+                            </div>
+                        </td>
+                        <td class="w-20 file-author">{% include '_picture.html.twig' with {'user': file.subCategory.author, 'class': 'small'} %}</td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</a>

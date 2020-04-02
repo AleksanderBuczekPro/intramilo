@@ -53,10 +53,16 @@ class Interlocutor
      * @ORM\ManyToMany(targetEntity="App\Entity\Sheet", mappedBy="interlocutors")
      */
     private $sheets;
+    
 
     public function __construct()
     {
         $this->sheets = new ArrayCollection();
+    }
+
+    public function __toString()
+    {
+        return $this->getFullName();
     }
 
     public function getId(): ?int

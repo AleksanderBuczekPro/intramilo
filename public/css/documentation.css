@@ -1,0 +1,537 @@
+
+/* Accueil Documentation (liste des catégories) */
+.jumbotron.documentation-jumbotron{
+
+    background-color: white;
+    color: white;
+
+    font-family: 'Fira Sans', sans-serif;
+
+}
+
+.jumbotron.documentation-jumbotron h1{
+
+    margin-top: 50px;
+    margin-bottom: 0;
+
+}
+
+.jumbotron.documentation-jumbotron p{
+
+    font-family: 'Fira Sans', sans-serif;
+    font-size: 1.3em;
+    margin-top: 5px;
+
+}
+
+.jumbotron.documentation-jumbotron input, .jumbotron.documentation-jumbotron button{
+
+    border-radius: 10px 0px 0px 10px;
+    padding: 25px;
+    font-size: 1.1em;
+    border: 1px solid white;
+    background-color: var(--grey-10-color);
+
+    margin-top: 5px;
+
+}
+
+.jumbotron.documentation-jumbotron input::placeholder{
+
+    color: #afb1b2;
+
+}
+
+
+
+.jumbotron.documentation-jumbotron button, .jumbotron.documentation-jumbotron button:focus{
+
+    font-size: 1.5em;
+    color: var(--grey-50-color);
+
+    border-radius: 0px 10px 10px 0px;
+    border-left: none;
+    padding: 0 15px;
+
+    box-shadow: none;
+    
+}
+
+.jumbotron.documentation-jumbotron button:hover{
+
+    background-color: var(--blue-color);
+    color: white;
+    
+}
+
+div.my-background{
+
+    background-color: var(--grey-10-color);
+    margin-top: 200px;
+    height: 100%;
+
+}
+
+div.cards-container{
+
+    position: relative;
+    top: -175px;
+
+}
+
+/* Liste des documents */
+
+/* Entete */
+.btn-primary.btn-sm{
+
+    color: white!important;
+
+}
+
+.jumbotron.folder-jumbotron{
+
+    font-family: 'Poppins', sans-serif;
+    background-color:  var(--grey-10-color);
+
+    padding-bottom: 30px;
+
+}
+
+.jumbotron.folder-jumbotron div.category-title{
+
+    font-weight: 700;
+    font-size: 48px;
+
+    color: black;
+
+}
+
+.jumbotron.folder-jumbotron div.category-subtitle{
+
+    font-weight: 700;
+    font-size: 30px;
+
+    color: var(--grey-50-color);
+
+}
+
+/* Illustrations */
+img.folder-illustration{
+
+    height: 250px;
+    margin-right: 20px;
+
+}
+
+/* Icones */
+.my-circle{
+
+    background-color: var(--blue-color);
+
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    text-align: center;
+
+}
+
+.my-circle .icon{
+
+    font-size: 1.2em;
+    line-height: 36px;
+    color: white;
+}
+
+
+/* Fichiers */
+
+div.card.my-card.file{
+
+    font-family: 'Poppins', sans-serif;
+    padding-top: 0;
+    padding-bottom: 0;
+
+}
+
+div.card.my-card.file table{
+
+    width: 100%;
+
+}
+
+div.card.my-card.file td.file-icon{
+
+    width: 5%!important;
+
+    padding-top: 12px;
+    vertical-align: top;
+}
+
+div.card.my-card.file td.file-content{
+
+    width: 90%!important;
+}
+
+div.card.my-card.file td.file-content{
+
+    padding-left: 20px;
+    padding-right: 30px;
+
+}
+
+    .file-title{
+
+        color: black;
+        font-size: 1.2em;
+        font-weight: 600;
+
+        }
+        .file-title i{
+            
+            font-size: 1.1em;
+            vertical-align: middle;
+        }
+
+        i.success{
+            
+            color: var(--blue-color);
+
+        }
+
+        i.warning{
+            
+            color: var(--orange-color);
+
+        }
+
+        i.danger{
+            
+            color: var(--red-color);
+
+        }
+
+        i.light{
+            
+            color: var(--grey-50-color);
+
+        }
+
+    .file-organization{
+
+        font-size: 1.1em;
+    }
+
+    .file-data{
+
+        font-size: 0.9em;
+    }
+
+
+div.card.my-card.file td.file-author{
+
+    width: 5%!important;
+}
+
+table.my-table td.file-author{
+
+    vertical-align: bottom;
+    text-align: right;
+
+}
+
+table.my-table td.file-author div{
+
+    float: right;
+    margin-right: 10px;
+
+}
+
+
+/* Sheet */
+div.container-fluid.sheet-container{
+
+    margin-top: 0;
+
+}
+
+.sheet-container div.summary{
+
+    background-color: var(--grey-10-color);
+    padding: 60px 40px;
+
+}
+
+.sheet-container div.content{
+
+    padding: 60px 60px;
+
+}
+
+.sheet-container div.header{
+
+    background-color: var(--grey-10-color);
+    padding: 60px 40px;
+
+}
+
+/* Sommaire */
+ul.sheet-menu {
+
+    list-style-type: none;
+    padding-left: 0;
+
+    font-family: 'Poppins', sans-serif;
+    font-size: 20px;
+    font-weight: 500;
+
+    color: black;
+
+}
+
+ul.sheet-menu li{
+
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+ul.sheet-menu a {
+
+    list-style-type: none;
+    padding-left: 0;
+
+    font-family: 'Poppins', sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+
+    
+
+    color: var(--grey-50-color);
+
+}
+
+ul.sheet-menu a:hover {
+
+    color: black;
+
+}
+
+
+/* Content */
+.sheet-title{
+
+    font-family: 'Poppins', sans-serif;
+
+    font-weight: 700;
+    font-size: 48px;
+
+    margin-top: 10px;
+
+    color: black;
+}
+
+div.sheet-content h1{
+
+    margin-top: 50px;
+    margin-bottom: 40px;
+
+    font-family: 'Poppins', sans-serif;
+    font-size: 30px;
+    font-weight: 500;
+
+    color: black;
+
+}
+
+div.sheet-content h2{
+
+    font-family: 'Poppins', sans-serif;
+    font-size: 20px;
+    font-weight: 500;
+
+    color: black;
+
+}
+
+div.sheet-content p{
+
+    font-family: 'Poppins', sans-serif;
+    font-size: 15px;
+    line-height: 30px;
+    text-align: justify;
+
+    color: black;
+
+}
+
+/* Header */
+.sheet-container div.header h2, .sheet-container div.summary h2{
+
+    margin-top: 50px;
+    margin-bottom: 25px;
+
+    font-size: 20px;
+    font-weight: 600;
+
+}
+
+div.card.header-card{
+
+    color: white;
+
+    text-align: center;
+    margin-top: 0;
+
+    background-image: url(http://placeimg.com/300/200/any);
+    min-height: 200px;
+    background-color: rgba(0,0,0,.5);
+    background-blend-mode: multiply;
+    border-radius: 10px;
+    font-weight: 400;
+    border: none!important;
+    
+    -webkit-box-shadow: 12px 12px 23px -15px rgba(0,0,0,.7);
+    -moz-box-shadow: 12px 12px 23px -15px rgba(0,0,0,.7);
+    box-shadow: 12px 12px 23px -15px rgba(0,0,0,.7);
+
+}
+
+div.card.header-card .sheet-folder{
+
+    margin-top: 10px;
+    font-size: 12px;
+
+}
+
+div.card.header-card .sheet-title{
+
+    margin-top: 40px;
+    color: white;
+    font-size: 25px;
+    
+    
+}
+
+div.card.header-card .sheet-organization{
+
+    font-size: 20px;
+}
+
+
+/* Organization */
+div.card.my-card.organization-card{
+
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.9em;
+    color: black;  
+
+}
+
+.organization-title{
+
+    font-size: 1.2em;
+    font-weight: 600;
+
+}
+
+.organization-phone, .organization-email{
+
+    font-size: 0.9em;
+    font-weight: 500;
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Admin */
+
+ul.filters li{
+ 
+    list-style-type: none;
+
+}
+
+/*put red dot before all the active list items*/
+ul.filters li.active:before {
+    content: "• "; /*don't miss the space*/
+
+
+}
+  
+/*put dot but make it invisible before the inactive list items*/
+ul.filters li:not(.active):before {
+    content: "• "; /*don't miss the space*/
+    visibility: hidden;
+}
+
+ul.filters a{
+
+    color: #58585a;
+    font-family: 'Fira Sans', sans-serif;
+    font-weight: 500;
+    font-size: 14px;
+
+    text-decoration: none;
+
+}
+
+
+
+p.lead{
+
+    color: black;
+    font-family: 'Fira Sans', sans-serif;
+
+}
+
+.fil-ariane a.btn-category{
+
+    color: #0067F4;
+
+}
+
+.fil-ariane a.btn-category:hover{
+
+    color: white!important;
+
+}
+
+
+span.pole{
+
+    text-transform: none;
+    letter-spacing: 0.5px;
+}
+
+
+

@@ -7,6 +7,7 @@
     --yellow-color: #ffbe0b;
 
     --red-color: #e20613;
+    --green-color: #2ecc71;
 
     --light-transparent-color: rgba(255,255,255,0.2);
     --blue-transparent-color: rgba(58,134,255,0.2);
@@ -17,9 +18,10 @@
 
     --red-transparent-color: rgba(226,6,19,0.2);
 
-    
+    --grey-70-color: #575756;
     --grey-50-color: #868686;
     --grey-20-color: #d9d9d9;
+    --grey-10-color: #f5f5f5;
 }
 
 body{
@@ -62,6 +64,11 @@ h4{
 h5{
     margin-top: 20px;
     margin-bottom: 20px;
+}
+
+a{
+    text-decoration: none!important;
+
 }
 
 /* Tableaux */
@@ -120,6 +127,7 @@ div.card table.my-table td{
 }
 
 
+
 /* Initiales */
 table.my-table .init-circle{
 
@@ -156,7 +164,7 @@ table.my-table .init-circle.small .init{
 
 
 /* Texte */
-span.my-secondary{
+.my-secondary, span.my-secondary{
 
     color: var(--grey-50-color);
 
@@ -193,13 +201,66 @@ form input.form-control, form select.form-control{
 div.card.my-card{
 
     padding: 10px;
-    padding-bottom: 0;
 
     box-shadow: none;
 
     border-style: solid!important;
     border-width: 1px!important;
     border-color: var(--grey-20-color)!important;
+
+}
+
+div.card.my-card.no-border{
+
+    border: none!important;
+
+}
+
+
+div.card.my-card div.card-body{
+
+    padding: 15px 12px 20px;
+
+}
+
+div.card.my-card div.card-body div.card-title{
+
+    color: black;
+
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    font-size: 17px;
+
+    line-height: 20px;
+
+    margin-top: 20px;
+    margin-bottom: 10px;
+
+}
+
+div.card.my-card div.card-body .card-subtitle{
+
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    font-size: 14px;
+
+    padding-top: 5px;
+    padding-bottom: 5px;
+
+
+
+}
+
+div.card.my-card div.card-body .card-subtitle a{
+
+    color: var(--grey-50-color);
+
+}
+
+div.card.my-card div.card-body .card-subtitle a:hover{
+
+    color: black;
+
 
 }
 
@@ -213,6 +274,36 @@ div.card.pole-admin-card{
 div.card.pole-admin-card .card-body h4, div.card.pole-admin-card .card-body table td{
 
     color:white;
+}
+
+
+/* Card User */
+div.card.my-card.users, div.card.my-card.users .card-body{
+
+    border: none!important;
+    padding: 0;
+
+}
+div.card.my-card.users div.card-body div.card-title{
+
+    font-weight: 500;
+    margin-top: 0;
+
+}
+
+div.card.my-card.user{
+
+    background-color: var(--grey-10-color);
+    border: none!important;
+
+}
+
+div.sheet-author div.card.my-card.user,  div.interlocutor div.card.my-card.user{
+    
+    margin-top: 10px;
+    background-color: white!important;
+
+
 }
 
 /* Liste des sous-catégories */

@@ -1,4 +1,4 @@
-.btn{
+.btn, span.my-badge{
     font-family: 'Karla';
     font-weight: 600;
 
@@ -133,3 +133,121 @@
     font-weight: 600;
 
 }
+
+
+.btn.btn-my-return{
+
+    background: transparent;
+    color: var(--blue-color);
+
+    font-weight: 500;
+
+}
+
+/* Boutons poles et filtres */
+.btn.my-filter{
+
+    color: var(--grey-50-color);
+    background-color: var(--grey-10-color);
+    
+    margin: 5px;
+
+}
+
+.btn.my-filter.active{
+
+    background-color: var(--grey-50-color);
+    color: white;
+    border-color: var(--grey-10-color);
+
+}
+
+span.my-badge{
+
+    font-size: 0.9em;
+    padding: 8px 10px;
+
+}
+
+.my-card span.my-badge{
+
+    font-size: 0.65em;
+    padding: 7px 10px;
+
+}
+
+/* Gestion des couleurs des Badge Pole*/
+.btn.my-filter.pole span.my-dot.bleu{
+    color: var(--blue-color);
+}
+
+.btn.my-filter.pole.bleu.active,
+.btn.my-filter.pole.bleu:hover,
+span.my-badge.pole.bleu{
+
+    background: var(--blue-transparent-color);
+    color: var(--blue-color);
+
+}
+
+.btn.my-filter.pole span.my-dot.violet{
+    color: var(--purple-color);
+}
+
+.btn.my-filter.pole.violet.active,
+.btn.my-filter.pole.violet:hover,
+span.my-badge.pole.violet{
+
+    background: var(--purple-transparent-color);
+    color: var(--purple-color);
+    
+}
+
+.btn.my-filter.pole span.my-dot.rose{
+    color: var(--pink-color);
+}
+
+.btn.my-filter.pole.rose.active,
+.btn.my-filter.pole.rose:hover,
+span.my-badge.pole.rose{
+
+
+    background: var(--pink-transparent-color);
+    color: var(--pink-color);
+    
+}
+
+.btn.my-filter.pole span.my-dot.orange{
+    color: var(--orange-color);
+}
+
+.btn.my-filter.pole.orange.active,
+.btn.my-filter.pole.orange:hover,
+span.my-badge.pole.orange{
+
+    background: var(--orange-transparent-color);
+    color: var(--orange-color);
+    
+}
+
+.btn.my-filter.pole span.my-dot.jaune{
+    color: var(--yellow-color);
+}
+
+.btn.my-filter.pole.jaune.active,
+.btn.my-filter.pole.jaune:hover,
+span.my-badge.pole.jaune{
+
+    background: var(--purple-yellow-color);
+    color: var(--yellow-color);
+    
+}
+
+/* Dot */
+span.my-dot{
+
+    padding-left: 5px;
+    padding-right: 5px;
+
+}
+

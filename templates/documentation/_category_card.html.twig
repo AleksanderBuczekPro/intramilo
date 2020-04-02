@@ -1,0 +1,23 @@
+
+
+<div class="col-3 filterCard" data-pole="{{ category.pole.id }}">
+    <div class="card my-card">
+        <div class="card-body">
+            <span href="" class="my-badge pole {{ category.pole.labelColor }}"> • {{ category.pole }}</span>
+            <div class="card-title">{{ category.title }}</div>
+
+            
+
+                {% for sub in category.subCategories %}
+                <div class="card-subtitle">
+                        <a href="{{ path('doc_show', {'slug': category.slug, 'sub_slug': sub.slug }) }}">
+                            {{ sub.title }}
+                        </a>
+                </div>                                     
+                {% endfor %}
+
+           
+
+        </div>
+    </div>
+</div>

@@ -1,12 +1,145 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-    Documentation - {{ sheet.title }} - {{ sheet.organization }}
+    Documentation - {{ sheet.title }} (fiche)
 {% endblock %}
 
 {% block body %}
 
-    <div class="container-fluid main-sheet-container">
+<div class="container-fluid sheet-container">
+    <div class="row">
+
+        {# Summary #}
+        <div class="col-2 summary">
+            <a class="btn btn-my-return" href="{{ path('doc_show', {'slug': category.slug, 'sub_slug': subCategory.slug }) }}">
+                <i class="uil uil-arrow-left"></i> Retour
+            </a>
+
+            <h2>Sommaire</h2>
+            <ul class="sheet-menu"></ul>
+
+        </div>
+
+        {# Content #}
+        <div class="col-7 content">
+
+            {# Titre et infoss #}
+            <span href="" class="my-badge mt-4 pole {{ category.pole.labelColor }}"> • {{ category.pole }}</span>
+            <div class="sheet-title">{{ sheet.title }} {% include 'documentation/_file_icon.html.twig' with {'file': sheet} %}</div>
+
+            <div class="row">
+                <div class="col-5 sheet-author">
+
+                    {% include 'documentation/_user.html.twig' with {'user': sheet.subcategory.author} %}
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-12">
+                    <a href="{{ path('sheet_delete', {'slug': category.slug, 'sub_slug': subCategory.slug, 'sheet_slug': sheet.slug, 'sheet_id': sheet.id}) }}" class="btn btn-my-primary float-right">
+                        <i class="uil uil-times"></i> Supprimer
+                                
+                    </a>
+                    <a href="{{ path('sheet_edit', {'id': sheet.id }) }}" class= "btn btn-my-primary mr-3 float-right">
+                        <i class="uil uil-pen"></i> Modifier           
+                    </a>
+                    {% if is_granted("ROLE_ADMIN") and sheet.status is null %}
+                        <a href="{{ path('sheet_front', {'id': sheet.id }) }}" class="btn btn-my-primary mr-3 float-right">
+                        {% if sheet.front %}
+                            <i class="fas fa-star"></i> Enlever à la Une
+                        {% else %}
+                            <i class="far fa-star"></i> Mettre à la Une
+                        {% endif %}
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+
+            {# Contenu #}
+
+            <div class="row">
+                <div class="col-12 sheet-content">
+                    {{ sheet.content|raw }}
+
+                    {% if sheet.tool|length == 0 and sheet.sheetDocuments|length == 0 %}
+
+                        {# <div class="text-center">
+                            <p class="text">Pas de pièces jointes associées à cette fiche</p>
+                            <a href="{{ path('sheet_edit', {'id': sheet.id }) }}" class="btn btn-sm btn-outline-dark">Ajouter des pièces jointes</a>
+                        </div> #}
+
+                    {% else %}
+
+                        <h1>Outils</h1>
+
+                        {% for file in sheet.tool %}
+
+                            {% include 'documentation/_file.html.twig' %}
+
+                        {% endfor %}
+
+                        {% for file in sheet.sheetDocuments %}
+
+                            {% include 'documentation/_file.html.twig' %}
+
+                        {% endfor %}
+
+                    {% endif %}
+                </div>
+            </div>
+
+            
+        </div>
+
+        {# Header #}
+        <div class="col-3 header">
+
+            {# Card #}
+            <div class="card my-card header-card">
+                <div class="card-body">
+                    <div class="col-12">
+                        <div class="sheet-folder">{{ sheet.subcategory.category|upper }} - {{ sheet.subcategory|upper }}</div>
+                        <div class="sheet-title">{{ sheet.title }}</div>
+                        <div class="sheet-organization">{{ sheet.organization }}</div>
+                    </div>
+                </div>
+            </div>
+
+            {# Organization #}
+            <h2>Organisme</h2>
+            <div class="card my-card organization-card no-border">
+                <div class="card-body">
+                    <div class="organization-title">{{ sheet.organization }}</div>
+                    <div class="organization-address my-secondary">{{ sheet.organization.address }}</div>
+                    <div class="organization-phone mt-2 "><i class="uil uil-envelope-alt"></i> {{ sheet.organization.phoneNumber }}</div>
+                    <div class="organization-email "><i class="uil uil-phone-alt"></i> {{ sheet.organization.email }}</div>
+
+                </div>
+            </div>
+
+            {# Interlocutors #}
+            {% if sheet.interlocutors %}
+                <h2>Interlocuteurs</h2>
+                <div class="interlocutor">
+                    {% for interlocutor in sheet.interlocutors %}
+
+                        {% include 'documentation/_user_email.html.twig' with {'user': interlocutor} %}
+
+                    {% endfor %}
+                </div>
+
+            {% endif %}
+            
+
+        
+        </div>
+    </div>
+
+</div>
+
+{# 
+
+    <div class="container main-sheet-container">
 
         <div class="row justify-content-center mt-5">
             <div class="col-lg-2 bg-light sheet-menu-container">
@@ -130,9 +263,6 @@
                     {{ sheet.content|raw }}
                 </div>
 
-                {# <div class="uniformized">
-                    {{ sheet.content|raw }}
-                </div> #}
 
                 
                         {% if is_granted('ROLE_ADMIN') and sheet.status == "TO_VALIDATE" %}
@@ -159,7 +289,6 @@
             <div class="col-lg-3 bg-light">
                 <div class="row header-menu p-4">
                     <div class="col-12 text-center menu active">INFOS</div>
-                    {# <div class="col-6 text-center menu">Outils</div> #}
                 </div>
                 <div class="row header-image d-flex align-items-center mx-1">
 
@@ -255,14 +384,13 @@
                     {% endif %}
                     
                 
-                {# <a href="{{ path('sheet_tools', {'slug': category.slug, 'sub_slug': subCategory.slug, 'sheet_slug': sheet.slug }) }}" class="btn btn-primary mt-3">Gestion des outils</a> #}
-                
+               
                 </div>
             </div>
         </div>
 
         
-    </div>
+    </div> #}
 
 {% endblock %}
 
@@ -286,19 +414,21 @@
             var text = $(this).text();
             var anchor = convertToSlug(text);
 
-            var subtitle = "px-4";
+            /* var subtitle = "px-4";*/
+
+            var subtitle = "";
             
             if($(this).is("h2")){
 
-                subtitle = "px-5 subtitle";
+                /* subtitle = "px-5 subtitle"; */
+                subtitle = "subtitle";
 
             }
 
-
         
             // Menu
-            $("ul.menu").append(
-                '<a href="#'+ anchor +'"><li class="'+ subtitle +' py-2 ">'+ text +'</li></a>'
+            $("ul.sheet-menu").append(
+                '<a href="#'+ anchor +'"><li class="'+ subtitle +'">'+ text +'</li></a>'
             );
 
             // Ancre h1

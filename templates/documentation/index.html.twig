@@ -12,19 +12,20 @@
 {% block body %}
 
 {% include 'partials/search.html.twig'  %}
+<div class="my-background">
 
-    <div class="container documentation-container">  
+    <div class="container cards-container">  
 
         <div class="row">
             <div class="col-12 text-center">
                 <div id="filters">
 
-                    
-                    <button type="button" class="btn btn-outline-dark btn-pill mx-1 mb-4 filter active" data-filter="">Tous</button>
+                    {# {% include '_dot.html.twig' with {'color': "grey" }  %} #}
+                    <button type="button" class="btn my-filter active" data-filter=""> <span class="my-dot">•</span> Tous</button>
                     {% for pole in poles %}
                         
                         {% if pole.category|length > 0 %}
-                        <button type="button" class="btn btn-outline-dark btn-pill mx-1 mb-4 filter" data-filter="{{ pole.id }}">{{ pole.title }}</button>
+                        <button type="button" class="btn my-filter pole {{ pole.labelColor }}" data-my-filter="{{ pole.id }}"><span class="my-dot {{ pole.labelColor }}">•</span> {{ pole.title }}</button>
                         {% endif %}
                     {% endfor %}
 
@@ -33,46 +34,18 @@
         
         </div>
 
-        <div class="row">
+        <div class="row mt-4">
 
         {% for pole in poles %}
 
             {% for category in pole.category %}
-        
-            <div class="col-md-4 filterCard" data-pole="{{ pole.id }}">
-                <div class="container">
-                    <div class="card bg-white mb-3 documentation-card card-item">
-                        <div class="card-body">
-                            <h4 class="card-title mb-4">
-                            {{ category.title }} <span class="badge badge-pill badge-primary pole float-right" style="background-color: {{ pole.color }}">{{ pole.title }}</span>    
-                            </h4>
 
-                            {% if category.subCategories|length > 0 %}
+                {% if category.subCategories|length > 0 %}
 
-                                {% for sub in category.subCategories %}
-                                    <p class="card-text">
-                                        <a href="{{ path('doc_show', {'slug': category.slug, 'sub_slug': sub.slug }) }}">
-                                            
-                                            {% if sub.author is same as(app.user) %}
-                                                <i class="mr-1 fas fa-folder" style="color: Mediumslateblue;"></i>
-                                            {% else %}
-                                                <i class="mr-1 far fa-folder" style="color: #adb5bd;"></i>
-                                            {% endif %}
-                                            {{ sub.title }}
-                                        </a>                        
-                                    </p>
-                                {% endfor %}
+                    {% include 'documentation/_category_card.html.twig' with {'category': category }  %}
 
-                            {% else %}
+                {% endif %}
 
-                            <p class="text">Aucun dossier</p>
-
-                            {% endif %}
-
-                        </div>
-                    </div>
-                </div>
-            </div>
 
             {% endfor %}
 
@@ -81,6 +54,7 @@
         </div>
         
     </div>
+</div>
 
 {% endblock %}
 
@@ -88,12 +62,12 @@
 
 <script>
 
-$( ".filter" ).click(function() {
+$( ".my-filter" ).click(function() {
 
-    $('.filter').removeClass('active');
+    $('.my-filter').removeClass('active');
     $(this).addClass('active');
 
-    var id = $(this).data('filter');
+    var id = $(this).data('my-filter');
 
     if(id){
 

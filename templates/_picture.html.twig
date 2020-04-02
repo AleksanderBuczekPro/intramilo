@@ -1,5 +1,5 @@
 
-                {% if user.pictureFilename %}
+                {% if user.pictureFilename is defined %}
 
                     <div class="center-cropped {{ class }}" 
                         style="background-image: url({{ asset('files/pictures/' ~ user.pictureFilename) }});">

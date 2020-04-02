@@ -23,26 +23,6 @@ ul li a.nav-link{
 
 }
 
-ul li a.nav-link.home:hover, ul li a.nav-link.home.active,
-ul li a.nav-link.dashboard:hover, ul li a.nav-link.dashboard.active,
-ul li a.nav-link.admin:hover, ul li a.nav-link.admin.active{
-
-    color: #ff006e!important;
-
-}
-
-ul li a.nav-link.documentation:hover, ul li a.nav-link.documentation.active{
-
-    color: #3A86FF!important;
-
-}
-
-ul li a.nav-link.antennes:hover, ul li a.nav-link.antennes.active{
-
-    color: #2ECC71!important;
-
-}
-
 ul li a.nav-link i{
 
     margin-right: 5px;

@@ -153,7 +153,7 @@ p.sheet-infos{
     font-family: 'Fira Sans', sans-serif;
     font-size: 15px;
 }
-
+/* 
 
 .content h1{
 
@@ -179,16 +179,16 @@ p.sheet-infos{
 
     padding-bottom: 10px;
 
-}
+} */
 
-.content div, .content p{
+/* .content div, .content p{
 
     font-size: 16px;
     line-height: 27px;
     color: #58585a;
     font-family: 'Fira Sans', sans-serif;
 
-}
+} */
 
 .content strong{
 

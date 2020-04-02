@@ -7,66 +7,93 @@
 
 {% block body %}
 
-    <div class="jumbotron jumbotron-fluid list-jumbotron">
+    <div class="jumbotron jumbotron-fluid folder-jumbotron">
         <div class="container">
-            <p class="fil-ariane">
-                    <a class="btn btn-light btn-sm" href="{{ path('doc_index') }}">
-                        Retour
-                    </a>
-                    <a class="btn btn-outline-primary btn-pill btn-sm  btn-category ml-2" style="color: #0067F4">
-                        {{ category.title }}
-                    </a>
 
-                </p>
-            <h1 class="display-4 mt-4">{{ subCategory.title }}</h1>
-            <p class="lead">Responsable de la mise à jour : <a href="{{ path('user_show', {'slug': subCategory.author.slug }) }}">{{ subCategory.author.fullName }}</a></p>
+            <div class="row">
 
-            <div class="filters mb-2">
+                <div class="col-8">
+                    
+                    <p class="fil-ariane">
+                        <span href="" class="my-badge mt-4 pole {{ category.pole.labelColor }}"> • {{ category.pole }}</span>
+                    </p>
 
-            {% if subCategory.author is same as(app.user) %}
+                    <div class="category-title">{{ category.title }}</div>
+                    <div class="category-subtitle">{{ subCategory.title }}
+
+                    
+                    
+                    
+
+                </div>           
+                
+                </div>
+                <div class="col-4 text-right">
+
+                    <img src="/images/folder.svg" class="folder-illustration" alt="Image d'illustration de la sous-catégorie {{ subCategory }}">
+                
+                </div>
             
-                <a href="{{ path('sheet_create', {'slug': category.slug, 'sub_slug': subCategory.slug}) }}" class="btn btn-primary">
-                    Ajouter une fiche
-                               
-                </a>
-                <a href="{{ path('document_create', {'slug': category.slug, 'sub_slug': subCategory.slug}) }}" class= "btn btn-primary ml-3">
-                    Ajouter un document            
-                </a>
-            {% endif %}
-
-                {# <span class="float-right tri">Tri : 
-                    <a href="#" class="btn btn-secondary btn-sm ml-3">
-                        Alphabétique
-                    </a>
-                    <a href="#" class="btn btn-light btn-sm">
-                        Par date            
-                    </a>
-                    <a href="#" class="btn btn-light btn-sm">
-                        Par type            
-                    </a>
-                    <a href="#" class="btn btn-light btn-sm">
-                        Par statut            
-                    </a>
-               </span> #}
+            
             </div>
-
-            
+             
             
         </div>
     </div>
 
     <div class="background pt-2">
         <div class="container files-container">
+
+            <div class="row">
+                <div class="col-4">
+                    <a class="btn btn-my-return" href="{{ path('doc_index') }}">
+                        <i class="uil uil-arrow-left"></i> Retour à la documentation
+                    </a>
+                    
+                    <div class="card my-card users">
+                        <div class="card-body">
+                            <div class="card-title">Responsable de la mise à jour</div>
+                            <div>
+                                {% include 'documentation/_user.html.twig' with {'user': subCategory.author} %}
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+                    
+                <div class="col-8">
+                    <div class="row">
+                        <div class="col-12">
+                        {# Si je suis l'administrateur de ce dossier #}
+                        {% if subCategory.author is same as(app.user) %}
+                            
+                            <a href="{{ path('document_create', {'slug': category.slug, 'sub_slug': subCategory.slug}) }}" class= "btn btn-my-primary ml-3 float-right">
+                                <i class="uil uil-plus"></i> Ajouter un document            
+                            </a>
+                            <a href="{{ path('sheet_create', {'slug': category.slug, 'sub_slug': subCategory.slug}) }}" class="btn btn-my-primary float-right">
+                                <i class="uil uil-plus"></i> Ajouter une fiche
+                                        
+                            </a>
+                        {% endif %}
+                        </div>
+                    </div> 
             
-        {% if files|length > 0 %}
+                    {% if files|length > 0 %}
+                
+                        {% for file in files %}
 
-            {% include 'documentation/_list.html.twig' %}
+                            {% include 'documentation/_file.html.twig' %}
 
-        {% else %}
+                        {% endfor %}
 
-            <div class="text text-center p-4" style="min-height: 700px;">Aucune fiche ou document dans ce dossier</div>
+                    {% else %}
 
-        {% endif %}
+                        <div class="text text-center p-4" style="min-height: 700px;">Aucune fiche ou document dans ce dossier</div>
+
+                    {% endif %}
+            
+                </div>
+            </div>
             
         </div>
     </div>

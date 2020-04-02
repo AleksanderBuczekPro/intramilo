@@ -1,6 +1,6 @@
 {% extends 'admin/base.html.twig' %}
 
-{% block title %}Liste des groupes{% endblock %}
+{% block title %}Gestion de la documentation{% endblock %}
 
 {% block body %}
 
@@ -46,11 +46,11 @@
         {# <div class="col-8 offset-md-1"> #}
         <div class="col-9">
 
-            <h1 class="my-h1">Catégories et sous-catégories</h1>
+            <h1 class="my-h1">Gestion de la documentation</h1>
         
             {% for pole in poles %}
 
-                <h3 class="my-h3">{{ pole.title }} <a href="{{ path('admin_category_create', {'id': pole.id}) }}" class="btn btn-my-add-admin"><i class="uil uil-plus"></i> Ajouter une catégorie</a></h3>
+                {# <h3 class="my-h3">{{ pole.title }} <a href="{{ path('admin_category_create', {'id': pole.id}) }}" class="btn btn-my-add-admin"><i class="uil uil-plus"></i> Ajouter une catégorie</a></h3> #}
 
                 <div class="row">
 

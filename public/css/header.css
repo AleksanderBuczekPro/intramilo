@@ -1,3 +1,47 @@
+/* Navbar */
+
+/* nav.navbar.my-navbar {
+
+    border: none;
+
+} */
+
+nav ul li a.nav-link i{
+
+    font-size: 1.1em;
+    font-weight: 700;
+    vertical-align: middle;
+
+}
+
+nav.my-navbar ul li a.nav-link.home.active i{
+
+    color: var(--pink-color);
+
+}
+
+nav.my-navbar ul li a.nav-link.documentation.active i{
+
+    color: var(--blue-color);
+
+}
+
+nav.my-navbar ul li a.nav-link.antennes.active i{
+
+    color: var(--green-color);
+
+}
+
+nav.my-navbar ul li a.nav-link.active{
+
+    color: black;
+    opacity: 1;
+
+}
+
+
+/* Navbar admin */
+
 nav.navbar-admin{
 
     background-color: #8338ec;
