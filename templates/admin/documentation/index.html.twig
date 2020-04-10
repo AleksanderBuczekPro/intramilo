@@ -38,28 +38,12 @@
                         </tbody>
                     </table>
 
-                    {# Si un pôle n'a pas de catégories #}
-                    {# {% for pole in poles %}
-                        {% if pole.category|length == 0 %}
-
-                            <div class="card my-card">
-                                <div class="card-body">
-                                    <div class="card-title">{{ pole }}</div>
-                                    <p>Le pôle {{ pole }} ne contient aucune catégorie.</p>
-                                    <a href="" class="btn btn-my-admin">Ajouter une catégorie</a>
-                                </div>
-                            </div>
-
-                        {% endif %}
-
-                    {% endfor %} #}
                 </div>
             
             </div>
         
         </div>
-        
-        {# <div class="col-8 offset-md-1"> #}
+
         <div class="col-9">
 
             <h1 class="my-h1">Gestion de la documentation</h1>
@@ -77,8 +61,6 @@
 
                                     <a href="" class="btn btn-my-primary small"> • {{ pole }}</a> <a href="{{ path('admin_category_index', {'id': category.id }) }}" class="btn btn-my-dark small float-right"><i class="uil uil-cog"></i> Gérer</a>
                                     <h5>{{ category.title }}</h5>
-                                    
-                                        
 
                                             <table class="table my-table">
                                                 <tbody>
