@@ -1,0 +1,35 @@
+[33m28ac3a1[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m)[m HEAD@{0}: commit: Correction commit précédent
+[33m7f5c711[m HEAD@{1}: commit (amend): Ajout bouton -Ajouter une catégorie - dans l'admin
+[33m8e8d296[m HEAD@{2}: reset: moving to origin/master
+[33m0885603[m HEAD@{3}: commit (amend): Ajout bouton -Ajouter une catégorie - dans l'admin
+[33m8e8d296[m HEAD@{4}: commit: Ajout bouton -Ajouter une catégorie - dans l'admin
+[33mf60bb2e[m HEAD@{5}: commit: Refonte de la Documentation (partie 1)
+[33mcd95f7a[m HEAD@{6}: commit (amend): Améeééléioration de la partie Administration
+[33mea295a8[m HEAD@{7}: commit: Améeééléioration de la partie Administration
+[33m6926394[m HEAD@{8}: commit: Gestion des organismes et des interlocuteurs
+[33m36c8fea[m HEAD@{9}: commit: Ajout du bundle CKEditor manquant #2
+[33ma8bd078[m HEAD@{10}: pull: Fast-forward
+[33m1989724[m HEAD@{11}: commit: Ameélioration du design de la page d'accueil
+[33m172d65a[m HEAD@{12}: commit: Changement de API de localisation meteo
+[33mb6c20d5[m HEAD@{13}: pull: Fast-forward
+[33m8e2a3de[m HEAD@{14}: commit: Ajout styles CSS à la page Login
+[33m95cd836[m HEAD@{15}: commit: Correction validation d'une fiche
+[33m5dda855[m HEAD@{16}: commit (amend): Correction des bugs en production
+[33m8615dbf[m HEAD@{17}: commit (amend): Correction des bugs en production
+[33m95495dc[m HEAD@{18}: commit (amend): Correction des bugs en production
+[33m08f23f6[m HEAD@{19}: commit (amend): Correction des bugs en production
+[33m269b136[m HEAD@{20}: commit (amend): Correction des bugs en production
+[33mf43f39d[m HEAD@{21}: commit: Correction des bugs en production
+[33m50b6be9[m HEAD@{22}: commit (amend): Ajout du bundle CKEditor manquant
+[33m206bd0c[m HEAD@{23}: commit (amend): Ajout du bundle CKEditor manquant
+[33m330002e[m HEAD@{24}: commit (amend): Ajout du bundle CKEditor manquant
+[33mc50d0e3[m HEAD@{25}: commit: Ajout du bundle CKEditor manquant
+[33m9a42431[m HEAD@{26}: commit (amend): Correction erreur selection couleur violet Admin
+[33ma024a4d[m HEAD@{27}: commit (amend): Correction erreur selection couleur violet Admin
+[33m17d6e50[m HEAD@{28}: commit: Correction erreur selection couleur violet Admin
+[33m9c24c52[m HEAD@{29}: commit (amend): Corrections des bugs lors de la mise en ligne
+[33m912e68b[m HEAD@{30}: commit (amend): Corrections des bugs lors de la mise en ligne
+[33m403e479[m HEAD@{31}: commit (amend): Corrections des bugs lors de la mise en ligne
+[33m3f15d33[m HEAD@{32}: commit (amend): Corrections des bugs lors de la mise en ligne
+[33mc13ee9c[m HEAD@{33}: commit (amend): Corrections des bugs lors de la mise en ligne
+[33mcd384dd[m HEAD@{34}: clone: from https://github.com/AleksanderBuczekPro/intramilo.git

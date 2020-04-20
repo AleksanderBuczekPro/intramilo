@@ -24,25 +24,25 @@
             <tr class="file-row">
                 {# <td>{{ file.id }}</td> #}
                 {# Initiales #}
-                {% set firstName = file.subCategory.author.firstName|split('') %}
-                {% set lastName = file.subCategory.author.lastName|split('') %}
+                {% set firstName = file.author.firstName|split('') %}
+                {% set lastName = file.author.lastName|split('') %}
 
                 {% set initiales = firstName[0]|upper ~ lastName[0]|upper %}
 
 
                 <tr>
                 <td class="align-middle initiales">
-                        {% include '_picture.html.twig' with {'user': file.subCategory.author, 'class': 'medium'} %}
+                        {% include '_picture.html.twig' with {'user': file.author, 'class': 'medium'} %}
                 </td>
                 <td class="align-middle">
                 
                     <a href=
                     {% if document %}
                         
-                        {{ path('document_show', {'slug': file.subCategory.category.slug, 'sub_slug': file.subCategory.slug, 'id': file.id }) }}
+                        {{ path('document_show', {'id': file.id }) }}
 
                     {% else %}
-                        {{ path('sheet_show', {'slug': file.subCategory.category.slug, 'sub_slug': file.subCategory.slug, 'sheet_slug': file.slug, 'sheet_id': file.id }) }}
+                        {{ path('sheet_show', {'id': file.id }) }}
 
                     {% endif %}
                     >

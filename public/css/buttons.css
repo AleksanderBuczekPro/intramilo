@@ -80,10 +80,32 @@
 
 }
 
+.btn.btn-my-secondary{
+
+    background: transparent;
+    color:var(--grey-50-color);
+
+    font-weight: 600;
+
+}
+
+.btn.btn-my-secondary:hover{
+
+    background: var(--grey-10-color);
+
+}
+
+.btn.btn-my-secondary.active{
+
+    background: var(--blue-color);
+    color: white;
+}
+
+
 .btn.btn-my-primary{
 
-    background: var(--blue-transparent-color);
-    color: var(--blue-color);
+    background: var(--blue-color);
+    color: white;
 
     font-weight: 600;
 
@@ -138,7 +160,7 @@
 .btn.btn-my-return{
 
     background: transparent;
-    color: var(--blue-color);
+    color: black;
 
     font-weight: 500;
 
@@ -148,18 +170,34 @@
 .btn.my-filter{
 
     color: var(--grey-50-color);
-    background-color: var(--grey-10-color);
+    background-color: white;
+
+    padding: 8px 17px 8px 10px;
     
-    margin: 5px;
+    margin: 7px;
 
 }
 
-.btn.my-filter.active{
+.btn.my-filter.active,
+.btn.my-filter:hover{
 
     background-color: var(--grey-50-color);
-    color: white;
+    color: white!important;
     border-color: var(--grey-10-color);
 
+}
+
+/* Dot */
+span.my-dot{
+
+    padding-left: 5px;
+    padding-right: 5px;
+
+}
+
+.btn.my-filter:hover span.my-dot,
+.btn.my-filter.active span.my-dot{
+    color: white!important;
 }
 
 span.my-badge{
@@ -182,7 +220,11 @@ span.my-badge{
 }
 
 .btn.my-filter.pole.bleu.active,
-.btn.my-filter.pole.bleu:hover,
+.btn.my-filter.pole.bleu:hover{
+
+    background-color: var(--blue-color);
+
+}
 span.my-badge.pole.bleu{
 
     background: var(--blue-transparent-color);
@@ -195,7 +237,11 @@ span.my-badge.pole.bleu{
 }
 
 .btn.my-filter.pole.violet.active,
-.btn.my-filter.pole.violet:hover,
+.btn.my-filter.pole.violet:hover{
+
+    background: var(--purple-color);
+
+}
 span.my-badge.pole.violet{
 
     background: var(--purple-transparent-color);
@@ -208,7 +254,11 @@ span.my-badge.pole.violet{
 }
 
 .btn.my-filter.pole.rose.active,
-.btn.my-filter.pole.rose:hover,
+.btn.my-filter.pole.rose:hover{
+
+    background: var(--pink-color);
+
+}
 span.my-badge.pole.rose{
 
 
@@ -222,7 +272,11 @@ span.my-badge.pole.rose{
 }
 
 .btn.my-filter.pole.orange.active,
-.btn.my-filter.pole.orange:hover,
+.btn.my-filter.pole.orange:hover{
+
+    background: var(--orange-color);
+
+}
 span.my-badge.pole.orange{
 
     background: var(--orange-transparent-color);
@@ -235,19 +289,43 @@ span.my-badge.pole.orange{
 }
 
 .btn.my-filter.pole.jaune.active,
-.btn.my-filter.pole.jaune:hover,
+.btn.my-filter.pole.jaune:hover{
+
+    background: var(--yellow-color);
+
+}
 span.my-badge.pole.jaune{
 
-    background: var(--purple-yellow-color);
+    background: var(--yellow-transparent-color);
     color: var(--yellow-color);
     
 }
 
-/* Dot */
-span.my-dot{
+/* Pills */
+ul li a.my-pill{
 
-    padding-left: 5px;
-    padding-right: 5px;
+    font-family: 'Poppins', sans-serif;
+
+    background-color: var(--grey-10-color);
+    color: black;
+
+    font-size: 12px;
+    font-weight: 500;
+
+    padding: 5px 10px!important;
+    margin-left: 5px;
 
 }
+
+ul li a.my-pill.active{
+
+    background-color: var(--blue-color);
+    color: white;
+
+}
+
+
+
+
+
 

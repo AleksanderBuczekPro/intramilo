@@ -87,7 +87,7 @@ class Pole
 
         $colors = [
 
-            "turquoise" => "#00b8d8",
+            "bleu" => "#00b8d8",
             "violet" => "#3f20e7",
             "jaune" => "#ffb400",
             "vert" => "#1adba2",

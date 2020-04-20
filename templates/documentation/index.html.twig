@@ -12,15 +12,15 @@
 {% block body %}
 
 {% include 'partials/search.html.twig'  %}
-<div class="my-background">
 
+<img src="images/curve.svg" alt="">
+<div class="my-background">
     <div class="container cards-container">  
 
         <div class="row">
             <div class="col-12 text-center">
                 <div id="filters">
 
-                    {# {% include '_dot.html.twig' with {'color': "grey" }  %} #}
                     <button type="button" class="btn my-filter active" data-filter=""> <span class="my-dot">•</span> Tous</button>
                     {% for pole in poles %}
                         
@@ -55,7 +55,6 @@
         
     </div>
 </div>
-
 {% endblock %}
 
 {% block javascripts %}

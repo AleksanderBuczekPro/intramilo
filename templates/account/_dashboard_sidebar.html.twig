@@ -1,0 +1,24 @@
+<div class="my-sidebar">
+    <div class="sidebar-menu">
+
+        <div class="sidebar-title">Tableau de bord</div>
+
+{% if is_granted("ROLE_ADMIN") %}
+        <a href="{{ path('admin_documents') }}" class="sidebar-link {% if app.request.attributes.get('_route') starts with 'admin_documents'  %}active{% endif %}">
+            <i class="uil uil-book-reader"></i> Suivi de la documentation
+        </a>
+        <a href="{{ path('admin_folders') }}" class="sidebar-link {% if app.request.attributes.get('_route') starts with 'admin_folders'  %}active{% endif %}"><i class="uil uil-folder-network"></i> Dossiers suivis</a>
+        <hr>
+{% endif %}
+        <a href="{{ path('account_documents') }}" class="sidebar-link {% if app.request.attributes.get('_route') starts with 'account_documents'  %}active{% endif %}">
+            <i class="uil uil-book-alt"></i> Mes documents
+        </a>
+        <a href="{{ path('account_folders') }}" class="sidebar-link {% if app.request.attributes.get('_route') starts with 'account_folders'  %}active{% endif %}"><i class="uil uil-folder-check"></i> Mes dossiers</a>
+        <a href="{{ path('organizations_index') }}" class="sidebar-link {% if app.request.attributes.get('_route') starts with 'organizations_index'  %}active{% endif %}"><i class="uil uil-building"></i> Organismes et interlocuteurs</a>
+
+        <div class="sidebar-title">Mon profil</div>
+        <a href="" class="sidebar-link"><i class="uil uil-cog"></i> Parametres</a>
+
+
+    </div>
+</div>

@@ -18,25 +18,28 @@ class DocumentController extends AbstractController
     /**
      * Permet d'importer un document dans une sous-catégorie spécifique
      * 
-     * @Route("/doc/{slug}/{sub_slug}/document/new", name="document_create")
+     * @Route("/documentation/{id}/document/new", name="document_create_sub")
+     * @Route("/documentation/document/new", name="document_create")
      * 
-     * @ParamConverter("category",    options={"mapping": {"slug":   "slug"}})
-     * @ParamConverter("subCategory", options={"mapping": {"sub_slug":   "slug"}})
      */
-    public function create(Category $category, SubCategory $subCategory, Request $request, EntityManagerInterface $manager)
+    public function create(SubCategory $subCategory = null, Request $request, EntityManagerInterface $manager)
     {
 
         $document = new Document();
 
-        $document->setSubCategory($subCategory);
+        if($subCategory){
+            $document->setSubCategory($subCategory);  
+        }
+        
 
-        $form = $this->createForm(DocumentType::class, $document);
+        $form = $this->createForm(DocumentType::class, $document, array('user' => $this->getUser()));
 
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
 
             $document->setViews(0);
+            $document->setAuthor($this->getUser());
             $manager->persist($document);
             $manager->flush();
 
@@ -46,34 +49,32 @@ class DocumentController extends AbstractController
 
             );
 
-            return $this->redirectToRoute('doc_show', ['slug' => $category->getSlug(), 'sub_slug' => $subCategory->getSlug()]);
+            // Gestion des nouveaux slugs
+            $slug = $document->getSubCategory()->getCategory()->getSlug();
+            $subSlug = $document->getSubCategory()->getSlug();
+
+            return $this->redirectToRoute('doc_show', ['slug' => $slug, 'sub_slug' => $subSlug]);
         
         }
 
         return $this->render('documentation/document/create.html.twig', [
-            'form' => $form->createView(),
-            'category' => $category,
-            'subCategory' => $subCategory
+            'form' => $form->createView()
         ]);
     }
 
     /**
      * Permet d'afficher les informations d'un document (Document)
      * 
-     * @Route("/doc/{slug}/{sub_slug}/document/{id}", name="document_show")
-     * 
-     * @ParamConverter("category", options={"mapping": {"slug":   "slug"}})
-     * @ParamConverter("subCategory", options={"mapping": {"sub_slug": "slug"}})
-     * @ParamConverter("document", options={"mapping": {"id": "id"}})
+     * @Route("/doc/document/{id}", name="document_show")
      * 
      * @return Response
      */
-    public function show(Category $category, SubCategory $subCategory, Document $document, EntityManagerInterface $manager)
+    public function show(Document $document)
     {
 
         return $this->render('documentation/document/show.html.twig', [
-            'category' => $category,
-            'subCategory' => $subCategory,
+            'category' => $document->getSubCategory()->getCategory(),
+            'subCategory' => $document->getSubCategory(),
             'document' => $document
         ]);
     }
@@ -107,18 +108,16 @@ class DocumentController extends AbstractController
     /**
      * Permet de modifier un document
      * 
-     * @Route("/doc/{slug}/{sub_slug}/document/{id}/edit", name="document_edit")
+     * @Route("/doc/document/{id}/edit", name="document_edit")
      * 
-     * @ParamConverter("category", options={"mapping": {"slug":   "slug"}})
-     * @ParamConverter("subCategory", options={"mapping": {"sub_slug": "slug"}})
-     * @ParamConverter("document", options={"mapping": {"id": "id"}})
      * 
      * @return Response
      */
-    public function edit(Category $category, SubCategory $subCategory, Document $document, Request $request, EntityManagerInterface $manager)
+    public function edit(Document $document, Request $request, EntityManagerInterface $manager)
     {
+      
 
-        $form = $this->createForm(DocumentType::class, $document);
+        $form = $this->createForm(DocumentType::class, $document, array('user' => $this->getUser()));
 
         $form->handleRequest($request);
 
@@ -135,18 +134,19 @@ class DocumentController extends AbstractController
 
             );
 
+
             // Gestion des nouveaux slugs
             $slug = $document->getSubCategory()->getCategory()->getSlug();
             $subSlug = $document->getSubCategory()->getSlug();
 
-            return $this->redirectToRoute('document_show', ['slug' => $slug, 'sub_slug' => $subSlug, 'id' => $document->getId()]);
+            return $this->redirectToRoute('doc_show', ['slug' => $slug, 'sub_slug' => $subSlug]);
 
         }
 
         return $this->render('documentation/document/edit.html.twig', [
             'form'=> $form->createView(),
-            'category' => $category,
-            'subCategory' => $subCategory,
+            'category' => $document->getSubCategory(),
+            'subCategory' => $document->getSubCategory()->getCategory(),
             'document' => $document
         ]);
     }
@@ -178,18 +178,15 @@ class DocumentController extends AbstractController
         $slug = $document->getSubCategory()->getCategory()->getSlug();
         $subSlug = $document->getSubCategory()->getSlug();
 
-        return $this->redirectToRoute('document_show', ['slug' => $slug, 'sub_slug' => $subSlug, 'id' => $document->getId()]);
+        return $this->redirectToRoute('document_show', ['id' => $document->getId()]);
 
     }
  
     /**
      * Permet de supprimer un fichier (Document)
      *
-     * @Route("/doc/{slug}/{sub_slug}/document/{id}/delete", name="document_delete")
+     * @Route("/doc/document/{id}/delete", name="document_delete")
      * 
-     * @ParamConverter("subCategory", options={"mapping": {"sub_slug":   "slug"}})
-     * @ParamConverter("sheet", options={"mapping": {"sheet_slug": "slug"}})
-     * @ParamConverter("document", options={"mapping": {"id": "id"}})
      * 
      */
     public function delete(Document $document, EntityManagerInterface $manager)
@@ -203,11 +200,11 @@ class DocumentController extends AbstractController
 
         );
 
-         // Gestion des nouveaux slugs
-         $slug = $document->getSubCategory()->getCategory()->getSlug();
-         $subSlug = $document->getSubCategory()->getSlug();
+    // Gestion des nouveaux slugs
+    $slug = $document->getSubCategory()->getCategory()->getSlug();
+    $subSlug = $document->getSubCategory()->getSlug();
 
-         return $this->redirectToRoute('doc_show', ['slug' => $slug, 'sub_slug' => $subSlug]);
+    return $this->redirectToRoute('doc_show', ['slug' => $slug, 'sub_slug' => $subSlug]);
 
 
     }

@@ -6,13 +6,14 @@ use App\Entity\Sheet;
 use App\Form\ToolsType;
 use App\Entity\Category;
 use App\Entity\Document;
-use App\Entity\Organization;
 use App\Form\HeaderType;
 use App\Form\SectionType;
 use App\Entity\SubCategory;
+use App\Entity\Organization;
 use App\Repository\SheetRepository;
 use App\Repository\DocumentRepository;
 use Symfony\Component\Form\AbstractType;
+use App\Repository\SubCategoryRepository;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -25,6 +26,9 @@ class SheetType extends ApplicationType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+
+        $user = $options['user'];
+
         $builder
             ->add('title', TextType::class, $this->getConfiguration("Titre", "Entrez le titre de la fiche"))
             ->add('organization', EntityType::class, [
@@ -35,12 +39,16 @@ class SheetType extends ApplicationType
                     return $organization->getName();
                 }
             ])
-            ->add('content', CKEditorType::class, $this->getConfiguration("Contenu", "Ici le contenu de la fiche"))            
-            ->add('subCategory', EntityType::class, [
+            ->add('content', CKEditorType::class, $this->getConfiguration("Texte", "Ici le contenu de la fiche"))            
+            ->add('subCategory', EntityType::class,[
+                'label' => "Sous-catégorie",
                 'class' => SubCategory::class,
-                'choice_label' => function($subCategory){
-                    return $subCategory->getTitle();
-    
+                'query_builder' => function (SubCategoryRepository $sr) use($user) {
+                    return $sr->createQueryBuilder('s')
+                              ->select('s')
+                              ->join('s.authors', 'a')
+                              ->where('a.id = :authorId')
+                              ->setParameter('authorId', $user->getId());
                 },
                 'group_by' => function($subCategory){
                     return $subCategory->getCategory()->getTitle();
@@ -61,7 +69,7 @@ class SheetType extends ApplicationType
                 ])
             
                 ->add('tool', EntityType::class, [
-                    "label" => "Pièces jointes (fiches)",
+                    "label" => "Lier des fiches existantes",
                     'class' => Sheet::class,
                     'choice_label' => 'title',
                     'multiple' => true,
@@ -78,7 +86,7 @@ class SheetType extends ApplicationType
                     }
                 ])
                 ->add('sheetDocuments', EntityType::class, [
-                    "label" => "Pièces jointes (documents)",
+                    "label" => "Lier des documents existants",
                     'class' => Document::class,
                     'choice_label' => 'title',
                     'multiple' => true,
@@ -101,6 +109,7 @@ class SheetType extends ApplicationType
     {
         $resolver->setDefaults([
             'data_class' => Sheet::class,
+            'user' => null
         ]);
     }
 }

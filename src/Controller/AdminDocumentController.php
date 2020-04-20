@@ -24,31 +24,9 @@ class AdminDocumentController extends AbstractController
      */
     public function index(SheetRepository $sheetRepo, DocumentRepository $docRepo, UserRepository $userRepo, SubCategoryRepository $subRepo, Request $request, EntityManagerInterface $manager, Filter $filter)
     {
-        // Recherche des groupes dont l'utilisateur est responsable
-        $groupes = $this->getUser()->getAdminGroupes();
 
-        dump($groupes);
-
-        // Recherche des utilisateurs appartenant à ces groupes
-        $users = [];
-        foreach ($groupes as $groupe) {
-            $user = $userRepo->findByGroupe($groupe);
-            $users = array_merge_recursive($users, $user);
-        }
-
-        // Recherche des sous-catégories que le responsable doit vérifier
-        $subCategories = [];
-        foreach ($users as $user) {
-            $subCategory = $subRepo->findByAuthor($user);
-            $subCategories = array_merge_recursive($subCategories, $subCategory);
-        }
-
-
-        // $subCategories = $this->getUser()->getSubCategories();
-
-        $files = $filter->getFiles($subCategories);
-
-        dump($files);
+        $files = $filter->getAdminFiles($this->getUser(), $userRepo, $sheetRepo);
+      
 
         return $this->render('admin/document/index.html.twig', [
 
@@ -56,12 +34,64 @@ class AdminDocumentController extends AbstractController
             'filesToCorrect' => $files['filesToCorrect'],
             'filesUpToDate' => $files['filesUpToDate'],
             'filesWellObsolete' => $files['filesWellObsolete'],
-            'filesObsolete' => $files['filesObsolete'],
-            'subCategories' => $subCategories,
-            'groupes' => $groupes,
-            'users' => $users
+            'filesObsolete' => $files['filesObsolete']
+            // 'filesToValidate' => "",
+            // 'filesToCorrect' =>"",
+            // 'filesUpToDate' => "",
+            // 'filesWellObsolete' => "",
+            // 'filesObsolete' => "",
+            // 'subCategories' => "",
+            // 'groupes' => "",
+            // 'users' => ""
         ]);
 
+    }
+
+    /**
+     * Permet de faire la liste des dossiers à valider par un responsable
+     * 
+     * @Route("/admin/folders", name="admin_folders")
+     * 
+     * @return Response
+     */
+    public function myFolders(SheetRepository $sheetRepo, UserRepository $userRepo)
+    {
+        $responsable = $this->getUser();
+
+         // Recherche des GROUPES dont l'utilisateur est responsable
+         $groupes = $responsable->getAdminGroupes();
+
+         // Recherche des UTILISATEURS qui font partie de ce groupe
+         $users = [];
+         foreach ($groupes as $groupe) {
+             $user = $userRepo->findByGroupe($groupe);
+             $users = array_merge_recursive($users, $user);
+         }
+ 
+         // Recherche des FICHES des utilisateurs
+         $subCategories = [];
+         foreach ($users as $user) {
+
+            $subs = $user->getSubCategories();
+
+            foreach($subs as $sub){
+                
+                if(!in_array($sub, $subCategories)){
+
+                    // $subCategories = array_merge_recursive($subCategories, $sub);
+                    $subCategories[] = $sub;
+                }
+
+            }
+ 
+         }
+
+        dump($subCategories);
+
+        return $this->render('admin/documentation/folders.html.twig', [
+
+            'subCategories' => $subCategories
+        ]);
     }
 
 

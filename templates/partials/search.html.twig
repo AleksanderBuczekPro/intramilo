@@ -1,25 +1,33 @@
-<div class="jumbotron jumbotron-fluid text-center documentation-jumbotron mb-5">
-        <div class="container">
-            <h1 class="my-h1">Que voulez-vous savoir ?</h1>
-            <p class="my-secondary">Toutes les ressources dont vous avez besoin en un seul endroit</p>
-            <div class="row justify-content-center">
-                <div class="col-md-6">
-                    <form>
-                        <div class="input-group my-3">
+<div class="documentation-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-7">
 
-                            <form action="{{ path('search_index') }}" method="get">
-                                <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="Entrez un mot-clé" name="q" required
-                                value="{% if query is defined %}{{ query }}{% endif %}">
-                                <div class="input-group-append">
-                                    <button class="btn btn-outline-secondary" type="submit"><i class="uil uil-search"></i></button>
-                                </div>
-                                {# <button class="btn" type="submit"><i class="fas fa-search"></i></button> #}
-                            </form>
+                <h1 class="my-h1">Documentation</h1>
+                <p class="my-secondary">Toutes les ressources dont vous avez besoin en un seul endroit</p>
+                <div class="row text-left">
+                    <div class="col-md-8">
+                        <form class="search-form">
+                            <div class="input-group my-3">
 
-                        </div>
-                    </form>
+                                <form action="{{ path('search_index') }}" method="get">
+                                    <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="Entrez un mot-clé" name="q" required
+                                    value="{% if query is defined %}{{ query }}{% endif %}">
+                                    <div class="input-group-append">
+                                        <button class="btn btn-outline-secondary" type="submit"><i class="uil uil-search"></i></button>
+                                    </div>
+                                </form>
+
+                            </div>
+                        </form>
+                    </div>
                 </div>
-            </div>
             
+            
+            </div>
+            <div class="col-5">
+                <img src="images/documentation.svg" class="" alt="Image d'illustration de la Documentation">
+            </div>
         </div>
     </div>
+</div>

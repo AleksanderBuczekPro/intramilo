@@ -7,69 +7,111 @@
 <div class="container">
     <h1 class="my-h1">Liste des utilisateurs <a href="{{ path('admin_user_register') }}" class="btn btn-my-add-admin"><i class="uil uil-plus"></i> Ajouter un utilisateur</a></h1>
 
-    <table class="table my-table">
-        <thead>
+    {# <table class="table my-table admin backoffice"> #}
+        {# <thead>
             <tr>
-                <th>Administrateur</th>
-                <th colspan="2" class="text-left">Nom</th>
+                <th>Admin</th>
+                <th colspan="2" class="text-left">Utilisateur <span class="number"><span>{{ users|length }}</span></span></th>
                 <th>Date de création</th>
                 <th colspan="2"></th>
             </tr>
         </thead>
-        <tbody>
+        <tbody> #}
 
+        {% set counter = 0 %}
         
+        {% for groupe in groupes %}
 
-        {% for user in users %}
-            <tr>
-                <td>
-                        {# Gestion du Switch #}
-                    {% set checked = "" %}
+        <table class="table my-table admin backoffice  mb-4">
 
-                    {% for role in user.roles  %}
+            {% if counter == 0 %}
+                <thead>
+                    <tr>
+                        <th class="switch">Admin</th>
+                        <th colspan="2" class="text-left">{{ groupe }} <span class="number"><span>{{ groupe.users|length }}</span></span></th>
+                        <th>Date de création</th>
+                        <th colspan="2"></th>
+                    </tr>
+                </thead>
+            {% else %}
+                <thead>
+                    <tr>
+                        <th class="switch"></th>
+                        <th colspan="2" class="text-left">{{ groupe }} <span class="number"><span>{{ groupe.users|length }}</span></span></th>
+                        <th></th>
+                        <th colspan="2"></th>
+                    </tr>
+                </thead>
+            {% endif %}
+            <tbody>
 
-                        {% if role == "ROLE_ADMIN" %}
-                            {% set checked = "checked" %}
-                        {% endif %}
+            {% if groupe.users|length > 0 %}
+                {% for user in groupe.users %}
 
-                    {% endfor %}
+                    <tr>
+                        <td class="switch">
+                                {# Gestion du Switch #}
+                            {% set checked = "" %}
 
-                    <div class="custom-control custom-switch">
+                            {% for role in user.roles  %}
 
-                        <input type="checkbox" class="custom-control-input admin-switch" id="customSwitch{{ user.id }}" data-id={{ user.id }} {{ checked }}
-                        
-                        {% if user.id == app.user.id %}
-                            disabled
-                        {% endif %}>
+                                {% if role == "ROLE_ADMIN" %}
+                                    {% set checked = "checked" %}
+                                {% endif %}
 
-                        <label class="custom-control-label" for="customSwitch{{ user.id }}"></label>
-                    </div>
-                </td>
-                <td class="pr-0">
-                    {% include '_picture.html.twig' with {'user': user, 'class': 'medium'} %}
-                </td>
-                <td class="text-left pl-0">
-                    {{ user.fullName }} <br>
-                    <span class="my-secondary">{{ user.email }}</span>
-                </td>
-                <td>
-                    {{ user.createdAt|localizeddate('none', 'none', 'fr', null, 'd MMMM Y') }}
-                </td>
-                <td class="pr-0">
-                    <a href="{{ path('admin_user_edit', {'id':  user.id }) }}" class="btn btn-my-warning">
-                        <i class="uil uil-pen"></i> Modifier
-                    </a>
-                </td>
-                <td class="pl-0">
-                    <a href="{{ path('admin_user_delete', {'id':  user.id }) }}" class="btn btn-my-danger">
-                        <i class="uil uil-times"></i> Supprimer
-                    </a>
-                </td>
-            </tr>
+                            {% endfor %}
+
+                            <div class="custom-control custom-switch">
+
+                                <input type="checkbox" class="custom-control-input admin-switch" id="customSwitch{{ user.id }}" data-id={{ user.id }} {{ checked }}
+                                
+                                {% if user.id == app.user.id %}
+                                    disabled
+                                {% endif %}>
+
+                                <label class="custom-control-label" for="customSwitch{{ user.id }}"></label>
+                            </div>
+                        </td>
+                        <td class="pr-0">
+                            {% include '_picture.html.twig' with {'user': user, 'class': 'medium'} %}
+                        </td>
+                        <td class="text-left pl-0 w-25">
+                            <span class="main">{{ user.lastName }} {{ user.firstName }}</span><br>
+                            <span class="my-secondary">{{ user.email }}</span>
+                        </td>
+                        <td class="w-25">
+                            {{ user.createdAt|localizeddate('none', 'none', 'fr', null, 'd MMMM Y') }}
+                        </td>
+                        <td class="pr-0">
+                            <a href="{{ path('admin_user_edit', {'id':  user.id }) }}" class="btn btn-my-warning">
+                                <i class="uil uil-pen"></i> Modifier
+                            </a>
+                        </td>
+                        <td class="pl-0">
+                            <a href="{{ path('admin_user_delete', {'id':  user.id }) }}" class="btn btn-my-danger">
+                                <i class="uil uil-times"></i> Supprimer
+                            </a>
+                        </td>
+                    </tr>
+
+
+                    
+                {% endfor %}
+
+            {% else %}
+                <tr>
+                    <td colspan="6" class="text-center">Aucun utilisateur dans le groupe {{ groupe }}</td>
+                </tr>
+            {% endif %}
+
+            </tbody>
+        </table>
+
+        {% set counter = counter + 1 %}
+
         {% endfor %}
 
-        </tbody>
-    </table>            
+                   
 
 </div>
 

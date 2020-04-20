@@ -1,85 +1,133 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-    Documentation - Listes des organismes
+    Documentation - Tableau de bord
 {% endblock %}
+
 
 {% block body %}
 
-    <div class="container">
- 
-        <h1 class="my-5">Liste des organismes <a href="{{ path('homepage') }}" class="ml-3 btn btn-outline-dark">Retour à l'accueil</a></h1> 
 
+{# <div class="row dashboard"> #}
 
-        <div class="card">
-            <div class="card-body">    
+    {# Dashboard Sidebar #}
+    
+    {% include 'account/_dashboard_sidebar.html.twig' %}
 
-            <a href="{{ path('organization_create') }}" class="btn btn-outline-dark float-right">Ajouter un organisme</a>    
+    <div class="my-content">
 
-            {% if organizations|length > 0 %}
+        <div class="main-content">    
+            <div class="my-h1">Organismes et interlocuteurs <a href="{{ path('organization_create') }}" class="btn btn-my-primary ml-3"><i class="uil uil-plus"></i> Créer un organisme</a></div>
 
-                {% for org in organizations %}
+            <table class="table my-table admin">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Organisme <span class="number"><span>{{ organizations|length }}</span></span></th>
+                        <th class="text-center">Interlocuteurs</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% set prev_letter = "" %}
 
-                    <div>
-                        <strong>{{ org.name  }}</strong>
+                    {% for organization in organizations %}
+
+                        {% set cur_letter = organization.name|upper|slice(0, 1) %}
                         
-                        <a href="{{ path('organization_edit', {'id': org.id }) }}" class="btn btn-link">Modifier</a>
-                        <a href="{{ path('organization_delete', {'id': org.id }) }}" class="btn btn-link">Supprimer</a>
-                        
-                    </div>
+                        <tr class="organization my-hover" data-organization="{{ organization.id }}">
+                            <td class="letter bleu">
+                            {# Si la première lettre est différente #}
+                            {% if prev_letter != cur_letter %}
 
-                    <div class="org-infos">
-                        {{ org.fullAddress }} <br>
-                        {{ org.phoneNumber }} <br>
-                        {{ org.email }} <br>
-                        {{ org.website }} <br>
+                                {{ cur_letter }}
 
-                        {% if org.interlocutors|length > 0 %}
+                            {% endif %}
+                            </td>
+                            <td><span class="main">{{ organization }}</span></td>
+                            <td class="text-center"><i class="uil uil-user"></i> <span class="main">{{ organization.interlocutors|length }}</span></td>
+                        </tr>
 
-                            <div class="row">
-                                {% for interlocutor in org.interlocutors %}
+                        {% set prev_letter = cur_letter %}
 
-                                    <div class="col-4">
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="details">
 
-                                        <div class="card">
-                                            <div class="card-body">
-                                                <div>{{ interlocutor.function }}</div>
-                                                <div class="mt-2">
-                                                    <strong>{{ interlocutor.fullName }}</strong>
-                                                </div>
-                                                
-                                                {{ interlocutor.phoneNumber }} <br>
-                                                {{ interlocutor.email }} <br>
-                                            </div>
-                                        </div>
-                                        
-                                    </div>
+        {% for organization in organizations %}
+            <div data-organization="{{ organization.id }}" class="organization d-none">
 
-                                {% endfor %}
-                            </div>
+                <div class="title mb-4">Détails de l'organisme</div>
+                {% if organization.sheets|length == 0 and organization.documents|length == 0 %}
+                    <a href="{{ path('organization_delete', {'id': organization.id }) }}" class="my-secondary float-right"> <i class="uil uil-times"></i></a>
+                {% endif %}
+                    <a href="{{ path('organization_edit', {'id': organization.id }) }}" class="my-secondary float-right"> <i class="uil uil-pen"></i></a>
+                <div class="my-secondary main">{{ organization }}</div>
+                <div class="my-secondary px-1">{{ organization.fullAddress }}</div>
+                <div class="contact mt-2">
+                    <div class="my-secondary px-1"><i class="fas fa-sm mr-2 fa-phone-alt"></i> {{ organization.phoneNumber }}</div>
+                    <div class="my-secondary px-1"><i class="fas fa-sm mr-2 fa-envelope"></i> {{ organization.email }}</div>
+                    <div class="my-secondary px-1"><i class="fas fa-sm mr-2 fa-link"></i><a href="{{ organization.website }}" target="_blank">Voir le site</a></div>
+                </div>
 
-                        {% else %}
+                
 
-                            <p class="text">Aucun interlocuteur</p>
+                {% if organization.interlocutors|length > 0 %}
 
-                        {% endif %}
+                    <div class="title ml-1 my-4">Interlocuteurs</div>
 
-                        <a href="{{ path('interlocutor_create', {'id': org.id} ) }}" class="btn btn-link">Ajouter un interlocuteur</a>
-                        <hr>
-                    
-                    </div>
-                {% endfor %}
+                    {% for interlocutor in organization.interlocutors %}
+                        <div class="transparent">
+                            <a href="{{ path('interlocutor_delete', {'id': interlocutor.id }) }}" class="my-secondary float-right"> <i class="uil uil-times"></i></a>
+                            <a href="{{ path('interlocutor_edit', {'id': interlocutor.id }) }}" class="my-secondary float-right"> <i class="uil uil-pen"></i></a>
+                            {% include 'documentation/_user_function.html.twig' with {'user': interlocutor} %}
+                        </div>
+                        <div class="contact ml-3">
+                            <div class="my-secondary"><i class="fas fa-sm mr-2 fa-phone-alt"></i> {{ interlocutor.phoneNumber }}</div>
+                            <div class="my-secondary"><i class="fas fa-sm mr-2 fa-envelope"></i> {{ interlocutor.email }}</div>
+                        </div>
+                        <hr class="my-4">
+                    {% endfor %}
 
-            {% else %}
+                    <a href="{{ path('interlocutor_create', {'id': organization.id }) }}" class="btn btn-my-dark mt-2"><i class="uil uil-plus"></i> Ajouter un interlocuteur</a>
 
-                <p class="text">Aucun organisme</p>
+                {% else %}
 
-            {% endif %}
-            
+                    <div class="my-secondary my-4"><i>Aucun interlocuteur</i></div>
+
+                    <a href="{{ path('interlocutor_create', {'id': organization.id }) }}" class="btn btn-my-dark mt-2"><i class="uil uil-plus"></i> Ajouter un interlocuteur</a>
+
+                {% endif %}
 
             </div>
-         </div>
 
+        {% endfor %}
+        </div>
+        
+    
     </div>
+
+
+{% endblock %}
+{% block javascripts %}
+<script>
+
+/* Quand l'organisme change, on change également les interlocuteurs */
+$( "tr.organization" ).click(function() {
+    
+    var organization_id = $(this).data('organization');
+
+    //alert(organization_id);
+
+    $("div.organization").addClass("d-none");
+    $("div.organization[data-organization='"+ organization_id +"'").removeClass("d-none");
+
+
+    
+});
+
+</script>
 
 {% endblock %}

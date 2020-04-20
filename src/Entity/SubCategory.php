@@ -48,16 +48,17 @@ class SubCategory
     private $documents;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="subCategories")
+     * @ORM\ManyToMany(targetEntity="App\Entity\User", inversedBy="subCategories")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $author;
+    private $authors;
 
 
     public function __construct()
     {
         $this->sheets = new ArrayCollection();
         $this->documents = new ArrayCollection();
+        $this->authors = new ArrayCollection();
     }
 
     
@@ -186,15 +187,29 @@ class SubCategory
 
         return $this;
     }
-
-    public function getAuthor(): ?User
+    
+    /**
+     * @return Collection|User[]
+     */
+    public function getAuthors(): Collection
     {
-        return $this->author;
+        return $this->authors;
     }
 
-    public function setAuthor(?User $author): self
+    public function addAuthor(User $author): self
     {
-        $this->author = $author;
+        if (!$this->authors->contains($author)) {
+            $this->authors[] = $author;
+        }
+
+        return $this;
+    }
+
+    public function removeAuthor(User $author): self
+    {
+        if ($this->authors->contains($author)) {
+            $this->authors->removeElement($author);
+        }
 
         return $this;
     }

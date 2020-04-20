@@ -1,42 +1,53 @@
+/* Documentation Header (liste des Pôles, Catégories et Sous-Catégories) */
+div.documentation-header{
 
-/* Accueil Documentation (liste des catégories) */
-.jumbotron.documentation-jumbotron{
-
-    background-color: white;
-    color: white;
-
-    font-family: 'Fira Sans', sans-serif;
+    margin-top: 40px;
 
 }
 
-.jumbotron.documentation-jumbotron h1{
+div.documentation-header h1.my-h1{
 
-    margin-top: 50px;
-    margin-bottom: 0;
-
-}
-
-.jumbotron.documentation-jumbotron p{
-
-    font-family: 'Fira Sans', sans-serif;
-    font-size: 1.3em;
-    margin-top: 5px;
+    margin-bottom: 5px;
 
 }
 
-.jumbotron.documentation-jumbotron input, .jumbotron.documentation-jumbotron button{
+div.documentation-header p{
 
-    border-radius: 10px 0px 0px 10px;
-    padding: 25px;
+    color: black;
     font-size: 1.1em;
-    border: 1px solid white;
-    background-color: var(--grey-10-color);
-
-    margin-top: 5px;
 
 }
 
-.jumbotron.documentation-jumbotron input::placeholder{
+div.documentation-header img{
+
+    height: 400px;
+    position: absolute;
+
+
+}
+
+form.search-form {
+
+    margin-top: 30px;
+
+}
+
+form.search-form input{
+
+    margin-top: 0;
+
+    font-size: 1.05em;
+
+    height: 50px;
+    background-color: var(--grey-10-color);
+    color: var(--grey-70-color);
+    border: none;
+
+    padding: 8px 20px;
+
+}
+
+form.search-form input::placeholder{
 
     color: #afb1b2;
 
@@ -44,38 +55,44 @@
 
 
 
-.jumbotron.documentation-jumbotron button, .jumbotron.documentation-jumbotron button:focus{
+form.search-form button, form.search-form button:focus{
 
-    font-size: 1.5em;
-    color: var(--grey-50-color);
+    font-size: 1.6em;
+
+    color: var(--blue-color);
+    background-color: var(--grey-10-color);
 
     border-radius: 0px 10px 10px 0px;
+    border: 1px solid var(--grey-10-color);
     border-left: none;
     padding: 0 15px;
 
     box-shadow: none;
+
+    margin-top: 0;
     
 }
 
-.jumbotron.documentation-jumbotron button:hover{
+form.search-form button:hover{
 
     background-color: var(--blue-color);
     color: white;
     
 }
 
+/* Documentation Cards Container */
 div.my-background{
 
-    background-color: var(--grey-10-color);
-    margin-top: 200px;
-    height: 100%;
+    background-color: var(--blue-background-color);
+    margin-top: 0;
+    padding-bottom: 300px;
 
 }
 
 div.cards-container{
 
-    position: relative;
-    top: -175px;
+    margin-top: 0;
+    padding-top: 30px;
 
 }
 
@@ -88,16 +105,21 @@ div.cards-container{
 
 }
 
-.jumbotron.folder-jumbotron{
+.folder-header div.container{
 
-    font-family: 'Poppins', sans-serif;
-    background-color:  var(--grey-10-color);
-
-    padding-bottom: 30px;
+    margin-top: 0;
+    padding-top: 100px;
 
 }
 
-.jumbotron.folder-jumbotron div.category-title{
+.folder-header{
+
+    font-family: 'Poppins', sans-serif;
+    background-color:  var(--blue-background-color);
+
+}
+
+.folder-header div.category-title{
 
     font-weight: 700;
     font-size: 48px;
@@ -106,7 +128,7 @@ div.cards-container{
 
 }
 
-.jumbotron.folder-jumbotron div.category-subtitle{
+.folder-header div.category-subtitle{
 
     font-weight: 700;
     font-size: 30px;
@@ -118,10 +140,13 @@ div.cards-container{
 /* Illustrations */
 img.folder-illustration{
 
-    height: 250px;
-    margin-right: 20px;
+    height: 320px;
+    position: absolute;
+    top: -40px;
+
 
 }
+
 
 /* Icones */
 .my-circle{
@@ -139,6 +164,24 @@ img.folder-illustration{
 
     font-size: 1.2em;
     line-height: 36px;
+    color: white;
+}
+
+.my-circle.small{
+
+    background-color: var(--blue-color);
+
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    text-align: center;
+
+}
+
+.my-circle.small .icon{
+
+    font-size: 1.2em;
+    line-height: 23px;
     color: white;
 }
 
@@ -192,25 +235,25 @@ div.card.my-card.file td.file-content{
             vertical-align: middle;
         }
 
-        i.success{
+        i.success, td.success{
             
             color: var(--blue-color);
 
         }
 
-        i.warning{
+        i.warning, td.warning{
             
             color: var(--orange-color);
 
         }
 
-        i.danger{
+        i.danger, td.danger{
             
             color: var(--red-color);
 
         }
 
-        i.light{
+        i.light, td.light{
             
             color: var(--grey-50-color);
 
@@ -323,13 +366,14 @@ ul.sheet-menu a:hover {
 
     font-weight: 700;
     font-size: 48px;
+    line-height: 1.1em;
 
-    margin-top: 10px;
+    margin-top: 20px;
 
     color: black;
 }
 
-div.sheet-content h1{
+div.sheet-content h1, div.sheet-tools h1#outils{
 
     margin-top: 50px;
     margin-bottom: 40px;
@@ -364,7 +408,9 @@ div.sheet-content p{
 }
 
 /* Header */
-.sheet-container div.header h2, .sheet-container div.summary h2{
+.sheet-container div.header h2, .sheet-container div.summary h2, .my-title{
+
+    font-family: 'Poppins', sans-serif;
 
     margin-top: 50px;
     margin-bottom: 25px;
@@ -372,6 +418,11 @@ div.sheet-content p{
     font-size: 20px;
     font-weight: 600;
 
+}
+
+.my-title.strong{
+
+    font-weight: 700;
 }
 
 div.card.header-card{
@@ -439,6 +490,245 @@ div.card.my-card.organization-card{
     font-weight: 500;
 
 }
+
+
+/* Dashboard */
+
+/* Dashboard Sidebar */
+div.my-sidebar{
+
+    font-family: 'Poppins', sans-serif;
+    position: fixed;
+    width: 250px; /* Same as Content margin */
+    height: 100%;
+
+    padding: 20px 20px 60px 0px;
+    display: inline-block;
+
+    background-color: var(--grey-10-color);
+
+
+}
+
+div.my-sidebar .sidebar-title{
+
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--grey-40-color);
+
+    text-transform: uppercase;
+    line-height: 30px;
+
+    margin-top: 40px;
+    padding-left: 30px;
+    
+
+}
+
+div.my-sidebar i{
+
+    font-size: 20px;
+    vertical-align: middle;
+    margin-right: 10px;
+}
+
+div.my-sidebar a.sidebar-link{
+
+
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--grey-70-color);
+    width: 100%;
+
+    line-height: 20px;
+    display: inline-block;
+    text-align: left;
+    margin: 5px 0;
+    padding: 10px 10px 10px 30px;
+
+    border-radius: 0px 20px 20px 0px;
+
+}
+
+div.my-sidebar a.sidebar-link:hover{
+
+    background-color: var(--grey-15-color);
+
+}
+
+div.my-sidebar a.sidebar-link.active{
+
+    background-color: var(--blue-transparent-color);
+    color: var(--blue-color);
+
+}
+
+/* Dashboard Content */
+
+div.my-content{
+
+    font-family: 'Poppins', sans-serif;
+    width: 100%;
+    min-height: 80vh;
+    
+
+    padding: 15px 60px 60px 280px; /* Same as Sidebar Width + 30px */
+
+}
+
+div.my-content .my-h1{
+    
+    font-size: 22px;
+    font-weight: 600;
+    color: black;
+
+    margin-top: 40px;
+    margin-bottom: 40px;
+    
+}
+
+div.my-content div.main-content{
+
+    width: 70%;
+    display: inline-block;
+
+}
+
+div.my-content div.details{
+
+    width: 30%;
+    height: 500px;
+    float: right;
+    display: inline-block;
+
+    margin-top: 125px;
+
+    padding-left: 80px;
+
+}
+
+
+
+div.dashboard-content{
+
+    background-color: var(--blue-background-color);
+    padding: 10px 35px;
+
+}
+
+div.dashboard-content .my-h1{
+ 
+    margin-top: 60px;
+    
+}
+
+
+div.card table.my-table td.stat-bar{
+
+    width: 80%;
+    padding: 0;
+
+}
+
+div.card table.my-table td.porcentage{
+
+    color: var(--blue-color);
+    font-weight: 600;
+
+}
+
+div.bar{
+
+    background-color: var(--blue-color);
+    height: 4px;
+    width: 100%;
+    border-radius: 4px;
+
+}
+
+/* Table Notification */
+
+div.card.my-card.notification td.file-icon-state{
+    vertical-align: top;
+    font-size: 1.7em;
+    padding-right: 5px;
+    padding-top: 7px;
+
+    width: 20px;
+
+}
+
+div.card.my-card.notification div.file-title{
+    
+    /* font-size: 15px; */
+    font-weight: 600;
+
+}
+
+div.card.my-card.notification div.file-state{
+    
+    font-size: 15px;
+    font-weight: 500;
+
+}
+
+div.card.my-card.notification div.notification-time{
+    
+    font-size: 14px;
+    font-weight: 400;
+
+}
+
+div.notification-message{
+
+    font-weight: 600;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.9em;
+    margin-top: 20px;
+
+}
+
+/* Danger */
+div.card.my-card.notification.danger{
+
+    background-color: var(--red-transparent-color);
+}
+
+div.card.my-card.notification.danger div,
+div.card.my-card.notification.danger i{
+
+    color: var(--red-color);
+
+}
+
+
+/* Warning */
+div.card.my-card.notification.warning{
+
+    background-color: var(--orange-transparent-color);
+}
+
+div.card.my-card.notification.warning div,
+div.card.my-card.notification.warning i{
+
+    color: var(--orange-color);
+
+}
+
+/* Light */
+div.card.my-card.notification.light{
+
+    background-color: var(--grey-10-color);
+}
+
+div.card.my-card.notification.light div,
+div.card.my-card.notification.light i{
+
+    color: var(--grey-50-color);
+
+}
+
+
 
 
 

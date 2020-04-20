@@ -12,22 +12,34 @@
 {% block body %}
 
 {% include 'partials/search.html.twig'  %}
+<img src="images/curve.svg" alt="">
+    <div class="my-background">
+        <div class="container search-container mt-0">
 
-    <div class="container">  
+            <div class="row">
+                <a href="{{ path('doc_index') }}" class="btn btn-my-return">
+                    <i class="uil uil-arrow-left"></i> Retour à la Documentation</a>
+            </div>
+            <div class="row">
+                <div class="col-3">
+                    <div class="search-sidebar my-title strong mt-1 mb-0">
+                        Recherche <span class="bleu">{{ query }}</span>
+                    </div>
+                    <div class="my-secondary">{{ files|length }} résultat{% if files|length > 1 %}s{% endif %}</div>
+                </div>
+                <div class="col-9">
+                    {% for file in files %}
+                        {% include 'documentation/_file.html.twig' with {'file': file }  %}
+                    {% endfor %}
+                </div>
 
-        <div class="row">
-            <a href="{{ path('doc_index') }}" class="btn btn-primary">Retour</a>
-        </div>
-        <div class="row mt-3">
+                
 
             
-           <h1 class="mb-5">Résultats de recherche pour "{{ query }}"</h1>
-
-           {% include 'documentation/_list.html.twig' %}
-
-           
+            </div>
+            
         </div>
-        
     </div>
+</div>
 
 {% endblock %}

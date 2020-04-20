@@ -1,191 +1,72 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-    Administration
+    Documentation - Tableau de bord
 {% endblock %}
+
 
 {% block body %}
 
-    {% set f = app.request.get('filter') %}
-    <div class="background pt-2">
-        <div class="container">
-        <h1 class="m-3">Suivi de la documentation</h1>
 
-        <div class="row">
-            <div class="col-6">
-                <div class="card dashboard-card">
-                    <div class="card-body">
-                        <h6 class="mb-3 card-title">Mes groupes</h6>
-                        <p>
-                            {% for groupe in groupes %}
 
-                                {# <span class="badge badge-light mb-2">{{ groupe.title }}</span> #}
+{# <div class="row dashboard"> #}
 
-                                <a class="btn btn-sm btn-pill btn-outline-secondary m-1 profile">{{ groupe.title|upper }}</a>
+    {# Dashboard Sidebar #}
+    
+    {% include 'account/_dashboard_sidebar.html.twig' %}
 
-                            {% endfor %}
-                        </p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-6">
-                <div class="card dashboard-card">
-                    <div class="card-body">
-                        <h6 class="mb-3 card-title">Mes utilisateurs</h6>
-                        <p>
-                            {% for user in users %}
+    <div class="my-content">
+        <div class="my-h1">Suivi de la documentation</div>
 
-                                {# <span class="badge badge-light mb-2">{{ user.fullName }}</span> #}
+        <table class="table my-table admin">
+            <thead>
+                <tr>
+                    <th colspan="2">Documents <span class="number"><span></span></span></th>
+                    <th>Dossier</th>
+                    <th>Dernière mise à jour</th>
+                    <th>Etat</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+            {# A corriger #}
+            {% for file in filesToCorrect %}
+                {% include '/account/_dashboard_admin_table_row.html.twig' with {'file': file} %}
+            {% endfor %}
 
-                                <a class="btn btn-sm btn-pill btn-outline-secondary m-1 profile">{{ user.fullName|upper }}</a>
+            {# Obsolètes #}
+            {% for file in filesObsolete %}
+                {% include '/account/_dashboard_admin_table_row.html.twig' with {'file': file} %}
+            {% endfor %}
 
-                            {% endfor %}
-                        </p>
-                    </div>
-                </div>
+            {# Bientôt obsolètes #}
+            {% for file in filesWellObsolete %}
+                {% include '/account/_dashboard_admin_table_row.html.twig' with {'file': file} %}
+            {% endfor %}
 
-            </div>
-            <div class="col-12">
-                <div class="card dashboard-card">
-                    <div class="card-body">
-                        <h6 class="mb-3 card-title">Mes dossiers</h6>
-                        <p>
-                            {% for sub in subCategories %}
+            {# En attente de validation #}
+            {% for file in filesToValidate %}
+                {% include '/account/_dashboard_admin_table_row.html.twig' with {'file': file} %}
+            {% endfor %}
 
-                                {# <span class="badge badge-light mb-2">{{ sub.title }}</span> #}
-                                {# <a href="{{ path('doc_show', {'slug': sub.category.slug, 'sub_slug': sub.slug }) }}" class="btn btn-sm btn-pill btn-outline-secondary m-1 profile">{{ sub.title|upper }}</a> #}
-                                <a class="btn btn-sm btn-pill btn-outline-secondary m-1 profile">{{ sub.title|upper }}</a>
-                            {% endfor %}
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        
-        
-
-        <div class="row">
-            <div class="col-6">
-            <div class="card">
-                    <div class="card-body">
-                    <h6 class="card-title mb-3">A jour</h6>
-                    <table class="table table-documentation-list dashboard-list up-to-date">
-                        <tbody>
-                            {% for file in filesUpToDate %}
-
-                                {% include 'documentation/_dashboard_list.html.twig' %}
-
-                            {% endfor %}                    
-                        </tbody>
-                    </table>
-                    
-
-                    </div>
-                </div>
-                
-            </div>
-            <div class="col-6">
-                <div class="card">
-                    <div class="card-body">
-                    <h6 class="card-title mb-3">A corriger</h6>
-                    <table class="table table-documentation-list dashboard-list to-correct">
-                        <tbody>
-                            
-                            {% for file in filesToCorrect %}
-
-                                {% include 'documentation/_dashboard_list.html.twig' %}
-
-                            {% endfor %}                    
-                        </tbody>
-                    </table>             
-
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-body">
-                    <h6 class="card-title mb-3">En cours de validation</h6>
-                    <table class="table table-documentation-list dashboard-list to-validate">
-                        <tbody>
-
-                            {% for file in filesToValidate %}
-
-                                {% include 'documentation/_dashboard_list.html.twig' %}
-
-                            {% endfor %}                    
-                        </tbody>
-                    </table>                  
-
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-body">
-                    <h6 class="card-title mb-3">Obsolète</h6>
-                    <table class="table table-documentation-list dashboard-list obsolete">
-                        <tbody>
-                            {% for file in filesObsolete %}
-
-                                {% include 'documentation/_dashboard_list.html.twig' %}
-
-                            {% endfor %}                    
-                        </tbody>
-                    </table>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-body">
-                    <h6 class="card-title mb-3">Bientôt obsolète</h6>
-                    <table class="table table-documentation-list dashboard-list well-obsolete">
-                        <tbody>
-                            {% for file in filesWellObsolete %}
-
-                                {% include 'documentation/_dashboard_list.html.twig' %}
-
-                            {% endfor %}                    
-                        </tbody>
-                    </table>                 
-
-                    </div>
-                </div>
-            </div>
-            
-            
-        </div>
-        </div>
-
-        
-
-        
-
-           
-        </div>
+            {# A jour #}
+            {% for file in filesUpToDate %}
+                {% include '/account/_dashboard_admin_table_row.html.twig' with {'file': file} %}
+            {% endfor %}
+            </tbody>
+        </table>
+    
     </div>
 
 
 {% endblock %}
+{% block javascripts %}
+<script>
 
+    $('tr[data-href]').on("click", function() {
+        document.location = $(this).data('href');
+    });
 
-{# <h6 class="mb-3">Mes groupes</h6>
-            <p>
-                {% for groupe in groupes %}
+</script>
 
-                    <span class="badge badge-light mb-2">{{ groupe.title }}</span>
-
-                {% endfor %}
-            </p>
-            <h6 class="mb-3">Mes utilisateurs</h6>
-            <p>
-                {% for user in users %}
-
-                    <span class="badge badge-light mb-2">{{ user.fullName }}</span>
-
-                {% endfor %}
-            </p>
-            <h6 class="mb-3">Mes dossiers</h6>
-            <p>
-                {% for sub in subCategories %}
-
-                    <span class="badge badge-light mb-2">{{ sub.title }}</span>
-
-                {% endfor %}
-            </p> #}
+{% endblock %}

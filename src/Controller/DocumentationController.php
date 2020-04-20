@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Service\Docs;
 use App\Service\Filter;
+use App\Service\Search;
 use App\Entity\Category;
 use App\Form\SearchType;
 use App\Entity\SubCategory;
@@ -27,7 +28,7 @@ class DocumentationController extends AbstractController
      * 
      * @Route("/doc", name="doc_index")
      */
-    public function index(PoleRepository $repo, Request $request, EntityManagerInterface $manager)
+    public function index(PoleRepository $repo, Request $request)
     {
 
         // Gestion des catégories
@@ -59,16 +60,68 @@ class DocumentationController extends AbstractController
         $sheets = $sheetRepo->findBySubCategory($subCategory);
         $documents = $docRepo->findBySubCategory($subCategory);
 
-        $files = array_merge_recursive($sheets, $documents);
+        $waitingStatus = ["TO_VALIDATE", "TO_CORRECT"]; 
 
-        usort($files, function($a, $b){ 
+        $sheetsOnline = [];
+        $sheetsWaiting = [];
+
+        // Tri des fiches
+        foreach($sheets as $sheet){
+
+            // En attente
+            if(in_array($sheet->getStatus(), $waitingStatus)) 
+            { 
+                // On affiche uniquement les documents de l'utilisateur connecté
+                if ($sheet->getAuthor() == $this->getUser()){
+                    $sheetsWaiting[] = $sheet;
+                }
+            }
+            // En ligne
+            else
+            { 
+                $sheetsOnline[] = $sheet;
+            } 
+        }
+
+        $documentsOnline = [];
+        $documentsWaiting = [];
+
+        // Tri des documents En ligne / En attente
+        foreach($documents as $document){
+
+            // En attente
+            if(in_array($document->getStatus(), $waitingStatus)) 
+            {
+                // On affiche uniquement les documents de l'utilisateur connecté
+                if ($document->getAuthor() == $this->getUser()){
+                    $documentsWaiting[] = $document;
+                }
+            }
+            // En ligne
+            else
+            { 
+                $documentsOnline[] = $document;
+            } 
+        }
+
+        
+
+        $filesOnline = array_merge_recursive($sheetsOnline, $documentsOnline);
+        $filesWaiting = array_merge_recursive($sheetsWaiting, $documentsWaiting);
+
+        usort($filesOnline, function($a, $b){ 
+            return strcasecmp($a->getTitle(), $b->getTitle());
+        });
+
+        usort($filesWaiting, function($a, $b){ 
             return strcasecmp($a->getTitle(), $b->getTitle());
         });
 
         return $this->render('documentation/show.html.twig', [
             'category' => $category,
             'subCategory' => $subCategory,
-            'files' => $files
+            'filesOnline' => $filesOnline,
+            'filesWaiting' => $filesWaiting
         ]);
     }
 

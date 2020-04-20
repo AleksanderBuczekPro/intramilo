@@ -65,10 +65,10 @@
                     <a href=
                     {% if document %}
                         
-                        {{ path('document_show', {'slug': file.subCategory.category.slug, 'sub_slug': file.subCategory.slug, 'id': file.id }) }}
+                        {{ path('document_show', {'id': file.id}) }}
 
                     {% else %}
-                        {{ path('sheet_show', {'slug': file.subCategory.category.slug, 'sub_slug': file.subCategory.slug, 'sheet_slug': file.slug, 'sheet_id': file.id }) }}
+                        {{ path('sheet_show', {'id': file.id}) }}
 
                     {% endif %}
                     >

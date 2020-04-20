@@ -1,3 +1,5 @@
+ {% set counter = app.session.get('notification-counter') %}
+ 
  <nav class="navbar navbar-expand-lg sticky-top navbar-light bg-light my-navbar">
             <a class="navbar-brand" href="{{ path('homepage') }}">
                 {# <img src="/images/logo_milo.png" alt="Logo Mission Locale de l'arrondissment de Dijon">/ #}
@@ -24,24 +26,54 @@
                     
                 </ul>   
                 <ul class="navbar-nav ml-auto">
-                    {# <li class="nav-item">
-                        <a class="nav-link mr-3 dashboard {% if app.request.attributes.get('_route') starts with 'account_documents' %}active{% endif %}" href="{{ path('account_documents') }}"><i class="fas fa-table"></i> Tableau de bord</a>
+                    <li class="nav-item">
+                    
+                        <a href=
+                        {% if is_granted("ROLE_ADMIN") %}
+                            {{ path('admin_documents') }}
+                        {% else %}
+                            {{ path('account_documents') }}
+                        {% endif %}
+                        
+                         class="btn btn-my-primary intramilo">
+                            <i class="uil uil-web-grid"></i> Tableau de bord
+                        </a>
+                        
+                        <span id="notification-counter">
+                            {% if counter %}
+                        
+                                <span id="notification-circle">
+                                        <span id="counter">{{ counter }}</span>
+                                </span>
+                        
+                            {% endif %}
+                        </span>
+                        
+                        
                     </li>
-
-                    {% if is_granted('ROLE_ADMIN') %}
-                        <li class="nav-item">
-                            <a class="nav-link mr-3 admin {% if app.request.attributes.get('_route') starts with 'admin' %}active{% endif %}" href="{{ path('admin_documents') }}"><i class="fas fa-user-shield"></i> Administration</a>
-                        </li>
-                    {% endif %} #}
 
                 {% if app.user %}
                     <li class="nav-item dropdown mt-2 mr-4">
                         <a class="nav-link notification" href="#" data-toggle="dropdown" id="accountDropdownLink">
                             <i class="fas fa-bell"></i>
-                            <span class="mybadge">1</span>
                         </a>
-                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="accountDropdownLink">
-                            <a href="" class="dropdown-item">A venir</a>
+                        <div class="dropdown-menu dropdown-menu-right" id="my-dropdown" aria-labelledby="accountDropdownLink">
+
+                            <table class="table my-table">
+                                <tr class="notifications">
+                                    {# <td class="w-25 text-center notif-icon pl-4">
+                                        <span class="icon"><i class="uil uil-book-alt"></i></span>
+                                        <span class="state-icon"><i class='uil uil-times-circle'></i></span>
+                                    </td>
+                                    <td class="w-75 notif-content pl-1 text-left">
+                                        La fiche <strong>Fiche</strong> est obsolète. <br>
+                                        <span class="date">19 avril 2020</span>
+                                    </td> #}
+                                </tr>
+                            
+                            </table>
+                            <div class="dropdown-divider"></div>
+                            <a href="{{ path('account_documents') }}" class="dropdown-item text-center dropdown-footer">Voir plus</a>
                         </div>
                     </li>
                     

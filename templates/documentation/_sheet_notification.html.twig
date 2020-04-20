@@ -1,0 +1,227 @@
+
+{# En cours de validation #}
+{% if sheet.status == "TO_VALIDATE" %}
+<div class="card my-card notification {% include 'documentation/_file_state_class.html.twig' with {'file': sheet} %} no-border mt-4">
+    <div class="card-body p-0">
+
+        <table class="my-table notification w-100">
+            <tbody>
+                <tr>
+                    <td class="file-icon-state black">
+                        {% include 'documentation/_file_icon.html.twig' with {'file': sheet} %}
+                    </td>
+                    <td class="file-content text-left">
+                        <div class="file-title">
+                            {% include 'documentation/_file_state.html.twig' with {'file': sheet} %}
+                        </div>
+                        <div class="file-state">
+                            Cette fiche est uniquement visible par vous et l’administrateur.
+                        </div>
+                        <div class="notification-time mt-2">
+                            {{ sheet.updatedAt|localizeddate('none', 'none', 'fr', null, 'd MMMM Y') }}
+                            à {{ sheet.updatedAt|localizeddate('none', 'none', 'fr', null, 'HH:mm') }}
+                            
+                                {% if app.user == sheet.author %}
+                                    <span class="action float-right">
+
+                                        <a href="{{ path('sheet_delete', {'id': sheet.id }) }}" class="btn btn-my-dark mr-2 float-right"> <i class="uil uil-times"></i> Supprimer</a>                                
+                                        <a href="{{ path('sheet_edit', {'id': sheet.id }) }}" class="btn btn-my-dark mr-2 float-right"> <i class="uil uil-pen"></i> Modifier</a>
+                                        
+                                    
+                                    </span>
+                                {% endif %}
+
+
+                        
+                        
+                        </div>
+                    </td>
+                </tr>
+                {% if is_granted("ROLE_ADMIN") %}
+
+                    <tr>
+                        <td></td>
+                        <td>
+                            <div class="row">
+
+                                <div class="col-6">
+                                {{ form_start(form) }}
+
+                                    {{ form_widget(form.comment) }}
+                                </div>
+
+                                <div class="col-6">
+                                    
+                                    <button type="submit" id="correction" class="btn btn-my-danger m-2 mt-3">
+                                        <i class="uil uil-message danger"></i> Envoyer à corriger
+                                    </button>
+
+                                    {{ form_end(form) }}
+                                    
+                                    <button id="validation" class="btn btn-my-primary m-2 mt-3"><i class="uil uil-check-circle white"></i> Valider la fiche</button>
+                                    
+                                </div>
+
+                            </div>
+                        </td>
+                    
+                    </tr>
+
+                {% endif %}
+
+
+
+
+            </tbody>
+        </table>
+
+    </div>
+</div>
+{% endif %}
+
+
+
+{# A corriger #}
+{% if sheet.status == "TO_CORRECT" %}
+<div class="card my-card notification {% include 'documentation/_file_state_class.html.twig' with {'file': sheet} %} bg-rouge-transparent white no-border mt-4">
+    <div class="card-body p-0">
+
+        <table class="my-table notification w-100 rouge">
+            <tbody>
+                <tr>
+                    <td class="file-icon-state black">
+                        {% include 'documentation/_file_icon.html.twig' with {'file': sheet} %}
+                    </td>
+                    <td class="file-content text-left">
+                        <div class="file-title">
+                            {% include 'documentation/_file_state.html.twig' with {'file': sheet} %}
+                        </div>
+                        <div class="file-state">
+                            {{ sheet.comment }}
+                        </div>
+                        <div class="notification-time mt-2">
+                            {{ sheet.updatedAt|localizeddate('none', 'none', 'fr', null, 'd MMMM Y') }}
+                            à {{ sheet.updatedAt|localizeddate('none', 'none', 'fr', null, 'HH:mm') }}
+                            
+                                {% if app.user == sheet.author %}
+                                    <span class="action float-right">
+                                        <a href="{{ path('sheet_delete', {'id': sheet.id }) }}" class="btn btn-my-danger mr-2 float-right"> <i class="uil uil-times"></i> Supprimer</a>
+                                        <a href="{{ path('sheet_edit', {'id': sheet.id }) }}" class="btn btn-my-danger mr-2 float-right"> <i class="uil uil-pen"></i> Modifier</a>
+                                                                        
+                                    
+                                    </span>
+                                {% endif %}
+    
+
+                        
+                        
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+</div>
+{% endif %}
+
+{# Obsolète #}
+{% if sheet.updatedAt < date('-6months', 'Europe/Paris') and sheet.status is null %}
+
+<div class="card my-card notification {% include 'documentation/_file_state_class.html.twig' with {'file': sheet} %} bg-rouge-transparent white no-border mt-4">
+    <div class="card-body p-0">
+
+        <table class="my-table notification w-100 rouge">
+            <tbody>
+                <tr>
+                    <td class="file-icon-state black">
+                        {% include 'documentation/_file_icon.html.twig' with {'file': sheet} %}
+                    </td>
+                    <td class="file-content text-left">
+                        <div class="file-title">
+                            {% include 'documentation/_file_state.html.twig' with {'file': sheet} %}
+                        </div>
+                        
+                            <div class="file-state">
+                                {% if app.user == sheet.author %}
+                                    Veuillez mettre la fiche à jour
+                                {% else %}
+                                    Fiche à mettre à jour par son auteur
+                                {% endif %}
+                            </div>
+                        
+                        <div class="notification-time mt-2">
+                            {{ sheet.updatedAt|localizeddate('none', 'none', 'fr', null, 'd MMMM Y') }}
+                            à {{ sheet.updatedAt|localizeddate('none', 'none', 'fr', null, 'HH:mm') }}
+                            
+                                {% if app.user == sheet.author %}
+                                    <span class="action float-right">
+                                        <a href="{{ path('sheet_delete', {'id': sheet.id }) }}" class="btn btn-my-danger mr-2 float-right"> <i class="uil uil-times"></i> Supprimer</a>
+                                        <a href="{{ path('sheet_edit', {'id': sheet.id }) }}" class="btn btn-my-danger mr-2 float-right"> <i class="uil uil-pen"></i> Modifier</a>
+                                                                        
+                                    
+                                    </span>
+                                {% endif %}
+    
+
+                        
+                        
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+</div>
+{% endif %}
+
+{# Bientôt obsolète #}
+{% if sheet.updatedAt > date('-6months', 'Europe/Paris') and sheet.updatedAt < date('-5months', 'Europe/Paris') and sheet.status is null %}
+
+<div class="card my-card notification {% include 'documentation/_file_state_class.html.twig' with {'file': sheet} %} bg-orange-transparent white no-border mt-4">
+    <div class="card-body p-0">
+
+        <table class="my-table notification w-100 orange">
+            <tbody>
+                <tr>
+                    <td class="file-icon-state black">
+                        {% include 'documentation/_file_icon.html.twig' with {'file': sheet} %}
+                    </td>
+                    <td class="file-content text-left">
+                        <div class="file-title">
+                            {% include 'documentation/_file_state.html.twig' with {'file': sheet} %}
+                        </div>
+                            <div class="file-state">
+                                {% if app.user == sheet.author %}
+                                    Veuillez mettre la fiche à jour
+                                {% else %}
+                                    Fiche à mettre à jour par son auteur
+                                {% endif %}
+                            </div>
+                        <div class="notification-time mt-2">
+                            {{ sheet.updatedAt|localizeddate('none', 'none', 'fr', null, 'd MMMM Y') }}
+                            à {{ sheet.updatedAt|localizeddate('none', 'none', 'fr', null, 'HH:mm') }}
+                            
+                                {% if app.user == sheet.author %}
+                                    <span class="action float-right">
+                                        <a href="{{ path('sheet_delete', {'id': sheet.id }) }}" class="btn btn-my-warning mr-2 float-right"> <i class="uil uil-times"></i> Supprimer</a>
+                                        <a href="{{ path('sheet_edit', {'id': sheet.id }) }}" class="btn btn-my-warning mr-2 float-right"> <i class="uil uil-pen"></i> Mettre à jour</a>
+                                                                        
+                                    
+                                    </span>
+                                {% endif %}
+    
+
+                        
+                        
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+</div>
+{% endif %}
+

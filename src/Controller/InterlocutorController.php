@@ -10,10 +10,16 @@ use App\Repository\OrganizationRepository;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Doctrine\Common\Annotations\AnnotationReader;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
+
+use Symfony\Component\Serializer\Normalizer\PropertyNormalizer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Serializer\Mapping\Loader\AnnotationLoader;
+use Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer;
+use Symfony\Component\Serializer\Mapping\Factory\ClassMetadataFactory;
 
 class InterlocutorController extends AbstractController
 {
@@ -110,27 +116,17 @@ class InterlocutorController extends AbstractController
         
         // Récupération des interlocuteurs
         $interlocutors = $organization->getInterlocutors();
-        
 
-        // Conversion des objets en JSON avec un Serializer
-        $encoder = [new JsonEncoder()];
+        $classMetadataFactory = new ClassMetadataFactory(new AnnotationLoader(new AnnotationReader()));
+        $normalizer = new PropertyNormalizer($classMetadataFactory);
+        $serializer = new Serializer([$normalizer]);
 
-        // Handling Circular References
-        $defaultContext = [
-            AbstractNormalizer::CIRCULAR_REFERENCE_HANDLER => function ($object, $format, $context) {
-                return $object->getId();
-            },
-        ];
-
-        $normalizer = [new ObjectNormalizer(null, null, null, null, null, null, $defaultContext)];
-
-        $serializer = new Serializer($normalizer, $encoder);
-
-        $jsonContent = $serializer->serialize($interlocutors, 'json');
+        // $inter_data = $serializer->normalize($interlocutors, null, ['groups' => ['default']]);
+        $data = $serializer->normalize($interlocutors, null, [AbstractNormalizer::ATTRIBUTES => ['id', 'firstName', 'lastName', 'function', 'phoneNumber', 'email','sheets' => ['id']]]);
 
         
         // On retourne du JSON
-        return $this->json($jsonContent);
+        return $this->json($data);
 
     }
 

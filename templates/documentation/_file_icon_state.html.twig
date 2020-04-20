@@ -1,0 +1,114 @@
+{# Si c'est un document (Document) #}
+{% if file.file is defined %}
+
+    {% set document = true %}
+
+    {% set chemin = "{{ vich_uploader_asset(file, 'genericFile')}}" %}
+    {% set chemin_update = "" %}
+    {% set chemin_delete = "" %}
+    
+    {# {% set fileType =  file.mimeType %} #}
+
+    {# autre type #}
+    {# {% set fileIcon = '<i class="far fa-file fa-lg other"></i>'%}
+
+    doc / docx / odt
+    {% if (file.mimeType == 'application/msword' or file.mimeType == 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' or file.mimeType == 'application/vnd.oasis.opendocument.text' or file.mimeType == 'application/CDFV2' or file.mimeType == 'text/rtf') %}
+        {% set fileIcon = '<i class="far fa-file-word fa-lg file-icon word"></i>'%}
+    {% endif %}
+
+    jpg / jpeg / png
+    {% if (file.mimeType == 'image/jpeg' or file.mimeType == 'image/png') %}
+        {% set fileIcon = '<i class="far fa-file-image fa-lg file-icon image"></i>'%}
+    {% endif %}
+
+    pdf
+    {% if (file.mimeType == 'application/pdf') %}
+        {% set fileIcon = '<i class="far fa-file-pdf fa-lg file-icon pdf"></i>'%}
+    {% endif %}
+
+    powerpoint
+    {% if (file.mimeType == 'application/vnd.ms-powerpoint' or file.mimeType == 'application/vnd.openxmlformats-officedocument.presentationml.presentation') %}
+        {% set fileIcon = '<i class="far fa-file-powerpoint fa-lg file-icon ppt"></i>'%}
+    {% endif %}
+
+    excel
+    {% if (file.mimeType == 'application/vnd.ms-excel' or file.mimeType == 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet') %}
+        {% set fileIcon = '<i class="far fa-file-excel fa-lg file-icon excel"></i>'%}
+    {% endif %} #}
+
+
+{# Si c'est une fiche (Sheet) #}
+{% else %}
+
+    {% set document = false  %}
+
+    {% set chemin = "{{ path('sheet_show', {'slug': category.slug, 'sub_slug': subCategory.slug, 'sheet_slug': file.slug }) }}" %}
+    {% set chemin_update = "{{ path('sheet_edit', {'slug': category.slug, 'sub_slug': subCategory.slug, 'sheet_slug': file.slug }) }}" %}
+    {% set chemin_delete = "{{ path('sheet_delete', {'slug': category.slug, 'sub_slug': subCategory.slug, 'sheet_slug': file.slug }) }}" %}
+    {% set fileType = "sheet" %}
+
+    {% set fileIcon = '<i class="fas fa-align-left file-icon sheet"></i>'%}
+
+{% endif %}
+
+
+{# {% if document %}
+
+    {% if date(file.updatedAt) <= date('-6months', 'Europe/Paris') %}
+
+        {% set state = "Obsolète" %}
+        {% set state_class = "danger" %}
+
+    {% elseif date(file.updatedAt) < date('-5months', 'Europe/Paris') %}
+
+        {% set state = "Bientôt obsolète" %}
+        {% set state_class = "warning" %}
+
+    {% else %}
+
+        {% set state = "À jour" %}
+        {% set state_class = "success" %}
+
+    {% endif %}
+
+{% else %} #}
+
+    {% if file.status is defined and file.status == "TO_VALIDATE" %}
+
+        {% set state = "En cours de validation" %}
+        {% set icon = "pause" %}
+        {% set state_class = "light" %}
+
+    {% elseif file.status is defined and file.status == "TO_CORRECT" %}
+
+        {% set state = "À corriger" %}
+        {% set icon = "exclamation" %}
+        {% set state_class = "danger" %}
+
+    {% else %}
+
+        {% if date(file.updatedAt) <= date('-6months', 'Europe/Paris') %}
+
+            {% set state = "Obsolète" %}
+            {% set icon = "times" %}
+            {% set state_class = "danger" %}
+
+        {% elseif date(file.updatedAt) < date('-5months', 'Europe/Paris') %}
+
+            {% set state = "Bientôt obsolète" %}
+            {% set icon = "minus" %}
+            {% set state_class = "warning" %}
+
+        {% else %}
+
+            {% set state = "À jour" %}
+            {% set icon = "check" %}
+            {% set state_class = "success" %}
+
+        {% endif %}
+
+    {% endif %}
+{# {% endif %} #}
+
+<i class="uil uil-{{icon}}-circle {{state_class}}"></i> <span class="{{ state_class }}">{{ state }}</span> 

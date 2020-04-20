@@ -93,6 +93,12 @@ class Document
      */
     private $organization;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="documents")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $author;
+
     public function __construct()
     {
         $this->sheets = new \Doctrine\Common\Collections\ArrayCollection();
@@ -288,6 +294,18 @@ class Document
     public function setOrganization(?Organization $organization): self
     {
         $this->organization = $organization;
+
+        return $this;
+    }
+
+    public function getAuthor(): ?User
+    {
+        return $this->author;
+    }
+
+    public function setAuthor(?User $author): self
+    {
+        $this->author = $author;
 
         return $this;
     }

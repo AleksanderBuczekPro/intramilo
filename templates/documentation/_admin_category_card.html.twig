@@ -1,0 +1,70 @@
+
+{# Si c'est toujours la même catégorie #}
+{# On ajoute uniquement la sous-catégorie #}
+{% if category == sub.category %}
+
+
+                    <div class="card-subtitle admin">
+                        <table class="table my-table">
+                            <tr>
+                                <td class="text-left pl-0">
+                                    <a href="{{ path('doc_show', {'slug': sub.category.slug, 'sub_slug': sub.slug }) }}" target="_blank">                                        
+                                        {{ sub.title }}
+                                    </a> 
+                                </td>
+                                <td class="text-right float-right pr-0">
+                                {% for author in sub.authors %}
+
+                                    {% include '_picture.html.twig' with {'user': author, 'class': 'small'} %}
+
+                                {% endfor %}
+                                </td>
+                            </tr>
+                        </table>
+                        
+                    </div>
+                    
+                
+            {# </div>
+
+        </div>
+    </div> #}
+
+{# Si c'est une autre catégorie #}
+{% else %}
+
+    {# Fin de card précédente #}
+    {% if counter != 0 %}
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <div class="col-3" data-pole="{{ sub.category.pole.id }}">
+        <div class="card my-card folder">
+            
+            <div class="card-body dashboard-admin">
+                <span href="" class="my-badge pole {{ sub.category.pole.labelColor }}">{{ sub.category.pole }}</span>
+                
+                <div class="card-title">{{ sub.category.title }}</div>
+                    <div class="card-subtitle admin">
+                        <table class="table my-table">
+                            <tr>
+                                <td class="text-left pl-0">
+                                    <a href="{{ path('doc_show', {'slug': sub.category.slug, 'sub_slug': sub.slug }) }}" target="_blank">                                        
+                                        {{ sub.title }}
+                                    </a> 
+                                </td>
+                                <td class="text-right float-right pr-0">
+                                    {% for author in sub.authors %}
+                                        {% include '_picture.html.twig' with {'user': author, 'class': 'small'} %}
+                                    {% endfor %}
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+
+
+
+
+{% endif %}

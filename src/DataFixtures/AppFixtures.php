@@ -324,7 +324,7 @@ class AppFixtures extends Fixture
                             $content .= '<h1>' . $faker->sentence(mt_rand(1,4)) . '</h1><div class="mb-5">';
                             
                             for($t = 1; $t <= mt_rand(1,3); $t++){
-                                $content .= $faker->paragraph();
+                                $content .= $faker->paragraph(mt_rand(10, 30));
                             }
     
                             $content .= '</div>';
@@ -340,13 +340,15 @@ class AppFixtures extends Fixture
                           ->setFront(0)
                           ->setAuthor($authors[array_rand($authors)]);
 
+                        $interlocutors = $organization->getInterlocutors();
+
                         foreach($interlocutors as $interlocutor){
                             
                         // Une chance sur deux d'ajouter un interlocuteur
-                            $chance = mt_rand(1,2);
-                            if($chance == 1){  
+                            // $chance = mt_rand(1,2);
+                                    // if($chance == 1
                                 $sheet->addInterlocutor($interlocutor);
-                            }
+                            // }
                             
 
                         }

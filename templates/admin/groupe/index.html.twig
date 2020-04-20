@@ -7,7 +7,7 @@
 <div class="container">
     <h1 class="my-h1">Liste des groupes <a href="{{ path('admin_groupe_create') }}" class="btn btn-my-add-admin"><i class="uil uil-plus"></i> Ajouter un groupe</a></h1>
 
-    <table class="table my-table">
+    <table class="table my-table admin backoffice">
         <thead>
             <tr>
                 <th class="text-left">Groupe</th>
@@ -22,14 +22,14 @@
 
         {% for groupe in groupes %}
             <tr>
-                <td class="text-left">
+                <td class="text-left main">
                     {{ groupe }}
                 </td>
                 <td class="pr-0">
                     {% include '_picture.html.twig' with {'user': groupe.responsable, 'class': 'medium'} %}
                 </td>
                 <td class="text-left pl-0">
-                    {{ groupe.responsable.fullName }} <br>
+                    <span class="main">{{ groupe.responsable.fullName }}</span><br>
                     <span class="my-secondary">{{ groupe.responsable.email }}</span>
                 </td>
                 {# <td>25 mars 2020</td> #}

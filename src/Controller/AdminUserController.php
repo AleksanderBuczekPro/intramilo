@@ -8,6 +8,7 @@ use App\Form\AdminAccountType;
 use App\Form\RegistrationType;
 use App\Repository\RoleRepository;
 use App\Repository\UserRepository;
+use App\Repository\GroupeRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -22,12 +23,12 @@ class AdminUserController extends AbstractController
      * 
      * @Route("/admin/users", name="admin_users_index")
      */
-    public function index(UserRepository $repo)
+    public function index(GroupeRepository $repo)
     {
-        $users = $repo->findAll();
+        $groupes = $repo->findBy(array(), array('title' => 'ASC'));
 
         return $this->render('admin/user/index.html.twig', [
-            'users' => $users
+            'groupes' => $groupes
     
         ]);
     }

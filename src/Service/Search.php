@@ -25,6 +25,7 @@ class Search{
             return strcasecmp($a->getTitle(), $b->getTitle());
         });
 
+
         return $files;
 
     }
@@ -37,18 +38,25 @@ class Search{
             'organization_query'=> '%'.$query.'%',
             'content_query'=> '%'.$query.'%'
         );
-        
-        return $this->manager->createQuery(
-            'SELECT s
-            FROM App\Entity\Sheet s
-            WHERE lower(s.title) LIKE :title_query
-            OR lower(s.organization) LIKE :organization_query
-            OR lower(s.content) LIKE :content_query
-            '
-        )
-        ->setParameters($parameters)
-        ->getResult();
 
+        $qb = $this->manager->createQueryBuilder();
+
+        $qb->select('s')
+            ->from('App\Entity\Sheet', 's')
+            ->innerJoin('App\Entity\Organization', 'o', 'WITH', 'o.id = s.organization')
+            ->where('s.status IS NULL')
+            ->andWhere('s.title LIKE :title_query')
+            ->orWhere('o.name LIKE :organization_query')
+            ->orWhere('s.content LIKE :content_query')
+            
+            ->setParameters($parameters)
+            ->orderBy('s.title', 'ASC');
+
+
+        $query = $qb->getQuery();
+
+        return $query->execute();
+        
     }
 
 
@@ -58,17 +66,21 @@ class Search{
             'title_query'=> '%'.$query.'%',
             'organization_query'=> '%'.$query.'%'
         );
-        
-        return $this->manager->createQuery(
-            'SELECT d
-            FROM App\Entity\Document d
-            WHERE lower(d.title) LIKE :title_query
-            OR lower(d.organization) LIKE :organization_query
-            '
-        )
-        ->setParameters($parameters)
-        ->getResult();
 
+        $qb = $this->manager->createQueryBuilder();
+        
+        $qb->select('d')
+            ->from('App\Entity\Document', 'd')
+            ->innerJoin('App\Entity\Organization', 'o', 'WITH', 'o.id = d.organization')
+            ->where('d.status IS NULL')
+            ->andWhere('d.title LIKE :title_query')
+            ->orWhere('o.name LIKE :organization_query')
+            ->setParameters($parameters)
+            ->orderBy('d.title', 'ASC');
+
+        $query = $qb->getQuery();
+
+        return $query->execute();
     }
 
 

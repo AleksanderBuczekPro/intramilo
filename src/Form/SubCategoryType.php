@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\User;
 use App\Entity\Category;
 use App\Entity\SubCategory;
+use App\Repository\UserRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -26,12 +27,17 @@ class SubCategoryType extends ApplicationType
             }
 
         ])
-        ->add('author', EntityType::class, [
+        ->add('authors', EntityType::class, [
             'class' => User::class,
             'label' => "Responsable de la mise à jour",
+            'multiple' => true,
+            'expanded' => true,
             'choice_label' => function($user){
-                return $user->getFullname();
-
+                return $user->getLastName().' '.$user->getFirstName();
+            },
+            'query_builder' => function (UserRepository $ur) {
+                return $ur->createQueryBuilder('u')
+                    ->orderBy('u.lastName', 'ASC');
             }
 
         ])

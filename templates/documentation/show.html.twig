@@ -7,92 +7,145 @@
 
 {% block body %}
 
-    <div class="jumbotron jumbotron-fluid folder-jumbotron">
-        <div class="container">
+{# Si c'est l'utilisateur a les droits #}
+{% set admin = false %}
 
-            <div class="row">
+{% for author in subCategory.authors %}
+    {% if author is same as(app.user) %}
+        {% set admin = true %}
+    {% endif %}
+{% endfor %}
 
-                <div class="col-8">
-                    
-                    <p class="fil-ariane">
-                        <span href="" class="my-badge mt-4 pole {{ category.pole.labelColor }}"> • {{ category.pole }}</span>
-                    </p>
-
-                    <div class="category-title">{{ category.title }}</div>
-                    <div class="category-subtitle">{{ subCategory.title }}
-
-                    
-                    
-                    
-
-                </div>           
-                
-                </div>
-                <div class="col-4 text-right">
-
-                    <img src="/images/folder.svg" class="folder-illustration" alt="Image d'illustration de la sous-catégorie {{ subCategory }}">
-                
-                </div>
-            
-            
+<div class="folder-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-6">
+                <p class="fil-ariane">
+                    <span href="" class="my-badge mt-4 pole {{ category.pole.labelColor }}"> • {{ category.pole }}</span>
+                </p>
+                <div class="category-title">{{ category.title }}</div>
+                <div class="category-subtitle">{{ subCategory.title }}</div>
             </div>
-             
-            
+            <div class="col-6">
+                <img src="/images/folder.svg" class="folder-illustration" alt="Image d'illustration de la sous-catégorie {{ subCategory }}">
+            </div>
         </div>
     </div>
+</div>
 
-    <div class="background pt-2">
+<img src="/images/curve_inverse.svg" class="folder-curve" alt="">
+
+    <div class="background pt-4">
         <div class="container files-container">
 
             <div class="row">
-                <div class="col-4">
-                    <a class="btn btn-my-return" href="{{ path('doc_index') }}">
-                        <i class="uil uil-arrow-left"></i> Retour à la documentation
-                    </a>
-                    
-                    <div class="card my-card users">
-                        <div class="card-body">
-                            <div class="card-title">Responsable de la mise à jour</div>
-                            <div>
-                                {% include 'documentation/_user.html.twig' with {'user': subCategory.author} %}
-                            </div>
-                        </div>
-                    </div>
-                    
-                </div>
-                    
+
                 <div class="col-8">
                     <div class="row">
                         <div class="col-12">
-                        {# Si je suis l'administrateur de ce dossier #}
-                        {% if subCategory.author is same as(app.user) %}
-                            
-                            <a href="{{ path('document_create', {'slug': category.slug, 'sub_slug': subCategory.slug}) }}" class= "btn btn-my-primary ml-3 float-right">
-                                <i class="uil uil-plus"></i> Ajouter un document            
+
+                            <a class="btn btn-my-return" href="{{ path('doc_index') }}">
+                                <i class="uil uil-arrow-left"></i> Retour à la Documentation
                             </a>
-                            <a href="{{ path('sheet_create', {'slug': category.slug, 'sub_slug': subCategory.slug}) }}" class="btn btn-my-primary float-right">
-                                <i class="uil uil-plus"></i> Ajouter une fiche
-                                        
-                            </a>
-                        {% endif %}
+
+                            <ul class="nav nav-pills mb-3 float-right" id="pills-tab" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link my-pill active" id="pills-online-tab" data-toggle="pill" href="#pills-online" role="tab" aria-controls="pills-home" aria-selected="true">En ligne <span class="ml-1" >{{ filesOnline|length }}</span></a>
+                                </li>
+
+                                {% if admin %}
+                                    <li class="nav-item">
+                                        <a class="nav-link my-pill " id="pills-waiting-tab" data-toggle="pill" href="#pills-waiting" role="tab" aria-controls="pills-profile" aria-selected="false">En attente <span class="ml-1" >{{ filesWaiting|length }}</span></a>
+                                    </li>
+                                {% endif %}
+
+                            </ul>
+
                         </div>
-                    </div> 
+                    </div>
+
+                    <div class="tab-content" id="pills-tabContent">
+
+                        {# En ligne #}
+                        <div class="tab-pane fade show active" id="pills-online" role="tabpanel" aria-labelledby="pills-online-tab">
+
+                            {% if filesOnline|length > 0 %}
+                    
+                                {% for file in filesOnline %}
+
+                                    {% include 'documentation/_file.html.twig' %}
+
+                                {% endfor %}
+
+                            {% else %}
+
+                                <div class="text text-center p-4" style="min-height: 700px;">Aucune fiche ou document en ligne dans ce dossier</div>
+
+                            {% endif %}
+                        
+                        </div>
+
+                        {% if admin %}
+                            {# En attente #}
+                            <div class="tab-pane fade" id="pills-waiting" role="tabpanel" aria-labelledby="pills-waiting-tab">
+
+                                {% if filesWaiting|length > 0 %}
+                        
+                                    {% for file in filesWaiting %}
+
+                                        {% include 'documentation/_file.html.twig' %}
+
+                                    {% endfor %}
+
+                                {% else %}
+
+                                    <div class="text text-center p-4" style="min-height: 700px;">Aucune fiche ou document en attente dans ce dossier</div>
+
+                                {% endif %}                        
+                            </div>
+                        {% endif %}
+                    </div>
             
-                    {% if files|length > 0 %}
-                
-                        {% for file in files %}
-
-                            {% include 'documentation/_file.html.twig' %}
-
-                        {% endfor %}
-
-                    {% else %}
-
-                        <div class="text text-center p-4" style="min-height: 700px;">Aucune fiche ou document dans ce dossier</div>
-
-                    {% endif %}
+                    
             
                 </div>
+                <div class="col-4">
+
+                    
+                    <div class="card my-card users mt-0 px-3">
+                        <div class="card-body">
+                            <div class="card-title mb-4">Responsable{% if subCategory.authors|length > 1 %}s{% endif %}
+                             de la mise à jour</div>
+                            <div>
+                                {% for author in subCategory.authors %}
+                                    {% include 'documentation/_user.html.twig' with {'user': author} %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+
+                    {# Si je suis l'administrateur de ce dossier #}
+                    {% if admin %}
+
+                        <div class="text-left mt-4">
+                            
+                            <div class="my-secondary small info mt-4 mb-3"><i class="uil uil-user-circle"></i> Ce dossier vous appartient</div>
+                            <a href="{{ path('sheet_create_sub', {'id': subCategory.id}) }}" class="btn btn-my-primary">
+                                <i class="uil uil-plus"></i> Ajouter une fiche       
+                            </a>
+                            <a href="{{ path('document_create_sub', {'id': subCategory.id}) }}" class= "btn btn-my-primary mt-2">
+                                <i class="uil uil-plus"></i> Ajouter un document            
+                            </a>
+                            
+                                                 
+                        </div>
+                    
+                    {% endif %}
+
+                    
+                </div>
+                    
+                
             </div>
             
         </div>

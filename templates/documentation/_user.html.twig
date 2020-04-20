@@ -4,11 +4,11 @@
         <table class="my-table">
             <tbody>
                 <tr>
-                    <td class="p-2">
+                    <td class="p-2 no-border">
                         {% include '_picture.html.twig' with {'user': user, 'class': 'medium'} %}
                     </td>
-                    <td class="text-left pl-2">
-                        {{ user }}<br>
+                    <td class="text-left pl-2 no-border">
+                        <div class="my-secondary main">{{ user }}</div>
                         <div class="my-secondary">{{ user.poste }}</div>
                     </td>
                     

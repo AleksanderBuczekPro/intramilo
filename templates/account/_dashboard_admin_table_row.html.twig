@@ -1,0 +1,36 @@
+<tr data-href=
+{% if file.file is defined %}         
+    {{ path('document_show', {'id': file.id }) }}
+{% else %}
+    {{ path('sheet_show', {'id': file.id }) }}
+{% endif %}>
+        <td class="icon">
+            <div class="my-circle small">
+                <span class="icon">
+                    <i class="fas fa-bars"></i>
+                </span>
+            </div>
+        </td>
+        <td class="main my-width">{{ file.title }}</td>
+        <td>{{ file.subcategory.category }} / {{ file.subcategory }}</td>
+        <td>{{ file.updatedAt|localizeddate('none', 'none', 'fr', null, 'd MMMM Y')}}</td>
+        <td class="state">{% include 'documentation/_file_admin_icon_state.html.twig' with {'file': file} %}</td>
+        <td class="text-center">{% include '_picture.html.twig' with {'user': file.author, 'class': 'small'} %}</td>
+        {# <td>
+            <a href=
+            {% if file.file is defined %}      
+                {{ path('document_edit', {'id': file.id }) }}
+            {% else %}
+                {{ path('sheet_edit', {'id': file.id }) }}
+            {% endif %}    
+            class="my-secondary" target="_blank"> <i class="uil uil-pen"></i> </a>
+
+            <a href=
+                {% if file.file is defined %}
+                    {{ path('document_delete', {'id': file.id }) }}
+                {% else %}
+                    {{ path('sheet_delete', {'id': file.id }) }}
+                {% endif %} 
+            class="my-secondary" target="_blank"> <i class="uil uil-times"></i>
+        </a></td> #}
+    </tr>

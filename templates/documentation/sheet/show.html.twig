@@ -6,13 +6,21 @@
 
 {% block body %}
 
+
+{# Si c'est l'utilisateur a les droits #}
+{% set admin = false %}
+
+    {% if (sheet.author is same as(app.user)) or (is_granted("ROLE_ADMIN")) %}
+        {% set admin = true %}
+    {% endif %}
+
 <div class="container-fluid sheet-container">
     <div class="row">
 
         {# Summary #}
         <div class="col-2 summary">
-            <a class="btn btn-my-return" href="{{ path('doc_show', {'slug': category.slug, 'sub_slug': subCategory.slug }) }}">
-                <i class="uil uil-arrow-left"></i> Retour
+            <a class="btn btn-my-return text-left" href="{{ path('doc_show', {'slug': category.slug, 'sub_slug': subCategory.slug }) }}">
+                <i class="uil uil-arrow-left"></i> {{ category }} - {{ subCategory }} 
             </a>
 
             <h2>Sommaire</h2>
@@ -30,37 +38,51 @@
             <div class="row">
                 <div class="col-5 sheet-author">
 
-                    {% include 'documentation/_user.html.twig' with {'user': sheet.subcategory.author} %}
+                    {% include 'documentation/_user.html.twig' with {'user': sheet.author} %}
                 </div>
             </div>
 
             <div class="row">
                 <div class="col-12">
-                    <a href="{{ path('sheet_delete', {'slug': category.slug, 'sub_slug': subCategory.slug, 'sheet_slug': sheet.slug, 'sheet_id': sheet.id}) }}" class="btn btn-my-primary float-right">
-                        <i class="uil uil-times"></i> Supprimer
-                                
-                    </a>
-                    <a href="{{ path('sheet_edit', {'id': sheet.id }) }}" class= "btn btn-my-primary mr-3 float-right">
-                        <i class="uil uil-pen"></i> Modifier           
-                    </a>
+
+                {# Notification #}
+                {% if admin  %}
+                    {% include 'documentation/_sheet_notification.html.twig' with {'user': sheet.author} %}
+
+                {% endif %}
+
+                    {% if app.user == sheet.author and sheet.status is null and sheet.updatedAt > date('-5months', 'Europe/Paris') %}
+                        <a href="{{ path('sheet_delete', {'id': sheet.id}) }}" class="btn btn-my-primary float-right">
+                            <i class="uil uil-times"></i> Supprimer
+                                    
+                        </a>
+                        <a href="{{ path('sheet_edit', {'id': sheet.id }) }}" class= "btn btn-my-primary mr-3 float-right">
+                            <i class="uil uil-pen"></i> Modifier           
+                        </a>
+                    {% endif %}
+
                     {% if is_granted("ROLE_ADMIN") and sheet.status is null %}
-                        <a href="{{ path('sheet_front', {'id': sheet.id }) }}" class="btn btn-my-primary mr-3 float-right">
+                        <a href="{{ path('sheet_front', {'id': sheet.id }) }}" class="btn btn-my-secondary {% if sheet.front %}active{% endif %} mr-3 float-right">
                         {% if sheet.front %}
-                            <i class="fas fa-star"></i> Enlever à la Une
+                            <i class="fas fa-star"></i> A la Une
                         {% else %}
-                            <i class="far fa-star"></i> Mettre à la Une
+                            <i class="far fa-star"></i> A la Une
                         {% endif %}
                         </a>
                     {% endif %}
                 </div>
             </div>
-
+            <hr>
             {# Contenu #}
+            <div class="d-none" id="sheetId">{{ sheet.id }}</div>
 
             <div class="row">
                 <div class="col-12 sheet-content">
                     {{ sheet.content|raw }}
 
+                    
+                </div>
+                <div class="col-12 sheet-tools">
                     {% if sheet.tool|length == 0 and sheet.sheetDocuments|length == 0 %}
 
                         {# <div class="text-center">
@@ -70,19 +92,26 @@
 
                     {% else %}
 
+                    
                         <h1>Outils</h1>
+                    
+                        <div class="row">
+                            {% for file in sheet.tool %}
+                                <div class="col-6">
+                                    {% include 'documentation/_file.html.twig' %}
+                                </div>
 
-                        {% for file in sheet.tool %}
+                            {% endfor %}
 
-                            {% include 'documentation/_file.html.twig' %}
+                            {% for file in sheet.sheetDocuments %}
 
-                        {% endfor %}
+                                <div class="col-6">
+                                    {% include 'documentation/_file.html.twig' %}
+                                </div>
 
-                        {% for file in sheet.sheetDocuments %}
+                            {% endfor %}
 
-                            {% include 'documentation/_file.html.twig' %}
-
-                        {% endfor %}
+                        </div>
 
                     {% endif %}
                 </div>
@@ -129,6 +158,30 @@
                 </div>
 
             {% endif %}
+
+
+            {# Sections #}
+            {% if sheet.headers %}
+                {% for header in sheet.headers %}
+
+                    <h2>{{ header.title }}</h2>
+                    <div class="card my-card organization-card no-border">
+                        <div class="card-body pb-0">
+                            <table class="table my-table">
+                                {% for section in header.sections %}
+                                    <tr>
+                                        <td class="main no-border w-50">{{ section.title }}</td>
+                                        <td class="no-border">{{ section.content }}</td>
+                                    </tr>
+
+                                {% endfor %}
+                            </table>
+                        </div>
+                    </div>
+
+                {% endfor %}
+
+            {% endif %}
             
 
         
@@ -136,261 +189,6 @@
     </div>
 
 </div>
-
-{# 
-
-    <div class="container main-sheet-container">
-
-        <div class="row justify-content-center mt-5">
-            <div class="col-lg-2 bg-light sheet-menu-container">
-                <div class="row">
-                    <div class="col text-center">
-                        <a href="{{ path('doc_show', {'slug': category.slug, 'sub_slug': subCategory.slug }) }}" class="btn btn-light return mt-4"><i class="fas fa-caret-left mr-2"></i>Retour</a>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col text-center p-4 header-title">Contenu</div> 
-                </div>
-                <div class="row">
-                    <div class="col sheet-menu">
-                        <ul class="menu"></ul>
-                    </div>
-                </div>
-                
-            </div>
-            <div class="col-lg-7 px-5">
-            
-                <p class="fil-ariane">
-                    <a class="btn btn-light btn-sm">
-                        {{ category.title }}
-                    </a>
-                    <a class="btn btn-primary btn-sm" href="{{ path('doc_show', {'slug': category.slug, 'sub_slug': subCategory.slug }) }}">
-                        {{ subCategory.title }}
-                    </a>
-                    {% if (sheet.status is null) %}
-                    <div class="dropdown float-right">
-                            <button class="btn btn-link options" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fas fa-ellipsis-h options"></i>
-                            </button>
-                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
-                                <a class="dropdown-item" href="{{ path('sheet_edit', {'id': sheet.id }) }}">Modifer</a>
-                                <a class="dropdown-item" href="{{ path('sheet_delete', {'slug': category.slug, 'sub_slug': subCategory.slug, 'sheet_slug': sheet.slug, 'sheet_id': sheet.id}) }}">Supprimer</a>
-                            </div>
-                    </div>
-                    {% endif %}
-                </p>
-
-                {% if sheet.status == "TO_VALIDATE" %}
-
-                    {% set state = "En cours de validation" %}
-                    {% set state_class = "light" %}
-
-                {% elseif sheet.status == "TO_CORRECT" %}
-
-                    {% set state = "À corriger" %}
-                    {% set state_class = "primary" %}
-
-                {% else %}
-
-                    {% if date(sheet.updatedAt) <= date('-6months', 'Europe/Paris') %}
-
-                        {% set state = "Obsolète" %}
-                        {% set state_class = "danger" %}
-
-                    {% elseif date(sheet.updatedAt) < date('-5months', 'Europe/Paris') %}
-
-                        {% set state = "Bientôt obsolète" %}
-                        {% set state_class = "warning" %}
-
-                    {% else %}
-
-                        {% set state = "À jour" %}
-                        {% set state_class = "success" %}
-
-                    {% endif %}
-
-                {% endif %}
-
-                <h1 class="sheet-title mt-4">{{ sheet.title }}</h1>
-                <p class="sheet-infos">
-
-                {% if sheet.status != "TO_VALIDATE" and sheet.status != "TO_CORRECT" %}
-                    <span class="badge badge-pill badge-secondary">
-                        <i class="far fa-eye"></i> {{ sheet.views }}
-                    </span>
-                {% endif %}
-
-                <span class="badge badge-pill badge-{{state_class}}">
-                    {{ state }}
-                </span>
-                <span class="badge badge-pill badge-secondary">
-                    {{ sheet.updatedAt|localizeddate('none', 'none', 'fr', null, 'MMMM Y') }}
-                </span>
-                
-                <a href="{{ path('user_show', {'slug': subCategory.author.slug }) }}">
-                    <span class="badge badge-pill badge-light">
-                        {{ sheet.subCategory.author.fullName }}
-                    </span>
-                </a>
-                    
-                </p>
-                <div class="d-none" id="sheetId">{{ sheet.id }}</div>
-
-                {% if is_granted("ROLE_ADMIN") and sheet.status is null %}
-                    <a href="{{ path('sheet_front', {'id': sheet.id }) }}" class="btn btn-sm btn-outline-dark">
-                    {% if sheet.front %}
-                        Enlever à la Une
-                    {% else %}
-                        Mettre à la Une
-                    {% endif %}
-                    </a>
-                {% endif %}
-
-                
-
-                {% if sheet.status == "TO_CORRECT" %}
-
-                    <div class="alert alert-warning" role="alert">
-                        <h4 class="alert-heading">Fiche à corriger</h4>
-                        <p>{{ sheet.comment }}</p>
-                        <a href="{{ path('sheet_edit', {'id': sheet.id }) }}" class="btn btn-danger">Corriger</a>
-                    </div>
-
-                {% endif %}
-
-
-                <div class="content text-justify mt-5 mb-4">
-                    {{ sheet.content|raw }}
-                </div>
-
-
-                
-                        {% if is_granted('ROLE_ADMIN') and sheet.status == "TO_VALIDATE" %}
-                        <div class="card p-4 mt-4">
-                            <div class="card-body">
-                            <h6>Validation de la fiche</h6>
-                            {{ form_start(form) }}
-
-                                {{ form_row(form.comment) }}
-
-                                <button type="submit" id="correction" class="btn btn-warning m-2 float-right">
-                                    Envoyer à corriger
-                                </button>
-
-                            {{ form_end(form) }}
-                            
-                            <button id="validation" class="btn btn-success m-2 float-right">Valider la fiche</button>
-                            </div>
-                        </div>
-                        {% endif %}
-                    
-            </div>
-
-            <div class="col-lg-3 bg-light">
-                <div class="row header-menu p-4">
-                    <div class="col-12 text-center menu active">INFOS</div>
-                </div>
-                <div class="row header-image d-flex align-items-center mx-1">
-
-                    <div class="col-12 text-center" style="">
-
-                            <h4>{{ sheet.title }}</h4><br>
-                            <h6>{{ sheet.organization }}</h6>
-
-                        
-                    </div>
-                </div>
-                <div class="row header-table mx-1">
-
-                {% for interlocutor in sheet.interlocutors %}
-
-                    <table class="table table-hover table-header mt-3">
-                        <thead>
-                            <tr>
-                                <th class="text-center header-title" colspan="2">{{ interlocutor.function }}</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-
-                            <tr>
-                                <td>Prénom / Nom</td>
-                                <td><strong>{{ interlocutor.fullName }}</strong></td>
-                            </tr>
-
-                            {% if interlocutor.phoneNumber %}
-                            <tr>
-                                <td>Téléphone</td>
-                                <td><strong>{{ interlocutor.phoneNumber }}</strong></td>
-                            </tr>
-                            {% endif %}
-
-                            {% if interlocutor.email %}
-                            <tr>
-                                <td>Mail</td>
-                                <td><strong>{{ interlocutor.email }}</strong></td>
-                            </tr>
-                            {% endif %}
-                        </tbody>
-                    </table>
-
-
-                {% endfor %}
-
-                {% for header in sheet.headers %}
-
-                    <table class="table table-hover table-header mt-3">
-                        <thead>
-                            <tr>
-                                <th class="text-center header-title" colspan="2">{{ header.title }}</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-
-                            {% for section in header.sections %}
-                            <tr>
-                                <td>{{ section.title }}</td>
-                                <td><strong>{{ section.content }}</strong></td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-
-                    {% endfor %}
-                   
-                </div>
-                <div class="tools mt-3">
-                    <div class="title p-3">Outils</div>
-
-                    {% if sheet.tool|length == 0 and sheet.sheetDocuments|length == 0 %}
-
-                        <div class="text-center">
-                            <p class="text">Pas de pièces jointes associées à cette fiche</p>
-                            <a href="{{ path('sheet_edit', {'id': sheet.id }) }}" class="btn btn-sm btn-outline-dark">Ajouter des pièces jointes</a>
-                        </div>
-
-                    {% else %}
-
-                        {% for tool in sheet.tool %}
-                            <div>
-                                <a target="_blank" href="{{ path('sheet_show', {'slug': tool.subCategory.category.slug, 'sub_slug': tool.subCategory.slug, 'sheet_slug': tool.slug, 'sheet_id': tool.id}) }}" class="btn btn-primary tool m-1 text-left">{{ tool.title }}</a>
-                            </div>
-                        {% endfor %}
-                        {% for sheetDocument in sheet.sheetDocuments %}
-                            <div>
-                                <a target="_blank" href="{{ path('document_show', {'slug': sheetDocument.subCategory.category.slug, 'sub_slug': sheetDocument.subCategory.slug, 'id': sheetDocument.id }) }}" class="btn btn-primary tool m-1 text-left">{{ sheetDocument.title }}</a>
-                            </div>
-                        {% endfor %}
-
-                    {% endif %}
-                    
-                
-               
-                </div>
-            </div>
-        </div>
-
-        
-    </div> #}
 
 {% endblock %}
 
@@ -440,31 +238,31 @@
 
         $("#validation").click(function() {    
 
-            
-
             // Permet d'enlever les span (couleur) du contenu
-            $("div.content span").contents().unwrap();
+            $("div.sheet-content span").contents().unwrap();
 
             // Récupération des données
             var id = $("#sheetId").text();
-            var content = $("div.content").html();
+            var content = $("div.sheet-content").html();
 
             // $("#validation").attr('href').text().replace("_uniformized", content);
 
             var path = "{{ path('sheet_validate') }}";
 
+
             $.ajax({
+
                 type: 'POST',
                 url: path,
                 data: { id: id, content: content},
                 success: function(data) {
+
                     location.reload();
                     
                 },
                 error: function(data) {
                     alert("Error !")
                 }
-
 
             });
     

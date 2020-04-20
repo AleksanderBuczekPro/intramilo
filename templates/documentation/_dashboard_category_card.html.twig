@@ -1,0 +1,40 @@
+<div class="col-4" data-pole="{{ sub.category.pole.id }}">
+    <div class="card my-card folder no-pb">
+        
+        <div class="card-body no-pb">
+            <span href="" class="my-badge pole {{ sub.category.pole.labelColor }}">{{ sub.category.pole }}</span>
+            
+            <div class="card-title">{{ sub.category.title }}</div>
+                <div class="card-subtitle">
+                    <a href="{{ path('doc_show', {'slug': sub.category.slug, 'sub_slug': sub.slug }) }}" target="_blank">
+                        {# <i class="uil uil-folder {{ category.pole.labelColor }}"></i> #}
+                        {# <i class="{{ sub.category.pole.labelColor }} mr-1">•</i> #}
+                        
+                        {{ sub.title }}
+                    </a>
+                </div>
+
+            <table class="table my-table stat">
+                <tbody>
+                    <tr>
+                        <td class="stat-bar">
+                            <div class="bar"></div>
+                        </td>
+                        <td class="porcentage pr-0">100%</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            {# <div class="row">
+                <div class="col-9 stat">
+                    <div class="stat-bar"></div>
+                </div>
+                <div class="col-3 stat">
+                    <div class="porcentage">100%</div>
+                </div>
+            </div>                                           #}
+            
+        </div>
+
+    </div>
+</div>

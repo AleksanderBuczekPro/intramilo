@@ -1,0 +1,29 @@
+<div class="card my-card user stat py-1">
+    <div class="card-body p-0">   
+
+        <table class="my-table user w-100">
+            <tbody>
+                <tr>
+                    <td class="p-2 icon py-0">
+                        {% include '_picture.html.twig' with {'user': user, 'class': 'medium'} %}
+                    </td>
+                    <td class="text-left pl-2 content pb-0 pt-3">
+                        {{ user }}<br>
+                        <table class="table my-table stat">
+                            <tbody>
+                                <tr>
+                                    <td class="stat-bar">
+                                        <div class="bar"></div>
+                                    </td>
+                                    <td class="porcentage py-0">100%</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                    
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+</div>

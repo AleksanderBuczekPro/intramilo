@@ -14,22 +14,99 @@
     --purple-transparent-color:rgba(131,56,236,0.2);
     --pink-transparent-color:rgba(255,0,110,0.2);
     --orange-transparent-color: rgba(251,86,7,0.2);
-    --yellow-transparent-color: rgba(255,190,11,0.2);
+    --yellow-transparent-color: rgba(255,190,11,0.1);
 
     --red-transparent-color: rgba(226,6,19,0.2);
 
+    --blue-background-color: rgba(58, 134, 255, 0.04);
+    --blue-shadow-color: rgba(58, 134, 255, 0.01);
+
     --grey-70-color: #575756;
     --grey-50-color: #868686;
+    --grey-40-color: #9c9b9b;
     --grey-20-color: #d9d9d9;
+    --grey-15-color: #e3e3e3;
     --grey-10-color: #f5f5f5;
 }
+
+.bleu, .success{ color: var(--blue-color)!important; }
+.violet{ color: var(--purple-color)!important; }
+.rose{ color: var(--pink-color)!important; }
+.orange, .warning{ color: var(--orange-color)!important; }
+.jaune{ color: var(--yellow-color)!important; }
+.white{ color: white!important; }
+.black{ color: black!important; }
+.secondary{ color: var(--grey-50-color)!important; }
+.danger{ color: var(--red-color)!important; }
+
+
+.bg-bleu{ background-color: var(--blue-color)!important; }
+.bg-violet{ background-color: var(--purple-color)!important; }
+.bg-rose{ background-color: var(--pink-color)!important; }
+.bg-orange{ background-color: var(--orange-color)!important; }
+.bg-jaune{ background-color: var(--yellow-color)!important; }
+.bg-white{ background-color: white!important; }
+.bg-black{ background-color: black!important; }
+.bg-light{ background-color: var(--grey-50-color)!important; }
+.bg-rouge{ background-color: var(--red-color)!important; }
+
+.bg-rouge-transparent{ background-color: var(--red-transparent-color)!important; }
+.bg-orange-transparent{ background-color: var(--orange-transparent-color)!important; }
+.bg-blue-transparent{ background-color: var(--blue-background-color)!important; }
+
+.mt-5{
+    margin-top: 3rem !important;
+}
+
+.no-pb{
+    padding-bottom : 0!important;
+}
+
+.no-pt{
+
+    padding-top : 0!important;
+
+}
+
+.no-p{
+
+    padding : 0!important;
+
+}
+
+.my-width{
+
+    width: 35%;
+
+}
+
+html{ height:100%; }
 
 body{
 
     background-color: white;
-    padding-bottom: 80px;
+    /* padding-bottom: 80px; */
+
+    min-height:100%; padding:0; margin:0; position:relative;
+
 
 }
+
+
+
+/* footer{ 
+
+    position:absolute; 
+    bottom:0; 
+    width:100%; 
+} */
+
+footer.my-foot {
+    background-color: #58585a;
+    margin-top: 100px;
+    z-index: 4;
+}
+
 
 h1, h2, h3, h4, h5, h6{
 
@@ -71,6 +148,23 @@ a{
 
 }
 
+*[data-href], .my-hover{
+
+    cursor: pointer;
+
+}
+
+.my-link{
+    font-family: 'Poppins', sans-serif;
+    color: var(--grey-50-color);
+    font-weight: 600;
+
+}
+
+.my-link.active{
+    color: var(--blue-color);
+}
+
 /* Tableaux */
 table.my-table{
 
@@ -78,39 +172,172 @@ table.my-table{
 
 }
 
-table.my-table th, table.my-table td{
+table.my-table th{
 
     border: none;
     text-align: center;
 
+    vertical-align: middle!important;
+
+}
+
+table.my-table th, div.details .title{
+
+    /* color: var(--grey-70-color); */
+    color: black;
+    font-weight: 600;
+    font-size: 14px;
+    text-align: left;
+
+}
+
+table.my-table.admin tr:hover td{
+
+    background-color: var(--blue-transparent-color);
+    border-bottom: none!important;
+
+}
+
+table.my-table.admin.backoffice tr:hover td{
+
+    background-color: var(--grey-10-color);
+
+}
+
+table.my-table.admin.backoffice .switch{
+
+    width: 100px;
+
+}
+
+
+table.my-table.admin td, .my-secondary{
+
+    font-size: 14px;
+    font-weight: 400;
+    text-align: left;
+
+    color: var(--grey-70-color);
+
+    padding-top: 13px;
+    padding-bottom: 13px;
+
+    vertical-align: middle!important;
+
+    border: none;
+
+}
+
+table.my-table.admin td{
+
+    border-bottom: 1px solid var(--grey-15-color)!important;
+
+}
+
+table.my-table.admin tr:last-child td, table.my-table.admin tr td:first-child{
+
+    border-bottom: none!important;
+
+
+}
+
+table.my-table.admin tr td:first-child{
+
+    border-radius: 25px 0 0 25px;
+
+}
+
+table.my-table.admin tr td:last-child{
+
+    border-radius: 0 25px 25px 0;
+
+}
+
+table.my-table.admin td.icon{
+
+    width: 24px; /* same as Icon width */
+
+}
+
+table.my-table.admin td.icon.folder {
+
+    padding-top: 0!important;
+    padding-bottom: 0!important;
+
+}
+
+table.my-table.admin td.icon.folder i{
+
+    font-size: 20px;
+
+}
+
+table.my-table.admin td.letter{
+
+    width: 30px;
+    font-weight: 600;
+
+}
+
+.main{
+
+    color: black!important;
+    font-weight: 500!important;
+
+
+}
+
+table.my-table.admin td.state{
+
+    font-weight: 600;
+
+}
+
+table.my-table.admin td.state i{
+
+    font-size: 18px;
+
+}
+
+table.my-table.admin td.users div{
+
+    display: inline-block;
+    margin: 0 3px;
     vertical-align: middle;
 
+    margin-right: 10px;
+
 }
 
-table.my-table th{
+table.my-table.admin td.users div.center-cropped{
+
+    margin-right: 1px;
+
+}
+
+
+.number{ /* number circle */
+    display:inline-block;
+    line-height:0px;
+    background-color: var(--grey-10-color);
 
     color: var(--grey-50-color);
+    border-radius:50%;
+  
+    font-size:12px;
+    margin-left: 5px;
+  }
+  
+.number span {
+    display:inline-block;
+
+    padding-top:50%;
+    padding-bottom:50%;
+
+    margin-left:8px;
+    margin-right:8px;
+
     font-weight: 600;
-    font-size: 1.1em;
-
-}
-
-table.my-table td{
-
-    font-weight: 500;
-
-    padding-top: 20px;
-    padding-bottom: 20px;
-
-}
-
-div.card table.my-table td{
-
-    font-weight: 500;
-
-    padding-top: 5px;
-    padding-bottom: 5px;
-
 }
 
 /* Switch */
@@ -129,14 +356,36 @@ div.card table.my-table td{
 
 
 /* Initiales */
+.nav-item span.init, .table.my-table span.init {
+
+    font-family: 'Poppins', sans-serif;
+
+    background-color: var(--grey-20-color)!important;
+    color: black;
+    
+    width: 36px;
+    height: 36px;
+    border-radius: 25px;
+    text-align: center;
+
+
+    padding: 8px;
+
+}
+
 table.my-table .init-circle{
 
     background-color: var(--grey-20-color);
+    color: black;
 
     width: 36px;
     height: 36px;
+    
     border-radius: 50%;
     text-align: center;
+
+    display: inline-block;
+
 
 }
 
@@ -149,9 +398,10 @@ table.my-table .init-circle .init{
 }
 
 table.my-table .init-circle.small{
-
-    width: 24px;
-    height: 24px;
+    
+    
+    width: 20px;
+    height: 20px;
 
 }
 
@@ -162,14 +412,44 @@ table.my-table .init-circle.small .init{
 
 }
 
+/* A modifier */
+.init-circle.large{
+
+    margin-top: 20px;
+    margin-bottom: 60px;
+
+}
+
+.init-circle.large span.init{
+
+    font-family: 'Poppins', sans-serif;
+    font-size: 3em;
+    font-weight: 400;
+    background-color: var(--blue-background-color);
+    color: var(--blue-color);
+    border-radius: 50%;
+    padding: 20px;
+
+}
+
 
 /* Texte */
 .my-secondary, span.my-secondary{
 
-    color: var(--grey-50-color);
+    font-family: 'Poppins', sans-serif;
+    padding: 0!important;   
 
 }
 
+.my-secondary.info{
+
+    font-weight: 600;
+}
+
+.my-secondary.info i{
+    
+    font-size: 1.2em;
+}
 
 /* Formulaires */
 form{
@@ -197,6 +477,16 @@ form input.form-control, form select.form-control{
 
 }
 
+form input#sheet_title{
+
+    font-size: 18px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    color: black;
+
+
+}
+
 /* Cards */
 div.card.my-card{
 
@@ -210,16 +500,70 @@ div.card.my-card{
 
 }
 
-div.card.my-card.no-border{
+div.card.my-card.user{
+
+    margin-top: 15px;
+
+}
+
+div.card.my-card.file{
+
+    margin-top: 14px;
+
+}
+
+div.card.my-card.no-border, .no-border{
 
     border: none!important;
 
 }
 
+div.card.my-card.box {
+    box-shadow:
+    0 2.8px 2.2px var(--blue-shadow-color),
+    0 6.7px 5.3px var(--blue-shadow-color),
+    0 12.5px 10px var(--blue-shadow-color),
+    0 22.3px 17.9px var(--blue-shadow-color),
+    0 41.8px 33.4px var(--blue-shadow-color),
+    0 100px 80px var(--blue-shadow-color)
+  ;
+
+}
+
+div.card.my-card.box:hover {
+    box-shadow:
+    0 2.8px 2.2px var(--blue-background-color),
+    0 6.7px 5.3px var(--blue-background-color),
+    0 12.5px 10px var(--blue-background-color),
+    0 22.3px 17.9px var(--blue-background-color),
+    0 41.8px 33.4px var(--blue-background-color),
+    0 100px 80px var(--blue-background-color)
+  ;
+
+  transition: ease-in-out 0.3s;
+
+}
+
+/* div.card.my-card.box {
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+}
+  
+div.card.my-card.box:hover {
+    box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+} */
+
+
 
 div.card.my-card div.card-body{
 
     padding: 15px 12px 20px;
+
+}
+
+div.card.my-card div.card-body.admin{
+
+    padding: 20px 20px 40px;
 
 }
 
@@ -238,6 +582,14 @@ div.card.my-card div.card-body div.card-title{
 
 }
 
+div.card.my-card div.card-body.admin div.card-title:first-child{
+
+    margin-top: 5px;
+    margin-bottom: 15px;
+}
+
+
+
 div.card.my-card div.card-body .card-subtitle{
 
     font-family: 'Poppins', sans-serif;
@@ -247,8 +599,6 @@ div.card.my-card div.card-body .card-subtitle{
     padding-top: 5px;
     padding-bottom: 5px;
 
-
-
 }
 
 div.card.my-card div.card-body .card-subtitle a{
@@ -256,6 +606,36 @@ div.card.my-card div.card-body .card-subtitle a{
     color: var(--grey-50-color);
 
 }
+
+/* Folder Card */
+div.card.my-card.folder div.card-body div.card-title{
+
+    color: var(--grey-50-color);
+
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    font-size: 14px;
+}
+
+div.card.my-card.folder div.card-body div.card-subtitle{
+
+    color: black;
+
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    font-size: 17px;
+
+    line-height: 20px;
+
+}
+
+div.card.my-card div.card-body.admin .card-subtitle a{
+
+    color: black;
+
+}
+
+
 
 div.card.my-card div.card-body .card-subtitle a:hover{
 
@@ -298,13 +678,33 @@ div.card.my-card.user{
 
 }
 
-div.sheet-author div.card.my-card.user,  div.interlocutor div.card.my-card.user{
-    
-    margin-top: 10px;
-    background-color: white!important;
+.transparent div.card.my-card.user{
 
+    background-color: transparent;
+    padding-left: 0;
+    padding-top: 0;
+    margin-top: 0;
 
 }
+
+div.interlocutor div.card.my-card.user{
+
+    background-color: white;
+
+}
+
+div.sheet-author div.card.my-card.user{
+    
+    margin-top: 60px;
+
+}
+
+/* Notification Cards */
+/* div.card.my-card.notification{
+
+
+
+} */
 
 /* Liste des sous-catégories */
 
@@ -318,7 +718,140 @@ span.subcategory{
 /* Avatar */
 div.center-cropped.small{
 
-    height: 24px;
-    width: 24px;
+    height: 30px;
+    width: 30px;
 
 }
+
+div.center-cropped.large{
+
+    margin-bottom: 45px;
+
+}
+
+.center-cropped {
+    width: 107px;
+    height: 107px;
+    background-position: 50%;
+    background-repeat: no-repeat;
+    border-radius: 50%;
+    background-size: auto 100%;
+}
+
+/* Notification Badge */
+
+
+span#notification-circle{
+
+    font-family: 'Poppins', sans-serif;
+    position: absolute;
+    top: 27px;
+    display: inline-block;
+    height: 20px;
+    width: 20px;
+    background-color: var(--pink-color);
+    color: white;
+    box-shadow: 0 0 0 2px white;
+    border-radius: 50%;
+    text-align: center;
+    right: 123px;
+    z-index: 3;
+}
+
+span#notification-circle #counter{
+
+    font-size: 11px;
+    padding-top: 3px;
+    display: inline-block;
+    vertical-align: top;
+
+
+}
+
+/* Notification Dropdown */
+#my-dropdown{
+
+    width: 300px;
+
+}
+
+#my-dropdown table.my-table td{
+
+    border-top: none!important;
+    vertical-align: top;
+
+}
+
+#my-dropdown td.notif-icon span.icon{
+
+    background-color: var(--blue-transparent-color);
+    color: var(--blue-color);
+    display: table-cell;
+    vertical-align: middle; 
+    text-align: center;
+    text-decoration: none;
+
+    border-radius: 25px;
+
+    height: 40px;
+    width: 40px;
+    font-size: 20px;
+
+    
+
+}
+
+#my-dropdown td.notif-icon span.state-icon{
+
+    /* position: absolute;
+    top: 20px; */
+
+    
+    position: relative;
+    right: -15px;
+    top: -15px;
+
+    height: 16px;
+    width: 16px;
+    display: inline-block;
+    
+    background-color: red;
+    border-radius: 25px;
+
+
+}
+
+
+#my-dropdown td.notif-icon span.state-icon i{
+
+    position: relative;
+    top: -8px;
+    left: -6px;
+    font-size: 21px;
+    color: white;
+
+
+}
+
+
+#my-dropdown td.notif-content{
+
+    font-size: 14px;
+    color: var(--grey-50-color);
+
+}
+
+#my-dropdown td.notif-content strong{
+
+    color: black;
+    font-weight: 500;
+
+}
+
+#my-dropdown td.notif-content span.date{
+
+    font-size: 12px;
+
+}
+
+

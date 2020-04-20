@@ -76,10 +76,6 @@ class User implements UserInterface
      */
     private $userRoles;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\SubCategory", mappedBy="author")
-     */
-    private $subCategories;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Antenne", inversedBy="users")
@@ -138,6 +134,21 @@ class User implements UserInterface
      */
     private $createdAt;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Sheet", mappedBy="author")
+     */
+    private $sheets;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Document", mappedBy="author")
+     */
+    private $documents;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\SubCategory", mappedBy="authors")
+     */
+    private $subCategories;
+
 
     public function getFullName() {
 
@@ -193,6 +204,8 @@ class User implements UserInterface
         $this->subCategories = new ArrayCollection();
         $this->adminGroupes = new ArrayCollection();
         $this->websites = new ArrayCollection();
+        $this->sheets = new ArrayCollection();
+        $this->documents = new ArrayCollection();
     }
 
     public function __toString()
@@ -530,4 +543,65 @@ class User implements UserInterface
         return $this;
     }
 
+    /**
+     * @return Collection|Sheet[]
+     */
+    public function getSheets(): Collection
+    {
+        return $this->sheets;
+    }
+
+    public function addSheet(Sheet $sheet): self
+    {
+        if (!$this->sheets->contains($sheet)) {
+            $this->sheets[] = $sheet;
+            $sheet->setAuthor($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSheet(Sheet $sheet): self
+    {
+        if ($this->sheets->contains($sheet)) {
+            $this->sheets->removeElement($sheet);
+            // set the owning side to null (unless already changed)
+            if ($sheet->getAuthor() === $this) {
+                $sheet->setAuthor(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Document[]
+     */
+    public function getDocuments(): Collection
+    {
+        return $this->documents;
+    }
+
+    public function addDocument(Document $document): self
+    {
+        if (!$this->documents->contains($document)) {
+            $this->documents[] = $document;
+            $document->setAuthor($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDocument(Document $document): self
+    {
+        if ($this->documents->contains($document)) {
+            $this->documents->removeElement($document);
+            // set the owning side to null (unless already changed)
+            if ($document->getAuthor() === $this) {
+                $document->setAuthor(null);
+            }
+        }
+
+        return $this;
+    }
 }

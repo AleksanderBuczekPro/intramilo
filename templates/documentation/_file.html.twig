@@ -2,14 +2,17 @@
 
     {% if file.file is defined %}
                         
-        {{ path('document_show', {'slug': file.subCategory.category.slug, 'sub_slug': file.subCategory.slug, 'id': file.id }) }}
+        {{ path('document_show', {'id': file.subCategory.category.slug, 'sub_slug': file.subCategory.slug, 'id': file.id }) }}
+        {% set file_icon = '<i class="uil uil-arrow-up-right"></i>' %}
 
     {% else %}
-        {{ path('sheet_show', {'slug': file.subCategory.category.slug, 'sub_slug': file.subCategory.slug, 'sheet_slug': file.slug, 'sheet_id': file.id }) }}
+        {{ path('sheet_show', {'id': file.id,}) }}
+         {% set file_icon = '<i class="uil uil-bars"></i>' %}
 
     {% endif %}
 
 >
+
     <div class="card my-card file">
         <div class="card-body">   
 
@@ -19,7 +22,13 @@
                         <td class="w-20 file-icon">
                             <div class="my-circle">
                                 <span class="icon">
-                                    <i class="uil uil-bars"></i>
+
+                                     {% if file.file is defined %}
+                                        <i class="uil uil-arrow-up-right"></i>
+                                    {% else %}
+                                        <i class="uil uil-bars"></i>
+                                    {% endif %}
+
                                 </span>
                             </div>
                         </td>
@@ -29,12 +38,16 @@
                             <div class="my-secondary file-organization">{{ file.organization }}</div>
 
                             <div class="w-20 my-secondary file-data mt-3">
-                                <i class="far fa-star mr-2"></i>
+                                {% if not file.front %}
+                                    <i class="far fa-star mr-2"></i>
+                                {% else %}
+                                    <i class="fas fa-star mr-2"></i>
+                                {% endif %}
                                 {{ file.updatedAt|localizeddate('none', 'none', 'fr', null, 'd MMMM Y') }} • {{ file.views }} vue{% if file.views > 1 %}s{% endif %}
                             
                             </div>
                         </td>
-                        <td class="w-20 file-author">{% include '_picture.html.twig' with {'user': file.subCategory.author, 'class': 'small'} %}</td>
+                        <td class="w-20 file-author">{% include '_picture.html.twig' with {'user': file.author, 'class': 'small'} %}</td>
                     </tr>
                 </tbody>
             </table>

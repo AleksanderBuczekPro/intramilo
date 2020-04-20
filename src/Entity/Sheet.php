@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use DateTimeZone;
 use Cocur\Slugify\Slugify;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\ManyToMany;
@@ -119,6 +120,12 @@ class Sheet
      */
     private $interlocutors;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="sheets")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $author;
+
 
 
     public function __construct()
@@ -150,20 +157,21 @@ class Sheet
 
     }
 
-    // /**
-    //  * Callback appelé à chaque fois qu'on crée ou modifie une fiche
-    //  * 
-    //  * @ORM\PrePersist
-    //  * @ORM\PreUpdate
-    //  *
-    //  * @return void
-    //  */
+    /**
+     * Callback appelé à chaque fois qu'on crée ou modifie une fiche
+     * 
+     * @ORM\PrePersist
+     * @ORM\PreUpdate
+     *
+     * @return void
+     */
     // public function prePersist()
     // {
-    //     if(empty($this->updatedAt))
-    //     {
-    //         $this->updatedAt = new \DateTime();
-    //     }
+    //     // if(empty($this->updatedAt))
+    //     // {
+    //         // $this->updatedAt = new \DateTime();
+    //         //$this->updatedAt = new \DateTime(null, new DateTimeZone('Europe/Paris'));
+    //     // }
         
 
     // }
@@ -484,6 +492,18 @@ class Sheet
         if ($this->interlocutors->contains($interlocutor)) {
             $this->interlocutors->removeElement($interlocutor);
         }
+
+        return $this;
+    }
+
+    public function getAuthor(): ?User
+    {
+        return $this->author;
+    }
+
+    public function setAuthor(?User $author): self
+    {
+        $this->author = $author;
 
         return $this;
     }

@@ -2,19 +2,21 @@
 
 namespace App\Controller;
 
+use DateTimeZone;
 use App\Entity\Sheet;
 use App\Service\Menu;
 use App\Form\SheetType;
 use App\Form\ToolsType;
 use App\Entity\Category;
-use App\Entity\Interlocutor;
 use App\Form\CommentType;
 use App\Entity\SubCategory;
+use App\Entity\Interlocutor;
 use App\Form\AttachmentType;
-use App\Repository\InterlocutorRepository;
 use PhpParser\Node\Stmt\Foreach_;
 use App\Repository\SheetRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use App\Repository\SubCategoryRepository;
+use App\Repository\InterlocutorRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -27,7 +29,7 @@ class SheetController extends AbstractController
     /**
      * Permet de valider une fiche "En cours de validation"
      * 
-     * @Route("/validate", name="sheet_validate")
+     * @Route("/documentation/validate", name="sheet_validate")
      *  
      * 
      *
@@ -41,6 +43,8 @@ class SheetController extends AbstractController
         $sheet = $repo->findOneById($id);
 
         // dump($id);
+
+        // return $this->json(['data' => $request]);
 
         dump($request->request->get('content'));
 
@@ -82,23 +86,24 @@ class SheetController extends AbstractController
     /**
      * Permet d'ajouter une fiche dans une sous-catégorie spécifique
      * 
-     * @Route("/doc/{slug}/{sub_slug}/sheet/new", name="sheet_create")
-     * 
-     * @ParamConverter("category",    options={"mapping": {"slug":   "slug"}})
-     * @ParamConverter("subCategory", options={"mapping": {"sub_slug":   "slug"}})
+     * @Route("/documentation/{id}/sheet/new", name="sheet_create_sub")
+     * @Route("/documentation/sheet/new", name="sheet_create")
      * 
      * @IsGranted("ROLE_USER")
      *
      * @return Response
      * 
      */
-    public function create(Category $category, SubCategory $subCategory, Request $request, EntityManagerInterface $manager, InterlocutorRepository $repo) {
+    public function create(SubCategory $subCategory = null, Request $request, EntityManagerInterface $manager, SubCategoryRepository $subRepo, InterlocutorRepository $repo) {
 
         $sheet = new Sheet();
 
-        $sheet->setSubCategory($subCategory);
+        if($subCategory){
+            $sheet->setSubCategory($subCategory);  
+        }
+        
 
-        $form = $this->createForm(SheetType::class, $sheet);
+        $form = $this->createForm(SheetType::class, $sheet, array('user' => $this->getUser()));
 
         $form->handleRequest($request);
 
@@ -120,9 +125,9 @@ class SheetController extends AbstractController
 
             }
 
-            
-
             foreach($sheet->getHeaders() as $header){
+
+
 
                 $header->setSheet($sheet);
                 $manager->persist($header);
@@ -137,9 +142,16 @@ class SheetController extends AbstractController
             }
             
             $sheet->setFront('0');
-            $sheet->setStatus("TO_VALIDATE");
-            $sheet->setUpdatedAt(new \DateTime());
+
+            if(!$this->isGranted("ROLE_ADMIN")){
+                $sheet->setStatus("TO_VALIDATE");
+            }           
+
+
             $sheet->setViews(0);
+            $sheet->setAuthor($this->getUser());
+
+            $sheet->setUpdatedAt(new \DateTime(null, new DateTimeZone('Europe/Paris')));
 
             $manager->persist($sheet);
             $manager->flush();
@@ -150,14 +162,14 @@ class SheetController extends AbstractController
 
             );
 
-            return $this->redirectToRoute('doc_show', ['slug' => $category->getSlug(), 'sub_slug' => $subCategory->getSlug()]);
+            // Gestion des nouveaux slugs
+            return $this->redirectToRoute('sheet_show', ['id' => $sheet->getId()]);
+
         
         }
 
         return $this->render('documentation/sheet/create.html.twig', [
-            'form' => $form->createView(),
-            'category' => $category,
-            'subCategory' => $subCategory
+            'form' => $form->createView()
         ]);
 
     }
@@ -165,7 +177,7 @@ class SheetController extends AbstractController
     /**
      * Permet de modifier une fiche afin qu'elle soit validée par un responsable
      * 
-     * @Route("/doc/{id}/sheet/edit", name="sheet_edit")
+     * @Route("/documentation/{id}/sheet/edit", name="sheet_edit")
      * 
      * @IsGranted("ROLE_USER")
      *
@@ -173,7 +185,7 @@ class SheetController extends AbstractController
      */
     public function edit(Sheet $sheet, EntityManagerInterface $manager, Request $request, InterlocutorRepository $repo){
 
-        $form = $this->createForm(SheetType::class, $sheet);        
+        $form = $this->createForm(SheetType::class, $sheet, array('user' => $this->getUser()));       
 
         $form->handleRequest($request);
 
@@ -188,6 +200,8 @@ class SheetController extends AbstractController
 
             // Récupération de toutes les variables POST
             $data = $request->request->all();
+
+            dump($data);
             
             // Pour chaque variable POST
             foreach($data as $key => $val) {
@@ -208,6 +222,7 @@ class SheetController extends AbstractController
 
                 foreach($sheet->getHeaders() as $header){
 
+
                     $header->setSheet($sheet);
                     $manager->persist($header);
     
@@ -219,8 +234,8 @@ class SheetController extends AbstractController
                     }
                     
                 }
-
-                $sheet->setUpdatedAt(new \DateTime());
+                
+                $sheet->setUpdatedAt(new \DateTime(null, new DateTimeZone('Europe/Paris')));
 
                 $manager->persist($sheet);
                 $manager->flush();
@@ -242,10 +257,10 @@ class SheetController extends AbstractController
                         }
                         
                     }
-
-                    $sheet->setUpdatedAt(new \DateTime());
                     
                     $sheet->setStatus("TO_VALIDATE");
+
+                    $sheet->setUpdatedAt(new \DateTime(null, new DateTimeZone('Europe/Paris')));
                     $manager->persist($sheet);
                     $manager->flush();
 
@@ -253,30 +268,59 @@ class SheetController extends AbstractController
 
                     // Sinon c'est une fiche qui vient d'être modifiée
 
-                    // On duplique la fiche
-                    $sheetToValidate = clone $sheet;
-                    
-                    $sheetToValidate->setUpdatedAt(new \DateTime());
-                    $sheetToValidate->setOrigin($sheet);
-                    $sheetToValidate->setStatus('TO_VALIDATE');
+                    // Si c'est l'admin, on valide directement
+                    if($this->isGranted("ROLE_ADMIN")){
 
-                    // On duplique les entêtes
-                    foreach($sheetToValidate->getHeaders() as $header){
+                        $sheet->setUpdatedAt(new \DateTime(null, new DateTimeZone('Europe/Paris')));
 
-                        $header->setSheet($sheetToValidate);
-                        $manager->persist($header);
-        
-                        foreach($header->getSections() as $section){
-        
-                            $section->setHeader($header);
-                            $manager->persist($section);
-        
+                        foreach($sheet->getHeaders() as $header){
+
+                            $header->setSheet($sheet);
+                            $manager->persist($header);
+            
+                            foreach($header->getSections() as $section){
+            
+                                $section->setHeader($header);
+                                $manager->persist($section);
+            
+                            }
+                            
                         }
-                        
-                    }
 
-                    $manager->refresh($sheet);
-                    $manager->persist($sheetToValidate);
+                        $manager->persist($sheet);
+                        $manager->flush();
+
+
+                    }else{
+
+                        // On duplique la fiche
+                        $sheetToValidate = clone $sheet;
+                        
+                        $sheetToValidate->setOrigin($sheet);
+                        $sheetToValidate->setStatus('TO_VALIDATE');
+
+                        // On duplique les entêtes
+                        foreach($sheetToValidate->getHeaders() as $header){
+
+                            $header->setSheet($sheetToValidate);
+                            $manager->persist($header);
+            
+                            foreach($header->getSections() as $section){
+            
+                                $section->setHeader($header);
+                                $manager->persist($section);
+            
+                            }
+                            
+                        }
+
+                        $manager->refresh($sheet);
+
+                        $sheetToValidate->setUpdatedAt(new \DateTime(null, new DateTimeZone('Europe/Paris')));
+                        $manager->persist($sheetToValidate);
+
+                    }
+                    
                     $manager->flush();
 
                 }
@@ -285,12 +329,7 @@ class SheetController extends AbstractController
 
             }
 
-            // Gestion des nouveaux slugs
-            $slug = $sheet->getSubCategory()->getCategory()->getSlug();
-            $subSlug = $sheet->getSubCategory()->getSlug();
-
-            //return $this->redirectToRoute('sheet_show', ['slug' => $slug, 'sub_slug' => $subSlug, 'sheet_slug' => $sheet->getSlug(), 'sheet_id' => $sheet->getId()]);
-            return $this->redirectToRoute('doc_show', ['slug' => $sheet->getSubCategory()->getCategory()->getSlug(), 'sub_slug' => $sheet->getSubCategory()->getSlug()]);
+            return $this->redirectToRoute('sheet_show', ['id' => $sheet->getId()]);
 
         }
 
@@ -313,7 +352,7 @@ class SheetController extends AbstractController
      /**
      * Permet de mettre à la Une une fiche
      * 
-     * @Route("/doc/sheet/{id}/front", name="sheet_front")
+     * @Route("/documentation/sheet/{id}/front", name="sheet_front")
      *  
      *
      * @return Response
@@ -333,11 +372,7 @@ class SheetController extends AbstractController
         $manager->persist($sheet);
         $manager->flush();
 
-        // Gestion des nouveaux slugs
-        $slug = $sheet->getSubCategory()->getCategory()->getSlug();
-        $subSlug = $sheet->getSubCategory()->getSlug();
-
-        return $this->redirectToRoute('sheet_show', ['slug' => $slug, 'sub_slug' => $subSlug, 'sheet_slug' => $sheet->getSlug(), 'sheet_id' => $sheet->getId()]);
+        return $this->redirectToRoute('sheet_show', ['id' => $sheet->getId()]);
 
     }
 
@@ -345,18 +380,13 @@ class SheetController extends AbstractController
     /**
      * Permet d'afficher le contenu d'une fiche (Sheet)
      * 
-     * @Route("/doc/{slug}/{sub_slug}/{sheet_slug}/{sheet_id}", name="sheet_show")
+     * @Route("/documentation/sheet/{id}", name="sheet_show")
      * 
-     * @ParamConverter("subCategory", options={"mapping": {"sub_slug":   "slug"}})
-     * @ParamConverter("sheet", options={"mapping": {"sheet_slug": "slug"}})
-     * @ParamConverter("sheet", options={"mapping": {"sheet_id":   "id"}})
      * 
      * @return Response
      */
-    public function show(Category $category, SubCategory $subCategory, Request $request, EntityManagerInterface $manager, Sheet $sheet, Menu $menu)
+    public function show(Sheet $sheet, Request $request, EntityManagerInterface $manager, Menu $menu)
     {
-
-  
 
         // Si la fiche est "En cours de validation"
         if($sheet->getStatus() == "TO_VALIDATE"){
@@ -371,18 +401,14 @@ class SheetController extends AbstractController
                     $manager->persist($sheet);
                     $manager->flush();
 
-                // Gestion des nouveaux slugs
-                $slug = $sheet->getSubCategory()->getCategory()->getSlug();
-                $subSlug = $sheet->getSubCategory()->getSlug();
-
-                return $this->redirectToRoute('sheet_show', ['slug' => $slug, 'sub_slug' => $subSlug, 'sheet_slug' => $sheet->getSlug(), 'sheet_id' => $sheet->getId()]);
+                return $this->redirectToRoute('sheet_show', ['id' => $sheet->getId()]);
 
 
             }
 
             return $this->render('documentation/sheet/show.html.twig', [
-                'category' => $category,
-                'subCategory' => $subCategory,
+                'category' => $sheet->getSubCategory()->getCategory(),
+                'subCategory' => $sheet->getSubCategory(),
                 'sheet' => $sheet,
                 'form' => $form->createView()
 
@@ -404,8 +430,8 @@ class SheetController extends AbstractController
         }
             
         return $this->render('documentation/sheet/show.html.twig', [
-            'category' => $category,
-            'subCategory' => $subCategory,
+            'category' => $sheet->getSubCategory()->getCategory(),
+            'subCategory' => $sheet->getSubCategory(),
             'sheet' => $sheet
         ]);
     }
@@ -413,11 +439,7 @@ class SheetController extends AbstractController
     /**
      * Permet d'afficher une seule annonce
      *
-     * @Route("/doc/{slug}/{sub_slug}/{sheet_slug}/{sheet_id}/delete", name="sheet_delete")
-     * 
-     * @ParamConverter("subCategory", options={"mapping": {"sub_slug":   "slug"}})
-     * @ParamConverter("sheet", options={"mapping": {"sheet_slug": "slug"}})
-     * @ParamConverter("sheet", options={"mapping": {"sheet_id":   "id"}})
+     * @Route("/documentation/sheet/{id}/delete", name="sheet_delete")
      * 
      * @IsGranted("ROLE_USER")
      * 
@@ -476,7 +498,7 @@ class SheetController extends AbstractController
     /**
      * Permet la gestion des outils d'une fiche
      * 
-     * @Route("/doc/{slug}/{sub_slug}/{sheet_slug}/sheet/tools/edit", name="sheet_tools")
+     * @Route("/documentation/{slug}/{sub_slug}/{sheet_slug}/sheet/tools/edit", name="sheet_tools")
      * 
      * @ParamConverter("subCategory", options={"mapping": {"sub_slug":   "slug"}})
      * @ParamConverter("sheet", options={"mapping": {"sheet_slug": "slug"}})

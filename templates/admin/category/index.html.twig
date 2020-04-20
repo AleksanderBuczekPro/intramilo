@@ -23,7 +23,7 @@
         <thead>
             <tr>
                 <th>Sous-catégorie</th>
-                <th colspan="2" class="text-left">Responsable de la mise à jour</th>
+                <th class="text-left">Responsable de la mise à jour</th>
                 <th>Fiches</th>
                 <th>Documents</th>
                 <th colspan="2"></th>
@@ -35,12 +35,10 @@
 
             <tr>
                 <td>{{ sub.title }}</td>
-                <td class="pr-0">
-                    {% include '_picture.html.twig' with {'user': sub.author, 'class': 'medium'} %}
-                </td>
-                <td class="text-left pl-0">
-                    {{ sub.author.fullName }} <br>
-                    <span class="my-secondary">{{ sub.author.email }}</span>
+                <td>
+                    {% for author in sub.authors %}
+                        {% include 'documentation/_user_email.html.twig' with {'user':author} %}
+                    {% endfor %}
                 </td>
                 <td>
                     {{ sub.sheets|length }}

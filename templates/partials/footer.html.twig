@@ -1,5 +1,5 @@
 <footer class="pt-2 pb-4 text-center my-foot">
-    <div class="container-fluid">
+    {# <div class="container-fluid">
         <div class="row">
             <div class="col-3">
                 <img src="/images/logo_milo.png" alt="Logo Mission Locale de l'arrondissment de Dijon">
@@ -15,7 +15,69 @@
             </div>
         </div>
     
-    </div>
+    </div> #}
     
     
 </footer>
+
+<script>
+    // Fonction permettant de charger les notifications
+    function loadNotifications() {
+
+        var path = "{{ path('notifications_load') }}";
+            $.ajax({
+                type: 'POST',
+                url: path,
+                success: function(data) {
+
+                    var notifications = data['notifications']['notifications'];
+                    var counter = data['counter'];
+                    
+                    if(counter > 0){
+                        $( "#notification-counter" ).html("<span id='notification-circle'><span id='counter'>" + counter  + "</span></span>");
+
+                        for (var item in notifications) {
+
+                            var html =  "<tr data-href='/documentation/sheet/" + notifications[item]['id'] + "'><td class='w-25 text-center notif-icon pl-4'>" + 
+                                        "<span class='icon'><i class='uil uil-book-alt'></i></span>" +
+                                        "<span class='state-icon bg-" + notifications[item]['color'] + "'>" + notifications[item]['icon'] + "</span>" + 
+                                        "</td>" + 
+                                        "<td class='w-75 notif-content pl-1 text-left'>" + 
+                                            notifications[item]['text'] +
+                                            "<br><span class='date'>" + notifications[item]['date'] + "</span>" +
+                                        "</td></tr>";
+
+                            $('#my-dropdown .my-table').append(html);
+                        
+                        }
+
+                        $('tr[data-href]').on("click", function() {
+                            document.location = $(this).data('href');
+                        });
+
+                    }else{
+                        $( "#notification-counter" ).html("");
+                        $('#my-dropdown .my-table').append("<tr><td class='text-center'>Aucune notification</td><tr>");
+                    }
+
+                    
+                    
+                },
+                error: function(data) {
+                    //alert(data.responseTexte);
+                }
+
+
+            });
+
+    }
+
+    // Quand le document a fini de se charger, on charge les interlocuteurs
+    $(document).ready(function() {
+        loadNotifications();
+    });
+
+
+
+
+</script>

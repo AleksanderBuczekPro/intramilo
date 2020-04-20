@@ -1,0 +1,84 @@
+<a href=
+
+    {% if file.file is defined %}
+                        
+        {{ path('document_show', {'id': file.id }) }}
+
+    {% else %}
+        {{ path('sheet_show', {'id': file.id }) }}
+
+    {% endif %} target="_blank"
+>
+
+    <div class="card my-card notification {% include 'documentation/_file_state_class.html.twig' with {'file': file} %} no-border mt-3">
+        <div class="card-body p-0">
+
+            <table class="my-table notification w-100">
+                <tbody>
+                    <tr>
+                        <td class="file-icon-state">
+                            {% include 'documentation/_file_icon.html.twig' with {'file': file} %}
+                        </td>
+                       <td class="file-content text-left">
+                            <div class="file-title">{{ file.title }}</div>
+                            <div class="file-state">{% include 'documentation/_file_admin_state.html.twig' with {'file': file} %}</div>
+                            <div class="notification-time mt-2">
+                                {{ file.updatedAt|localizeddate('none', 'none', 'fr', null, 'd MMMM Y') }}
+                                à {{ file.updatedAt|localizeddate('none', 'none', 'fr', null, 'HH:mm') }}
+                                
+                                <span class="action float-right">
+
+                                    {# Show #}
+                                    <a href=
+
+                                        {% if file.file is defined %}
+                        
+                                            {{ path('document_show', {'id': file.id }) }}
+
+                                        {% else %}
+                                            {{ path('sheet_show', {'id': file.id }) }}
+
+                                        {% endif %}       
+                                    
+                                    class="my-secondary" target="_blank"> <i class="uil uil-eye"></i> </a>
+                                    
+                                    {# Edit #}
+                                    <a href=
+                                    {% if file.file is defined %}
+                                                        
+                                            {{ path('document_edit', {'id': file.id }) }}
+
+                                        {% else %}
+                                            
+                                            {{ path('sheet_edit', {'id': file.id }) }}
+
+                                        {% endif %}    
+                                    class="my-secondary" target="_blank"> <i class="uil uil-pen"></i> </a>
+                                    
+                                    {# Delete #}
+                                    <a href=
+                                        {% if file.file is defined %}
+                                                        
+                                            {{ path('document_delete', {'id': file.id }) }}
+
+                                        {% else %}
+                                            
+                                            {{ path('sheet_delete', {'id': file.id }) }}
+
+                                        {% endif %} 
+                                    class="my-secondary" target="_blank"> <i class="uil uil-times"></i> </a>
+                                
+                                
+                                </span>
+                            
+                            
+                            </div>
+                       </td>
+                    </tr>
+
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</a>

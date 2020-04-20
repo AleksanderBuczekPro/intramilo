@@ -1,0 +1,65 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Documentation - Tableau de bord
+{% endblock %}
+
+
+{% block body %}
+
+
+
+{# <div class="row dashboard"> #}
+
+    {# Dashboard Sidebar #}
+    
+    {% include 'account/_dashboard_sidebar.html.twig' %}
+
+    <div class="my-content">
+        <div class="my-h1">Mes dossiers</div>
+
+        <table class="table my-table admin">
+            <thead>
+                <tr>
+                    <th colspan="2">Sous-catégories <span class="number"><span>{{ subCategories|length }}</span></span></th>
+                    <th>Catégorie</th>
+                    <th>Fichiers</th>
+                    <th>Autres membres</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for sub in subCategories %}
+                    <tr data-href="{{ path('doc_show', {'slug': sub.category.slug, 'sub_slug': sub.slug }) }}">
+                    <td class="icon folder bleu">
+                        <i class="uil uil-folder-check"></i>
+                    </td>
+                    <td class="main">{{ sub }}</td>
+                    <td>{{ sub.category }}</td>
+                    <td><span class="number"><span>{{ sub.sheets|length + sub.documents|length }}</span></span></td>
+                    <td class="users">
+                        {% for author in sub.authors %}
+                            {% if author != app.user %}
+                                {% include '_picture.html.twig' with {'user': author, 'class': 'small'} %}
+                            {% endif %}
+                        {% endfor %}
+                    </td>
+                </tr>
+
+                {% endfor %}
+            </tbody>
+        </table>
+    
+    </div>
+
+
+{% endblock %}
+{% block javascripts %}
+<script>
+
+    $('tr[data-href]').on("click", function() {
+        document.location = $(this).data('href');
+    });
+
+</script>
+
+{% endblock %}

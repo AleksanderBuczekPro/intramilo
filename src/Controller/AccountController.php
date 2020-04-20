@@ -18,19 +18,26 @@ use Symfony\Component\Form\FormError;
 use App\Repository\DocumentRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Doctrine\Common\Annotations\AnnotationReader;
+use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+
+use Symfony\Component\Serializer\Normalizer\PropertyNormalizer;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoder;
+
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+
+use Symfony\Component\Serializer\Mapping\Loader\AnnotationLoader;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\Serializer\Mapping\Factory\ClassMetadataFactory;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-
-use Symfony\Component\Serializer\Encoder\JsonEncoder;
-use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
-use Symfony\Component\Serializer\Serializer;
 
 class AccountController extends AbstractController
 {
@@ -88,9 +95,9 @@ class AccountController extends AbstractController
             $hash = $encoder->encodePassword($user, $user->getHash());
             $user->setHash($hash);
 
-            $user->setPicture("https://media-exp1.licdn.com/dms/image/C5603AQHu7cPy83UvbA/profile-displayphoto-shrink_100_100/0?e=1585785600&v=beta&t=qLyCkqMYn87M4pG_DFxBhoxNtIbPnIJhn3VLAxBU_Sk");
+            // $user->setPicture("https://media-exp1.licdn.com/dms/image/C5603AQHu7cPy83UvbA/profile-displayphoto-shrink_100_100/0?e=1585785600&v=beta&t=qLyCkqMYn87M4pG_DFxBhoxNtIbPnIJhn3VLAxBU_Sk");
             $user->setIntroduction("intro");
-            $user->setDescription("description");
+            // $user->setDescription("description");
 
             $manager->persist($user);
             $manager->flush();
@@ -551,11 +558,16 @@ class AccountController extends AbstractController
      * 
      * @return Response
      */
-    public function myDocuments(SheetRepository $sheetRepo, DocumentRepository $docRepo, Request $request, EntityManagerInterface $manager, Filter $filter)
+    public function myDocuments(SheetRepository $sheetRepo, UserRepository $userRepo, Request $request, EntityManagerInterface $manager, Filter $filter)
     {
         $subCategories = $this->getUser()->getSubCategories();
 
-        $files = $filter->getFiles($subCategories);
+        $files = $filter->getFiles($this->getUser(), $userRepo, $sheetRepo);
+
+        $counter = count($files['filesToValidate']) + count($files['filesToCorrect']) + count($files['filesWellObsolete']) + count($files['filesObsolete']);
+
+        dump($counter);
+
 
         dump($files);
 
@@ -566,8 +578,74 @@ class AccountController extends AbstractController
             'filesUpToDate' => $files['filesUpToDate'],
             'filesWellObsolete' => $files['filesWellObsolete'],
             'filesObsolete' => $files['filesObsolete'],
+            'counter' => $counter,
             'subCategories' => $subCategories
         ]);
+    }
+
+    /**
+     * Permet de faire la liste des dossiers de l'utilisateur connecté
+     * 
+     * @Route("/account/folders", name="account_folders")
+     * 
+     * @return Response
+     */
+    public function myFolders(SheetRepository $sheetRepo, DocumentRepository $docRepo, Request $request, EntityManagerInterface $manager, Filter $filter)
+    {
+        $subCategories = $this->getUser()->getSubCategories();
+
+        return $this->render('account/folders.html.twig', [
+
+            'subCategories' => $subCategories
+        ]);
+    }
+
+    /**
+     * Permet de charger le compteur de notifications
+     * 
+     * @Route("/account/notifications", name="notifications_load")
+     * 
+     * @return Response
+     */
+    public function notifications(Filter $filter, UserRepository $userRepo, SheetRepository $sheetRepo)
+    {
+        // $files = $filter->getFiles($this->getUser());
+        if($this->isGranted('ROLE_ADMIN')){
+
+            $notifications = $filter->getAdminNotifications($this->getUser(), $userRepo, $sheetRepo);
+            
+        }else{
+
+            $notifications = $filter->getNotifications($this->getUser(), $userRepo, $sheetRepo);
+
+        }
+
+
+        $counter = $notifications['counter'];
+
+        // $counter = count($files['filesToValidate']) + count($files['filesToCorrect']) + count($files['filesWellObsolete']) + count($files['filesObsolete']);
+        // $counter = $counter + count($adminFiles['filesToValidate']) + count($adminFiles['filesToCorrect']) + count($adminFiles['filesWellObsolete']) + count($adminFiles['filesObsolete']);
+
+        // Si aucune notification
+        if($counter == 0){
+
+            $counter = null;
+
+        }
+
+        // Enregistrement dans le Session
+        $session = new Session();
+
+        // set session attributes
+        $session->set('notification-counter', $counter);
+
+
+
+        return $this->json(
+            [
+                'counter' => $counter,
+                'notifications' => $notifications
+            ]);
     }
 
 

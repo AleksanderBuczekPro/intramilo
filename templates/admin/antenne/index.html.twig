@@ -7,7 +7,7 @@
 <div class="container">
     <h1 class="my-h1">Liste des antennes <a href="{{ path('admin_antenne_create') }}" class="btn btn-my-add-admin"><i class="uil uil-plus"></i> Ajouter une antenne</a></h1>
 
-    <table class="table my-table">
+    <table class="table my-table admin backoffice">
         <thead>
             <tr>
                 <th class="text-left">Antenne</th>
@@ -18,11 +18,9 @@
         </thead>
         <tbody>
 
-        
-
         {% for antenne in antennes %}
             <tr>
-                <td class="text-left">
+                <td class="text-left main">
                     {{ antenne }}
                 </td>
                 <td class="text-left">

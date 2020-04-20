@@ -1,0 +1,62 @@
+{# Si c'est un document (Document) #}
+{% if file.file is defined %}
+
+    {% set document = true %}
+
+    {% set chemin = "{{ vich_uploader_asset(file, 'genericFile')}}" %}
+    {% set chemin_update = "" %}
+    {% set chemin_delete = "" %}
+
+
+{# Si c'est une fiche (Sheet) #}
+{% else %}
+
+    {% set document = false  %}
+
+    {% set chemin = "{{ path('sheet_show', {'slug': category.slug, 'sub_slug': subCategory.slug, 'sheet_slug': file.slug }) }}" %}
+    {% set chemin_update = "{{ path('sheet_edit', {'slug': category.slug, 'sub_slug': subCategory.slug, 'sheet_slug': file.slug }) }}" %}
+    {% set chemin_delete = "{{ path('sheet_delete', {'slug': category.slug, 'sub_slug': subCategory.slug, 'sheet_slug': file.slug }) }}" %}
+    {% set fileType = "sheet" %}
+
+    {% set fileIcon = '<i class="fas fa-align-left file-icon sheet"></i>'%}
+
+{% endif %}
+
+    {% if file.status is defined and file.status == "TO_VALIDATE" %}
+
+        {% set state = "En attente de validation" %}
+        {% set icon = "pause" %}
+        {% set state_class = "light" %}
+
+    {% elseif file.status is defined and file.status == "TO_CORRECT" %}
+
+        {% set state = "À corriger" %}
+        {% set icon = "exclamation" %}
+        {% set state_class = "danger" %}
+
+    {% else %}
+
+        {% if date(file.updatedAt) <= date('-6months', 'Europe/Paris') %}
+
+            {% set state = "Obsolète" %}
+            {% set icon = "times" %}
+            {% set state_class = "danger" %}
+
+        {% elseif date(file.updatedAt) < date('-5months', 'Europe/Paris') %}
+
+            {% set state = "Bientôt obsolète" %}
+            {% set icon = "minus" %}
+            {% set state_class = "warning" %}
+
+        {% else %}
+
+            {% set state = "À jour" %}
+            {% set icon = "check" %}
+            {% set state_class = "success" %}
+
+        {% endif %}
+
+    {% endif %}
+{# {% endif %} #}
+
+<i class="uil uil-{{icon}}-circle {{state_class}}"></i> <span class="{{ state_class }}">{{ state }}</span> 
