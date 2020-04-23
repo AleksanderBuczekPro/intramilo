@@ -103,8 +103,8 @@ body{
 
 footer.my-foot {
     background-color: #58585a;
-    margin-top: 100px;
-    z-index: 4;
+    /* margin-top: 100px;
+    z-index: 4; */
 }
 
 
@@ -432,6 +432,13 @@ table.my-table .init-circle.small .init{
 
 }
 
+.profile-card .init-circle.large span.init{
+
+    background-color: var(--light-transparent-color);
+    color: white;
+
+}
+
 
 /* Texte */
 .my-secondary, span.my-secondary{
@@ -462,7 +469,7 @@ form{
 
 form label{
 
-    font-weight: 500;
+    font-weight: 600;
 
 
 }
@@ -477,15 +484,7 @@ form input.form-control, form select.form-control{
 
 }
 
-form input#sheet_title{
 
-    font-size: 18px;
-    font-family: 'Poppins', sans-serif;
-    font-weight: 600;
-    color: black;
-
-
-}
 
 /* Cards */
 div.card.my-card{

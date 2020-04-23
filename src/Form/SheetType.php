@@ -59,7 +59,7 @@ class SheetType extends ApplicationType
             ->add(
                 'headers',
                 CollectionType::class,[
-                 'label' => "Informations complémentaires",
+                 'label' => "Titre de l'entête",
                  'entry_type' => HeaderType::class,
                  'allow_add' => true,
                  'allow_delete' => true,
@@ -67,9 +67,21 @@ class SheetType extends ApplicationType
                  'prototype_name' => "__h__"
  
                 ])
+
+                // ->add(
+                //     'attachments',
+                //     CollectionType::class,[
+                //      'label' => "Pièces jointes",
+                //      'entry_type' => AttachmentType::class,
+                //      'allow_add' => true,
+                //      'allow_delete' => true,
+    
+                //      'prototype_name' => "__h__"
+     
+                //     ])
             
                 ->add('tool', EntityType::class, [
-                    "label" => "Lier des fiches existantes",
+                    "label" => "Fiches existantes",
                     'class' => Sheet::class,
                     'choice_label' => 'title',
                     'multiple' => true,
@@ -86,7 +98,7 @@ class SheetType extends ApplicationType
                     }
                 ])
                 ->add('sheetDocuments', EntityType::class, [
-                    "label" => "Lier des documents existants",
+                    "label" => "Documents existants",
                     'class' => Document::class,
                     'choice_label' => 'title',
                     'multiple' => true,

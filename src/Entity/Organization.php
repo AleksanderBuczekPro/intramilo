@@ -68,11 +68,17 @@ class Organization
      */
     private $documents;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Attachment", mappedBy="organization")
+     */
+    private $attachments;
+
     public function __construct()
     {
         $this->sheets = new ArrayCollection();
         $this->interlocutors = new ArrayCollection();
         $this->documents = new ArrayCollection();
+        $this->attachments = new ArrayCollection();
     }
 
     public function __toString()
@@ -267,6 +273,37 @@ class Organization
             // set the owning side to null (unless already changed)
             if ($document->getOrganization() === $this) {
                 $document->setOrganization(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Attachment[]
+     */
+    public function getAttachments(): Collection
+    {
+        return $this->attachments;
+    }
+
+    public function addAttachment(Attachment $attachment): self
+    {
+        if (!$this->attachments->contains($attachment)) {
+            $this->attachments[] = $attachment;
+            $attachment->setOrganization($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAttachment(Attachment $attachment): self
+    {
+        if ($this->attachments->contains($attachment)) {
+            $this->attachments->removeElement($attachment);
+            // set the owning side to null (unless already changed)
+            if ($attachment->getOrganization() === $this) {
+                $attachment->setOrganization(null);
             }
         }
 

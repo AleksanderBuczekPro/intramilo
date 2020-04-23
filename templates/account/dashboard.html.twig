@@ -16,7 +16,7 @@
     {% include 'account/_dashboard_sidebar.html.twig' %}
 
     <div class="my-content">
-        <div class="my-h1">Mes documents <a href="{{ path('sheet_create') }}" class="btn btn-my-primary ml-3" target="_blank"><i class="uil uil-plus"></i> Créer une fiche</a> <a href="{{ path('document_create') }}" class="btn btn-my-primary ml-1" target="_blank"><i class="uil uil-plus"></i> Créer un document</a></div>
+        <div class="my-h1">Mes documents <a href="{{ path('sheet_create') }}" class="btn btn-my-primary ml-3"><i class="uil uil-plus"></i> Créer une fiche</a> <a href="{{ path('document_create') }}" class="btn btn-my-primary ml-1" target="_blank"><i class="uil uil-import"></i> Importer un document</a></div>
 
         <table class="table my-table admin">
             <thead>
@@ -29,30 +29,39 @@
                 </tr>
             </thead>
             <tbody>
-            {# A corriger #}
-            {% for file in filesToCorrect %}
-                {% include '/account/_dashboard_table_row.html.twig' with {'file': file} %}
-            {% endfor %}
+            {% if app.user.sheets|length + app.user.documents|length > 0 %}
 
-            {# Obsolètes #}
-            {% for file in filesObsolete %}
-                {% include '/account/_dashboard_table_row.html.twig' with {'file': file} %}
-            {% endfor %}
+                {# A corriger #}
+                {% for file in filesToCorrect %}
+                    {% include '/account/_dashboard_table_row.html.twig' with {'file': file} %}
+                {% endfor %}
 
-            {# Bientôt obsolètes #}
-            {% for file in filesWellObsolete %}
-                {% include '/account/_dashboard_table_row.html.twig' with {'file': file} %}
-            {% endfor %}
+                {# Obsolètes #}
+                {% for file in filesObsolete %}
+                    {% include '/account/_dashboard_table_row.html.twig' with {'file': file} %}
+                {% endfor %}
 
-            {# En attente de validation #}
-            {% for file in filesToValidate %}
-                {% include '/account/_dashboard_table_row.html.twig' with {'file': file} %}
-            {% endfor %}
+                {# Bientôt obsolètes #}
+                {% for file in filesWellObsolete %}
+                    {% include '/account/_dashboard_table_row.html.twig' with {'file': file} %}
+                {% endfor %}
 
-            {# A jour #}
-            {% for file in filesUpToDate %}
-                {% include '/account/_dashboard_table_row.html.twig' with {'file': file} %}
-            {% endfor %}
+                {# En attente de validation #}
+                {% for file in filesToValidate %}
+                    {% include '/account/_dashboard_table_row.html.twig' with {'file': file} %}
+                {% endfor %}
+
+                {# A jour #}
+                {% for file in filesUpToDate %}
+                    {% include '/account/_dashboard_table_row.html.twig' with {'file': file} %}
+                {% endfor %}
+
+            {% else %}
+
+                <td>Aucune fiche ou document</td><td colspan="5" class="text-center"></td>
+
+
+            {% endif %}
             </tbody>
         </table>
     

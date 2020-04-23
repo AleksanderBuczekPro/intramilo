@@ -149,6 +149,11 @@ class User implements UserInterface
      */
     private $subCategories;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Attachment", mappedBy="author")
+     */
+    private $attachments;
+
 
     public function getFullName() {
 
@@ -206,6 +211,7 @@ class User implements UserInterface
         $this->websites = new ArrayCollection();
         $this->sheets = new ArrayCollection();
         $this->documents = new ArrayCollection();
+        $this->attachments = new ArrayCollection();
     }
 
     public function __toString()
@@ -599,6 +605,37 @@ class User implements UserInterface
             // set the owning side to null (unless already changed)
             if ($document->getAuthor() === $this) {
                 $document->setAuthor(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Attachment[]
+     */
+    public function getAttachments(): Collection
+    {
+        return $this->attachments;
+    }
+
+    public function addAttachment(Attachment $attachment): self
+    {
+        if (!$this->attachments->contains($attachment)) {
+            $this->attachments[] = $attachment;
+            $attachment->setAuthor($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAttachment(Attachment $attachment): self
+    {
+        if ($this->attachments->contains($attachment)) {
+            $this->attachments->removeElement($attachment);
+            // set the owning side to null (unless already changed)
+            if ($attachment->getAuthor() === $this) {
+                $attachment->setAuthor(null);
             }
         }
 

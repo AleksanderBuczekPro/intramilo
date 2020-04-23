@@ -53,12 +53,18 @@ class SubCategory
      */
     private $authors;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Attachment", mappedBy="subCategory")
+     */
+    private $attachments;
+
 
     public function __construct()
     {
         $this->sheets = new ArrayCollection();
         $this->documents = new ArrayCollection();
         $this->authors = new ArrayCollection();
+        $this->attachments = new ArrayCollection();
     }
 
     
@@ -209,6 +215,37 @@ class SubCategory
     {
         if ($this->authors->contains($author)) {
             $this->authors->removeElement($author);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Attachment[]
+     */
+    public function getAttachments(): Collection
+    {
+        return $this->attachments;
+    }
+
+    public function addAttachment(Attachment $attachment): self
+    {
+        if (!$this->attachments->contains($attachment)) {
+            $this->attachments[] = $attachment;
+            $attachment->setSubCategory($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAttachment(Attachment $attachment): self
+    {
+        if ($this->attachments->contains($attachment)) {
+            $this->attachments->removeElement($attachment);
+            // set the owning side to null (unless already changed)
+            if ($attachment->getSubCategory() === $this) {
+                $attachment->setSubCategory(null);
+            }
         }
 
         return $this;

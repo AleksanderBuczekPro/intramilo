@@ -15,7 +15,7 @@ class HeaderType extends ApplicationType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('title', TextType::class, $this->getConfiguration("Titre", "Titre principal (exemple: Description de l'action)"))
+            ->add('title', TextType::class, $this->getConfiguration("Titre", "Titre principal"))
             ->add(
                 'sections',
                 CollectionType::class,[

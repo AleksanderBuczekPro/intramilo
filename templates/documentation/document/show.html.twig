@@ -22,19 +22,40 @@
                                     <i class="far fa-eye"></i> {{ document.views }}
                                 </span>
                                 <div class="mt-2">
-                                    {% if is_granted("ROLE_ADMIN") and document.status == "" %}
+
+                                {% if is_granted("ROLE_ADMIN") %}
+
+                                    {# Attachment #}
+                                    {% if document.status is not defined %}
 
                                         <a href="{{ path('document_front', {'id': document.id }) }}" class="btn btn-sm btn-outline-dark">
-
-                                        {% if document.front %}
-                                            Enlever à la Une
-                                        {% else %}
-                                            Mettre à la Une
-                                        {% endif %}
-
+                                            {% if document.front %}
+                                                Enlever à la Une
+                                            {% else %}
+                                                Mettre à la Une
+                                            {% endif %}
                                         </a>
 
+
+                                    {# Document #}
+                                    {% else %}
+
+                                        {% if document.status == "" %}
+
+                                            <a href="{{ path('document_front', {'id': document.id }) }}" class="btn btn-sm btn-outline-dark">
+                                                {% if document.front %}
+                                                    Enlever à la Une
+                                                {% else %}
+                                                    Mettre à la Une
+                                                {% endif %}
+                                            </a>
+
+
+                                        {% endif %}
+
                                     {% endif %}
+
+                                {% endif %}
                                 </div>
 
                                 <hr>
@@ -83,11 +104,25 @@
                                     </table>
                                 
                                 <hr>
+                                <div class="d-none" id="docType" data-type="
+
+                                    {% if document.status is not defined %}
+                                            
+                                            attachment
+
+                                    {% else %}
+
+                                            document
+
+                                    {% endif %}
+                                
+                                
+                                "></div>
                                 <div class="d-none" id="docId" >{{ document.id }}</div>
                                 <a href="{{ vich_uploader_asset(document, 'genericFile')}}" target="_blank" id="opendoc" class="btn btn-success">Télécharger</a>
-                                <a href="{{ path('document_edit', {'slug': category.slug, 'sub_slug': subCategory.slug, 'id': document.id }) }}" class="btn btn-primary">Modifier</a>
-                                <a href="{{ path('document_delete', {'slug': category.slug, 'sub_slug': subCategory.slug, 'id': document.id }) }}" class="btn btn-danger">Supprimer</a>
-                                <a href="{{ path('doc_show', {'slug': category.slug, 'sub_slug': subCategory.slug }) }}" class="btn btn-light">Retour</a>
+                                <a href="{{ path('document_edit', {'id': document.id }) }}" class="btn btn-primary">Modifier</a>
+                                <a href="{{ path('document_delete', {'id': document.id }) }}" class="btn btn-danger">Supprimer</a>
+                                <a href="{{ path('doc_show', {'slug': document.subCategory.category.slug, 'sub_slug': document.subCategory.slug }) }}" class="btn btn-light">Retour</a>
                             
 
 
@@ -113,15 +148,24 @@ $("#opendoc").click(function() {
 
         // Récupération des données
         var id = $("#docId").text();
+        
+        var type = $("#docType").data('type');
 
-        // $("#validation").attr('href').text().replace("_uniformized", content);
+        if(type == 'attachment'){
 
-        var path = "{{ path('document_views') }}";
+            var path = "{{ path('attachment_views') }}";
+
+        }else{
+
+            var path = "{{ path('document_views') }}";
+            
+        }
+       
 
         $.ajax({
             type: 'POST',
             url: path,
-            data: { id: id },
+            data: { type: type, id: id },
             success: function(data) {
                 
             },

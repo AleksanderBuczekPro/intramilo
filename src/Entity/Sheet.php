@@ -79,10 +79,6 @@ class Sheet
      */
     private $sheetDocuments;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Attachment", mappedBy="sheet", orphanRemoval=true)
-     */
-    private $attachments;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -126,6 +122,11 @@ class Sheet
      */
     private $author;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Attachment", mappedBy="sheet", orphanRemoval=true)
+     */
+    private $attachments;
+
 
 
     public function __construct()
@@ -136,8 +137,8 @@ class Sheet
         $this->tool = new \Doctrine\Common\Collections\ArrayCollection();
 
         $this->sheetDocuments = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->attachments = new ArrayCollection();
         $this->interlocutors = new ArrayCollection();
+        $this->attachments = new ArrayCollection();
 
     }
 
@@ -364,39 +365,6 @@ class Sheet
         return $this;
     }
 
-    /**
-     * @return Collection|Attachment[]
-     */
-    public function getAttachments(): Collection
-    {
-        return $this->attachments;
-    }
-
-    public function addAttachment(Attachment $attachment): self
-    {
-        if (!$this->attachments->contains($attachment)) {
-            $this->attachments[] = $attachment;
-            $attachment->setSheet($this);
-        }
-
-        return $this;
-    }
-
-    public function removeAttachment(Attachment $attachment): self
-    {
-        if ($this->attachments->contains($attachment)) {
-            $this->attachments->removeElement($attachment);
-            // set the owning side to null (unless already changed)
-            if ($attachment->getSheet() === $this) {
-                $attachment->setSheet(null);
-            }
-
-
-
-        }
-
-        return $this;
-    }
 
     public function getStatus(): ?string
     {
@@ -504,6 +472,37 @@ class Sheet
     public function setAuthor(?User $author): self
     {
         $this->author = $author;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Attachment[]
+     */
+    public function getAttachments(): Collection
+    {
+        return $this->attachments;
+    }
+
+    public function addAttachments(Attachment $attachments): self
+    {
+        if (!$this->attachments->contains($attachments)) {
+            $this->attachments[] = $attachments;
+            $attachments->setSheet($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAttachments(Attachment $attachments): self
+    {
+        if ($this->attachments->contains($attachments)) {
+            $this->attachments->removeElement($attachments);
+            // set the owning side to null (unless already changed)
+            if ($attachments->getSheet() === $this) {
+                $attachments->setSheet(null);
+            }
+        }
 
         return $this;
     }

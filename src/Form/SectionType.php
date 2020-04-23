@@ -13,8 +13,8 @@ class SectionType extends ApplicationType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('title', TextType::class, $this->getConfiguration(false, "Titre secondaire (exemple: Nom,, Date)"))
-            ->add('content', TextType::class, $this->getConfiguration(false, "Contenu court"))
+            ->add('title', TextType::class, $this->getConfiguration(false, "Titre secondaire"))
+            ->add('content', TextType::class, $this->getConfiguration(false, "Information"))
         ;
     }
 

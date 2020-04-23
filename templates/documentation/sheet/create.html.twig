@@ -5,90 +5,194 @@
 {% endblock %}
 
 {% block body %}
-<div class="bg-blue-transparent">
-    <div class="container mt-0">
- 
-        {% form_theme form 'documentation/sheet/_collection.html.twig' %}
 
-        {{ form_start(form) }}
+{% form_theme form 'documentation/sheet/_collection.html.twig' %}
+{{ form_start(form) }}
 
-            <h1 class="pt-5 mt-0 mb-5">Nouvelle fiche</h1>
-        
-            <div class="row">
-                <div class="col-lg-8 col-md-6">
-                    
-                    {{ form_widget(form.title) }}
+<div class="container sheet-form">
+    <h1 class="my-h1">Création d'une fiche</h1>
+    <div class="row">
+        <div class="col-12 col-md">
 
-                </div>
-                <div class="col-lg-4 col-md-6">
-                    <button type="submit" class="btn btn-success success float-right mt-4 white">
-                        <i class="fas fa-check white"></i> Ajouter la fiche
-                    </button>
-                </div>
+            <div class="form-title">
+                {{ form_widget(form.title) }}
             </div>
-            <div class="row">
-                <div class="col-lg-8 col-md-6">
-                    <div class="card p-4">
-                        <div class="card-body">
-                        <h6 class="card-title mb-3"><span class="doc-step"></span> Contenu</h6>
-                            {{ form_row(form.content) }}
 
-                        
-                        <h6 class="card-title mt-5 mb-3"><span class="doc-step"></span> Outils</h6>
-                            <div class="row">
-                                <div class="col">
-                                    {{ form_row(form.tool, { 'attr': {'size': 10} }) }}
-                                </div>
-                                <div class="col">
-                                    {{ form_row(form.sheetDocuments, { 'attr': {'size': 10} }) }}
-                                </div>
-                            </div>
-                        </div>
-                    </div>                    
+             <ul class="nav nav-pills mt-4 mb-1" id="pills-tab" role="tablist">
+                 <li class="nav-item">
+                    <a class="nav-link my-pill" id="pills-header-tab" data-toggle="pill" href="#pills-header" role="tab" aria-controls="pills-header" aria-selected="true">Entête</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link my-pill active" id="pills-content-tab" data-toggle="pill" href="#pills-content" role="tab" aria-controls="pills-content" aria-selected="true">Contenu</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link my-pill " id="pills-tools-tab" data-toggle="pill" href="#pills-tools" role="tab" aria-controls="pills-tools" aria-selected="false">Outils</a>
+                </li>
+            </ul>
+
+            <div class="tab-content" id="pills-tabContent">
+
+                {# Entete #}
+                <div class="tab-pane fade show" id="pills-header" role="tabpanel" aria-labelledby="pills-header-tab">
+
+                    <div class="form-headers">    
+                        {{ form_widget(form.headers) }}
+                    </div>
+                
                 </div>
-                <div class="col-lg-4 col-md-6">
 
-                    <div class="card p-4">
-                        <div class="card-body">
-                        <h6 class="card-title mb-3"><span class="doc-step"></span>Entête</h6>
-                            {{ form_row(form.subCategory) }}
-                            {{ form_row(form.organization) }}
-
-                            <div>Interlocuteurs</div>
-                            
-                            <div id="interlocutors-message">
-                                <p class="text">Aucun organisme sélectionné. Sélectionnez un organisme pour voir la liste des interlocuteurs disponibles.
-                                </p>
-                            </div>
-                            
-                            <div class="row" id="interlocutors">
-                            </div>
-                            
-                            {{ form_row(form.headers) }}
-                        </div>
+                {# Content #}
+                <div class="tab-pane fade show active" id="pills-content" role="tabpanel" aria-labelledby="pills-content-tab">
+                        
+                    <div class="form-content mt-4">
+                        {{ form_widget(form.content) }}
                     </div>
 
-
-
-
-
-
+                    {# <div>
+                        {{ form_widget(form.attachments) }}
+                    </div> #}
+                
                 </div>
+
+                {# Outils #}
+                <div class="tab-pane fade" id="pills-tools" role="tabpanel" aria-labelledby="pills-tools-tab">
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="card my-card">
+                                <div class="card-body p-3">
+                                    {# <div class="card-title mt-0 mb-4">
+                                        Pièces jointes
+                                    </div> #}
+                                    <label for="">Pièces jointes</label>
+                                    <p class="text">Prochainement</p>
+                                    
+                                </div>
+                            </div>
+                        
+                        </div>
+                        <div class="col-6">
+                            <div class="card my-card">
+                                <div class="card-body p-3">
+                                    {# <div class="card-title mt-0 mb-4">
+                                        Fiches existantes
+                                    </div> #}
+                                     {{ form_row(form.tool, { 'attr': {'size': 10} }) }}
+
+                                    
+                                    
+                                </div>
+                            </div>
+                            <div class="card my-card">
+                                <div class="card-body p-3">
+                                    {# <div class="card-title mt-0 mb-4">
+                                        Documents existants
+                                    </div> #}
+                                    {{ form_row(form.sheetDocuments, { 'attr': {'size': 10} }) }}
+                                    
+                                </div>
+                            </div>
+                        
+                        
+                        </div>
+                    
+                    </div>
+                </div>
+
+        </div>
+
+
+
+        </div>
+        <div class="col-12 col-md-auto">
+
+            <div class="form-header">
+                
+                <div class="card my-card mt-0">
+                    <div class="card-body p-3">
+                        <div class="card-title mt-0 mb-4">
+                            Informations
+                        </div>
+
+                        <table class="table my-table">
+                            <tr>
+                                <td class="my-secondary no-border">Etat</td>
+                                <td class="main no-border">Création</td>
+                            </tr>
+                            {# <tr>
+                                <td class="my-secondary no-border">Catégorie</td>
+                                <td id="categorie" class="main no-border">-</td>
+                            </tr> #}
+                            <tr>
+                                <td class="my-secondary no-border">Sous-catégorie</td>
+                                <td class="main no-border">{{ form_widget(form.subCategory) }}</td>
+                            </tr>
+                            <tr>
+                                <td class="my-secondary no-border">Responsable de validation</td>
+                                <td class="main no-border">{{ app.user.groupe.responsable }}</td>
+                            </tr>
+                        </table>
+                        {# <i class="fas fa-check white"></i> #}
+                        <button type="submit" class="btn btn-success success float-right white">
+                            <i class="uil uil-check-circle"></i> Ajouter la fiche
+                        </button>
+                    </div>
+                </div>
+
+                <div class="card my-card">
+                    <div class="card-body p-3">
+                        <div class="card-title mt-0 mb-4">
+                            Organisme et Interlocuteurs
+                        </div>
+                        
+                        {{ form_widget(form.organization) }}
+                        
+                        <div id="interlocutors-message" class="mb-0">
+                            <p class="text mb-0">Sélectionnez un organisme pour voir la liste des interlocuteurs disponibles.
+                            </p>
+                        </div>
+
+                        <div class="row" id="interlocutors">
+                        
+                        </div>
+                    </div>
+                </div>
+
+
+                
             </div>
 
-        {{ form_end(form) }}
-
-
+        </div>
 
     </div>
 </div>
 
-{% endblock %}
+{{ form_end(form) }}
 
+{% endblock %}
 
 {% block javascripts %}
 
 <script>
+
+$('#add-attachment').click(function(){
+
+    // Je récupère le numéro des futurs champs que je vais créer
+    const index = +$('#widgets-attachment-counter').val(); // + transforme la chaine de caractère en nombre
+
+    // Je récupère le prototype des entrées
+    const tmpl = $('#sheet_attachments').data('prototype').replace(/__h__/g, index); // g = "pour chaque"
+
+    // J'injecte ce code au sein de la div
+    $('#sheet_attachments').append(tmpl);
+
+    $('#widgets-attachment-counter').val(index + 1);
+
+    // Je gère le bouton supprimer
+    handleDeleteButtons();
+
+});
+
 
 $('#add-header').click(function(){
 
@@ -195,19 +299,63 @@ function loadInterlocutors() {
                 var cards = "";
 
                 for (var item in interlocutors) {
-                    cards += " <div class='col-12'><div class='card'><div class='card-body'><div class='form-group'><label class='interlocutor_label'><input name='interlocutor-" + interlocutors[item]['id'] + "' type='checkbox' value='" + interlocutors[item]['id'] + "' class='interlocutor_checkbox'><span> Non sélectionné </span></label> <br>" + interlocutors[item]['function'] + "</div><div class='mt-2'><strong>" + interlocutors[item]['firstName'] + " "+ interlocutors[item]['lastName'] + "</strong></div>" + interlocutors[item]['phoneNumber'] + " <br>" + interlocutors[item]['email'] + " <br> </div></div></div>";
-                    
+
+                var id = interlocutors[item]['id'];
+                var fonction = interlocutors[item]['function'];
+                var fullName = interlocutors[item]['firstName'] + " " + interlocutors[item]['lastName'];
+                var initiales = interlocutors[item]['firstName'].slice(0,1) + interlocutors[item]['lastName'].slice(0,1);
+
+                var email = interlocutors[item]['email'];
+                var phoneNumber = interlocutors[item]['phoneNumber'];
+
+                   // cards += " <div class='col-12'><div class='card'><div class='card-body'><div class='form-group'><label class='interlocutor_label'><input name='interlocutor-" + interlocutors[item]['id'] + "' type='checkbox' value='" + interlocutors[item]['id'] + "' class='interlocutor_checkbox'><span> Non sélectionné </span></label> <br>" + interlocutors[item]['function'] + "</div><div class='mt-2'><strong>" + interlocutors[item]['firstName'] + " "+ interlocutors[item]['lastName'] + "</strong></div>" + interlocutors[item]['phoneNumber'] + " <br>" + interlocutors[item]['email'] + " <br> </div></div></div>";
+                    cards += "<div class='col-12'>" +
+                                "<div class='card my-card user interlocutor'>" +
+                                    "<div class='card-body p-0'>" +
+
+                                        "<table class='my-table'>" +
+                                            "<tbody>" +
+                                                "<tr>" +
+                                                    "<td class='p-2'>" +
+                                                        "<div class='init-circle medium'>" +
+                                                            "<span class='init'>" + initiales + "</span>" +
+                                                        "</div>" +
+                                                    "</td>" +
+                                                    "<td class='text-left pl-2'>" +
+                                                        "<input type='checkbox' name='interlocutor-" + id + "' value=" + id + " class='my-checkbox d-none'>" +
+                                                        "<div class='text my-secondary main'>" + fullName +  "</div>" +
+                                                        "<div class='text my-secondary'>" + fonction + "</div>" +
+                                                    "</td>" +
+                                                "</tr>" +
+                                            "</tbody>" +
+                                        "</table>" +
+                                        
+                                    "</div>" +
+                                "</div>" +
+                            "</div>";
                 }
 
                 $("#interlocutors").html(cards);
                 $("#interlocutors-message").html("<p class='text'>Sélectionnez les interlocuteurs que vous souhaitez joindre à votre fiche.</p>");
 
                 // Gestion des checkbox
-                $('.interlocutor_label').click(function () {
+                /*$('.interlocutor_label').click(function () {
 
                     var checked = $('input', this).is(':checked');
 
                     $('span', this).text(checked ? ' Sélectionné' : ' Non sélectionné');
+                });*/
+
+                $(".interlocutor").click(function() {
+                    if($(this).hasClass('active'))
+                    {
+                        $(this).removeClass('active');
+                        $(this).find('.my-checkbox').attr('checked', false);
+
+                    }else{
+                        $(this).addClass('active');
+                        $(this).find('.my-checkbox').attr('checked', true);
+                    }
                 });
                 
             },
@@ -218,12 +366,17 @@ function loadInterlocutors() {
 
         });
 
+
+    
+
     // Si aucun organisme sélectionné
     }else{
         
         $("#interlocutors-message").html("<p class='text'>Aucun organisme sélectionné. Sélectionnez un organisme pour voir la liste des interlocuteurs disponibles. </p>");
         $("#interlocutors").html("");
     }
+
+
 
 }
 
@@ -238,6 +391,9 @@ $(document).ready(function() {
 $("select#sheet_organization").change(function() {
     loadInterlocutors();
 });
+
+
+
 
 
 

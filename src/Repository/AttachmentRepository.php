@@ -5,7 +5,6 @@ namespace App\Repository;
 use App\Entity\Attachment;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
-use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
  * @method Attachment|null find($id, $lockMode = null, $lockVersion = null)

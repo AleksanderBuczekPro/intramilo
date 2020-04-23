@@ -4,9 +4,11 @@ namespace App\Controller;
 
 use App\Entity\Category;
 use App\Entity\Document;
+use App\Entity\Attachment;
 use App\Form\DocumentType;
 use App\Entity\SubCategory;
 use App\Repository\DocumentRepository;
+use App\Repository\AttachmentRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -66,15 +68,20 @@ class DocumentController extends AbstractController
      * Permet d'afficher les informations d'un document (Document)
      * 
      * @Route("/doc/document/{id}", name="document_show")
+     * @Route("/doc/attachment/{id}", name="attachment_show")
      * 
      * @return Response
      */
-    public function show(Document $document)
+    public function show(Document $document = null, Attachment $attachment = null)
     {
+        if($attachment){
+            
+            $document = $attachment;
+
+        }
+
 
         return $this->render('documentation/document/show.html.twig', [
-            'category' => $document->getSubCategory()->getCategory(),
-            'subCategory' => $document->getSubCategory(),
             'document' => $document
         ]);
     }
@@ -82,14 +89,26 @@ class DocumentController extends AbstractController
     /**
      * Permet d'incrémenter le compteur de vues pour un document (à l'ouverture du fichier)
      * 
-     * @Route("/doc/views", name="document_views")
+     * @Route("/doc/document/views", name="document_views")
+     * @Route("/doc/attachment/views", name="attachment_views")
      *
      * @return void
      */
-    public function view(Request $request, DocumentRepository $repo, EntityManagerInterface $manager){
+    public function view(Request $request, DocumentRepository $docRepo, AttachmentRepository $attRepo, EntityManagerInterface $manager){
 
+        $type = $request->request->get('type');
         $id = $request->request->get('id');
-        $document = $repo->findOneById($id);
+
+        if($type == 'attachment'){
+
+            $document = $attRepo->findOneById($id); 
+
+
+        }else{
+            
+            $document = $docRepo->findOneById($id);
+
+        }
 
         $views = $document->getViews();
         $views++;
@@ -98,9 +117,9 @@ class DocumentController extends AbstractController
         $manager->persist($document);
         $manager->flush();
 
+        dump($document);
+
         return $this->render('documentation/document/show.html.twig', [
-            'category' => $document->getSubCategory(),
-            'subCategory' => $document->getSubCategory()->getCategory(),
             'document' => $document
         ]);
     }

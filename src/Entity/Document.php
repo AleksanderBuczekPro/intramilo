@@ -67,6 +67,7 @@ class Document
     private $originalName;
 
     /**
+     * Liaison fiche -> document
      * Many Documents have Many Sheets.
      * @ORM\ManyToMany(targetEntity="Sheet", mappedBy="sheetDocuments")
      */

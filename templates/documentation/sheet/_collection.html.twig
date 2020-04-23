@@ -1,3 +1,47 @@
+{# Affichage du formulaire AttachmentType #}
+
+{% block _sheet_attachments_entry_row %}
+    {{ form_widget(form) }}
+{% endblock %}
+
+
+{% block _sheet_attachments_widget %}
+
+    {{ form_widget(form) }}
+
+    <input type="hidden" id="widgets-attachment-counter" value="0">
+
+    <div class="form-group">
+        <button type="button" id="add-attachment" class="btn btn-my-primary-light mt-4">
+        <i class="uil uil-plus"></i> Ajouter une pièce-jointe
+        </button>
+    </div>
+{% endblock %}
+
+{# Pour chaque Attachment ajouté #}
+{% block _sheet_attachments_entry_widget %}
+    <div class="form-group header" id="block_attachment_{{id}}">
+        <div class="row mb-3">
+            <div class="col-12 header">
+                    {{ form_widget(form.title) }}
+            </div>
+            <div class="col-12 header">
+                    {{ form_widget(form.organization) }}
+            </div>
+            <div class="col-12 header">
+                    {{ form_widget(form.genericFile) }}
+            </div>
+            <div class="col-12 mt-3 text-center">
+                <button type="button" data-action="delete" data-target="#block_attachment_{{id}}" class="btn btn-my-danger px-3"><i class="fas fa-times"></i></button>
+            </div>
+        
+        </div>        
+    
+    </div>
+
+{% endblock %}
+
+
 {# Affichage du formulaire HeaderType #}
 
 {% block _sheet_headers_entry_row %}
@@ -13,8 +57,8 @@
     <input type="hidden" id="widgets-counter" value="0">
 
     <div class="form-group">
-        <button type="button" id="add-header" class="btn btn-primary">
-        <i class="fas fa-plus"></i> Ajouter une section
+        <button type="button" id="add-header" class="btn btn-my-primary-light mt-4">
+        <i class="uil uil-plus"></i> Ajouter une entête
         </button>
     </div>
 {% endblock %}
@@ -24,12 +68,12 @@
 {% block _sheet_headers_entry_widget %}
     <div class="form-group header" id="block_{{id}}">
         <div class="row mb-3">
-            <div class="col-10">
+            <div class="col-10 header">
                     {{ form_widget(form.title) }}
 
             </div>
-            <div class="col-2">
-                <button type="button" data-action="delete" data-target="#block_{{id}}" class="btn btn-danger"><i class="fas fa-times"></i></button>
+            <div class="col-2 mt-3 text-center">
+                <button type="button" data-action="delete" data-target="#block_{{id}}" class="btn btn-my-danger px-3"><i class="fas fa-times"></i></button>
             </div>
         
         </div>
@@ -65,8 +109,8 @@
     <input type="hidden" id="widgets-section-counter-{{ id }}" value="0">
 
     <div class="form-group">
-        <button type="button" id="{{id}}" class="btn btn-primary mt-3 add-section">
-            <i class="fas fa-plus"></i> Ajouter une ligne
+        <button type="button" id="{{id}}" class="btn btn-my-primary-light add-section">
+            <i class="uil uil-plus"></i> Ajouter une ligne
         </button>
     </div>
 
@@ -78,16 +122,15 @@
 {% block _sheet_headers_entry_sections_entry_row %}
     <div class="form-group section" id="block_section_{{id}}">
         <div class="row">
-            <div class="col-5">
+            <div class="col-5 section">
                 {{ form_widget(form.title) }}
             </div>
-            <div class="col-5">
+            <div class="col-5 section">
                 {{ form_widget(form.content) }}
             </div>
-            <div class="col-2">
-                <button type="button" data-action="delete" data-target="#block_section_{{id}}" class="btn btn-danger"><i class="fas fa-times"></i></button>
+            <div class="col-2 text-center">
+                <button type="button" data-action="delete" data-target="#block_section_{{id}}" class="btn btn-my-danger px-3"><i class="fas fa-times"></i></button>
             </div>
-            
         
         </div>
         
@@ -98,7 +141,8 @@
 
 
 {# Affichage du formulaire AttachmentType #}
-{% block _tools_attachments_entry_row %}
+
+{# {% block _tools_attachments_entry_row %}
     {{ form_widget(form) }}
     <hr>
 {% endblock %}
@@ -115,10 +159,11 @@
         <i class="fas fa-plus"></i> Ajouter une pièce jointe
         </button>
     </div>
-{% endblock %}
+{% endblock %} #}
 
 {# Pour chaque Attachment ajouté #}
-{% block _tools_attachments_entry_widget %}
+
+{# {% block _tools_attachments_entry_widget %}
     <div class="form-group" id="block_{{id}}">
         <div class="row mb-3">
             <div class="col-10">
@@ -127,11 +172,11 @@
             <div class="col-2 text-right">
                 <button type="button" data-action="delete" data-target="#block_{{id}}" class="btn btn-danger"><i class="fas fa-times"></i> Supprimer</button>
             </div>
-            {# <div class="col-12 mt-3">{{ form_widget(form.organization) }}</div>         #}
+
         </div>
         
     
     </div>
 
-{% endblock %}
+{% endblock %} #}
 

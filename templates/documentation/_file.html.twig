@@ -1,13 +1,12 @@
 <a href=
 
     {% if file.file is defined %}
-                        
+
         {{ path('document_show', {'id': file.subCategory.category.slug, 'sub_slug': file.subCategory.slug, 'id': file.id }) }}
-        {% set file_icon = '<i class="uil uil-arrow-up-right"></i>' %}
+        
 
     {% else %}
         {{ path('sheet_show', {'id': file.id,}) }}
-         {% set file_icon = '<i class="uil uil-bars"></i>' %}
 
     {% endif %}
 
@@ -23,8 +22,12 @@
                             <div class="my-circle">
                                 <span class="icon">
 
-                                     {% if file.file is defined %}
-                                        <i class="uil uil-arrow-up-right"></i>
+                                    {% if file.file is defined %}
+                                        {% if file.status is defined %}
+                                            <i class="uil uil-arrow-up-right"></i>
+                                        {% else %}
+                                            <i class="uil uil-link-alt"></i>
+                                        {% endif %}
                                     {% else %}
                                         <i class="uil uil-bars"></i>
                                     {% endif %}

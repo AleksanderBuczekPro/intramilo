@@ -77,13 +77,42 @@
             <div class="d-none" id="sheetId">{{ sheet.id }}</div>
 
             <div class="row">
+                <div class="col-12 sheet-headers">
+                    {# Sections #}
+                    {% if sheet.headers %}
+                        {% for header in sheet.headers %}
+
+                            <h1 class="headers">{{ header.title }}</h1>
+                            <div class="card my-card header">
+                                <div class="card-body pb-0">
+                                    <table class="table my-table">
+                                        {% for section in header.sections %}
+                                            <tr>
+                                                <td class="main no-border w-50">{{ section.title }}</td>
+                                                <td class="no-border">{{ section.content }}</td>
+                                            </tr>
+
+                                        {% endfor %}
+                                    </table>
+                                </div>
+                            </div>
+
+                        {% endfor %}
+
+                    {% endif %}
+                
+                </div>
+            
+            </div>
+
+            <div class="row">
                 <div class="col-12 sheet-content">
                     {{ sheet.content|raw }}
 
                     
                 </div>
                 <div class="col-12 sheet-tools">
-                    {% if sheet.tool|length == 0 and sheet.sheetDocuments|length == 0 %}
+                    {% if sheet.tool|length == 0 and sheet.sheetDocuments|length == 0 and sheet.attachments|length == 0%}
 
                         {# <div class="text-center">
                             <p class="text">Pas de pièces jointes associées à cette fiche</p>
@@ -104,6 +133,13 @@
                             {% endfor %}
 
                             {% for file in sheet.sheetDocuments %}
+
+                                <div class="col-6">
+                                    {% include 'documentation/_file.html.twig' %}
+                                </div>
+
+                            {% endfor %}
+                            {% for file in sheet.attachments %}
 
                                 <div class="col-6">
                                     {% include 'documentation/_file.html.twig' %}
@@ -147,7 +183,7 @@
             </div>
 
             {# Interlocutors #}
-            {% if sheet.interlocutors %}
+            {% if sheet.interlocutors|length > 0 %}
                 <h2>Interlocuteurs</h2>
                 <div class="interlocutor">
                     {% for interlocutor in sheet.interlocutors %}
@@ -156,30 +192,6 @@
 
                     {% endfor %}
                 </div>
-
-            {% endif %}
-
-
-            {# Sections #}
-            {% if sheet.headers %}
-                {% for header in sheet.headers %}
-
-                    <h2>{{ header.title }}</h2>
-                    <div class="card my-card organization-card no-border">
-                        <div class="card-body pb-0">
-                            <table class="table my-table">
-                                {% for section in header.sections %}
-                                    <tr>
-                                        <td class="main no-border w-50">{{ section.title }}</td>
-                                        <td class="no-border">{{ section.content }}</td>
-                                    </tr>
-
-                                {% endfor %}
-                            </table>
-                        </div>
-                    </div>
-
-                {% endfor %}
 
             {% endif %}
             

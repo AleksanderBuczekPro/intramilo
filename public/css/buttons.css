@@ -120,6 +120,22 @@
 
 }
 
+.btn.btn-my-primary-light{
+
+    background: var(--blue-transparent-color);
+    color: var(--blue-color);
+
+    font-weight: 600;
+
+}
+
+.btn.btn-my-primary-light:hover{
+
+    background: var(--blue-color);
+    color: white;
+
+}
+
 .btn.btn-my-warning{
 
     background: var(--orange-transparent-color);
@@ -155,6 +171,7 @@
     font-weight: 600;
 
 }
+
 
 
 .btn.btn-my-return{
