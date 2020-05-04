@@ -14,6 +14,7 @@
 {% include 'partials/search.html.twig'  %}
 
 <img src="images/curve.svg" alt="">
+
 <div class="my-background">
     <div class="container cards-container">  
 
@@ -36,7 +37,7 @@
 
         <div class="row mt-4">
 
-        {% for pole in poles %}
+        {# {% for pole in poles %}
 
             {% for category in pole.category %}
 
@@ -49,7 +50,15 @@
 
             {% endfor %}
 
-        {% endfor %}
+        {% endfor %} #}
+
+        {% if categories|length > 0 %}
+        
+            {% for category in categories %}
+                {% include 'documentation/_category_card.html.twig' with {'category': category }  %}
+            {% endfor %}
+
+        {% endif %}
            
         </div>
         
@@ -76,6 +85,26 @@ $( ".my-filter" ).click(function() {
     }else{
 
         $('.filterCard').removeClass('d-none');
+
+    }
+
+   
+
+});
+
+$( ".see" ).click(function() {
+
+    if($(this).hasClass('more')){
+        
+        console.log('oui');
+        $(this).removeClass('more');
+        $(this).html("Voir moins <i class='uil uil-angle-up'></i>");
+
+    }else{
+        
+        console.log('non');
+        $(this).addClass('more');
+        $(this).html("Voir plus <i class='uil uil-angle-down'></i>");
 
     }
 

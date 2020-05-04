@@ -1,20 +1,57 @@
 
 
 <div class="col-3 filterCard" data-pole="{{ category.pole.id }}">
-    <div class="card my-card box no-border">
+    <div class="card my-card category my-box no-border p-2 pb-3">
         <div class="card-body">
             <span href="" class="my-badge pole {{ category.pole.labelColor }}"> • {{ category.pole }}</span>
-            <div class="card-title">{{ category.title }}</div>
-           
+            <div class="card-title ml-1 category">{{ category.title }}</div>
+                <div class="sub-container">
+                    {# Limit 4 #}
+                    {% for sub in category.subCategories %}
 
-                {% for sub in category.subCategories %}
-                <div class="card-subtitle">
-                    <span class="my-dot {{ category.pole.labelColor  }}"> • </span>
-                        <a href="{{ path('doc_show', {'slug': category.slug, 'sub_slug': sub.slug }) }}">
-                            {{ sub.title }}
-                        </a>
-                </div>                                     
-                {% endfor %}
+                        {% if loop.index <= 4 %}
+                        <div class="card-subtitle">
+                            
+                                <a href="{{ path('doc_show', {'slug': category.slug, 'sub_slug': sub.slug }) }}">
+                                    <span class="my-dot {{ category.pole.labelColor  }}"> • </span>
+                                    {{ sub.title }}
+                                </a>
+                        </div>
+
+                        {% endif %}
+
+                    {% endfor %}
+                </div>
+                {# Voir plus #}
+                {% if category.subCategories|length > 4 %}
+
+                    <div class="collapse sub-collapse" id="collapse-{{ category.id }}">
+                        {% for sub in category.subCategories %}
+
+                                {% if loop.index > 4 %}
+
+                                    <div class="card-subtitle">
+                                       
+                                            <a href="{{ path('doc_show', {'slug': category.slug, 'sub_slug': sub.slug }) }}">
+                                                <span class="my-dot {{ category.pole.labelColor  }}"> • </span>
+                                                {{ sub.title }}
+                                            </a>
+                                    </div>
+                                
+
+                                {% endif %}
+
+                        {% endfor %}
+                    </div>                    
+
+                {% endif %}
+                <div class="card-footer p-0 no-border bg-white">
+                    {% if category.subCategories|length > 4 %}
+                    <a class="btn btn-my-secondary w-100 small mt-3 see more" data-toggle="collapse" href="#collapse-{{ category.id }}" role="button" aria-expanded="false" aria-controls="collapseExample">
+                        Voir plus <i class="uil uil-angle-down"></i>
+                    </a>
+                    {% endif %}
+                </div>
 
            
 

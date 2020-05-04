@@ -11,15 +11,356 @@
 
 {% block body %}
 
+<div class="container my-container home-container mt-0">
+    <div class="row">
 
+        {# Profile Sidebar #}
+        <div class="col-12 col-md-auto profile-sidebar">
+            <div style="width: 300px;" class="sticky">
+
+                {# Profile Card #}
+                <div class="card my-card no-border ml-4 p-0">
+                    <div class="card-body">
+                        <div class="card my-card no-border my-hover mt-0 p-1">
+                            <div class="card-body p-0">
+                                <table class="table my-table">
+                                    <tr>
+                                        <td class="pr-3 text-right align-top pt-3">{% include '_picture.html.twig' with {'user': app.user, 'class': 'medium'} %}</td>
+                                        <td class="pl-0">
+                                            <div class="main">{{ app.user }}</div>
+                                            <div class="my-secondary mb-2">{{ app.user.poste }}</div>
+                                            {% if is_granted("ROLE_ADMIN") %}
+                                            <span class="admin text-center w-75">Administrateur</span>
+                                            {% endif %}
+                                        
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                
+                <div class="ml-4">
+                    {# My Websites #}
+                    <div class="card my-card no-border mt-2">
+                        <div class="card-body">
+                            <div class="card-title ml-2 mb-3">Mes raccourcis <a href="{{ path('website_index') }}" class="btn btn-my-secondary float-right p-1"><i class="uil uil-cog"></i></a></div>
+                             {% if websites|length > 0 %}
+
+                                {% for website in websites %}
+
+                                <a class="website" href="{{ website.url }}" target="_blank">
+                                    <div class="card my-card no-border my-hover mt-0">
+                                        <div class="card-body p-0">
+                                            
+                                                <i class="uil uil-arrow-up-right small-icon mr-2 bg-transparent-violet violet"></i>
+                                                
+                                                <span class="title-secondary">
+                                                    {% if website.title|length > 20 %}
+                                                        {{ website.title|slice(0, 20) }}...
+                                                    {% else %}
+                                                        {{ website.title }}
+                                                    {% endif %}
+                                                </span>
+                                                
+                                        </div>
+                                    </div>
+                                </a>
+
+                                {% endfor %}
+
+                            {% else %}
+
+                                <p class="text">Aucun raccourci.</p>
+
+                                <a href="{{ path('website_index') }}" class="btn btn-my-secondary">Ajouter</a>
+
+                            {% endif %}
+
+
+                        </div>                       
+                    </div>
+                    {# My Group #}
+                    <div class="card my-card no-border mt-2">
+                        <div class="card-body">
+                            <div class="card-title ml-2 mb-3">Groupe {{ app.user.groupe }}</div>
+
+                            {% for user in app.user.groupe.users %}
+
+                                {% if user != app.user %}
+
+                                    <div class="card my-card my-hover no-border mt-0 p-0">
+                                        <div class="card-body p-0">
+                                            <table class="table my-table">
+                                                <tr>
+                                                    <td class="init py-2 pr-0 pl-1">{% include '_picture.html.twig' with {'user': user, 'class': 'medium'} %}</td>
+                                                    <td class="title-secondary py-1">{{ user }}</td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
+
+                                {% endif %}
+
+                            {% endfor %}
+
+                        </div>                       
+                    </div>
+
+                    
+
+                </div>
+            </div>
+        </div>
+
+        {# Content #}
+        <div class="col-12 col-md bg-purple-transparent home-content">
+
+            {# Apps #}
+            <div class="row mb-4">
+                <div class="col-4">
+                    <a href="http://intramilo21000.fr/intranet/agenda/admin/agendaAdmin.php" target="_blank">
+                        <div class="card my-card my-box no-border p-0">
+                            <div class="card-body p-0">
+                                <table class="table my-table">
+                                    <tr>
+                                        <td class="pr-1">
+                                            <div class="card my-card mt-0 no-border bg-violet app-icon">
+                                                <div class="card-body p-0">
+                                                    <i class="uil uil-calendar-alt"></i>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="pl-0">
+                                            <div class="app-type pr-1">Evénements</div>
+                                            <div class="app-name violet">Agenda</div>
+                                        </td>
+                                    </tr>
+                                
+                                </table>
+                            
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-4">
+                    <a href="http://intramilo21000.fr/intranet/epaflux/calendrier.php" target="_blank">
+                        <div class="card my-card my-box no-border p-0">
+                            <div class="card-body p-0">
+                                <table class="table my-table">
+                                    <tr>
+                                        <td class="pr-1">
+                                            <div class="card my-card mt-0 no-border bg-rose app-icon">
+                                                <div class="card-body p-0">
+                                                    <i class="uil uil-bookmark"></i>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="pl-0">
+                                            <div class="app-type pr-1">Réservation</div>
+                                            <div class="app-name rose">Flux</div>
+                                        </td>
+                                    </tr>
+                                
+                                </table>
+                            
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-4">
+                    <a href="https://app.manatime.com/connexion" target="_blank">
+                        <div class="card my-card my-box no-border p-0">
+                            <div class="card-body p-0">
+                                <table class="table my-table">
+                                    <tr>
+                                        <td class="pr-1">
+                                            <div class="card my-card mt-0 no-border bg-jaune app-icon">
+                                                <div class="card-body p-0">
+                                                    <i class="uil uil-chart-pie-alt"></i>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="pl-0">
+                                            <div class="app-type">RTT / Congés</div>
+                                            <div class="app-name jaune">Manatime</div>
+                                        </td>
+                                    </tr>
+                                
+                                </table>
+                            
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            {# Fil d'actualité #}
+            <div class="row">
+
+                <div class="ml-3 my-title">Documentations à la Une</div>
+                {% for front in fronts %}
+
+                    <div class="col-12">
+                        <div class="card my-card no-border pb-3 mt-0 mb-3 my-box">
+                            <div class="card-body p-0">
+                                <div class="author">
+                                    <table class="table my-table">
+                                        <tr>
+                                            <td class="init pr-0">{% include '_picture.html.twig' with {'user': front.frontAuthor, 'class': 'medium'} %}</td>
+                                            <td class="pl-2">
+                                                <div class="author-front main">{{ front.frontAuthor }}</div>
+                                                <div class="mb-2 date-front my-secondary">{{ front.publishedAt|localizeddate('none', 'none', 'fr', null, 'd MMMM') }}, à {{ front.publishedAt|localizeddate('none', 'none', 'fr', null, 'H:mm') }}</div>
+                                                {# 30 avril, à 20:11 #}
+                                            </td>
+                                            
+                                            {% if date(front.publishedAt) >= date('-3days', 'Europe/Paris') %}
+                                                <td class="align-top"><div class="badge-new white bg-rose float-right">Nouveau</div></td>
+                                            {% endif %}
+                                        </tr>
+                                    </table>
+                                </div>
+
+
+                                    {% include 'documentation/_file_front.html.twig' with {'file': front} only %}
+
+                            
+                            </div>
+                        </div>
+                    
+                    </div>
+
+                {% endfor %}
+
+                <div class="text-center w-100">
+                    <p class="text">Fin</p>
+                </div>
+                
+            </div>
+
+
+        </div>
+
+        {# Event Sidebar #}
+        <div class="col-12 col-md-auto bg-purple-transparent event-sidebar">
+            <div style="width: 300px;" class="">
+
+               
+
+                {# Weather Card #}
+                <div class="card my-card no-border weather-card p-0 my-box">
+                    
+                    <div class="weather-content">
+                        <img src="images/weather-bg.gif" alt="">
+                        
+                        <img id="weather-icon" class="weather-icon" src="" alt="">
+
+                        <div class="weather-data">
+                            <div class="data temperature">
+                                <span id="temp"></span><sup class="celcius"> °</sup>
+                            </div>
+                            <div class="data details">
+                                <div id="description" class="op-70"></div>
+                                <div id="city"></div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="sticky">
+
+                    {# Today Event Card #}
+                    <div class="card my-card no-border my-box">
+                        <div class="card-body">
+                            <div class="card-title black">
+                                Aujourd'hui, {{ "now"|localizeddate('none', 'none', 'fr', null, 'd MMMM') }}            
+                            </div>
+                            <div class="card my-card bg-transparent-violet py-1 px-2 no-border">
+                                <table class="table my-table">
+                                    <tr>
+                                        <td class="violet">
+                                            <div class="event-title">Atelier COG'IDEES</div>
+                                            <div class="event-hour">10:00 - 12:00</div>    
+                                        </td>
+                                        <td class="text-center">
+                                            <div class="event-icon bg-transparent-violet violet">
+                                                <i class="uil uil-calendar-alt"></i>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="pt-0" colspan="2">
+                                            {% include '_picture.html.twig' with {'user': app.user, 'class': 'small'} %}
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    {# Last Activities #}
+                    <div class="card my-card no-border my-box sticky">
+                        <div class="card-body">
+                            <div class="card-title">
+                            Dernières activités
+                            </div>
+
+                            {% for file in files %}
+
+                                {# Définition des variables #}
+                                {% set type = constant('TYPE', file) %}
+                                {% set icon = constant('ICON', file) %}
+
+                                {# Lien pour une fiche  #}
+                                {% if type == 'sheet' %}
+                                    {% set path = path('sheet_show', {'id': file.id,}) %}
+                                {% endif %}
+
+                                {# Lien pour un document ou une pièce jointe #}
+                                {% if type == 'document' or type == 'attachment' %}
+                                    {% set path = path('document_show', {'id': file.subCategory.category.slug, 'sub_slug': file.subCategory.slug, 'id': file.id }) %}
+                                {% endif %}
+
+                                <a href="{{ path }}">
+                                    <div class="card my-card front-card no-border bg-marine mt-2 px-3">
+                                        <div class="card-body p-0">
+                                            <div class="title-secondary main">
+
+                                                {% if file.title|length > 32 %}
+                                                    {{ file.title|slice(0, 32) }}...
+                                                {% else %}
+                                                    {{ file.title }}
+                                                {% endif %}
+
+                                            </div>
+                                            <div class="my-secondary small">{{ file.updatedAt|localizeddate('none', 'none', 'fr', null, 'd MMMM Y') }}</div>
+                                        </div>
+                                    </div>
+                                </a>
+                            {% endfor %}
+                            
+                        </div>
+                    </div>
+
+                </div>
+                
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+{# 
     <div class="container">
 
         <div class="row justify-content-around">
 
             <div class="col-3">
 
-
-                {# Profile #}
                 <div class="card profile-card text-center py-3">
                     <div class="card-body text-center">
 
@@ -32,7 +373,6 @@
                     </div>
                 </div>
 
-                {# Favorite Websites #}
                 <div class="card website-card p-1">
                     <div class="card-body">
                         <h6 class="card-title mb-3">Mes sites favoris
@@ -87,7 +427,7 @@
                     </div>
                     <div class="col-4">
                     <a class="link" href="http://intramilo21000.fr/intranet/epaflux/calendrier.php" target="_blank">
-                        <div class="card home-link">
+                        <div class="card home-link">p
                             <div class="card-body text-center flux">
                                 <i class="fas fa-bookmark fa-6x"></i>
                                 <span>FLUX</span>
@@ -271,7 +611,7 @@
        
         
         
-    </div>
+    </div> #}
 
 {% endblock %}
 
@@ -279,16 +619,16 @@
 
 <script>
 
-const weatherIcons = {
+{# const weatherIcons = {
 
-    "Rain": "wi wi-day-rain",
-    "Clouds": "wi wi-day-cloudy",
-    "Clear": "wi wi-day-sunny",
+    "Rain": "rain",
+    "Clouds": "clouds",
+    "Clear": "snow",
     "Snow": "wi wi-day-snow",
     "mist": "wi wi-day-fog",
     "Drizzle": "wi wi-day-sleet"
 
-}
+} #}
 
 async function main(){
 
@@ -310,7 +650,7 @@ async function main(){
 
     // Appeler OpenWeatherMap
     // api key = 67485703371f20b1d8486a1bb4501d32
-    const meteo = await fetch('http://api.openweathermap.org/data/2.5/weather?q=' + ville + ',fr&APPID=67485703371f20b1d8486a1bb4501d32&units=metric')
+    const meteo = await fetch('http://api.openweathermap.org/data/2.5/weather?q=' + ville + ',fr&APPID=67485703371f20b1d8486a1bb4501d32&units=metric&lang=fr')
         .then(resultat => resultat.json())
         .then(json => json)
            
@@ -322,15 +662,21 @@ async function main(){
 
 function displayWeatherInfos(data){
 
-    const name = data.name;
+    const city = data.name;
     const temperature = data.main.temp;
     const condition = data.weather[0].main;
     const description = data.weather[0].description;
 
-    console.log(data);
 
-    $('#temperature').html(Math.round(temperature) + "<sup> °C</sup>");
-    $('i.wi').addClass(weatherIcons[condition]);
+    console.log(condition);
+
+    $('#temp').html(Math.round(temperature));
+    $('#description').html(description.substr(0,1).toUpperCase() + description.substr(1));
+    $('#city').html(city);
+
+    const url = '/images/' + condition.toLowerCase() + '.svg';
+
+    $('#weather-icon').attr('src', url);
 }
     
 

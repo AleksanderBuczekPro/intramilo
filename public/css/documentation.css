@@ -1,7 +1,7 @@
 /* Documentation Header (liste des Pôles, Catégories et Sous-Catégories) */
 div.documentation-header{
 
-    margin-top: 40px;
+    padding-top: 40px;
 
 }
 
@@ -13,16 +13,16 @@ div.documentation-header h1.my-h1{
 
 div.documentation-header p{
 
-    color: black;
-    font-size: 1.1em;
+
+    font-size: 1.1em!important;
 
 }
 
 div.documentation-header img{
 
-    height: 400px;
+    height: 350px;
     position: absolute;
-
+    top: 20px;
 
 }
 
@@ -39,7 +39,7 @@ form.search-form input{
     font-size: 1.05em;
 
     height: 50px;
-    background-color: var(--grey-10-color);
+    background-color: white;
     color: var(--grey-70-color);
     border: none;
 
@@ -49,7 +49,8 @@ form.search-form input{
 
 form.search-form input::placeholder{
 
-    color: #afb1b2;
+    color: var(--marine-color);
+    opacity: 0.4;
 
 }
 
@@ -60,7 +61,7 @@ form.search-form button, form.search-form button:focus{
     font-size: 1.6em;
 
     color: var(--blue-color);
-    background-color: var(--grey-10-color);
+    background-color: white;
 
     border-radius: 0px 10px 10px 0px;
     border: 1px solid var(--grey-10-color);
@@ -108,14 +109,14 @@ div.cards-container{
 .folder-header div.container{
 
     margin-top: 0;
-    padding-top: 100px;
+    padding-top: 70px;
+    padding-bottom: 10px;
 
 }
 
 .folder-header{
 
     font-family: 'Poppins', sans-serif;
-    background-color:  var(--blue-background-color);
 
 }
 
@@ -224,14 +225,23 @@ div.card.my-card.file td.file-content{
 
     .file-title{
 
-        color: black;
-        font-size: 1.2em;
-        font-weight: 600;
+        color: var(--marine-color);
+        font-size: 20px;
+        font-weight: 700;
 
-        }
+    }
+
+    .title-secondary{
+
+        color: black;
+        font-size: 13px;
+        font-weight: 500!important;
+
+    }
         .file-title i{
             
-            font-size: 1.1em;
+            margin-bottom: 2px;
+            margin-left: 4px;
             vertical-align: middle;
         }
 
@@ -261,7 +271,9 @@ div.card.my-card.file td.file-content{
 
     .file-organization{
 
-        font-size: 1.1em;
+        font-weight: 500;
+        color: var(--blue-color);
+        font-size: 15px;
     }
 
     .file-data{
@@ -289,31 +301,46 @@ table.my-table td.file-author div{
 
 }
 
+.author td.picture{
+
+    width: 40px;
+
+}
+
 
 /* Sheet */
 div.container-fluid.sheet-container{
 
     margin-top: 0;
+    min-height: 100vh;
 
 }
 
 .sheet-container div.summary{
 
-    background-color: var(--grey-10-color);
-    padding: 60px 40px;
+    padding: 70px 20px 0px 20px;
 
 }
 
 .sheet-container div.content{
 
-    padding: 60px 60px;
+    padding: 70px;
+    min-height: 100vh;
 
 }
+/* 
+@media (max-width: 500px) {
+
+    .sheet-container div.content{
+
+        padding: 70px 40px;
+    
+    }
+} */
 
 .sheet-container div.header{
 
-    background-color: var(--grey-10-color);
-    padding: 60px 40px;
+    padding: 70px 20px 70px 20px;
 
 }
 
@@ -368,9 +395,84 @@ ul.sheet-menu a:hover {
     font-size: 48px;
     line-height: 1.1em;
 
-    margin-top: 20px;
+    margin-top: 30px;
 
-    color: black;
+}
+
+.sheet-title i{
+
+    vertical-align: middle;
+    font-size: 30px;
+    margin-left: 5px;
+
+}
+
+div.sheet-content{
+
+    font-family: 'Poppins', sans-serif;
+    color: var(--marine-color);
+    margin-top: 30px;
+
+}
+
+div.sheet-content table{
+
+    background-color: var(--marine-background-color)!important;
+    font-style: 15px!important;
+    border-radius: 8px!important;
+
+    color: var(--marine-color)!important;
+
+    width: 100%!important;
+
+    border: none!important;
+
+
+
+}
+
+div.sheet-content table{
+
+    padding: 15px;
+    margin-bottom: 10px;
+
+
+}
+
+div.sheet-content table th{
+
+    font-weight: 500;
+    padding: 10px 15px;
+    text-align: center;
+    border: none!important;
+
+}
+
+#accordion-h table th{
+
+
+    text-align: left;
+}
+
+div.sheet-content table td{
+
+    font-size: 14px;
+    padding: 10px 15px;
+
+    border: none!important;
+
+}
+
+div.sheet-tools{
+
+    padding: 40px;
+
+}
+
+div.sheet-tools .front div.card {
+
+    margin-top: 0px;
+
 }
 
 div.sheet-content h1, div.sheet-tools h1#outils, h1.headers{
@@ -382,7 +484,6 @@ div.sheet-content h1, div.sheet-tools h1#outils, h1.headers{
     font-size: 30px;
     font-weight: 500;
 
-    color: black;
 
 }
 
@@ -392,31 +493,64 @@ div.sheet-content h2{
     font-size: 20px;
     font-weight: 500;
 
-    color: black;
-
 }
 
 div.sheet-content p{
 
     font-family: 'Poppins', sans-serif;
     font-size: 15px;
-    line-height: 30px;
-    text-align: justify;
+    line-height: 24px;
 
-    color: black;
+}
 
+/* div.sheet-content li:before {
+    color: var(--blue-color);
+} */
+
+div.sheet-content blockquote {
+    padding: 15px 20px 5px;
+    border-left: 4px solid var(--blue-color);
+    background-color: var(--blue-transparent-color);
+
+
+}
+
+div.sheet-content ul {
+    list-style: none; /* Remove default bullets */
+}
+
+div.sheet-content ul li::before {
+    content: "\2022";  /* Add content: \2022 is the CSS Code/unicode for a bullet */
+    color: var(--blue-color); /* Change the color */
+ 
+    font-weight: 800; /* If you want it to be bold */
+    display: inline-block; /* Needed to add space between the bullet and the text */
+    width: 2em; /* Also needed for space (tweak if needed) */
+    margin-left: -1em; /* Also needed for space (tweak if needed) */
 }
 
 /* Header */
 .sheet-container div.header h2, .sheet-container div.summary h2, .my-title{
 
     font-family: 'Poppins', sans-serif;
+    margin-top: 4px;
+    margin-bottom: 14px;
+    font-size: 16px;
+    font-weight: 500;
 
-    margin-top: 50px;
-    margin-bottom: 25px;
+}
 
-    font-size: 20px;
-    font-weight: 600;
+.profile-sidebar .my-title{
+
+    font-family: 'Poppins', sans-serif;
+
+    margin-top: 15px;
+    margin-bottom: 7px!important;
+
+    font-size: 16px;
+    font-weight: 500;
+
+    color: var(--grey-70-color);
 
 }
 
@@ -453,18 +587,30 @@ div.card.header-card .sheet-folder{
 
 }
 
-div.card.header-card .sheet-title{
+div.card.header-card .title{
 
-    margin-top: 40px;
     color: white;
     font-size: 25px;
+    line-height: 25px;
+    font-weight: 600;
+
+    margin-top: 60px;
+
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+
     
     
 }
 
-div.card.header-card .sheet-organization{
+div.card.header-card .organization{
 
-    font-size: 20px;
+    font-size: 15px;
+    margin-top: 5px;
+    opacity: 0.7;
 }
 
 
@@ -667,8 +813,15 @@ div.card.my-card.notification div.file-title{
 
 div.card.my-card.notification div.file-state{
     
-    font-size: 15px;
+    font-size: 14px;
     font-weight: 500;
+
+}
+
+div.card.my-card.notification td.file-icon-state i{
+    
+    vertical-align: top;
+    font-size: 18px;
 
 }
 
@@ -785,6 +938,12 @@ div.card.my-card.interlocutor.active{
 
 }
 
+td.init{
+
+    width: 40px;
+
+}
+
 div.card.my-card.interlocutor.active div.init-circle{
 
     background-color: var(--blue-color);
@@ -825,6 +984,17 @@ div.card.my-card.header{
     margin-bottom: 30px;
 
 }
+
+/********/
+.fil-ariane{
+
+    font-family: 'Poppins', sans-serif;
+    font-size: 15px;
+
+}
+
+
+
 
 
 
@@ -891,7 +1061,6 @@ ul.filters a{
 }
 
 
-
 p.lead{
 
     color: black;
@@ -917,6 +1086,59 @@ span.pole{
     text-transform: none;
     letter-spacing: 0.5px;
 }
+
+div.card.my-card.paragraph-card{
+
+    font-family: 'Poppins', sans-serif;
+    color: var(--marine-color);
+
+
+}
+
+div.card.my-card.paragraph-card .card-header{
+
+    color: var(--marine-color);
+    background-color: white;
+    font-size: 15px;
+    border: none;
+
+
+}
+
+
+
+.sheet-container h5, .btn-paragraph h5{
+
+    font-size: 18px;
+    font-weight: 500;
+
+    color: var(--marine-color);
+
+}
+
+.paragraph-body{
+
+    font-size: 15px;
+    line-height: 25px;
+}
+
+.comment{
+
+    font-size: 12px;
+    font-style: italic;
+
+}
+
+.content strong{
+
+    background-color: transparent!important;
+    background-blend-mode: multiply!important;
+    font-weight: 600;
+
+
+}
+
+
 
 
 

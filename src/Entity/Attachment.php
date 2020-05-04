@@ -16,6 +16,9 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  */
 class Attachment
 {
+    public const TYPE = "attachment";
+    public const ICON = "<i class='uil uil-link-alt'></i>";
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()

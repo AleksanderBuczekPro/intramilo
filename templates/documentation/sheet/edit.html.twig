@@ -10,15 +10,18 @@
 {{ form_start(form) }}
 
 <div class="container sheet-form">
+
     <h1 class="my-h1">Modification d'une fiche</h1>
+
     <div class="row">
-        <div class="col-12 col-md">
+        <div class="col-8">
             <div class="sheet_id d-none">{{ sheet.id }}</div>
+            
             <div class="form-title">
                 {{ form_widget(form.title) }}
             </div>
 
-             <ul class="nav nav-pills mt-4 mb-1" id="pills-tab" role="tablist">
+            <ul class="nav nav-pills mt-4 mb-1" id="pills-tab" role="tablist">
                  <li class="nav-item">
                     <a class="nav-link my-pill" id="pills-header-tab" data-toggle="pill" href="#pills-header" role="tab" aria-controls="pills-header" aria-selected="true">Entête {{ sheet.headers|length }}</a>
                 </li>
@@ -45,8 +48,12 @@
                 {# Content #}
                 <div class="tab-pane fade show active" id="pills-content" role="tabpanel" aria-labelledby="pills-content-tab">
 
-                    <div class="form-content mt-4">
+                    {# <div class="form-content mt-4">
                         {{ form_widget(form.content) }}
+                    </div> #}
+
+                    <div class="form-content mt-4">
+                        {{ form_widget(form.paragraphs) }}
                     </div>
                 
                 </div>
@@ -88,19 +95,15 @@
                                     
                                 </div>
                             </div>
-                        
-                        
                         </div>
                     
                     </div>
                 </div>
 
-        </div>
-
-
+            </div>
 
         </div>
-        <div class="col-12 col-md-auto">
+        <div class="col-4">
 
             <div class="form-header">
                 
@@ -154,11 +157,9 @@
                     </div>
                 </div>
 
+            </div> {# form header #}
 
-                
-            </div>
-
-        </div>
+        </div> {# col #}
 
     </div>
 </div>
@@ -170,6 +171,24 @@
 {% block javascripts %}
 
 <script>
+
+$('#add-paragraph').click(function(){
+
+    // Je récupère le numéro des futurs champs que je vais créer
+    const index = +$('#widgets-paragraph-counter').val(); // + transforme la chaine de caractère en nombre
+
+    // Je récupère le prototype des entrées
+    const tmpl = $('#sheet_paragraphs').data('prototype').replace(/__p__/g, index); // g = "pour chaque"
+
+    // J'injecte ce code au sein de la div
+    $('#sheet_paragraphs').append(tmpl);
+
+    $('#widgets-paragraph-counter').val(index + 1);
+
+    // Je gère le bouton supprimer
+    handleDeleteButtons();
+
+});
 
 $('#add-header').click(function(){
 
@@ -251,102 +270,6 @@ $(document).on('click', '.add-section', function(event){
     
 });
 
-
-{# // Fonction permettant de charger les interlocuteurs (quand l'organisme est sélectionné)
-function loadInterlocutors() {
-
-    $("#interlocutors-message").html("<p class='text'>Chargement des interlocuteurs en cours... </p>");
-
-    // Si un organisme est selectionné
-    var organization_id = $("select#sheet_organization").find("option:selected").val();
-
-    if(organization_id){
-        
-
-        var path = "{{ path('interlocutor_load') }}";
-
-        $.ajax({
-            type: 'POST',
-            url: path,
-            data: { id: organization_id},
-            success: function(interlocutors) {
-                
-                // On récupère la liste de tous les interlocuteurs
-                var cards = "";
-                
-                // Pour chaque interlocuteur, on récupère la liste des fiches où ils sont présents.
-                for (var item in interlocutors) {
-
-                    // Récupération de l'ID de la fiche
-                    var sheet_id = $('.sheet_id').text();
-
-        
-
-                    var checked = "";
-                    var label = "Non sélectionné";
-
-                    var sheets = interlocutors[item]['sheets'];
-
-                    // Pour chaque interlocuteur, on vérifie s'il y la fiche correspondante dans sa liste de fiches associées dans $interlocutor->getSheets()
-                    if(typeof sheets !== 'undefined'){
-                        for (var item2 in sheets){
-
-                            
-                            if(sheet_id == sheets[item2]['id']){
-
-                                checked = "checked";
-                                label = "Sélectionné"
-
-                            }
-
-                        }
-                    }
-
-
-                    cards += " <div class='col-4'><div class='card'><div class='card-body'><div class='form-group'><label class='interlocutor_label'><input name='interlocutor-" + interlocutors[item]['id'] + "' type='checkbox' value='" + interlocutors[item]['id'] + "' class='interlocutor_checkbox'" + checked + "><span> " + label + " </span></label> <br>" + interlocutors[item]['function'] + "</div><div class='mt-2'><strong>" + interlocutors[item]['firstName'] + " "+ interlocutors[item]['lastName'] + "</strong></div>" + interlocutors[item]['phoneNumber'] + " <br>" + interlocutors[item]['email'] + " <br> </div></div></div>";
-                    
-                }
-
-                $("#interlocutors").html(cards);
-                $("#interlocutors-message").html("<p class='text'>Sélectionnez les interlocuteurs que vous souhaitez joindre à votre fiche.</p>");
-
-                // Gestion des checkbox
-                $('.interlocutor_label').click(function () {
-
-                    var checked = $('input', this).is(':checked');
-
-                    $('span', this).text(checked ? ' Sélectionné' : ' Non sélectionné');
-                });
-                
-            },
-            error: function(data) {
-                console.log(data);
-                console.log(data.responseText);
-            }
-
-
-        });
-
-    // Si aucun organisme sélectionné
-    }else{
-        
-        $("#interlocutors-message").html("<p class='text'>Aucun organisme sélectionné. Sélectionnez un organisme pour voir la liste des interlocuteurs disponibles. </p>");
-        $("#interlocutors").html("");
-    }
-
-} #}
-
-{# // Quand le document a fini de se charger, on charge les interlocuteurs
-$(document).ready(function() {
-    loadInterlocutors();
-});
-
-
-
-/* Quand l'organisme change, on change également les interlocuteurs */
-$("select#sheet_organization").change(function() {
-    loadInterlocutors();
-}); #}
 
 // Fonction permettant de charger les interlocuteurs (quand l'organisme est sélectionné)
 function loadInterlocutors() {

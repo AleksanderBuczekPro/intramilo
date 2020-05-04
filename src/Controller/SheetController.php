@@ -42,14 +42,10 @@ class SheetController extends AbstractController
         $id = $request->request->get('id');
         $sheet = $repo->findOneById($id);
 
-        // dump($id);
-
-        // return $this->json(['data' => $request]);
-
         dump($request->request->get('content'));
 
         // On remplace le texte par le texte formaté (sans couleurs)
-        $sheet->setContent($request->request->get('content'));
+        // $sheet->setContent($request->request->get('content'));
 
         // On récupère l'ancienne fiche
         $oldSheet = $sheet->getOrigin();
@@ -111,7 +107,7 @@ class SheetController extends AbstractController
 
             // Récupération de toutes les variables POST
             $data = $request->request->all();
-            
+        
             // Pour chaque variable POST
             foreach($data as $key => $val) {
 
@@ -125,6 +121,20 @@ class SheetController extends AbstractController
 
             }
 
+            // Paragraphs
+            $place = 1;
+            foreach($sheet->getParagraphs() as $p){
+
+                $p->setPlace($place);
+                $p->setSheet($sheet);
+                $manager->persist($p);
+
+                $place = $place + 1;
+                
+            }
+
+
+            // Attachments
             foreach($sheet->getAttachments() as $attachment){
 
 
@@ -137,6 +147,7 @@ class SheetController extends AbstractController
                 
             }
 
+            // Headers
             foreach($sheet->getHeaders() as $header){
 
 
@@ -177,7 +188,6 @@ class SheetController extends AbstractController
             // Gestion des nouveaux slugs
             return $this->redirectToRoute('sheet_show', ['id' => $sheet->getId()]);
 
-        
         }
 
         return $this->render('documentation/sheet/create.html.twig', [
@@ -203,6 +213,41 @@ class SheetController extends AbstractController
 
         if($form->isSubmitted() && $form->isValid()){
 
+            // Paragraphs
+            $place = 1;
+            foreach($sheet->getParagraphs() as $p){
+
+                $p->setPlace($place);
+                $p->setSheet($sheet);
+                $manager->persist($p);
+
+                $place = $place + 1;
+                
+            }
+
+            // Headers & Sections
+            foreach($sheet->getHeaders() as $header){
+
+
+                $header->setSheet($sheet);
+                $manager->persist($header);
+
+                foreach($header->getSections() as $section){
+
+                    $section->setHeader($header);
+                    $manager->persist($section);
+
+                }
+                
+            }
+
+            // Datetime
+            $sheet->setUpdatedAt(new \DateTime(null, new DateTimeZone('Europe/Paris')));
+
+
+
+
+
             // Initialisation des interlocuteurs
             foreach($sheet->getInterlocutors() as $interlocutor){
 
@@ -210,42 +255,43 @@ class SheetController extends AbstractController
             
             }
 
-            // Récupération de toutes les variables POST
-            $data = $request->request->all();
+            // Interlocutors
 
-            dump($data);
-            
-            // Pour chaque variable POST
-            foreach($data as $key => $val) {
+                // Récupération de toutes les variables POST
+                $data = $request->request->all();
 
-                // Si la clé contient 'interlocutor'
-                if (strpos($key, 'interlocutor') !== false) {
-                    
-                    // On ajoute l'interlocuteur
-                    $sheet->addInterlocutor($repo->findOneById($val));
+                
+                // Pour chaque variable POST
+                foreach($data as $key => $val) {
+
+                    // Si la clé contient 'interlocutor'
+                    if (strpos($key, 'interlocutor') !== false) {
+                        
+                        // On ajoute l'interlocuteur
+                        $sheet->addInterlocutor($repo->findOneById($val));
+
+                    }
 
                 }
-
-            }
 
 
             // Si c'est une fiche "En cours de validation" que l'on modifie
             if($sheet->getStatus() == "TO_VALIDATE"){
 
-                foreach($sheet->getHeaders() as $header){
+                // foreach($sheet->getHeaders() as $header){
 
 
-                    $header->setSheet($sheet);
-                    $manager->persist($header);
+                //     $header->setSheet($sheet);
+                //     $manager->persist($header);
     
-                    foreach($header->getSections() as $section){
+                //     foreach($header->getSections() as $section){
     
-                        $section->setHeader($header);
-                        $manager->persist($section);
+                //         $section->setHeader($header);
+                //         $manager->persist($section);
     
-                    }
+                //     }
                     
-                }
+                // }
                 
                 $sheet->setUpdatedAt(new \DateTime(null, new DateTimeZone('Europe/Paris')));
 
@@ -256,23 +302,23 @@ class SheetController extends AbstractController
                 // Sinon c'est une fiche à corriger
                 if($sheet->getStatus() == "TO_CORRECT"){
 
-                    foreach($sheet->getHeaders() as $header){
+                    // foreach($sheet->getHeaders() as $header){
 
-                        $header->setSheet($sheet);
-                        $manager->persist($header);
+                    //     $header->setSheet($sheet);
+                    //     $manager->persist($header);
         
-                        foreach($header->getSections() as $section){
+                    //     foreach($header->getSections() as $section){
         
-                            $section->setHeader($header);
-                            $manager->persist($section);
+                    //         $section->setHeader($header);
+                    //         $manager->persist($section);
         
-                        }
+                    //     }
                         
-                    }
+                    // }
                     
                     $sheet->setStatus("TO_VALIDATE");
 
-                    $sheet->setUpdatedAt(new \DateTime(null, new DateTimeZone('Europe/Paris')));
+                    // $sheet->setUpdatedAt(new \DateTime(null, new DateTimeZone('Europe/Paris')));
                     $manager->persist($sheet);
                     $manager->flush();
 
@@ -283,21 +329,21 @@ class SheetController extends AbstractController
                     // Si c'est l'admin, on valide directement
                     if($this->isGranted("ROLE_ADMIN")){
 
-                        $sheet->setUpdatedAt(new \DateTime(null, new DateTimeZone('Europe/Paris')));
+                        // $sheet->setUpdatedAt(new \DateTime(null, new DateTimeZone('Europe/Paris')));
 
-                        foreach($sheet->getHeaders() as $header){
+                        // foreach($sheet->getHeaders() as $header){
 
-                            $header->setSheet($sheet);
-                            $manager->persist($header);
+                        //     $header->setSheet($sheet);
+                        //     $manager->persist($header);
             
-                            foreach($header->getSections() as $section){
+                        //     foreach($header->getSections() as $section){
             
-                                $section->setHeader($header);
-                                $manager->persist($section);
+                        //         $section->setHeader($header);
+                        //         $manager->persist($section);
             
-                            }
+                        //     }
                             
-                        }
+                        // }
 
                         $manager->persist($sheet);
                         $manager->flush();
@@ -311,7 +357,23 @@ class SheetController extends AbstractController
                         $sheetToValidate->setOrigin($sheet);
                         $sheetToValidate->setStatus('TO_VALIDATE');
 
-                        // On duplique les entêtes
+
+                        // On duplique toutes les relations
+                        
+                        // Paragraphs
+                        $place = 1;
+                        foreach($sheet->getParagraphs() as $p){
+
+                            $p->setPlace($place);
+                            $p->setSheet($sheetToValidate);
+                            $manager->persist($p);
+
+                            $place = $place + 1;
+                            
+                        }
+
+                        // A VERIFIER
+                        // Entêtes
                         foreach($sheetToValidate->getHeaders() as $header){
 
                             $header->setSheet($sheetToValidate);
@@ -371,13 +433,19 @@ class SheetController extends AbstractController
      */
     public function front(Sheet $sheet, EntityManagerInterface $manager){
 
+        // True
         if($sheet->getFront() == '0'){
 
             $sheet->setFront('1');
-
+            $sheet->setPublishedAt(new \DateTime(null, new DateTimeZone('Europe/Paris')));
+            $sheet->setFrontAuthor($this->getUser());
+        
+        // False
         }else{
 
             $sheet->setFront('0');
+            $sheet->setPublishedAt(null);
+            $sheet->setFrontAuthor(null);
 
         }
 

@@ -1,0 +1,20 @@
+<div class="card my-card bg-marine-10 user p-1 mt-2">
+    <div class="card-body p-0">
+
+        <table class="my-table">
+            <tbody>
+                <tr>
+                    <td class="p-2 no-border interlocutor">
+                        {% include '_picture.html.twig' with {'user': user, 'class': 'medium'} %}
+                    </td>
+                    <td class="text-left pl-2 no-border">
+                        <div class="marine main">{{ user }}</div>
+                        <div class="marine my-secondary small">{{ user.function }}</div>
+                    </td>
+                    
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+</div>

@@ -1,0 +1,85 @@
+{# Définition des variables #}
+{% set type = constant('TYPE', file) %}
+{% set icon = constant('ICON', file) %}
+
+{# Lien pour une fiche  #}
+{% if type == 'sheet' %}
+    {% set path = path('sheet_show', {'id': file.id,}) %}
+{% endif %}
+
+{# Lien pour un document ou une pièce jointe #}
+{% if type == 'document' or type == 'attachment' %}
+    {% set path = path('document_show', {'id': file.subCategory.category.slug, 'sub_slug': file.subCategory.slug, 'id': file.id }) %}
+{% endif %}
+
+{# Icône d'Etat #}
+{% if type == 'document' and file.status == "TO_VALIDATE" %}
+
+        {% set state = "En cours de validation" %}
+        {% set icon = "pause" %}
+        {% set state_class = "light" %}
+
+    {% elseif type == 'document' and file.status == "TO_CORRECT" %}
+
+        {% set state = "À corriger" %}
+        {% set icon = "exclamation" %}
+        {% set state_class = "danger" %}
+
+    {% else %}
+
+        {% if date(file.updatedAt) <= date('-6months', 'Europe/Paris') %}
+
+            {% set state = "Obsolète" %}
+            {% set icon = "times" %}
+            {% set state_class = "danger" %}
+
+        {% elseif date(file.updatedAt) < date('-5months', 'Europe/Paris') %}
+
+            {% set state = "Bientôt obsolète" %}
+            {% set icon = "minus" %}
+            {% set state_class = "warning" %}
+
+        {% else %}
+
+            {% set state = "À jour" %}
+            {% set icon = "check" %}
+            {% set state_class = "success" %}
+
+        {% endif %}
+
+    {% endif %}
+
+
+
+<div class="front">
+    <a href="{{ path }}">
+        <div class="card my-card  mt-0 px-2 pb-0 mx-2 file-card no-border my-box">
+            <div class="card-body pb-2">
+
+                <div class="category-front violet">
+                    {{ file.subcategory.category|upper }}
+                </div>
+
+                <div class="file-title mt-2">
+                    {{ file.title }}
+                    {# <i class="fas fa-{{icon}}-circle {{state_class}} fa-xs"></i> #}
+                </div>
+                <div class="w-100">
+                    <span class="my-secondary marine">
+                        {# {{ file.updatedAt|localizeddate('none', 'none', 'fr', null, 'd MMMM Y') }} • {{ file.views }} vue{% if file.views > 1 %}s{% endif %} #}
+
+
+                        {{ file.organization }} • {{ file.views }} vue{% if file.views > 1 %}s{% endif %}
+                        {# {% if type == 'document' %}
+                            <span class="mime ml-2">{{ file.mimeType|upper }}</span>
+                        {% endif %} #}
+                    </span>
+                    <span class="file-author float-right">
+                        {% include '_picture.html.twig' with {'user': file.author, 'class': 'small'} %}
+                    </span>
+                </div>
+
+            </div>
+        </div>
+    </a>
+</div>

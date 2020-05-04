@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use DateTimeZone;
 use App\Entity\Category;
 use App\Entity\Document;
 use App\Entity\Attachment;
@@ -180,13 +181,19 @@ class DocumentController extends AbstractController
      */
     public function front(Document $document, EntityManagerInterface $manager){
 
+        // True
         if($document->getFront() == '0'){
 
             $document->setFront('1');
-
+            $document->setPublishedAt(new \DateTime(null, new DateTimeZone('Europe/Paris')));
+            $document->setFrontAuthor($this->getUser());
+        
+        // False
         }else{
 
             $document->setFront('0');
+            $document->setPublishedAt(null);
+            $document->setFrontAuthor(null);
 
         }
 

@@ -1,88 +1,115 @@
+{# Définition des variables #}
+{% set type = constant('TYPE', sheet) %}
+{% set icon = constant('ICON', sheet) %}
 
-{# En cours de validation #}
+
 {% if sheet.status == "TO_VALIDATE" %}
-<div class="card my-card notification {% include 'documentation/_file_state_class.html.twig' with {'file': sheet} %} no-border mt-4">
-    <div class="card-body p-0">
+
+    {% set state = "En cours de validation" %}
+    {% set icon = "pause" %}
+    {% set state_class = "marine" %}
+
+{% elseif sheet.status == "TO_CORRECT" %}
+
+    {% set state = "À corriger" %}
+    {% set icon = "exclamation" %}
+    {% set state_class = "rouge" %}
+
+{% else %}
+
+    {% if date(sheet.updatedAt) <= date('-6months', 'Europe/Paris') %}
+
+        {% set state = "Obsolète" %}
+        {% set icon = "times" %}
+        {% set state_class = "rouge" %}
+
+    {% elseif date(file.updatedAt) < date('-5months', 'Europe/Paris') %}
+
+        {% set state = "Bientôt obsolète" %}
+        {% set icon = "minus" %}
+        {% set state_class = "warning" %}
+
+    {% else %}
+
+        {% set state = "À jour" %}
+        {% set icon = "check" %}
+        {% set state_class = "success" %}
+
+    {% endif %}
+
+{% endif %}
+
+
+<div class="card my-card notification {% include 'documentation/_file_state_class.html.twig' with {'file': sheet} %} bg-{{state_class}}-transparent no-border">
+    <div class="card-body text-left">
 
         <table class="my-table notification w-100">
             <tbody>
                 <tr>
-                    <td class="file-icon-state black">
+                    <td class="file-icon-state">
                         {% include 'documentation/_file_icon.html.twig' with {'file': sheet} %}
                     </td>
-                    <td class="file-content text-left">
-                        <div class="file-title">
+                    <td class="file-content text-left pl-1">
+                        <div class="file-state">
                             {% include 'documentation/_file_state.html.twig' with {'file': sheet} %}
                         </div>
-                        <div class="file-state">
-                            Cette fiche est uniquement visible par vous et l’administrateur.
-                        </div>
-                        <div class="notification-time mt-2">
+                        <div class="my-secondary small {{state_class}}">
                             {{ sheet.updatedAt|localizeddate('none', 'none', 'fr', null, 'd MMMM Y') }}
                             à {{ sheet.updatedAt|localizeddate('none', 'none', 'fr', null, 'HH:mm') }}
-                            
-                                {% if app.user == sheet.author %}
-                                    <span class="action float-right">
-
-                                        <a href="{{ path('sheet_delete', {'id': sheet.id }) }}" class="btn btn-my-dark mr-2 float-right"> <i class="uil uil-times"></i> Supprimer</a>                                
-                                        <a href="{{ path('sheet_edit', {'id': sheet.id }) }}" class="btn btn-my-dark mr-2 float-right"> <i class="uil uil-pen"></i> Modifier</a>
-                                        
-                                    
-                                    </span>
-                                {% endif %}
-
-
-                        
-                        
+             
                         </div>
+
+                        {% if sheet.status == "TO_CORRECT" %}
+                            <div class="text danger comment">
+                            <hr style="border-top: 1px solid var(--red-color); opacity: 0.2;">
+                                {{ sheet.comment }}
+                            </div>
+                        {% endif %}
                     </td>
                 </tr>
-                {% if is_granted("ROLE_ADMIN") %}
-
-                    <tr>
-                        <td></td>
-                        <td>
-                            <div class="row">
-
-                                <div class="col-6">
-                                {{ form_start(form) }}
-
-                                    {{ form_widget(form.comment) }}
-                                </div>
-
-                                <div class="col-6">
-                                    
-                                    <button type="submit" id="correction" class="btn btn-my-danger m-2 mt-3">
-                                        <i class="uil uil-message danger"></i> Envoyer à corriger
-                                    </button>
-
-                                    {{ form_end(form) }}
-                                    
-                                    <button id="validation" class="btn btn-my-primary m-2 mt-3"><i class="uil uil-check-circle white"></i> Valider la fiche</button>
-                                    
-                                </div>
-
-                            </div>
-                        </td>
-                    
-                    </tr>
-
-                {% endif %}
-
-
-
 
             </tbody>
         </table>
 
+
+        {% if is_granted("ROLE_ADMIN") and sheet.status == "TO_VALIDATE" %}
+
+            <div class="row">
+                <div class="col-12">
+                    {{ form_start(form) }}
+
+                        {{ form_widget(form.comment) }}
+                
+                </div>        
+            </div>
+
+            <div class="row text-right">
+                <div class="col-12 px-1">
+                    <button type="submit" id="correction" class="btn btn-my-danger small px-3 mr-2">
+                        {# <i class="uil uil-message danger"></i> #}
+                        A corriger
+                    </button>
+
+                    {{ form_end(form) }}
+
+                    <button id="validation" class="btn btn-my-primary small px-3 mr-3">
+                    {# <i class="uil uil-check-circle white"></i>  #}
+                    Valider</button>
+                </div>
+                {# <div class="col-6 px-1">
+
+                </div> #}
+            </div>
+
+        {% endif %}
+
     </div>
 </div>
-{% endif %}
 
 
 
 {# A corriger #}
-{% if sheet.status == "TO_CORRECT" %}
+{# {% if sheet.status == "TO_CORRECT" %}
 <div class="card my-card notification {% include 'documentation/_file_state_class.html.twig' with {'file': sheet} %} bg-rouge-transparent white no-border mt-4">
     <div class="card-body p-0">
 
@@ -125,7 +152,6 @@
 </div>
 {% endif %}
 
-{# Obsolète #}
 {% if sheet.updatedAt < date('-6months', 'Europe/Paris') and sheet.status is null %}
 
 <div class="card my-card notification {% include 'documentation/_file_state_class.html.twig' with {'file': sheet} %} bg-rouge-transparent white no-border mt-4">
@@ -176,7 +202,6 @@
 </div>
 {% endif %}
 
-{# Bientôt obsolète #}
 {% if sheet.updatedAt > date('-6months', 'Europe/Paris') and sheet.updatedAt < date('-5months', 'Europe/Paris') and sheet.status is null %}
 
 <div class="card my-card notification {% include 'documentation/_file_state_class.html.twig' with {'file': sheet} %} bg-orange-transparent white no-border mt-4">
@@ -224,4 +249,4 @@
     </div>
 </div>
 {% endif %}
-
+ #}

@@ -36,7 +36,7 @@ class Search{
         $parameters = array(
             'title_query'=> '%'.$query.'%',
             'organization_query'=> '%'.$query.'%',
-            'content_query'=> '%'.$query.'%'
+            // 'content_query'=> '%'.$query.'%'
         );
 
         $qb = $this->manager->createQueryBuilder();
@@ -47,7 +47,7 @@ class Search{
             ->where('s.status IS NULL')
             ->andWhere('s.title LIKE :title_query')
             ->orWhere('o.name LIKE :organization_query')
-            ->orWhere('s.content LIKE :content_query')
+            // ->orWhere('s.content LIKE :content_query')
             
             ->setParameters($parameters)
             ->orderBy('s.title', 'ASC');

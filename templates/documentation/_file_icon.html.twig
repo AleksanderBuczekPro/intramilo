@@ -1,39 +1,42 @@
+{# Définition des variables #}
+{% set type = constant('TYPE', file) %}
+{% set icon = constant('ICON', file) %}
 
-    {% if file.status is defined and file.status == "TO_VALIDATE" %}
 
-        {% set state = "En cours de validation" %}
-        {% set icon = "pause" %}
-        {% set state_class = "light" %}
+{% if file.status == "TO_VALIDATE" %}
 
-    {% elseif file.status is defined and file.status == "TO_CORRECT" %}
+    {% set state = "En cours de validation" %}
+    {% set icon = "pause" %}
+    {% set state_class = "marine" %}
 
-        {% set state = "À corriger" %}
-        {% set icon = "exclamation" %}
+{% elseif file.status == "TO_CORRECT" %}
+
+    {% set state = "À corriger" %}
+    {% set icon = "exclamation" %}
+    {% set state_class = "danger" %}
+
+{% else %}
+
+    {% if date(file.updatedAt) <= date('-6months', 'Europe/Paris') %}
+
+        {% set state = "Obsolète" %}
+        {% set icon = "times" %}
         {% set state_class = "danger" %}
+
+    {% elseif date(file.updatedAt) < date('-5months', 'Europe/Paris') %}
+
+        {% set state = "Bientôt obsolète" %}
+        {% set icon = "minus" %}
+        {% set state_class = "warning" %}
 
     {% else %}
 
-        {% if date(file.updatedAt) <= date('-6months', 'Europe/Paris') %}
-
-            {% set state = "Obsolète" %}
-            {% set icon = "times" %}
-            {% set state_class = "danger" %}
-
-        {% elseif date(file.updatedAt) < date('-5months', 'Europe/Paris') %}
-
-            {% set state = "Bientôt obsolète" %}
-            {% set icon = "minus" %}
-            {% set state_class = "warning" %}
-
-        {% else %}
-
-            {% set state = "À jour" %}
-            {% set icon = "check" %}
-            {% set state_class = "success" %}
-
-        {% endif %}
+        {% set state = "À jour" %}
+        {% set icon = "check" %}
+        {% set state_class = "success" %}
 
     {% endif %}
-{# {% endif %} #}
 
-<i class="uil uil-{{icon}}-circle {{state_class}}"></i>
+{% endif %}
+
+<i class="fas fa-{{icon}}-circle {{state_class}}"></i>

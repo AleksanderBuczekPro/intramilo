@@ -10,106 +10,160 @@
 {# Si c'est l'utilisateur a les droits #}
 {% set admin = false %}
 
-    {% if (sheet.author is same as(app.user)) or (is_granted("ROLE_ADMIN")) %}
-        {% set admin = true %}
-    {% endif %}
+{% if (sheet.author is same as(app.user)) or (is_granted("ROLE_ADMIN")) %}
+    {% set admin = true %}
+{% endif %}
 
 <div class="container-fluid sheet-container">
     <div class="row">
 
         {# Summary #}
-        <div class="col-2 summary">
-            <a class="btn btn-my-return text-left" href="{{ path('doc_show', {'slug': category.slug, 'sub_slug': subCategory.slug }) }}">
-                <i class="uil uil-arrow-left"></i> {{ category }} - {{ subCategory }} 
-            </a>
-
-            <h2>Sommaire</h2>
-            <ul class="sheet-menu"></ul>
+        <div class="col-xl-2 col-lg-1 bg-marine summary">
+            <a href="{{ path('doc_show', {'slug': category.slug, 'sub_slug': subCategory.slug }) }}" class="btn btn-my-secondary"><i class="uil uil-angle-left-b"></i> Retour</a>
 
         </div>
 
         {# Content #}
-        <div class="col-7 content">
+        <div class="col-xl-6 col-lg-8 content bg-white">
 
-            {# Titre et infoss #}
-            <span href="" class="my-badge mt-4 pole {{ category.pole.labelColor }}"> • {{ category.pole }}</span>
-            <div class="sheet-title">{{ sheet.title }} {% include 'documentation/_file_icon.html.twig' with {'file': sheet} %}</div>
+        
+            <div class="row">
+                <div class="col-6">
+                    {# Titre et infoss #}
+                    <p class="fil-ariane marine mt-2 mb-0">
+                        <span href="" class="my-badge mt-1 bg-{{ category.pole.labelColor }} white px-2 py-1">{{ category.pole |slice(0, 1) }}</span>
+                        <span class="mx-1 doc-secondary">{{ category.pole }}</span>
+                        <span class="">></span>
+                        <span class="mx-1 doc-secondary">{{ category }}</span>
+                        <span class="">></span>
+                        <span class="mx-1 doc-secondary">{{ subCategory }}</span>
+                    </p>
+                </div>
+
+                <div class="col-6 float-right">
+                    {% if app.user == sheet.author %}
+                        <a href="{{ path('sheet_delete', {'id': sheet.id}) }}" class="btn btn-my-secondary px-3 ml-2 float-right">
+                            <i class="uil uil-times"></i>
+                                    
+                        </a>
+                        <a href="{{ path('sheet_edit', {'id': sheet.id }) }}" class= "btn btn-my-secondary px-3 ml-2 float-right">
+                            <i class="uil uil-pen"></i>           
+                        </a>
+                    {% endif %}
+                    {% if is_granted("ROLE_ADMIN") and sheet.status is null %}
+                        <a href="{{ path('sheet_front', {'id': sheet.id }) }}" class="btn btn-my-primary px-3 {% if sheet.front %}active{% endif %} float-right">
+                        {% if sheet.front and (sheet.publishedAt is not null and date(sheet.publishedAt) > date('-2weeks', 'Europe/Paris')) %}
+                            <i class="uil uil-message"></i> Re-publier
+                        {% else %}
+                            <i class="uil uil-message"></i> Publier
+                        {% endif %}
+                        </a>
+                    {% endif %}
+
+                </div>
+
+                    
+         
+            </div>
+
+
+
+            {% if sheet.publishedAt is not null %}
+
+
+
+                {% if  date(sheet.publishedAt) > date('-2weeks', 'Europe/Paris') and is_granted("ROLE_ADMIN") %}
+                    <p class="mt-1 float-right text">Publié le {{ sheet.publishedAt|localizeddate('none', 'none', 'fr', null, 'd MMMM') }}, à {{ sheet.publishedAt|localizeddate('none', 'none', 'fr', null, 'H:mm') }}</p>
+                {% endif %}
+
+            {% endif %}
+
+
+            <div class="sheet-title marine">{{ sheet.title }} {% include 'documentation/_file_icon.html.twig' with {'file': sheet} %}</div>
 
             <div class="row">
                 <div class="col-5 sheet-author">
 
-                    {% include 'documentation/_user.html.twig' with {'user': sheet.author} %}
+                    {% include 'documentation/_user_file.html.twig' with {'user': sheet.author, 'file': sheet} %}
                 </div>
             </div>
 
+            {# Notification #}
             <div class="row">
                 <div class="col-12">
-
-                {# Notification #}
-                {% if admin  %}
-                    {% include 'documentation/_sheet_notification.html.twig' with {'user': sheet.author} %}
-
-                {% endif %}
-
-                    {% if app.user == sheet.author and sheet.status is null and sheet.updatedAt > date('-5months', 'Europe/Paris') %}
-                        <a href="{{ path('sheet_delete', {'id': sheet.id}) }}" class="btn btn-my-primary float-right">
-                            <i class="uil uil-times"></i> Supprimer
-                                    
-                        </a>
-                        <a href="{{ path('sheet_edit', {'id': sheet.id }) }}" class= "btn btn-my-primary mr-3 float-right">
-                            <i class="uil uil-pen"></i> Modifier           
-                        </a>
-                    {% endif %}
-
-                    {% if is_granted("ROLE_ADMIN") and sheet.status is null %}
-                        <a href="{{ path('sheet_front', {'id': sheet.id }) }}" class="btn btn-my-secondary {% if sheet.front %}active{% endif %} mr-3 float-right">
-                        {% if sheet.front %}
-                            <i class="fas fa-star"></i> A la Une
-                        {% else %}
-                            <i class="far fa-star"></i> A la Une
-                        {% endif %}
-                        </a>
-                    {% endif %}
+                    {% if (sheet.author == app.user or admin) and ((sheet.status is not null) or (date(sheet.updatedAt) < date('-5months', 'Europe/Paris'))) %}
+                        {% include 'documentation/_sheet_notification.html.twig' with {'file': sheet} %}
+                    {% endif %}    
                 </div>
-            </div>
-            <hr>
+            
+            </div>        
+
+
             {# Contenu #}
             <div class="d-none" id="sheetId">{{ sheet.id }}</div>
 
             <div class="row">
-                <div class="col-12 sheet-headers">
-                    {# Sections #}
-                    {% if sheet.headers %}
-                        {% for header in sheet.headers %}
-
-                            <h1 class="headers">{{ header.title }}</h1>
-                            <div class="card my-card header">
-                                <div class="card-body pb-0">
-                                    <table class="table my-table">
-                                        {% for section in header.sections %}
-                                            <tr>
-                                                <td class="main no-border w-50">{{ section.title }}</td>
-                                                <td class="no-border">{{ section.content }}</td>
-                                            </tr>
-
-                                        {% endfor %}
-                                    </table>
-                                </div>
-                            </div>
-
-                        {% endfor %}
-
-                    {% endif %}
-                
-                </div>
-            
-            </div>
-
-            <div class="row">
                 <div class="col-12 sheet-content">
-                    {{ sheet.content|raw }}
 
+                    <div class="row">
+                        <div class="col-12">
+                            <button id="toggle-c" class="btn btn-my-secondary small bg-marine marine float-right mb-2 px-3 py-2">Tout déplier <i class="uil uil-angle-down"></i></button>
+                            {# <button id="hide-c" class="btn btn-my-secondary small bg-marine marine float-right mr-2 mb-2 px-3 py-2">Tout replier <i class="uil uil-angle-up"></i></button> #}
+
+                        
+                        </div>
                     
+                    </div>
+
+                    {% for h in sheet.headers %}
+                    <div id="accordion-h">
+                        <div class="card my-card paragraph-card mt-2 p-0">
+                            <button class="btn btn-paragraph marine text-left no-focus p-4" data-toggle="collapse" data-target="#collapse-h-{{ loop.index }}" aria-expanded="true" aria-controls="collapse-{{ loop.index }}">
+                                <div class="card-header pl-0 py-0" id="heading-h-{{ loop.index }}">
+                                    <h5 class="my-0 marine">
+                                            <i class="uil uil-bookmark"></i> {{ h.title }} <i class="uil uil-angle-down float-right"></i>
+                                    </h5>
+                                </div>
+                            </button>
+
+                            <div id="collapse-h-{{ loop.index }}" class="collapse" aria-labelledby="heading-h-{{ loop.index }}" data-parent="#accordion-h">
+                            <div class="card-body paragraph-body px-4 pt-0">
+                                <table class="table my-table mx-1">
+                                    {% for section in h.sections %}
+                                        <tr>
+                                            <th class="no-border w-50">{{ section.title }}</th>
+                                            <td class="no-border">{{ section.content }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                </table>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+
+                    {% for p in sheet.paragraphs %}
+                    <div id="accordion">
+                        <div class="card my-card paragraph-card mt-2 p-0">
+                            <button class="btn btn-paragraph marine text-left no-focus p-4" data-toggle="collapse" data-target="#collapse-{{ loop.index }}" aria-expanded="true" aria-controls="collapse-{{ loop.index }}">
+                                <div class="card-header pl-0 py-0" id="heading-{{ loop.index }}">
+                                    <h5 class="my-0 marine">
+                                            {{ p.title }} <i class="uil uil-angle-down float-right"></i>
+                                    </h5>
+                                </div>
+                            </button>
+
+                            <div id="collapse-{{ loop.index }}" class="collapse" aria-labelledby="heading-{{ loop.index }}" data-parent="#accordion">
+                            
+                            <div class="card-body paragraph-body px-4 pt-0 mx-1">
+                                <hr class="mt-0 px-4">
+                                {{ p.content|raw }}
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+
                 </div>
                 <div class="col-12 sheet-tools">
                     {% if sheet.tool|length == 0 and sheet.sheetDocuments|length == 0 and sheet.attachments|length == 0%}
@@ -122,31 +176,32 @@
                     {% else %}
 
                     
-                        <h1>Outils</h1>
-                    
-                        <div class="row">
-                            {% for file in sheet.tool %}
-                                <div class="col-6">
-                                    {% include 'documentation/_file.html.twig' %}
-                                </div>
+                        <h5 class="my-italic">A voir aussi</h5>
+                        <div class="front ">              
+                            <div class="row">
 
-                            {% endfor %}
+                                {% for file in sheet.tool %}
+                                    <div class="col-6 p-2">
+                                        {% include 'documentation/_file.html.twig' %}
+                                    </div>
 
-                            {% for file in sheet.sheetDocuments %}
+                                {% endfor %}
 
-                                <div class="col-6">
-                                    {% include 'documentation/_file.html.twig' %}
-                                </div>
+                                {% for file in sheet.sheetDocuments %}
 
-                            {% endfor %}
-                            {% for file in sheet.attachments %}
+                                    <div class="col-6 p-2">
+                                        {% include 'documentation/_file.html.twig' %}
+                                    </div>
 
-                                <div class="col-6">
-                                    {% include 'documentation/_file.html.twig' %}
-                                </div>
+                                {% endfor %}
+                                {% for file in sheet.attachments %}
 
-                            {% endfor %}
+                                    <div class="col-6 p-2">
+                                        {% include 'documentation/_file.html.twig' %}
+                                    </div>
 
+                                {% endfor %}
+                            </div>
                         </div>
 
                     {% endif %}
@@ -157,43 +212,47 @@
         </div>
 
         {# Header #}
-        <div class="col-3 header">
+        <div class="col-xl-3 col-lg-3 bg-white header pr-0">
 
-            {# Card #}
-            <div class="card my-card header-card">
-                <div class="card-body">
-                    <div class="col-12">
-                        <div class="sheet-folder">{{ sheet.subcategory.category|upper }} - {{ sheet.subcategory|upper }}</div>
-                        <div class="sheet-title">{{ sheet.title }}</div>
-                        <div class="sheet-organization">{{ sheet.organization }}</div>
+            <div style="width: 300px;" class="sticky">
+
+                {# Card #}
+                <div class="card my-card header-card">
+                    <div class="card-body ">
+                        <div class="col-12">
+                            <div class="title align-bottom">{{ sheet.title }}</div>
+                            <div class="organization align-bottom">{{ sheet.organization }}</div>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            {# Organization #}
-            <h2>Organisme</h2>
-            <div class="card my-card organization-card no-border">
-                <div class="card-body">
-                    <div class="organization-title">{{ sheet.organization }}</div>
-                    <div class="organization-address my-secondary">{{ sheet.organization.address }}</div>
-                    <div class="organization-phone mt-2 "><i class="uil uil-envelope-alt"></i> {{ sheet.organization.phoneNumber }}</div>
-                    <div class="organization-email "><i class="uil uil-phone-alt"></i> {{ sheet.organization.email }}</div>
 
+                {# Organization #}
+                <div class="card my-card organization-card bg-marine-10 no-border">
+                    <div class="card-body">
+                        <div class="organization-title marine">{{ sheet.organization }}</div>
+                        <div class="organization-address my-secondary marine">{{ sheet.organization.address }}</div>
+                        <div class="organization-phone my-secondary marine mt-2 "><i class="uil uil-envelope-alt"></i> {{ sheet.organization.phoneNumber }}</div>
+                        <div class="organization-email my-secondary marine"><i class="uil uil-phone-alt"></i> {{ sheet.organization.email }}</div>
+
+                        {# Interlocutors #}
+                        {% if sheet.interlocutors|length > 0 %}
+                            <div class="mt-4">
+                                {% for interlocutor in sheet.interlocutors %}
+
+                                    {% include 'documentation/_user_interlocutor.html.twig' with {'user': interlocutor} %}
+
+                                {% endfor %}
+                            </div>
+
+                        {% endif %}
+
+                    </div>
                 </div>
+
+                
+
             </div>
-
-            {# Interlocutors #}
-            {% if sheet.interlocutors|length > 0 %}
-                <h2>Interlocuteurs</h2>
-                <div class="interlocutor">
-                    {% for interlocutor in sheet.interlocutors %}
-
-                        {% include 'documentation/_user_email.html.twig' with {'user': interlocutor} %}
-
-                    {% endfor %}
-                </div>
-
-            {% endif %}
             
 
         
@@ -251,7 +310,7 @@
         $("#validation").click(function() {    
 
             // Permet d'enlever les span (couleur) du contenu
-            $("div.sheet-content span").contents().unwrap();
+            $("div.sheet-content .paragraph-card span").contents().unwrap();
 
             // Récupération des données
             var id = $("#sheetId").text();
@@ -281,11 +340,67 @@
             //location.reload();
         
         }); 
+
+
+$(".btn-paragraph").click(function() { 
+
         
+        if($(this).hasClass('show')){
+            
+            $(this).removeClass('show');
 
+
+        }else{
+
+            $(this).addClass('show');
+
+        }
+
+});
+
+$('#toggle-c').on('click', function(e) {
+
+
+
+    if(!$(this).hasClass('show')){
+
+
+        $('#accordion-h .collapse').removeAttr("data-parent");
+        $('#accordion-h .collapse').collapse('show');
+
+        $('#accordion .collapse').removeAttr("data-parent");
+        $('#accordion .collapse').collapse('show');
+
+        $('.btn-paragraph').addClass('show');
+
+        $(this).html('Tout replier <i class="uil uil-angle-up"></i>');
+        $(this).addClass('show');
+
+    }else{
+
+
+        $('#accordion-h .collapse').attr("data-parent","#accordion");
+        $('#accordion-h .collapse').collapse('hide');
+
+        $('#accordion .collapse').attr("data-parent","#accordion");
+        $('#accordion .collapse').collapse('hide');
+
+        $('.btn-paragraph').removeClass('show');
+
+
+        
+        $(this).html('Tout déplier <i class="uil uil-angle-down"></i>');
+        $(this).removeClass('show');
+
+    }
+
+
+})
 
     
     
-    </script>    
+    </script>
+
+ 
 
 {% endblock %}

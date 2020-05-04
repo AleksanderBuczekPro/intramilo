@@ -16,50 +16,75 @@
     {% endif %}
 {% endfor %}
 
-<div class="folder-header">
-    <div class="container">
-        <div class="row">
-            <div class="col-6">
-                <p class="fil-ariane">
-                    <span href="" class="my-badge mt-4 pole {{ category.pole.labelColor }}"> • {{ category.pole }}</span>
-                </p>
-                <div class="category-title">{{ category.title }}</div>
-                <div class="category-subtitle">{{ subCategory.title }}</div>
-            </div>
-            <div class="col-6">
-                <img src="/images/folder.svg" class="folder-illustration" alt="Image d'illustration de la sous-catégorie {{ subCategory }}">
+<div class="bg-marine my-padding">
+    <div class="folder-header bg-white pb-4">
+        <div class="container">
+            <div class="row">
+                <div class="col-2">
+                    <a href="{{ path('doc_index') }}" class="btn btn-my-secondary"><i class="uil uil-angle-left-b"></i> Retour</a>
+                </div>
+                <div class="col-8">
+                    <p class="fil-ariane marine">
+                        <span href="" class="my-badge mt-1 bg-{{ category.pole.labelColor }} white px-2 py-1">{{ category.pole |slice(0, 1) }}</span>
+                        <span class="mx-1 doc-secondary">{{ category.pole }}</span>
+                        <span class="">></span>
+                        <span class="mx-1 doc-secondary">{{ category }}</span>
+                    </p>
+                    <div class="category-title marine">{{ subCategory.title }}</div>
+                    <div class="mt-4">
+                        {% for author in subCategory.authors %}
+
+                            {% include '_picture.html.twig' with {'user': author, 'class': 'medium'} %}
+
+                        {% endfor %}
+                    </div>
+                </div>
+                {# <div class="col-6">
+                    <img src="/images/folder.svg" class="folder-illustration" alt="Image d'illustration de la sous-catégorie {{ subCategory }}">
+                </div> #}
             </div>
         </div>
     </div>
-</div>
 
-<img src="/images/curve_inverse.svg" class="folder-curve" alt="">
+    {# <img src="/images/curve_inverse.svg" class="folder-curve" alt=""> #}
 
-    <div class="background pt-4">
+    <div class="bg-marine pt-4">
         <div class="container files-container">
 
             <div class="row">
 
-                <div class="col-8">
+                <div class="col-12 ">
                     <div class="row">
-                        <div class="col-12">
+                        <div class="col-8 offset-md-2">
 
-                            <a class="btn btn-my-return" href="{{ path('doc_index') }}">
+                            {# <a class="btn btn-my-return" href="{{ path('doc_index') }}">
                                 <i class="uil uil-arrow-left"></i> Retour à la Documentation
-                            </a>
+                            </a> #}
 
-                            <ul class="nav nav-pills mb-3 float-right" id="pills-tab" role="tablist">
-                                <li class="nav-item">
-                                    <a class="nav-link my-pill active" id="pills-online-tab" data-toggle="pill" href="#pills-online" role="tab" aria-controls="pills-home" aria-selected="true">En ligne <span class="ml-1" >{{ filesOnline|length }}</span></a>
+                            <ul class="nav nav-pill inline-block align-middle" id="pills-tab" role="tablist">
+                                <li class="nav-item inline-block">
+                                    <a class="my-pill active" id="pills-online-tab" data-toggle="pill" href="#pills-online" role="tab" aria-controls="pills-home" aria-selected="true"><span class="mr-2" >{{ filesOnline|length }}</span>En ligne</a>
                                 </li>
 
-                                {% if admin %}
-                                    <li class="nav-item">
-                                        <a class="nav-link my-pill " id="pills-waiting-tab" data-toggle="pill" href="#pills-waiting" role="tab" aria-controls="pills-profile" aria-selected="false">En attente <span class="ml-1" >{{ filesWaiting|length }}</span></a>
+                                {% if admin and filesWaiting|length > 0 %}
+                                    <li class="nav-item inline-block">
+                                        <a class="my-pill " id="pills-waiting-tab" data-toggle="pill" href="#pills-waiting" role="tab" aria-controls="pills-profile" aria-selected="false"><span class="ml-1" >{{ filesWaiting|length }}</span> En attente</a>
                                     </li>
                                 {% endif %}
 
                             </ul>
+
+                            <div class="dropdown float-right">
+                                <button class="btn btn-my-secondary py-1 px-2 larger" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="uil uil-plus"></i>
+                                </button>
+                                <div class="dropdown-menu dropdown-menu-right my-dropdown " aria-labelledby="dropdownMenuButton">
+                                    <a class="dropdown-item pl-3" href="{{ path('sheet_create_sub', {'id': subCategory.id}) }}"><span class="rounded"><i class="far fa-file my-rounded"></i></span> Créer une fiche</a>
+                                    <a class="dropdown-item pl-3" href="{{ path('document_create_sub', {'id': subCategory.id}) }}"><span class="rounded"><i class="fas fa-file-upload my-rounded"></i></span> Importer un document</a>
+                                </div>
+                            </div>
+                            {# <a href="{{ path('document_create_sub', {'id': subCategory.id}) }}" class="btn btn-my-secondary float-right">Importer un document</a>
+                            <a href="{{ path('sheet_create_sub', {'id': subCategory.id}) }}" class="btn btn-my-secondary float-right mr-3">Ajouter une fiche</a> #}
 
                         </div>
                     </div>
@@ -70,12 +95,16 @@
                         <div class="tab-pane fade show active" id="pills-online" role="tabpanel" aria-labelledby="pills-online-tab">
 
                             {% if filesOnline|length > 0 %}
-                    
-                                {% for file in filesOnline %}
 
-                                    {% include 'documentation/_file.html.twig' %}
+                                <div class="row">
+                                {% for file in filesOnline %}
+                                    
+                                    <div class="col-8 offset-md-2 col-md-pull-2">
+                                        {% include 'documentation/_file.html.twig' %}
+                                    </div>
 
                                 {% endfor %}
+                                </div>
 
                             {% else %}
 
@@ -88,14 +117,19 @@
                         {% if admin %}
                             {# En attente #}
                             <div class="tab-pane fade" id="pills-waiting" role="tabpanel" aria-labelledby="pills-waiting-tab">
-
+                                
+                                
                                 {% if filesWaiting|length > 0 %}
-                        
+                                    
+                                    <div class="row">
                                     {% for file in filesWaiting %}
 
-                                        {% include 'documentation/_file.html.twig' %}
+                                        <div class="col-8 offset-md-4">
+                                            {% include 'documentation/_file.html.twig' %}
+                                        </div>
 
                                     {% endfor %}
+                                    </div>
 
                                 {% else %}
 
@@ -109,7 +143,7 @@
                     
             
                 </div>
-                <div class="col-4">
+                {# <div class="col-4">
 
                     
                     <div class="card my-card users mt-0 px-3">
@@ -124,7 +158,7 @@
                         </div>
                     </div>
 
-                    {# Si je suis l'administrateur de ce dossier #}
+
                     {% if admin %}
 
                         <div class="text-left mt-4">
@@ -143,12 +177,12 @@
                     {% endif %}
 
                     
-                </div>
+                </div> #}
                     
                 
             </div>
             
         </div>
     </div>
-
+</div>
 {% endblock %}

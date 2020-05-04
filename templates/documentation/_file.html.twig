@@ -1,18 +1,89 @@
-<a href=
+{# Définition des variables #}
+{% set type = constant('TYPE', file) %}
+{% set icon = constant('ICON', file) %}
 
-    {% if file.file is defined %}
+{# Lien pour une fiche  #}
+{% if type == 'sheet' %}
+    {% set path = path('sheet_show', {'id': file.id,}) %}
+{% endif %}
 
-        {{ path('document_show', {'id': file.subCategory.category.slug, 'sub_slug': file.subCategory.slug, 'id': file.id }) }}
-        
+{# Lien pour un document ou une pièce jointe #}
+{% if type == 'document' or type == 'attachment' %}
+    {% set path = path('document_show', {'id': file.subCategory.category.slug, 'sub_slug': file.subCategory.slug, 'id': file.id }) %}
+{% endif %}
+
+{# Icône d'Etat #}
+{% if type == 'document' and file.status == "TO_VALIDATE" %}
+
+    {% set state = "En cours de validation" %}
+    {% set icon = "pause" %}
+    {% set state_class = "light" %}
+
+{% elseif type == 'document' and file.status == "TO_CORRECT" %}
+
+    {% set state = "À corriger" %}
+    {% set icon = "exclamation" %}
+    {% set state_class = "danger" %}
+
+{% else %}
+
+    {% if date(file.updatedAt) <= date('-6months', 'Europe/Paris') %}
+
+        {% set state = "Obsolète" %}
+        {% set icon = "times" %}
+        {% set state_class = "danger" %}
+
+    {% elseif date(file.updatedAt) < date('-5months', 'Europe/Paris') %}
+
+        {% set state = "Bientôt obsolète" %}
+        {% set icon = "minus" %}
+        {% set state_class = "warning" %}
 
     {% else %}
-        {{ path('sheet_show', {'id': file.id,}) }}
+
+        {% set state = "À jour" %}
+        {% set icon = "check" %}
+        {% set state_class = "success" %}
 
     {% endif %}
 
->
+{% endif %}
 
-    <div class="card my-card file">
+
+
+
+<a href="{{ path }}">
+
+<div class="card my-card px-4 file-card no-border my-box">
+    <div class="card-body">
+
+        <div class="file-organization">
+            {{ file.organization }}
+
+            {% if type == 'document' %}
+                <span class="marine op-70"> • {{ file.mimeType|upper }}</span>
+            {% endif %}
+
+
+        </div>
+
+        <div class="file-title my-1">
+            {{ file.title }} <i class="fas fa-{{icon}}-circle {{state_class}} fa-xs"></i>
+        </div>
+        <div class="w-100">
+            <span class="my-secondary marine">
+                {{ file.updatedAt|localizeddate('none', 'none', 'fr', null, 'd MMMM Y') }} • {{ file.views }} vue{% if file.views > 1 %}s{% endif %}
+            </span>
+            <span class="file-author float-right">
+                {% include '_picture.html.twig' with {'user': file.author, 'class': 'small'} %}
+            </span>
+        </div>
+
+    </div>
+</div>
+
+
+    {# <div class="card my-card file">
         <div class="card-body">   
 
             <table class="my-table">
@@ -22,15 +93,7 @@
                             <div class="my-circle">
                                 <span class="icon">
 
-                                    {% if file.file is defined %}
-                                        {% if file.status is defined %}
-                                            <i class="uil uil-arrow-up-right"></i>
-                                        {% else %}
-                                            <i class="uil uil-link-alt"></i>
-                                        {% endif %}
-                                    {% else %}
-                                        <i class="uil uil-bars"></i>
-                                    {% endif %}
+                                    {{ icon|raw }}
 
                                 </span>
                             </div>
@@ -56,5 +119,5 @@
             </table>
 
         </div>
-    </div>
+    </div> #}
 </a>

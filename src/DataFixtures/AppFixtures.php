@@ -17,6 +17,7 @@ use App\Entity\Booking;
 use App\Entity\Comment;
 use App\Entity\Section;
 use App\Entity\Category;
+use App\Entity\Paragraph;
 use Cocur\Slugify\Slugify;
 use App\Entity\SubCategory;
 use App\Entity\Interlocutor;
@@ -319,22 +320,34 @@ class AppFixtures extends Fixture
                         $content = '';
 
                         // Gestion du corps d'une fiche
-                        for($n = 1; $n <= mt_rand(1,6); $n++){
+                        // for($n = 1; $n <= mt_rand(1,6); $n++){
     
-                            $content .= '<h1>' . $faker->sentence(mt_rand(1,4)) . '</h1><div class="mb-5">';
+                        //     $content .= '<h1>' . $faker->sentence(mt_rand(1,4)) . '</h1><div class="mb-5">';
                             
-                            for($t = 1; $t <= mt_rand(1,3); $t++){
-                                $content .= $faker->paragraph(mt_rand(10, 30));
-                            }
+                        //     for($t = 1; $t <= mt_rand(1,3); $t++){
+                        //         $content .= $faker->paragraph(mt_rand(10, 30));
+                        //     }
     
-                            $content .= '</div>';
+                        //     $content .= '</div>';
     
+                        // }
+
+                        for($nb = 1; $nb <= mt_rand(2,7); $nb++){
+
+                            $paragraph = new Paragraph();
+                            
+                            $paragraph->setTitle($faker->sentence(mt_rand(2,6)));
+                            $paragraph->setContent($faker->text(1000));
+                            $paragraph->setPlace($nb);
+                            $paragraph->setSheet($sheet);
+
+                            $manager->persist($paragraph);
+
                         }
 
                         $sheet->setTitle($title)
                           ->setOrganization($organization)
                           ->setUpdatedAt($updatedAt)
-                          ->setContent($content)
                           ->setSubCategory($subCategory)
                           ->setViews(mt_rand(1, 1000))
                           ->setFront(0)

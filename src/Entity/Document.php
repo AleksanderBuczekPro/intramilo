@@ -2,11 +2,12 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\Collection;
 
 use Symfony\Component\HttpFoundation\File\File;
+use Doctrine\Common\Collections\ArrayCollection;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
@@ -15,6 +16,9 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  */
 class Document
 {
+    public const TYPE = "document";
+    public const ICON = "<i class='uil uil-arrow-up-right'></i>";
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -100,10 +104,77 @@ class Document
      */
     private $author;
 
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $publishedAt;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User")
+     */
+    private $frontAuthor;
+
     public function __construct()
     {
         $this->sheets = new \Doctrine\Common\Collections\ArrayCollection();
     }
+
+    // /**
+    //  * 
+    //  * Permet de retourner l'icône correspondant à son état
+    //  * 
+    //  */
+    // public function getIcon(){
+
+    //     // Bientôt obsolète
+    //     $wellObsolete_start = new DateTime();
+    //     $wellObsolete_start->modify('-5 months');
+
+    //     $wellObsolete_end = new DateTime();
+    //     $wellObsolete_end->modify('-6 months');
+
+    //     $status = $this->getStatus();
+    //     $updatedAt = $this->getUpdatedAt();
+
+    //     // En attente de validation / A corriger
+    //     if($status){
+
+    //         // En attente de validation
+    //         if($status == "TO_VALIDATE"){
+
+    //             $icon = "<i class='fas fa-pause-circle light'></i>";
+
+    //         }
+
+    //         // A corriger
+    //         if($status == "TO_CORRECT"){
+
+    //             $icon = "<i class='fas fa-exclamation-circle rouge'></i>";
+
+    //         }
+
+    //     }else{
+
+    //         // Obsolete
+    //         // Supérieur à 6 mois
+    //         if($updatedAt <  $wellObsolete_end){
+
+    //             $icon = "<i class='fas fa-times-circle rouge'></i>";
+
+
+    //         // Entre 5 et 6 mois
+    //         }elseif($updatedAt <  $wellObsolete_start){
+
+
+    //             $icon = "<i class='fas fa-minus-circle orange'></i>";
+
+    //         }
+
+    //     }
+
+    //     return $icon;
+
+    // }
 
 
     /**
@@ -307,6 +378,30 @@ class Document
     public function setAuthor(?User $author): self
     {
         $this->author = $author;
+
+        return $this;
+    }
+
+    public function getPublishedAt(): ?\DateTimeInterface
+    {
+        return $this->publishedAt;
+    }
+
+    public function setPublishedAt(?\DateTimeInterface $publishedAt): self
+    {
+        $this->publishedAt = $publishedAt;
+
+        return $this;
+    }
+
+    public function getFrontAuthor(): ?User
+    {
+        return $this->frontAuthor;
+    }
+
+    public function setFrontAuthor(?User $frontAuthor): self
+    {
+        $this->frontAuthor = $frontAuthor;
 
         return $this;
     }

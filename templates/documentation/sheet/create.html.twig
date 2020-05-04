@@ -11,8 +11,9 @@
 
 <div class="container sheet-form">
     <h1 class="my-h1">Création d'une fiche</h1>
+
     <div class="row">
-        <div class="col-12 col-md">
+        <div class="col-8">
 
             <div class="form-title">
                 {{ form_widget(form.title) }}
@@ -45,8 +46,12 @@
                 {# Content #}
                 <div class="tab-pane fade show active" id="pills-content" role="tabpanel" aria-labelledby="pills-content-tab">
                         
-                    <div class="form-content mt-4">
+                    {# <div class="form-content mt-4">
                         {{ form_widget(form.content) }}
+                    </div> #}
+
+                    <div class="form-content mt-4">
+                        {{ form_widget(form.paragraphs) }}
                     </div>
 
                     {# <div>
@@ -98,13 +103,11 @@
                     
                     </div>
                 </div>
-
+            </div>
         </div>
 
 
-
-        </div>
-        <div class="col-12 col-md-auto">
+        <div class="col-4">
 
             <div class="form-header">
                 
@@ -175,6 +178,24 @@
 
 <script>
 
+$('#add-paragraph').click(function(){
+
+    // Je récupère le numéro des futurs champs que je vais créer
+    const index = +$('#widgets-paragraph-counter').val(); // + transforme la chaine de caractère en nombre
+
+    // Je récupère le prototype des entrées
+    const tmpl = $('#sheet_paragraphs').data('prototype').replace(/__p__/g, index); // g = "pour chaque"
+
+    // J'injecte ce code au sein de la div
+    $('#sheet_paragraphs').append(tmpl);
+
+    $('#widgets-paragraph-counter').val(index + 1);
+
+    // Je gère le bouton supprimer
+    handleDeleteButtons();
+
+});
+
 $('#add-attachment').click(function(){
 
     // Je récupère le numéro des futurs champs que je vais créer
@@ -225,9 +246,13 @@ function handleDeleteButtons(){
 
 function updateCounter(){
     const count = +$('#sheet_headers div.form-group.header').length;
+    const count_p = +$('#sheet_paragraphs div.form-group.paragraph').length;
 
     /* Headers */
     $('#widgets-counter').val(count);
+
+    /* Headers */
+    $('#paragraphs-counter').val(count_p);
 
     /* Sections */
     $('#sheet_headers div.form-group.header').each(function( index ) {

@@ -28,11 +28,13 @@ class DocumentationController extends AbstractController
      * 
      * @Route("/doc", name="doc_index")
      */
-    public function index(PoleRepository $repo, Request $request)
+    public function index(PoleRepository $repo, CategoryRepository $catRepo,  Request $request)
     {
 
         // Gestion des catégories
         $poles = $repo->findAll();
+
+        $categories = $catRepo->findBy(array(), array('title' => 'ASC'));
 
         // Gestion de la recherche
         $query = $request->query->get('q');
@@ -42,7 +44,8 @@ class DocumentationController extends AbstractController
         }
 
         return $this->render('documentation/index.html.twig', [
-            'poles' => $poles
+            'poles' => $poles,
+            'categories' => $categories
         ]);
     }
 

@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use DateTime;
 use App\Repository\DocumentRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -31,6 +32,7 @@ class Docs{
     public function getLastDocs(){
 
         $limit = 3;
+        
 
         $sheets = $this->manager->createQuery(
             'SELECT s FROM App\Entity\Sheet s
@@ -65,31 +67,43 @@ class Docs{
 
     public function getFrontDocs(){
 
-        // $limit = 3;
+        $end_date = new DateTime();
+        $end_date->modify('-2 weeks'); 
+
+        $parameters = array(
+            'end_date'=> $end_date
+        );
 
         $sheets = $this->manager->createQuery(
             'SELECT s FROM App\Entity\Sheet s
-            WHERE s.front = 1
-            ORDER BY s.updatedAt DESC
+            WHERE s.front = 1 AND s.publishedAt > :end_date
             '
         )
-        // ->setMaxResults($limit)
+        ->setParameters($parameters)
         ->getResult();
 
         $documents = $this->manager->createQuery(
             'SELECT d FROM App\Entity\Document d
-            WHERE d.front = 1
-            ORDER BY d.updatedAt DESC
+            WHERE d.front = 1 AND d.publishedAt > :end_date
             '
         )
-        // ->setMaxResults($limit)
+        ->setParameters($parameters)
         ->getResult();
 
         $files = array_merge_recursive($sheets, $documents);
 
-        usort($files, function($a, $b){ 
-            return strcasecmp($a->getTitle(), $b->getTitle());
-        });
+        // Tri par date
+        usort($files, function($a, $b) {
+            $ad = new DateTime($a->getPublishedAt()->format('Y-m-d H:i:s'));
+            $bd = new DateTime($b->getPublishedAt()->format('Y-m-d H:i:s'));
+          
+            if ($ad == $bd) {
+              return 0;
+            }
+          
+            return $bd < $ad ? -1 : 1;
+          });
+        
 
         return $files;
 

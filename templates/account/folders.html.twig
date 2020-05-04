@@ -28,7 +28,7 @@
                 </tr>
             </thead>
             <tbody>
-            {% if app.user.sheets|length + app.user.documents|length > 0 %}
+            {% if subCategories|length > 0 %}
                 {% for sub in subCategories %}
                     <tr data-href="{{ path('doc_show', {'slug': sub.category.slug, 'sub_slug': sub.slug }) }}">
                     <td class="icon folder bleu">

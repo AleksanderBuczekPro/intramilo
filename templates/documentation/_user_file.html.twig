@@ -1,0 +1,20 @@
+<div class="card my-card user">
+    <div class="card-body p-0">   
+
+        <table class="my-table">
+            <tbody>
+                <tr>
+                    <td class="p-2 no-border">
+                        {% include '_picture.html.twig' with {'user': user, 'class': 'medium'} %}
+                    </td>
+                    <td class="text-left pl-2 no-border">
+                        <div class="marine main">{{ user }}</div>
+                        <div class="marine small my-secondary">{{ file.updatedAt|localizeddate('none', 'none', 'fr', null, 'd MMMM Y') }} • {{ file.views }} vue{% if file.views > 1 %}s{% endif %}</div>
+                    </td>
+                    
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+</div>

@@ -7,6 +7,7 @@ use App\Form\ToolsType;
 use App\Entity\Category;
 use App\Entity\Document;
 use App\Form\HeaderType;
+use App\Entity\Paragraph;
 use App\Form\SectionType;
 use App\Entity\SubCategory;
 use App\Entity\Organization;
@@ -39,7 +40,20 @@ class SheetType extends ApplicationType
                     return $organization->getName();
                 }
             ])
-            ->add('content', CKEditorType::class, $this->getConfiguration("Texte", "Ici le contenu de la fiche"))            
+            // ->add('content', CKEditorType::class, $this->getConfiguration("Texte", "Ici le contenu de la fiche"))
+
+            ->add(
+                'paragraphs',
+                CollectionType::class,[
+                 'label' => "Titre de la section",
+                 'entry_type' => ParagraphType::class,
+                 'allow_add' => true,
+                 'allow_delete' => true,
+
+                 'prototype_name' => "__p__"
+ 
+                ])
+
             ->add('subCategory', EntityType::class,[
                 'label' => "Sous-catégorie",
                 'class' => SubCategory::class,

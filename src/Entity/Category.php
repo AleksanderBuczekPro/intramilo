@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Cocur\Slugify\Slugify;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\OrderBy;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -33,6 +34,7 @@ class Category
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\SubCategory", mappedBy="category")
+     * @OrderBy({"title" = "ASC"})
      */
     private $subCategories;
 
