@@ -21,6 +21,33 @@ button.no-focus:focus{
 
 }
 
+.nav-btn{
+
+    line-height: 70px;
+
+    width: 40px;
+    
+}
+
+.nav-btn .btn{
+
+
+    width: 50px;
+    height: 40px;
+    
+}
+
+.navbar button[aria-expanded="true"], .navbar .nav-hover[aria-expanded="true"], .navbar .nav-hover:hover{
+
+    background-color: var(--blue-transparent-color)!important;
+    color: var(--blue-color)!important;
+
+}
+
+
+
+
+
 
 
 .btn.btn-my-add-admin{

@@ -115,6 +115,12 @@
 
 }
 
+.my-line-h{
+
+    line-height: 25px!important;
+
+}
+
 html{ height:100%; }
 
 body{
@@ -142,16 +148,36 @@ body{
 
 }
 
+.account-dropdown{
+
+    font-family: 'Poppins', sans-serif;
+    width: 300px;
+    padding: 10px;
+}
+
+.account-dropdown .main{
+
+    font-size: 16px!important;
+    font-weight: 600!important;
+
+
+}
+
 .my-dropdown a{
 
     font-family: 'Poppins', sans-serif;
     font-size: 14px!important;
+
+    color: black;
+
+    line-height: 20px!important;
 }
 
 .my-dropdown .my-rounded{
 
-    background-color: var(--marine-background-color);
-    color: var(--marine-color);
+    background-color: var(--marine-10-color);
+    /* color: var(--marine-color); */
+    color: var(--grey-70-color);
 
     font-size: 15px;
     padding: 7px;
@@ -652,11 +678,13 @@ table.my-table.admin td.users div.center-cropped{
 
 
 /* A modifier */
-.init-circle{
+.init-circle, .nav-item .init-circle span.init{
 
     font-family: 'Poppins', sans-serif;
     background-color: var(--grey-15-color);
     color: black;
+
+    font-weight: 400;
 
     text-align: center;
 
@@ -668,11 +696,16 @@ table.my-table.admin td.users div.center-cropped{
 
 }
 
-.init-circle .init{
+.init-circle .init, .nav-item span.init{
     display:table-cell;
     vertical-align:middle;
 
 }
+
+/* .nav-item span.init{
+
+
+} */
 
 
 /* Couleurs */
@@ -691,12 +724,18 @@ td.interlocutor .init-circle{
 
 .init-circle.large, div.center-cropped.large{
 
-    height: 56px;
-    width: 56px;
+    height: 80px;
+    width: 80px;
     
 
 }
 
+.init-circle.large .init{
+
+    font-size: 35px!important;
+    line-height: 70px!important;
+
+}
 .init-circle.medium, div.center-cropped.medium{
 
     height: 36px;
@@ -1169,16 +1208,16 @@ span#notification-circle{
 
     font-family: 'Poppins', sans-serif;
     position: absolute;
-    top: 27px;
+    top: 20px;
     display: inline-block;
     height: 20px;
     width: 20px;
-    background-color: var(--pink-color);
+    background-color: var(--red-color);
     color: white;
-    box-shadow: 0 0 0 2px white;
+    /* box-shadow: 0 0 0 2px white; */
     border-radius: 50%;
     text-align: center;
-    right: 123px;
+    right: 100px;
     z-index: 3;
 }
 
@@ -1203,6 +1242,8 @@ span#notification-circle #counter{
 
     border-top: none!important;
     vertical-align: top;
+
+    line-height: 23px;
 
 }
 
@@ -1249,7 +1290,7 @@ span#notification-circle #counter{
 #my-dropdown td.notif-icon span.state-icon i{
 
     position: relative;
-    top: -8px;
+    top: -4px;
     left: -6px;
     font-size: 21px;
     color: white;
