@@ -82,17 +82,17 @@ class SheetType extends ApplicationType
  
                 ])
 
-                ->add(
-                    'attachments',
-                    CollectionType::class,[
-                     'label' => "Pièces jointes",
-                     'entry_type' => AttachmentType::class,
-                     'allow_add' => true,
-                     'allow_delete' => true,
+                // ->add(
+                //     'attachments',
+                //     CollectionType::class,[
+                //      'label' => "Pièces jointes",
+                //      'entry_type' => AttachmentType::class,
+                //      'allow_add' => true,
+                //      'allow_delete' => true,
     
-                     'prototype_name' => "__h__"
+                //      'prototype_name' => "__h__"
      
-                    ])
+                //     ])
             
                 ->add('tool', EntityType::class, [
                     "label" => "Fiches existantes",

@@ -190,6 +190,25 @@ $('#add-paragraph').click(function(){
 
 });
 
+$('#add-attachment').click(function(){
+
+    // Je récupère le numéro des futurs champs que je vais créer
+    const index = +$('#widgets-attachment-counter').val(); // + transforme la chaine de caractère en nombre
+
+    // Je récupère le prototype des entrées
+    const tmpl = $('#sheet_attachments').data('prototype').replace(/__h__/g, index); // g = "pour chaque"
+
+    // J'injecte ce code au sein de la div
+    $('#sheet_attachments').append(tmpl);
+
+    $('#widgets-attachment-counter').val(index + 1);
+
+    // Je gère le bouton supprimer
+    handleDeleteButtons();
+
+});
+
+
 $('#add-header').click(function(){
 
     // Je récupère le numéro des futurs champs que je vais créer
@@ -221,9 +240,14 @@ function handleDeleteButtons(){
 
 function updateCounter(){
     const count = +$('#sheet_headers div.form-group.header').length;
+    const count_p = +$('#sheet_paragraphs div.form-group.paragraph').length;
+
+    /* Paragraphs */
+    $('#widgets-paragraph-counter').val(count_p);
 
     /* Headers */
     $('#widgets-counter').val(count);
+
 
     /* Sections */
     $('#sheet_headers div.form-group.header').each(function( index ) {
@@ -238,11 +262,6 @@ function updateCounter(){
 
 }
 
-updateCounter();
-handleDeleteButtons();
-
-
-
 $(document).on('click', '.add-section', function(event){ 
 
     // Je récupère l'id du header pour savoir dans lequel faut ajouter une ligne
@@ -255,7 +274,6 @@ $(document).on('click', '.add-section', function(event){
     var counter = $('#widgets-section-counter-'+ id).val();
 
     const index = +counter; // + transforme la chaine de caractère en nombre
-
 
     // Je récupère le prototype des entrées
     const tmpl = $(header_id).data('prototype').replace(/__s__/g, index); // g = "pour chaque"
@@ -400,9 +418,14 @@ function loadInterlocutors() {
 
 }
 
+
 // Quand le document a fini de se charger, on charge les interlocuteurs
 $(document).ready(function() {
     loadInterlocutors();
+
+    updateCounter();
+    handleDeleteButtons();
+
 });
 
 

@@ -54,9 +54,9 @@
                         {{ form_widget(form.paragraphs) }}
                     </div>
 
-                    <div>
+                    {# <div>
                         {{ form_widget(form.attachments) }}
-                    </div>
+                    </div> #}
                 
                 </div>
 
@@ -248,11 +248,12 @@ function updateCounter(){
     const count = +$('#sheet_headers div.form-group.header').length;
     const count_p = +$('#sheet_paragraphs div.form-group.paragraph').length;
 
+    /* Paragraphs */
+    $('#widgets-paragraphs-counter').val(count_p);
+
     /* Headers */
     $('#widgets-counter').val(count);
 
-    /* Headers */
-    $('#paragraphs-counter').val(count_p);
 
     /* Sections */
     $('#sheet_headers div.form-group.header').each(function( index ) {
@@ -264,13 +265,7 @@ function updateCounter(){
     });
 
 
-
 }
-
-updateCounter();
-handleDeleteButtons();
-
-
 
 $(document).on('click', '.add-section', function(event){ 
 
@@ -408,6 +403,10 @@ function loadInterlocutors() {
 // Quand le document a fini de se charger, on charge les interlocuteurs
 $(document).ready(function() {
     loadInterlocutors();
+
+    updateCounter();
+    handleDeleteButtons();
+
 });
 
 
