@@ -75,9 +75,9 @@ class Docs{
         );
 
         $sheets = $this->manager->createQuery(
-            'SELECT s FROM App\Entity\Sheet s
+            "SELECT s FROM App\Entity\Sheet s
             WHERE s.front = 1 AND s.publishedAt > :end_date
-            '
+            "
         )
         ->setParameters($parameters)
         ->getResult();
@@ -133,6 +133,21 @@ class Docs{
             '
         )
         ->setParameter('sub_category_id', $subcategory_id)
+        ->getResult();
+    
+    }
+
+
+
+    public function getLastContributors(){
+
+        return $this->manager->createQuery(
+            'SELECT IDENTITY(sh.author) FROM App\Entity\Sheet sh
+            ORDER BY sh.updatedAt
+            
+            '
+        )
+        ->setMaxResults(6)
         ->getResult();
     
     }

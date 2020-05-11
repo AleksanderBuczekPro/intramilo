@@ -7,19 +7,21 @@
                 <p class="my-secondary marine">Toutes les ressources dont vous avez besoin en un seul endroit</p>
                 <div class="row text-left">
                     <div class="col-md-8">
+
                         <form class="search-form">
-                            <div class="input-group my-3">
+                            <div class="input-group">
 
                                 <form action="{{ path('search_index') }}" method="get">
-                                    <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="Entrez un mot-clé" name="q" required
+                                    <input type="text" class="form-control my-0" id="formGroupExampleInput2" placeholder="Entrez un mot-clé" name="q" required
                                     value="{% if query is defined %}{{ query }}{% endif %}">
-                                    <div class="input-group-append">
+                                    <div class="input-group-append inline">
                                         <button class="btn btn-outline-secondary" type="submit"><i class="uil uil-search"></i></button>
                                     </div>
                                 </form>
 
                             </div>
                         </form>
+                        
                     </div>
                 </div>
             

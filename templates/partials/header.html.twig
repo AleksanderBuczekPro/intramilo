@@ -12,7 +12,9 @@
             <div class="collapse navbar-collapse" id="navbarColor03">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item px-2">
-                        <a class="nav-link home {% if app.request.attributes.get('_route') starts with 'home'  %}active{% endif %}" href="{{ path('homepage') }}"><i class="uil uil-home-alt"></i> Accueil</a>
+                        <a class="nav-link home {% if app.request.attributes.get('_route') starts with 'home'  %}active{% endif %}" href="{{ path('homepage') }}">
+                        <i class="uil uil-home-alt"></i>
+                        Accueil</a>
                     </li>
                     {# <li class="nav-item">
                         <a class="nav-link" href="{{ path('ads_index') }}">Annonces</a>
@@ -80,7 +82,27 @@
                                 <i class="uil uil-web-grid"></i>
                             </a>
                         </span>
+                        
+                           
+                        
+                        {# Search #}
+                        <form class="search-form inline w-100">
+                            <div class="input-group inline">
 
+                                <span class="float-right">
+                                    {# <div class="nav-btn inline float-left"><i class="uil uil-search"></i></div> #}
+                                    {# <div class="input-group-prepend float-left">
+                                        <span class="input-group-text bg-white px-2" id="basic-addon1"><i class="uil uil-search"></i></span>
+                                    </div> #}
+                                    <form action="{{ path('search_index') }}" method="get" class="inline-block">
+                                        <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="Recherche" name="q" required
+                                        value="{% if query is defined %}{{ query }}{% endif %}">
+                                    </form>
+                                </span>
+
+                            </div>
+                        </form>
+                        
                     </li>
 
                 {% if app.user %}

@@ -9,7 +9,7 @@
     --yellow-color: #ffbe0b;
 
     --red-color: #e20613;
-    --green-color: #2ecc71;
+    --green-color: #29bf12;
 
     --light-transparent-color: rgba(255,255,255,0.2);
     --blue-transparent-color: rgba(58,134,255,0.2);
@@ -18,6 +18,7 @@
     --pink-transparent-color:rgba(255,0,110,0.2);
     --orange-transparent-color: rgba(251,86,7,0.2);
     --yellow-transparent-color: rgba(255,190,11,0.1);
+    --green-transparent-color: rgba(41,191,18,0.2);
 
     --red-transparent-color: rgba(226,6,19,0.2);
 
@@ -47,6 +48,8 @@
 .secondary{ color: var(--grey-50-color)!important; }
 .danger{ color: var(--red-color)!important; }
 .marine{ color: var(--marine-color)!important; }
+.vert{ color: var(--green-color)!important; }
+.rouge{ color: var(--red-color)!important; }
 
 
 .bg-bleu{ background-color: var(--blue-color)!important; }
@@ -60,6 +63,7 @@
 .bg-marine-10{ background-color: var(--marine-10-color)!important; }
 .bg-marine{ background-color: var(--marine-background-color)!important; }
 .bg-marine-transparent{ background-color: var(--marine-background-color)!important; }
+.bg-vert{ background-color: var(--green-color) };
 /* .bg-marine-transparent{ background-color: var(--marine-color)!important; } */
 
 .bg-my-light{ background-color:var(--purple-background-color)!important; }
@@ -71,9 +75,15 @@
 .bg-blue-transparent{ background-color: var(--blue-background-color)!important; }
 .bg-purple-transparent{ background-color: var(--purple-background-color)!important; }
 
+
 .mt-5{
     margin-top: 3rem !important;
 }
+
+.mt-6{
+    margin-top: 4rem !important;
+}
+
 
 .no-pb{
     padding-bottom : 0!important;
@@ -106,6 +116,7 @@
 .my-italic{
 
     font-style: italic!important;
+    font-weight: 400;
 
 }
 
@@ -121,6 +132,13 @@
 
 }
 
+.regular{
+
+    font-style: normal!important;
+    font-weight: 500!important;
+
+}
+
 html{ height:100%; }
 
 body{
@@ -129,10 +147,18 @@ body{
     background-color: var(--marine-background-color);
 
 
-    min-height:100%; padding:0; margin:0; position:relative;
+    min-height:110vh; padding:0; margin:0; position:relative;
+
+    padding-bottom: 100px;
 
     /* margin-bottom: 80px; */
     
+
+}
+
+.bolder{
+
+    font-weight: 600;
 
 }
 
@@ -222,9 +248,9 @@ h1, h2, h3, h4, h5, h6{
 }
 
 h1{
-    margin-top: 80px;
-    margin-bottom: 40px;
-    font-size: 48px;
+    margin-top: 65px;
+    margin-bottom: 20px;
+    font-size: 40px;
 }
 
 h3{
@@ -353,6 +379,13 @@ div.front div.card.my-card{
     box-shadow: none!important;
     padding: 0px;
 
+    /* border: 1px solid var(--grey-15-color)!important; */
+}
+
+div.front.white div.card.my-card{
+
+    background-color: white!important;
+    
     /* border: 1px solid var(--grey-15-color)!important; */
 }
 
@@ -724,16 +757,16 @@ td.interlocutor .init-circle{
 
 .init-circle.large, div.center-cropped.large{
 
-    height: 80px;
-    width: 80px;
+    height: 60px;
+    width: 60px;
     
 
 }
 
 .init-circle.large .init{
 
-    font-size: 35px!important;
-    line-height: 70px!important;
+    font-size: 18px!important;
+    line-height: 50px!important;
 
 }
 .init-circle.medium, div.center-cropped.medium{
@@ -823,9 +856,9 @@ form label{
 
 }
 
-form input.form-control, form select.form-control, form textarea.form-control{
+form input.form-control, form select.form-control, form textarea.form-control, .input-group-prepend{
 
-    margin-top: 15px;
+    margin-top: 18px;
     margin-bottom: 15px;
     border-radius: 9px;
 
@@ -999,6 +1032,11 @@ div.card.my-card div.card-body div.card-title{
 
 }
 
+div.card.my-card.category .card-body{
+
+    min-height: 220px;
+}
+
 div.card.my-card.category .sub-container{
 
     height: 120px;
@@ -1013,12 +1051,12 @@ div.card.my-card.category .card-footer{
 
 div.card.my-card.category div.card-body div.card-title.category{
 
-    color: black;
+    color: var(--marine-color);
     margin-top: 20px;
     margin-bottom: 10px;
-    font-size: 17px;
+    font-size: 14px;
     line-height: 20px;
-    font-weight: 700;
+    font-weight: 600;
 
 
 }
@@ -1038,22 +1076,21 @@ div.card.my-card div.card-body .card-subtitle{
     font-family: 'Poppins', sans-serif;
     font-weight: 500;
     font-size: 14px;
-
-    padding-top: 10px!important;
-    padding-bottom: 5px;
+    padding-top: 15px !important;
+    padding-bottom: 7px;
 
 }
 
 .sub-collapse{
 
-    padding-top: 8px!important;
+    padding-top: 34px !important;
 
 }
 
 
 div.card.my-card div.card-body .card-subtitle a{
 
-    color: var(--grey-50-color);
+    color: var(--marine-color);
     display: block;
 
     white-space: nowrap;
@@ -1133,7 +1170,7 @@ div.card.my-card.user{
 
 }
 
-.transparent div.card.my-card.user{
+.transparent div.card.my-card{
 
     background-color: transparent;
     padding-left: 0;

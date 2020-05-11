@@ -237,7 +237,7 @@ class AppFixtures extends Fixture
         }
 
         // Gestion des Pôles
-        for($i = 0; $i <= 5; $i++){
+        for($i = 0; $i <= 4; $i++){
             
             $pole = new Pole();
 
@@ -257,7 +257,8 @@ class AppFixtures extends Fixture
 
             $pole->setTitle($title)
                  ->setSlug($slug)
-                 ->setColor($colors[$i]);
+                 ->setColor($colors[$i])
+                 ->setPictureFilename('pole_default.jpg');
 
             $manager->persist($pole);
 

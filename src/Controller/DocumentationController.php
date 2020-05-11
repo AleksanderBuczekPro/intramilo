@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\Pole;
 use App\Service\Docs;
+use App\Service\Stats;
 use App\Service\Filter;
 use App\Service\Search;
 use App\Entity\Category;
@@ -10,6 +12,7 @@ use App\Form\SearchType;
 use App\Entity\SubCategory;
 use App\Service\Notification;
 use App\Repository\PoleRepository;
+use App\Repository\UserRepository;
 use App\Repository\SheetRepository;
 use App\Repository\CategoryRepository;
 use App\Repository\DocumentRepository;
@@ -26,33 +29,58 @@ class DocumentationController extends AbstractController
     /**
      * Permet d'afficher la page d'accueil de la documentation
      * 
-     * @Route("/doc", name="doc_index")
+     * @Route("/documentation", name="doc_index")
      */
-    public function index(PoleRepository $repo, CategoryRepository $catRepo,  Request $request)
+    public function index(PoleRepository $repo, CategoryRepository $catRepo, UserRepository $userRepo, Request $request, Stats $stats)
     {
-
-        // Gestion des catégories
-        $poles = $repo->findAll();
-
-        $categories = $catRepo->findBy(array(), array('title' => 'ASC'));
-
+        
         // Gestion de la recherche
         $query = $request->query->get('q');
-        
+
         if(isset($query)){
             return $this->redirectToRoute('search_index', ['q' => $query]);
         }
+        
+                
+        // Gestion des catégories
+        $poles = $repo->findAll();
 
-        return $this->render('documentation/index.html.twig', [
+        $authors = $userRepo->findAll();
+
+        $categories = $catRepo->findBy(array(), array('title' => 'ASC'));
+
+        return $this->render('documentation/index2.html.twig', [
             'poles' => $poles,
-            'categories' => $categories
+            'categories' => $categories,
+            'popular' => $stats->getPopularSheets(),
+            'authors' => $authors
+        ]);
+    }
+
+    /**
+     * Permet d'afficher le pôle
+     * 
+     * @Route("/documentation/pole/{id}", name="doc_pole")
+     */
+    public function pole(Pole $pole, PoleRepository $repo, Docs $docs)
+    {
+        $poles = $repo->findAll();
+
+        $fronts = $docs->getFrontDocs();
+
+        $contributors = $docs->getLastContributors();
+
+        return $this->render('documentation/pole.html.twig', [
+            'pole' => $pole,
+            'poles' => $poles,
+            'fronts' => $fronts
         ]);
     }
 
     /**
      * Permet d'afficher le contenu d'une sous-catégorie (fiches et documents)
      * 
-     * @Route("/doc/{slug}/{sub_slug}", name="doc_show")
+     * @Route("/documentation/category/{slug}/{sub_slug}", name="doc_show")
      * 
      * @ParamConverter("subCategory", options={"mapping": {"sub_slug": "slug"}})
      * 
@@ -62,6 +90,8 @@ class DocumentationController extends AbstractController
     {
         $sheets = $sheetRepo->findBySubCategory($subCategory);
         $documents = $docRepo->findBySubCategory($subCategory);
+
+        dump($sheets);
 
         $waitingStatus = ["TO_VALIDATE", "TO_CORRECT"]; 
 

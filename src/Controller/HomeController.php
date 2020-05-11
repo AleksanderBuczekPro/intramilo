@@ -44,6 +44,13 @@ class HomeController extends Controller{
 
         $fronts = $docs->getFrontDocs();
         $files = $docs->getLastDocs();
+
+        // Gestion de la recherche
+        $query = $request->query->get('q');
+
+        if(isset($query)){
+            return $this->redirectToRoute('search_index', ['q' => $query]);
+        }
         
 
         return $this->render(

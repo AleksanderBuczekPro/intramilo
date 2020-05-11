@@ -52,6 +52,11 @@ class Pole
      */
     private $labelColor;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $pictureFilename;
+
     public function __construct()
     {
         $this->category = new ArrayCollection();
@@ -189,6 +194,18 @@ class Pole
     public function setLabelColor(string $labelColor): self
     {
         $this->labelColor = $labelColor;
+
+        return $this;
+    }
+
+    public function getPictureFilename(): ?string
+    {
+        return $this->pictureFilename;
+    }
+
+    public function setPictureFilename(string $pictureFilename): self
+    {
+        $this->pictureFilename = $pictureFilename;
 
         return $this;
     }

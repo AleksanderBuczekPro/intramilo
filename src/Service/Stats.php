@@ -63,5 +63,17 @@ class Stats{
 
     }
 
+    public function getPopularSheets(){
+        
+        return $this->manager->createQuery(
+            'SELECT s
+            FROM App\Entity\Sheet s
+            ORDER BY s.views DESC'
+        )
+        ->setMaxResults(6)
+        ->getResult();
+
+    }
+
 
 }

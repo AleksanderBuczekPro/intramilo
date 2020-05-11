@@ -1,0 +1,107 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Documentation
+{% endblock %}
+
+
+{% block header %}
+
+{% endblock %}
+
+
+{% block body %}
+
+<div class="container-fluid">
+
+    <div class="row">
+        <div class="col-10 offset-md-1">
+            
+            {# Poles Cards #}
+            <div class="row justify-content-center">
+
+                {% for pole in poles %}
+                    <div class="col-xl-2 col-lg-4">
+                        {% include 'documentation/_pole.html.twig' %}
+                    </div>
+                {% endfor %}
+
+            </div>
+
+            {# Most Popular #}
+            <div class="row mt-6">
+                <div class="col-10 offset-md-1">
+                    <div class="my-title mb-0">Les plus populaires</div>
+
+                    <div class="row">
+                            {% for file in popular %}
+
+                                <div class="col-4 front white">
+                                    {% include 'documentation/_file.html.twig' %}
+                                </div>
+
+                            {% endfor %}
+                    </div>
+                </div>
+                {# <div class="col-5">
+                    <div class="my-title">Récemment consultées</div>
+
+                    {% for file in popular %}
+
+                        {% include 'documentation/_file.html.twig' %}
+
+                    {% endfor %}
+
+                </div> #}
+            </div>
+
+            <div class="row mt-6 mb-4">
+                <div class="col-10 offset-md-1">
+                    <div class="my-title mb-0">Contributeurs</div>
+
+                        <div class="row">
+
+                            {% for author in authors|sort((a, b) => b.sheets|length <=> a.sheets|length) %}
+
+                                {% if loop.index <= 6 %}
+
+                                    <div class="col-2">
+                                        <div class="">
+                                            <div class="card my-card no-border div card-body px-2 py-4">
+
+                                                <div class="text-center">
+                                                    <div class="">{% include '_picture.html.twig' with {'user': author, 'class': 'medium'} %}</div>
+                                                    <div class="small main text-center mt-3 bleu">{{ author.fullName }}</div>
+                                                    <div class="my-secondary text-center">{{ author.sheets|length }} fiches</div>
+                                                </div>
+                                            </div>  
+                                        </div>
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                </div>
+            </div>
+
+
+
+
+
+        </div>
+    </div>
+
+</div>
+
+
+
+
+{% endblock %}
+
+
+
+
+
+
+{% block javascripts %}
+
+{% endblock %}

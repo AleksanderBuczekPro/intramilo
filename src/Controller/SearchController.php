@@ -21,8 +21,8 @@ class SearchController extends AbstractController
         $query = $request->query->get('q');
 
         $files = $search->getResults($query);
-
         
+        dump($files);
 
         return $this->render('documentation/search.html.twig', [
             'query' => $query,

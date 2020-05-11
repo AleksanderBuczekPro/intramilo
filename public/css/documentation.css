@@ -28,24 +28,28 @@ div.documentation-header img{
 
 form.search-form {
 
-    margin-top: 30px;
+    /* margin-top: 30px; */
 
 }
 
 form.search-form input{
 
-    margin-top: 0;
+    border-radius: 0 8px 8px 0;
+    border-radius: 8px;
+    width: 200px;
 
-    font-size: 1.05em;
-
-    height: 50px;
-    background-color: white;
-    color: var(--grey-70-color);
-    border: none;
-
-    padding: 8px 20px;
+    /* border-left: transparent; */
 
 }
+
+.input-group-prepend span{
+
+    font-size: 14px;
+    border-radius: 8px 0 0 8px;
+
+    border-right: none;
+}
+
 
 form.search-form input::placeholder{
 
@@ -316,7 +320,7 @@ div.container-fluid.sheet-container{
 
 }
 
-.sheet-container div.summary{
+div.sidebar{
 
     padding: 70px 20px 0px 20px;
 
@@ -558,7 +562,7 @@ div.sheet-content ul li::before {
 
     font-weight: 700;
 }
-
+/* 
 div.card.header-card{
 
     color: white;
@@ -566,7 +570,6 @@ div.card.header-card{
     text-align: center;
     margin-top: 0;
 
-    background-image: url(http://placeimg.com/300/200/any);
     min-height: 200px;
     background-color: rgba(0,0,0,.5);
     background-blend-mode: multiply;
@@ -578,7 +581,7 @@ div.card.header-card{
     -moz-box-shadow: 12px 12px 23px -15px rgba(0,0,0,.7);
     box-shadow: 12px 12px 23px -15px rgba(0,0,0,.7);
 
-}
+} */
 
 div.card.header-card .sheet-folder{
 
@@ -993,6 +996,58 @@ div.card.my-card.header{
 
 }
 
+.fil-ariane a{
+
+    text-decoration: underline!important;
+}
+
+
+.fil-ariane a:hover{
+
+    color: var(--blue-color);
+}
+
+
+.attachment{
+
+    overflow: hidden;
+
+}
+
+.attachment .type{
+
+    height: 40px;
+    width: 40px;
+    line-height: 22px;
+    text-align: center;
+    border-radius: 5px;
+    background-color: var(--marine-10-color)!important;
+
+    padding: 9px 7px;
+
+    font-size: 11px;
+    font-weight: 600;
+
+}
+
+.attachment .title{
+
+    font-size: 14px;
+    color: var(--marine-color);
+
+    font-weight: 500;
+
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    
+}
+
+.attachment .details{
+
+    font-size: 14px;
+    
+}
+
 
 
 
@@ -1134,6 +1189,95 @@ div.card.my-card.paragraph-card .card-header{
     background-color: transparent!important;
     background-blend-mode: multiply!important;
     font-weight: 600;
+
+
+}
+
+
+/* Pole card */
+
+div.pole-card, .header-card{
+
+    
+    position: relative;
+    overflow: hidden;
+
+    min-height: 200px;   
+
+}
+
+.background{
+
+    position:absolute;
+    top:0;right:0;bottom:0;left:0;
+    z-index: 1;
+
+    /* background: rgb(37,56,88); */
+    /* background-image: linear-gradient(0deg, rgba(37,56,88,1) 17%, rgba(37,56,88,0) 100%), url(http://placeimg.com/300/300/any); */
+    background-size: cover;
+    background-blend-mode: multiply;
+    transition: all 0.2s ease;
+
+    border-radius: 8px;
+
+}
+
+.card-body{
+
+    z-index: 2;
+
+}
+
+
+.pole-card:hover .background,
+.pole-card:focus .background {
+
+  transform: scale(1.2);
+
+}
+
+
+.pole-card .card-body{
+
+    min-height: 200px;
+
+    overflow-x: hidden;
+
+    color: white;
+
+}
+
+.pole-card .pole-title{
+
+    position: absolute;
+
+    bottom: 33px;
+
+
+    font-size: 18px;
+    line-height: 25px;
+    
+    font-weight: 700;
+
+
+    
+}
+
+.pole-card .pole-subtitle{
+
+    position: absolute;
+
+    width: 80%;
+    bottom: 15px;
+
+    font-size: 11px;
+    opacity: 0.8;
+    font-weight: 500;
+
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 
 
 }

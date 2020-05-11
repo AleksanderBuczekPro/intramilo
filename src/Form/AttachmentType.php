@@ -17,7 +17,7 @@ class AttachmentType extends ApplicationType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('title', TextType::class, $this->getConfiguration("Titre", "Entrez le titre de la fiche"))
+            ->add('title', TextType::class, $this->getConfiguration("Titre", "Titre de la pièce jointe"))
             ->add('organization', EntityType::class, [
                 'label' => "Organisme",
                 'placeholder' => "Sélectionnez un organisme",

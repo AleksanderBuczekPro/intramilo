@@ -1,0 +1,117 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Documentation
+{% endblock %}
+
+
+{% block header %}
+
+{% endblock %}
+
+
+{% block body %}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-2 sidebar text-center">
+            <a href="{{ path('doc_index') }}" class="btn btn-my-secondary bg-white"><i class="uil uil-angle-left-b"></i> Documentation </a>
+        </div>
+        <div class="col-8">
+
+            <h1 class="my-h1 marine">{{ pole }}</h1>
+
+            <div class="row">
+                {% for cat in pole.category %}
+
+                    {% include 'documentation/_category_card.html.twig' with {'category': cat }  %}
+
+                {% endfor %}
+            </div>
+        </div>
+    
+    </div>
+
+    <div class="row mt-6">
+        <div class="col-8 offset-md-2">
+            <div class="my-title">A la Une</div>
+
+            <div class="row">
+                
+                {% for cat in pole.category %}
+                    {% for sub in cat.subCategories %}
+                        {% for file in sub.sheets %}
+
+                            {% if file.front == 1 %}
+                            <div class="col-4 front white">
+                                {% include 'documentation/_file.html.twig' %}
+                            </div>
+                            {% endif %}
+
+                        {% endfor %}
+                    {% endfor %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    {# {% set current_pole = pole %}
+
+    <div class="row mt-6">
+        <div class="col-8 offset-md-2">
+            <div class="my-title">Autres pôles</div>
+            <div class="row">
+                {% for pole in poles %}
+
+                    {% if current_pole != pole %}
+                    <div class="col-3">
+                        {% include 'documentation/_pole.html.twig' %}
+                    </div>
+                    {% endif %}
+
+                {% endfor %}
+            </div>
+        
+        </div>
+    
+    </div> #}
+
+
+</div>
+
+
+
+
+{% endblock %}
+
+
+
+
+
+
+{% block javascripts %}
+
+<script>
+
+$( ".see" ).click(function() {
+
+    if($(this).hasClass('more')){
+        
+        console.log('oui');
+        $(this).removeClass('more');
+        $(this).html("Voir moins <i class='uil uil-angle-up'></i>");
+
+    }else{
+        
+        console.log('non');
+        $(this).addClass('more');
+        $(this).html("Voir plus <i class='uil uil-angle-down'></i>");
+
+    }
+
+
+});
+
+</script>
+
+{% endblock %}

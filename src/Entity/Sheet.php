@@ -123,7 +123,7 @@ class Sheet
     private $author;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Attachment", mappedBy="sheet", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\Attachment", mappedBy="sheet", orphanRemoval=true, cascade={"persist"})
      */
     private $attachments;
 

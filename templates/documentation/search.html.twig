@@ -11,14 +11,12 @@
 
 {% block body %}
 
-{% include 'partials/search.html.twig'  %}
-<img src="images/curve.svg" alt="">
-    <div class="my-background">
+
         <div class="container search-container mt-0">
 
-            <div class="row">
+            <div class="row mt-6">
                 <a href="{{ path('doc_index') }}" class="btn btn-my-return">
-                    <i class="uil uil-arrow-left"></i> Retour à la Documentation</a>
+                    <i class="uil uil-arrow-left"></i>Aller à la Documentation</a>
             </div>
             <div class="row">
                 <div class="col-3">
@@ -32,14 +30,10 @@
                         {% include 'documentation/_file.html.twig' with {'file': file }  %}
                     {% endfor %}
                 </div>
-
-                
-
-            
             </div>
             
         </div>
-    </div>
-</div>
+
+
 
 {% endblock %}

@@ -225,6 +225,21 @@ class SheetController extends AbstractController
                 
             }
 
+            dump($sheet);
+            // Attachments
+            foreach($sheet->getAttachments() as $attachment){
+
+
+
+                $attachment->setSheet($sheet);
+                $attachment->setAuthor($this->getUser());
+                $attachment->setSubCategory($sheet->getSubCategory());
+
+                $manager->persist($attachment);
+                
+            }
+    
+
             // Headers & Sections
             foreach($sheet->getHeaders() as $header){
 
@@ -467,7 +482,6 @@ class SheetController extends AbstractController
      */
     public function show(Sheet $sheet, Request $request, EntityManagerInterface $manager, Menu $menu)
     {
-
         // Si la fiche est "En cours de validation"
         if($sheet->getStatus() == "TO_VALIDATE"){
 

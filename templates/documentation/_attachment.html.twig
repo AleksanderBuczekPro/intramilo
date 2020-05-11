@@ -1,0 +1,81 @@
+{% set mime = file.mimeType %}
+
+    {% set type = "?" %}
+    {% set color = "black" %}
+
+{% if mime == "image/jpeg" %}
+
+    {% set type = "jpg" %}
+    {% set color = "violet" %}
+
+{% endif %}
+ 
+{% if mime == "application/vnd.openxmlformats-officedocument.wordprocessingml.document" or mime == "application/msword" or mime == "application/vnd.openxmlformats-officedocument.wordprocessingml.documentapplication/vnd.openxmlformats-officedocument.wordprocessingml.document" %}
+
+    {% set type = "w" %}
+    {% set color = "bleu" %}
+
+{% endif %}
+
+{% if mime == "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" or mime == "application/vnd.ms-excel"%}
+
+    {% set type = "x" %}
+    {% set color = "vert" %}
+
+{% endif %}
+
+{% if mime == "application/pdf"%}
+
+    {% set type = "pdf" %}
+    {% set color = "rouge" %}
+
+{% endif %}
+
+<a href="{{ vich_uploader_asset(file, 'genericFile')}}" target="_blank">
+
+<div class="card my-card file-card attachment">
+    <div class="card-body p-0">
+        <table class="table my-table no-border">
+            <tr>
+                <td class="w-25 p-0 text-center">
+                    <div class="type {{ color }}">{{ type|upper }}</div>
+                </td>
+                <td class="w-75 py-0">
+                    <div class="title">
+                        {{ file.title }}
+                        {# - {{file.mimeType }} #}
+                    </div>
+                    <div class="details op-70 marine">
+                        {# gigabyte #}
+                        {% if file.size > 1073741824 %}
+
+                            {% set size = file.size / 1000000000 %}
+                            {{ size|number_format(2, ',', ' ') }} <span>Mo</span>
+                        
+                        {# megabyte #}
+                        {% elseif file.size > 1048576 %}
+
+                            {% set size = file.size / 1000000 %}
+                            {{ size|number_format(1, ',', ' ') }} <span>Mo</span>
+
+                        {% else %}
+
+                            {% set size = file.size / 1000 %}
+                            {{ size|number_format(0, ',', ' ') }} <span>Ko</span>
+
+                        {% endif %}
+                    </div>
+                
+                
+                </td>
+            </tr>
+        
+        </table>
+        
+
+    </div>
+</div>
+
+
+   
+</a>

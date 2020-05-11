@@ -45,7 +45,12 @@ button.no-focus:focus{
 }
 
 
+.btn.see{
 
+    background-color: transparent;
+    color: var(--blue-color);
+
+}
 
 
 
@@ -396,6 +401,24 @@ span.my-badge.pole.jaune{
 
     background: var(--yellow-transparent-color);
     color: var(--yellow-color);
+    
+}
+
+
+.btn.my-filter.pole span.my-dot.vert{
+    color: var(--green-color);
+}
+
+.btn.my-filter.pole.vert.active,
+.btn.my-filter.pole.vert:hover{
+
+    background: var(--green-color);
+
+}
+span.my-badge.pole.vert{
+
+    background: var(--green-transparent-color);
+    color: var(--green-color);
     
 }
 

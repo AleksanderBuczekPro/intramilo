@@ -18,7 +18,7 @@
     <div class="row">
 
         {# Summary #}
-        <div class="col-xl-2 col-lg-1 bg-marine summary">
+        <div class="col-xl-2 col-lg-1 bg-marine sidebar">
             <a href="{{ path('doc_show', {'slug': category.slug, 'sub_slug': subCategory.slug }) }}" class="btn btn-my-secondary"><i class="uil uil-angle-left-b"></i> Retour</a>
 
         </div>
@@ -32,11 +32,11 @@
                     {# Titre et infoss #}
                     <p class="fil-ariane marine mt-2 mb-0">
                         <span href="" class="my-badge mt-1 bg-{{ category.pole.labelColor }} white px-2 py-1">{{ category.pole |slice(0, 1) }}</span>
-                        <span class="mx-1 doc-secondary">{{ category.pole }}</span>
+                        <a href="{{ path('doc_pole', { 'id': category.pole.id }) }}" class="marine"><span class="mx-1 doc-secondary">{{ category.pole }}</span></a>
                         <span class="">></span>
                         <span class="mx-1 doc-secondary">{{ category }}</span>
                         <span class="">></span>
-                        <span class="mx-1 doc-secondary">{{ subCategory }}</span>
+                        <a href="{{ path('doc_show', { 'slug': category.slug, 'sub_slug': subCategory.slug }) }}" class="marine"><span class="mx-1 doc-secondary">{{ subCategory }}</span></a>
                     </p>
                 </div>
 
@@ -96,8 +96,18 @@
                     {% endif %}    
                 </div>
             
-            </div>        
+            </div>
 
+            {# Pièces jointes #}
+            <div class="row">
+                {% for file in sheet.attachments %}
+
+                    <div class="col-3 p-2">
+                        {% include 'documentation/_attachment.html.twig' %}
+                    </div>
+
+                {% endfor %}
+            </div>
 
             {# Contenu #}
             <div class="d-none" id="sheetId">{{ sheet.id }}</div>
@@ -194,13 +204,6 @@
                                     </div>
 
                                 {% endfor %}
-                                {% for file in sheet.attachments %}
-
-                                    <div class="col-6 p-2">
-                                        {% include 'documentation/_file.html.twig' %}
-                                    </div>
-
-                                {% endfor %}
                             </div>
                         </div>
 
@@ -214,26 +217,29 @@
         {# Header #}
         <div class="col-xl-3 col-lg-3 bg-white header pr-0">
 
-            <div style="width: 300px;" class="sticky">
+            <div style="width: 250px;" class="sticky">
 
                 {# Card #}
-                <div class="card my-card header-card">
-                    <div class="card-body ">
-                        <div class="col-12">
-                            <div class="title align-bottom">{{ sheet.title }}</div>
-                            <div class="organization align-bottom">{{ sheet.organization }}</div>
+                <div class="card my-card header-card my-box no-border">
+                    <div class="background" style="background-image: linear-gradient(0deg, rgba(37,56,88,0.8) 5%, rgba(37,56,88,0) 100%), url({{ asset('files/pictures/' ~ category.pole.pictureFilename) }});">
+                    </div>
+
+                    <div class="card-body">
+                        <div class="col-12 text-center">
+                            <div class="white title align-bottom">{{ sheet.title }}</div>
+                            <div class="white organization align-bottom">{{ sheet.organization }}</div>
                         </div>
                     </div>
                 </div>
 
 
                 {# Organization #}
-                <div class="card my-card organization-card bg-marine-10 no-border">
+                <div class="card my-card organization-card my-box bg-marine-10 no-border">
                     <div class="card-body">
                         <div class="organization-title marine">{{ sheet.organization }}</div>
-                        <div class="organization-address my-secondary marine">{{ sheet.organization.address }}</div>
-                        <div class="organization-phone my-secondary marine mt-2 "><i class="uil uil-envelope-alt"></i> {{ sheet.organization.phoneNumber }}</div>
-                        <div class="organization-email my-secondary marine"><i class="uil uil-phone-alt"></i> {{ sheet.organization.email }}</div>
+                        <div class="organization-address small my-secondary marine">{{ sheet.organization.address }}</div>
+                        <div class="organization-phone small my-secondary marine mt-2 "><i class="uil uil-envelope-alt"></i> {{ sheet.organization.phoneNumber }}</div>
+                        <div class="organization-email small my-secondary marine"><i class="uil uil-phone-alt"></i> {{ sheet.organization.email }}</div>
 
                         {# Interlocutors #}
                         {% if sheet.interlocutors|length > 0 %}

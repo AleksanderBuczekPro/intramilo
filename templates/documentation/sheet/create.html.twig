@@ -53,10 +53,6 @@
                     <div class="form-content mt-4">
                         {{ form_widget(form.paragraphs) }}
                     </div>
-
-                    {# <div>
-                        {{ form_widget(form.attachments) }}
-                    </div> #}
                 
                 </div>
 
@@ -70,7 +66,9 @@
                                         Pièces jointes
                                     </div> #}
                                     <label for="">Pièces jointes</label>
-                                    <p class="text">Prochainement</p>
+                                        <div>
+                                            {{ form_widget(form.attachments) }}
+                                        </div>
                                     
                                 </div>
                             </div>
@@ -247,9 +245,13 @@ function handleDeleteButtons(){
 function updateCounter(){
     const count = +$('#sheet_headers div.form-group.header').length;
     const count_p = +$('#sheet_paragraphs div.form-group.paragraph').length;
+    const count_a = +$('#sheet_attachments div.form-group.attachment').length;
+
+    /* Attachments */
+    $('#widgets-attachment-counter').val(count_a);
 
     /* Paragraphs */
-    $('#widgets-paragraphs-counter').val(count_p);
+    $('#widgets-paragraph-counter').val(count_p);
 
     /* Headers */
     $('#widgets-counter').val(count);
@@ -263,6 +265,7 @@ function updateCounter(){
         $('#widgets-section-counter-sheet_headers_'+ index +'_sections').val(count_section);
 
     });
+
 
 
 }
