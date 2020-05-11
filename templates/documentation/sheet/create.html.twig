@@ -200,7 +200,7 @@ $('#add-attachment').click(function(){
     const index = +$('#widgets-attachment-counter').val(); // + transforme la chaine de caractère en nombre
 
     // Je récupère le prototype des entrées
-    const tmpl = $('#sheet_attachments').data('prototype').replace(/__h__/g, index); // g = "pour chaque"
+    const tmpl = $('#sheet_attachments').data('prototype').replace(/__a__/g, index); // g = "pour chaque"
 
     // J'injecte ce code au sein de la div
     $('#sheet_attachments').append(tmpl);
