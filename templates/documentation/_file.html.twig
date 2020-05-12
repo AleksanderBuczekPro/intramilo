@@ -13,16 +13,23 @@
 {% endif %}
 
 {# Icône d'Etat #}
-{% if type == 'document' and file.status == "TO_VALIDATE" %}
+{% if type == "sheet" and file.status == "DRAFT" %}
+
+    {% set state = "Brouillon" %}
+    {% set icon = "hourglass-half" %}
+    {% set state_class = "marine" %}
+
+
+{% elseif type == 'sheet' and file.status == "TO_VALIDATE" %}
 
     {% set state = "En cours de validation" %}
-    {% set icon = "pause" %}
+    {% set icon = "pause-circle" %}
     {% set state_class = "light" %}
 
-{% elseif type == 'document' and file.status == "TO_CORRECT" %}
+{% elseif type == 'sheet' and file.status == "TO_CORRECT" %}
 
     {% set state = "À corriger" %}
-    {% set icon = "exclamation" %}
+    {% set icon = "exclamation-circle" %}
     {% set state_class = "danger" %}
 
 {% else %}
@@ -30,19 +37,19 @@
     {% if date(file.updatedAt) <= date('-6months', 'Europe/Paris') %}
 
         {% set state = "Obsolète" %}
-        {% set icon = "times" %}
+        {% set icon = "times-circle" %}
         {% set state_class = "danger" %}
 
     {% elseif date(file.updatedAt) < date('-5months', 'Europe/Paris') %}
 
         {% set state = "Bientôt obsolète" %}
-        {% set icon = "minus" %}
+        {% set icon = "minus-circle" %}
         {% set state_class = "warning" %}
 
     {% else %}
 
         {% set state = "À jour" %}
-        {% set icon = "check" %}
+        {% set icon = "check-circle" %}
         {% set state_class = "success" %}
 
     {% endif %}
@@ -68,7 +75,7 @@
         </div>
 
         <div class="file-title my-1">
-            {{ file.title }} <i class="fas fa-{{icon}}-circle {{state_class}} fa-xs"></i>
+            {{ file.title }} <i class="fas fa-{{icon}} {{state_class}} fa-xs"></i>
         </div>
         <div class="w-100">
             <span class="my-secondary marine">

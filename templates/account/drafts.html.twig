@@ -1,0 +1,61 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Documentation - Tableau de bord
+{% endblock %}
+
+
+{% block body %}
+
+
+
+{# <div class="row dashboard"> #}
+
+    {# Dashboard Sidebar #}
+    
+    {% include 'account/_dashboard_sidebar.html.twig' %}
+
+    <div class="my-content">
+        <div class="my-h1">Mes brouillons</div>
+
+        <table class="table my-table admin">
+            <thead>
+                <tr>
+                    <th colspan="2">Brouillons <span class="number"><span>{{ files|length }}</span></span></th>
+                    <th>Dossier</th>
+                    <th>Dernière mise à jour</th>
+                    <th>Etat</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+            {% if app.user.sheets|length + app.user.documents|length > 0 %}
+
+                {# Brouillon #}
+                {% for file in files %}
+                    {% include '/account/_dashboard_table_row.html.twig' with {'file': file} %}
+                {% endfor %}
+
+            {% else %}
+
+                <td>Aucun brouillon</td><td colspan="5" class="text-center"></td>
+
+
+            {% endif %}
+            </tbody>
+        </table>
+    
+    </div>
+
+
+{% endblock %}
+{% block javascripts %}
+<script>
+
+    $('tr[data-href]').on("click", function() {
+        document.location = $(this).data('href');
+    });
+
+</script>
+
+{% endblock %}

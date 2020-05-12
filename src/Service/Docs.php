@@ -3,6 +3,8 @@
 namespace App\Service;
 
 use DateTime;
+use App\Entity\Header;
+use App\Entity\Section;
 use App\Repository\DocumentRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -152,7 +154,6 @@ class Docs{
     
     }
 
-
-
-
 }
+
+

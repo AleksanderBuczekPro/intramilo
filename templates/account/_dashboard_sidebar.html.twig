@@ -13,6 +13,9 @@
         <a href="{{ path('account_documents') }}" class="sidebar-link {% if app.request.attributes.get('_route') starts with 'account_documents'  %}active{% endif %}">
             <i class="uil uil-book-alt"></i> Mes documents
         </a>
+        <a href="{{ path('account_drafts') }}" class="sidebar-link {% if app.request.attributes.get('_route') starts with 'account_drafts'  %}active{% endif %}">
+            <i class="uil uil-hourglass"></i> Mes brouillons
+        </a>
         <a href="{{ path('account_folders') }}" class="sidebar-link {% if app.request.attributes.get('_route') starts with 'account_folders'  %}active{% endif %}"><i class="uil uil-folder-check"></i> Mes dossiers</a>
         <a href="{{ path('organizations_index') }}" class="sidebar-link {% if app.request.attributes.get('_route') starts with 'organizations_index'  %}active{% endif %}"><i class="uil uil-building"></i> Organismes et interlocuteurs</a>
 

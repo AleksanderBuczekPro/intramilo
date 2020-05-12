@@ -20,6 +20,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
@@ -127,6 +128,15 @@ class SheetType extends ApplicationType
                         return $attachment->getSubCategory()->getTitle();
     
                     }
+                ])
+                ->add('save', SubmitType::class, [
+                    'label' => 'Ajouter la fiche',
+                    'attr' => ['class' => 'btn btn-success success float-right white mt-3']
+                    
+                ])
+                ->add('saveDraft', SubmitType::class, [
+                    'label' => 'Enregistrer en brouillon',
+                    'attr' => ['class' => 'btn btn-my-dark dark small float-right px-2']
                 ])
             ;
     }

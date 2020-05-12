@@ -2,17 +2,23 @@
 {% set type = constant('TYPE', sheet) %}
 {% set icon = constant('ICON', sheet) %}
 
+{% if sheet.status == "DRAFT" %}
 
-{% if sheet.status == "TO_VALIDATE" %}
+    {% set state = "Brouillon" %}
+    {% set icon = "hourglass-half" %}
+    {% set state_class = "marine" %}
 
-    {% set state = "En cours de validation" %}
-    {% set icon = "pause" %}
+
+{% elseif sheet.status == "TO_VALIDATE" %}
+
+    {% set state = "En attente de validation" %}
+    {% set icon = "pause-circle" %}
     {% set state_class = "marine" %}
 
 {% elseif sheet.status == "TO_CORRECT" %}
 
     {% set state = "À corriger" %}
-    {% set icon = "exclamation" %}
+    {% set icon = "exclamation-circle" %}
     {% set state_class = "rouge" %}
 
 {% else %}
@@ -20,19 +26,19 @@
     {% if date(sheet.updatedAt) <= date('-6months', 'Europe/Paris') %}
 
         {% set state = "Obsolète" %}
-        {% set icon = "times" %}
+        {% set icon = "times-circle" %}
         {% set state_class = "rouge" %}
 
     {% elseif date(file.updatedAt) < date('-5months', 'Europe/Paris') %}
 
         {% set state = "Bientôt obsolète" %}
-        {% set icon = "minus" %}
+        {% set icon = "minus-circle" %}
         {% set state_class = "warning" %}
 
     {% else %}
 
         {% set state = "À jour" %}
-        {% set icon = "check" %}
+        {% set icon = "check-circle" %}
         {% set state_class = "success" %}
 
     {% endif %}
@@ -40,18 +46,18 @@
 {% endif %}
 
 
-<div class="card my-card notification {% include 'documentation/_file_state_class.html.twig' with {'file': sheet} %} bg-{{state_class}}-transparent no-border">
+<div class="card my-card notification {{ state_class }} bg-{{state_class}}-transparent no-border">
     <div class="card-body text-left">
 
         <table class="my-table notification w-100">
             <tbody>
                 <tr>
                     <td class="file-icon-state">
-                        {% include 'documentation/_file_icon.html.twig' with {'file': sheet} %}
+                        <i class="fas fa-{{icon}} {{state_class}}"></i>
                     </td>
                     <td class="file-content text-left pl-1">
                         <div class="file-state">
-                            {% include 'documentation/_file_state.html.twig' with {'file': sheet} %}
+                            {{ state }}
                         </div>
                         <div class="my-secondary small {{state_class}}">
                             {{ sheet.updatedAt|localizeddate('none', 'none', 'fr', null, 'd MMMM Y') }}

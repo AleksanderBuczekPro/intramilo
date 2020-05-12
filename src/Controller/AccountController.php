@@ -591,6 +591,25 @@ class AccountController extends AbstractController
     }
 
     /**
+     * Permet de récupérer la liste des brouillons de l'utilisateur
+     * 
+     * @Route("/account/drafts", name="account_drafts")
+     * 
+     * @return Response
+     */
+    public function myDrafts(SheetRepository $sheetRepo, UserRepository $userRepo, Request $request, EntityManagerInterface $manager, Filter $filter)
+    {
+        $subCategories = $this->getUser()->getSubCategories();
+
+        $files = $filter->getDrafts($this->getUser());
+
+        return $this->render('account/drafts.html.twig', [
+
+            'files' => $files
+        ]);
+    }
+
+    /**
      * Permet de faire la liste des dossiers de l'utilisateur connecté
      * 
      * @Route("/account/folders", name="account_folders")

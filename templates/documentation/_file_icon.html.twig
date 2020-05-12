@@ -2,17 +2,23 @@
 {% set type = constant('TYPE', file) %}
 {% set icon = constant('ICON', file) %}
 
+{% if sheet.status == "DRAFT" %}
 
-{% if file.status == "TO_VALIDATE" %}
+    {% set state = "Brouillon" %}
+    {% set icon = "hourglass-half" %}
+    {% set state_class = "marine" %}
+
+
+{% elseif sheet.status == "TO_VALIDATE" %}
 
     {% set state = "En cours de validation" %}
-    {% set icon = "pause" %}
+    {% set icon = "pause-circle" %}
     {% set state_class = "marine" %}
 
 {% elseif file.status == "TO_CORRECT" %}
 
     {% set state = "À corriger" %}
-    {% set icon = "exclamation" %}
+    {% set icon = "exclamation-circle" %}
     {% set state_class = "danger" %}
 
 {% else %}
@@ -20,23 +26,23 @@
     {% if date(file.updatedAt) <= date('-6months', 'Europe/Paris') %}
 
         {% set state = "Obsolète" %}
-        {% set icon = "times" %}
+        {% set icon = "times-circle" %}
         {% set state_class = "danger" %}
 
     {% elseif date(file.updatedAt) < date('-5months', 'Europe/Paris') %}
 
         {% set state = "Bientôt obsolète" %}
-        {% set icon = "minus" %}
+        {% set icon = "minus-circle" %}
         {% set state_class = "warning" %}
 
     {% else %}
 
         {% set state = "À jour" %}
-        {% set icon = "check" %}
+        {% set icon = "check-circle" %}
         {% set state_class = "success" %}
 
     {% endif %}
 
 {% endif %}
 
-<i class="fas fa-{{icon}}-circle {{state_class}}"></i>
+<i class="fas fa-{{icon}} {{state_class}}"></i>

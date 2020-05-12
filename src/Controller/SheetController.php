@@ -5,6 +5,8 @@ namespace App\Controller;
 use DateTimeZone;
 use App\Entity\Sheet;
 use App\Service\Menu;
+use App\Entity\Header;
+use App\Entity\Section;
 use App\Form\SheetType;
 use App\Form\ToolsType;
 use App\Entity\Category;
@@ -83,21 +85,72 @@ class SheetController extends AbstractController
      * Permet d'ajouter une fiche dans une sous-catégorie spécifique
      * 
      * @Route("/documentation/{id}/sheet/new", name="sheet_create_sub")
+     *
+     * @Route("/documentation/sheet/new/model/{id_model}", name="sheet_create_model")
      * @Route("/documentation/sheet/new", name="sheet_create")
+     * 
+     * @ParamConverter("sheetFromModel", options={"mapping": {"id_model": "id"}})
      * 
      * @IsGranted("ROLE_USER")
      *
      * @return Response
      * 
      */
-    public function create(SubCategory $subCategory = null, Request $request, EntityManagerInterface $manager, SubCategoryRepository $subRepo, InterlocutorRepository $repo) {
+    public function create(SubCategory $subCategory = null, Sheet $sheetFromModel = null, Request $request, EntityManagerInterface $manager, SubCategoryRepository $subRepo, InterlocutorRepository $repo) {
+        
 
         $sheet = new Sheet();
 
-        if($subCategory){
-            $sheet->setSubCategory($subCategory);  
-        }
+        // Si c'est depuis un modèle
+        if($sheetFromModel){
+            
+            // On duplique les RELATIONS
+
+            // Paragraphs
+            foreach($sheetFromModel->getParagraphs() as $p){
+                
+                $paragraph = clone $p;
+                $paragraph->setSheet($sheet);
+
+                $sheet->addParagraph($paragraph);
+                
+            }
+            
+            // Headers
+            foreach($sheetFromModel->getHeaders() as $h){
+                
+                // $sheet->addHeader($header);
+
+                $header = new Header();
+                $header->setTitle($h->getTitle());
+                $header->setSheet($sheet);
+
+                $sheet->addHeader($header);
+
+                foreach($h->getSections() as $s){
+ 
+                    // Création de la nouvelle section
+                    $section = new Section();
+                    $section->setTitle($s->getTitle());
+                    $section->setContent($s->getContent());
+
+                    $section->setHeader($header);
+
+                    $header->addSection($section);
+                }
+                
+            }
+
+
         
+        }else{
+
+            if($subCategory){
+                $sheet->setSubCategory($subCategory);  
+            }
+
+        
+        }
 
         $form = $this->createForm(SheetType::class, $sheet, array('user' => $this->getUser()));
 
@@ -166,11 +219,25 @@ class SheetController extends AbstractController
             
             $sheet->setFront('0');
 
-            if(!$this->isGranted("ROLE_ADMIN")){
-                $sheet->setStatus("TO_VALIDATE");
-            }           
+            // Enregistrement en tant que brouillon
+            if($form->get('saveDraft')->isClicked()){
+                
+                $sheet->setStatus("DRAFT");
 
+            }else{
 
+                // user
+                if(!$this->isGranted("ROLE_ADMIN")){
+                    $sheet->setStatus("TO_VALIDATE");
+                
+                }else{ // admin
+
+                    $sheet->setStatus(null);
+
+                }
+
+            }
+            
             $sheet->setViews(0);
             $sheet->setAuthor($this->getUser());
 
@@ -259,10 +326,6 @@ class SheetController extends AbstractController
             // Datetime
             $sheet->setUpdatedAt(new \DateTime(null, new DateTimeZone('Europe/Paris')));
 
-
-
-
-
             // Initialisation des interlocuteurs
             foreach($sheet->getInterlocutors() as $interlocutor){
 
@@ -270,8 +333,7 @@ class SheetController extends AbstractController
             
             }
 
-            // Interlocutors
-
+                // Interlocutors
                 // Récupération de toutes les variables POST
                 $data = $request->request->all();
 
@@ -289,6 +351,7 @@ class SheetController extends AbstractController
 
                 }
 
+                
 
             // Si c'est une fiche "En cours de validation" que l'on modifie
             if($sheet->getStatus() == "TO_VALIDATE"){
@@ -307,7 +370,7 @@ class SheetController extends AbstractController
                 //     }
                     
                 // }
-                
+
                 $sheet->setUpdatedAt(new \DateTime(null, new DateTimeZone('Europe/Paris')));
 
                 $manager->persist($sheet);
@@ -338,6 +401,11 @@ class SheetController extends AbstractController
                     $manager->flush();
 
                 }else{
+
+                    if($sheet->getStatus() == "DRAFT"){
+
+                        $sheet->setStatus(null);
+                    }
 
                     // Sinon c'est une fiche qui vient d'être modifiée
 

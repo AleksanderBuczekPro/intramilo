@@ -29,7 +29,7 @@
         
             <div class="row">
                 <div class="col-6">
-                    {# Titre et infoss #}
+                    {# Titre et infos #}
                     <p class="fil-ariane marine mt-2 mb-0">
                         <span href="" class="my-badge mt-1 bg-{{ category.pole.labelColor }} white px-2 py-1">{{ category.pole |slice(0, 1) }}</span>
                         <a href="{{ path('doc_pole', { 'id': category.pole.id }) }}" class="marine"><span class="mx-1 doc-secondary">{{ category.pole }}</span></a>
@@ -42,13 +42,18 @@
 
                 <div class="col-6 float-right">
                     {% if app.user == sheet.author %}
-                        <a href="{{ path('sheet_delete', {'id': sheet.id}) }}" class="btn btn-my-secondary px-3 ml-2 float-right">
-                            <i class="uil uil-times"></i>
-                                    
-                        </a>
-                        <a href="{{ path('sheet_edit', {'id': sheet.id }) }}" class= "btn btn-my-secondary px-3 ml-2 float-right">
-                            <i class="uil uil-pen"></i>           
-                        </a>
+
+                        <div class="dropdown float-right ml-2">
+                            <button class="btn btn-my-secondary py-1 px-2 larger" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="uil uil-ellipsis-v"></i>
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-right my-dropdown " aria-labelledby="dropdownMenuButton">
+                                <a class="dropdown-item pl-3" href="{{ path('sheet_create_model', {'id_model': sheet.id }) }}"><span class="rounded"><i class="far fa-copy my-rounded"></i></span> Dupliquer</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item pl-3" href="{{ path('sheet_edit', {'id': sheet.id }) }}"><span class="rounded"><i class="fas fa-pen fa-xs my-rounded"></i></span> Modifier</a>
+                                <a class="dropdown-item pl-3" href="{{ path('sheet_delete', {'id': sheet.id}) }}"><span class="rounded"><i class="fas fa-times my-rounded"></i></span> Supprimer</a>
+                            </div>
+                        </div>
                     {% endif %}
                     {% if is_granted("ROLE_ADMIN") and sheet.status is null %}
                         <a href="{{ path('sheet_front', {'id': sheet.id }) }}" class="btn btn-my-primary px-3 {% if sheet.front %}active{% endif %} float-right">
@@ -78,7 +83,7 @@
 
             {% endif %}
 
-
+            {# Titre #}
             <div class="sheet-title marine">{{ sheet.title }} {% include 'documentation/_file_icon.html.twig' with {'file': sheet} %}</div>
 
             <div class="row">

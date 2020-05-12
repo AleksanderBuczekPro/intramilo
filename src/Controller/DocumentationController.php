@@ -43,7 +43,7 @@ class DocumentationController extends AbstractController
         
                 
         // Gestion des catégories
-        $poles = $repo->findAll();
+        $poles = $repo->findBy(array(), array('title' => 'ASC'));
 
         $authors = $userRepo->findAll();
 
@@ -93,7 +93,7 @@ class DocumentationController extends AbstractController
 
         dump($sheets);
 
-        $waitingStatus = ["TO_VALIDATE", "TO_CORRECT"]; 
+        $waitingStatus = ["TO_VALIDATE", "TO_CORRECT", "DRAFT"]; 
 
         $sheetsOnline = [];
         $sheetsWaiting = [];

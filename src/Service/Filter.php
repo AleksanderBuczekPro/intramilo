@@ -339,6 +339,27 @@ class Filter{
 
     }
 
+    public function getDrafts($user){
+
+        $parameters = array(
+            'author'=> $user
+        );
+
+        $drafts =  $this->manager->createQuery(
+            "SELECT s
+            FROM App\Entity\Sheet s
+            WHERE s.author = :author AND s.status = 'DRAFT'
+            "
+        )
+        ->setParameters($parameters)
+        ->getResult();
+
+
+        return $drafts;
+
+
+    }
+
     public function getAdminFiles($responsable, $userRepo, $sheetRepo){
 
 
@@ -527,6 +548,16 @@ class Filter{
 
                                 }
 
+                                
+                                // Brouillon
+                                if($status == "DRAFT"){
+
+                                    $icon = "<i class='uil uil-hourglass'></i>";
+                                    $text = "<strong>". $title ." </strong> est enregistré en brouillon";
+                                    $color = "black";
+
+                                }
+
                             }else{
 
 
@@ -606,7 +637,7 @@ class Filter{
         $status = "default";
         $icon = "default";
         $text = "default";
-        $bool = "default"; 
+        $color = "default"; 
         
         // Mise en forme dans une trame notification
         $notifications = [];
@@ -660,6 +691,15 @@ class Filter{
 
                             }
 
+                            // Brouillon
+                            if($status == "DRAFT"){
+
+                                $icon = "<i class='fas fa-hourglass-half'></i>";
+                                $text = "<strong>". $title ." </strong> est enregistré en brouillon";
+                                $color = "light";
+
+                            }
+
                         }else{
        
                             // Obsolete
@@ -693,6 +733,8 @@ class Filter{
                         $formated_date = mb_convert_encoding($formated_date, 'UTF-8', 'UTF-8');
 
                         $text = mb_convert_encoding($text, 'UTF-8', 'UTF-8');
+
+                        dump($color);
                         
                         $notifications[] = array(
                             'id' => $sheet->getId(),
