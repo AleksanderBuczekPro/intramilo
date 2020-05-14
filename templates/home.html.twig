@@ -310,36 +310,41 @@
 
                             {% for file in files %}
 
-                                {# Définition des variables #}
-                                {% set type = constant('TYPE', file) %}
-                                {% set icon = constant('ICON', file) %}
+                                {% if loop.index <= 6 %}
 
-                                {# Lien pour une fiche  #}
-                                {% if type == 'sheet' %}
-                                    {% set path = path('sheet_show', {'id': file.id,}) %}
-                                {% endif %}
+                                    {# Définition des variables #}
+                                    {% set type = constant('TYPE', file) %}
+                                    {% set icon = constant('ICON', file) %}
 
-                                {# Lien pour un document ou une pièce jointe #}
-                                {% if type == 'document' or type == 'attachment' %}
-                                    {% set path = path('document_show', {'id': file.subCategory.category.slug, 'sub_slug': file.subCategory.slug, 'id': file.id }) %}
-                                {% endif %}
+                                    {# Lien pour une fiche  #}
+                                    {% if type == 'sheet' %}
+                                        {% set path = path('sheet_show', {'id': file.id,}) %}
+                                    {% endif %}
 
-                                <a href="{{ path }}">
-                                    <div class="card my-card front-card no-border bg-marine mt-2 px-3">
-                                        <div class="card-body p-0">
-                                            <div class="title-secondary main">
+                                    {# Lien pour un document ou une pièce jointe #}
+                                    {% if type == 'document' or type == 'attachment' %}
+                                        {% set path = path('document_show', {'id': file.subCategory.category.slug, 'sub_slug': file.subCategory.slug, 'id': file.id }) %}
+                                    {% endif %}
 
-                                                {% if file.title|length > 32 %}
-                                                    {{ file.title|slice(0, 32) }}...
-                                                {% else %}
-                                                    {{ file.title }}
-                                                {% endif %}
+                                    <a href="{{ path }}">
+                                        <div class="card my-card front-card no-border bg-marine mt-2 px-3">
+                                            <div class="card-body p-0">
+                                                <div class="title-secondary main">
 
+                                                    {% if file.title|length > 32 %}
+                                                        {{ file.title|slice(0, 32) }}...
+                                                    {% else %}
+                                                        {{ file.title }}
+                                                    {% endif %}
+
+                                                </div>
+                                                <div class="my-secondary small">{{ file.updatedAt|localizeddate('none', 'none', 'fr', null, 'd MMMM Y') }}</div>
                                             </div>
-                                            <div class="my-secondary small">{{ file.updatedAt|localizeddate('none', 'none', 'fr', null, 'd MMMM Y') }}</div>
                                         </div>
-                                    </div>
-                                </a>
+                                    </a>
+
+                                {% endif %}
+
                             {% endfor %}
                             
                         </div>

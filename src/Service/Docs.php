@@ -33,7 +33,7 @@ class Docs{
 
     public function getLastDocs(){
 
-        $limit = 3;
+        $limit = 20;
         
 
         $sheets = $this->manager->createQuery(
