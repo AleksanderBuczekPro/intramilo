@@ -32,7 +32,12 @@ class SheetType extends ApplicationType
         $user = $options['user'];
 
         $builder
-            ->add('title', TextType::class, $this->getConfiguration("Titre", "Entrez le titre de la fiche"))
+            ->add('title', TextareaType::class, $this->getConfiguration("Titre", "Sans titre"))
+            ->add('subtitle', TextType::class, $this->getConfiguration("Sous-titre", "Sans complément de titre"),[
+                'required' => false,
+                'empty_value' => true
+            ])
+            ->add('introduction',  CKEditorType::class, $this->getConfiguration("Introduction", "Introduction de la fiche"))
             ->add('organization', EntityType::class, [
                 'label' => "Organisme",
                 'placeholder' => "Sélectionnez un organisme",
@@ -46,7 +51,7 @@ class SheetType extends ApplicationType
             ->add(
                 'paragraphs',
                 CollectionType::class,[
-                 'label' => "Titre de la section",
+                 'label' => "Section",
                  'entry_type' => ParagraphType::class,
                  'allow_add' => true,
                  'allow_delete' => true,
@@ -74,7 +79,7 @@ class SheetType extends ApplicationType
             ->add(
                 'headers',
                 CollectionType::class,[
-                 'label' => "Titre de l'entête",
+                 'label' => "Entête",
                  'entry_type' => HeaderType::class,
                  'allow_add' => true,
                  'allow_delete' => true,
@@ -87,6 +92,7 @@ class SheetType extends ApplicationType
                     'attachments',
                     CollectionType::class,[
                      'label' => "Pièces jointes",
+                     'attr' => ['class' => "row"],
                      'entry_type' => AttachmentType::class,
                      'allow_add' => true,
                      'allow_delete' => true,
@@ -95,48 +101,48 @@ class SheetType extends ApplicationType
      
                     ])
             
-                ->add('tool', EntityType::class, [
-                    "label" => "Fiches existantes",
-                    'class' => Sheet::class,
-                    'choice_label' => 'title',
-                    'multiple' => true,
-                    'required' => false,
+                // ->add('tool', EntityType::class, [
+                //     "label" => "Fiches existantes",
+                //     'class' => Sheet::class,
+                //     'choice_label' => 'title',
+                //     'multiple' => true,
+                //     'required' => false,
     
-                    'query_builder' => function (SheetRepository $sr) {
-                        return $sr->createQueryBuilder('s')
-                            ->orderBy('s.title', 'ASC');
-                    },
+                //     'query_builder' => function (SheetRepository $sr) {
+                //         return $sr->createQueryBuilder('s')
+                //             ->orderBy('s.title', 'ASC');
+                //     },
                     
-                    'group_by' => function($tool){
-                        return $tool->getSubCategory()->getTitle();
+                //     'group_by' => function($tool){
+                //         return $tool->getSubCategory()->getTitle();
         
-                    }
-                ])
-                ->add('sheetDocuments', EntityType::class, [
-                    "label" => "Documents existants",
-                    'class' => Document::class,
-                    'choice_label' => 'title',
-                    'multiple' => true,
-                    'required' => false,
+                //     }
+                // ])
+                // ->add('sheetDocuments', EntityType::class, [
+                //     "label" => "Documents existants",
+                //     'class' => Document::class,
+                //     'choice_label' => 'title',
+                //     'multiple' => true,
+                //     'required' => false,
     
-                    'query_builder' => function (DocumentRepository $dr) {
-                        return $dr->createQueryBuilder('d')
-                            ->orderBy('d.title', 'ASC');
-                    },
+                //     'query_builder' => function (DocumentRepository $dr) {
+                //         return $dr->createQueryBuilder('d')
+                //             ->orderBy('d.title', 'ASC');
+                //     },
                     
-                    'group_by' => function($attachment){
-                        return $attachment->getSubCategory()->getTitle();
+                //     'group_by' => function($attachment){
+                //         return $attachment->getSubCategory()->getTitle();
     
-                    }
-                ])
+                //     }
+                // ])
                 ->add('save', SubmitType::class, [
-                    'label' => 'Ajouter la fiche',
-                    'attr' => ['class' => 'btn btn-success success float-right white mt-3']
+                    'label' => 'Créer',
+                    'attr' => ['class' => 'btn btn-primary white w-100 px-2']
                     
                 ])
                 ->add('saveDraft', SubmitType::class, [
-                    'label' => 'Enregistrer en brouillon',
-                    'attr' => ['class' => 'btn btn-my-dark dark small float-right px-2']
+                    'label' => 'Brouillon',
+                    'attr' => ['class' => 'btn btn-my-dark dark w-100 px-2']
                 ])
             ;
     }

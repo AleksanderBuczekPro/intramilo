@@ -53,6 +53,32 @@ button.no-focus:focus{
 }
 
 
+.btn.btn-my-outline{
+
+    border: 1px solid var(--marine-color);
+
+    color: var(--marine);
+    background-color: transparent;
+
+    border-radius: 5px;
+
+}
+
+.btn.btn-my-marine{
+
+    color: var(--marine-color);
+    background-color: var(--marine-10-color);
+
+    border-radius: 5px;
+
+}
+
+.btn.btn-my-marine:hover, .btn.btn-my-outline:hover{
+
+    color: white!important;
+    background-color: var(--marine-color)!important;
+
+}
 
 
 .btn.btn-my-add-admin{

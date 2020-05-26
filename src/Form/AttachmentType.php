@@ -18,14 +18,14 @@ class AttachmentType extends ApplicationType
     {
         $builder
             ->add('title', TextType::class, $this->getConfiguration("Titre", "Titre de la pièce jointe"))
-            ->add('organization', EntityType::class, [
-                'label' => "Organisme",
-                'placeholder' => "Sélectionnez un organisme",
-                'class' => Organization::class,
-                'choice_label' => function($organization){
-                    return $organization->getName();
-                }
-            ])
+            // ->add('organization', EntityType::class, [
+            //     'label' => "Organisme",
+            //     'placeholder' => "Sélectionnez un organisme",
+            //     'class' => Organization::class,
+            //     'choice_label' => function($organization){
+            //         return $organization->getName();
+            //     }
+            // ])
         ;
 
         $builder->add('genericFile', VichFileType::class,[

@@ -314,6 +314,7 @@ class AppFixtures extends Fixture
                         $sheet = new Sheet;
 
                         $title = $faker->sentence(mt_rand(2,10));
+                        $subtitle = $faker->sentence(mt_rand(2,10));
                         $organization = $organizations[array_rand($organizations)];
                         $interlocutors = $organization->getInterlocutors();
                         $updatedAt = $faker->dateTimeBetween('-7 months');
@@ -347,6 +348,8 @@ class AppFixtures extends Fixture
                         }
 
                         $sheet->setTitle($title)
+                          ->setSubtitle($subtitle)
+                          ->setIntroduction($faker->text(1000))
                           ->setOrganization($organization)
                           ->setUpdatedAt($updatedAt)
                           ->setSubCategory($subCategory)

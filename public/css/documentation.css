@@ -51,7 +51,7 @@ form.search-form input{
 }
 
 
-form.search-form input::placeholder{
+form.search-form input::placeholder,{
 
     color: var(--marine-color);
     opacity: 0.4;
@@ -408,6 +408,16 @@ ul.sheet-menu a:hover {
     vertical-align: middle;
     font-size: 30px;
     margin-left: 5px;
+
+}
+
+.sheet-subtitle{
+
+    font-size: 25px;
+    font-weight: 600;
+    margin-bottom: 15px;
+    margin-top: 2px;
+}
 
 }
 
@@ -886,7 +896,38 @@ div.card.my-card.notification.light i{
 
 
 /* Formulaire */
-div.container.sheet-form{
+/* CkEditor */
+.cke_inner{
+
+    border-radius: 8px;
+
+}
+.cke_top{
+
+    border-bottom: 1px solid var(--marine-10-color)!important;
+    background: white!important;
+    border-radius: 8px 8px 0 0 ;
+}
+
+.cke_chrome{
+
+    border: 1px solid var(--marine-10-color)!important;
+    border-radius: 8px;
+
+}
+
+.paragraph .cke_chrome{
+
+    border-left: 0px!important;
+    border-right: 0px!important;
+    border-bottom: 0px!important;
+
+    border-radius: 8px;
+
+}
+
+
+.sheet-form{
 
     height: 90vh;
     margin-top: 60px;
@@ -894,13 +935,271 @@ div.container.sheet-form{
 
 }
 
-div.container input#sheet_title{
+.sheet-form .my-border{
+
+    border: 1px solid var(--marine-color);
+
+}
+
+
+.sheet-form ::placeholder{
+
+    /* color: var(--grey-30-color); */
+    color: var(--marine-color);
+    opacity: 0.3;
+
+
+}
+
+.sheet-form label, .sheet-form legend, .form-header .my-card .card-title{
+
+    color: var(--marine-color)!important;
+    font-weight: 500;
+    font-size: 15px;
+    opacity: 0.7;
+
+    cursor: normal;
+    
+}
+
+.sheet-form .sheet_image_container{
+
+    flex: 0 0 100px;
+
+}
+
+.sheet-form #sheet_image{
+
+    height: 100px;
+    width: 100px;
+
+    border-radius: 8px;
+    background-color: var(--marine-background-color);
+
+
+}
+
+
+.sheet-form #sheet_title{
+
+    margin-top: 5px;
+    margin-bottom: 0;
+
+    padding: 0;
+
+    height: 45px;
+
+    color: var(--marine-color);
+    background-color: transparent;
+    font-weight: 700;
+    font-size: 35px;
+
+    border: none;
+
+}
+
+.sheet-form #sheet_subtitle{
+
+    margin-top: 5px;
+    margin-bottom: 20px;
+
+    padding: 0;
+
+    height: 30px;
+
+    color: var(--marine-color);
+    background-color: transparent;
+
+    font-size: 20px;
+    font-weight: 500;
+
+    border: none;
+
+}
+
+.sheet-form i.header-icon {
+
+    font-size: 18px;
+    color: var(--marine-color);
+
+}
+
+#sheet_attachments{
+
+    width: 100%;
+
+}
+
+#sheet_attachments .title input{
+
+    margin: 0;
+    margin-top: 0px;
+    padding: 0;
+    font-size: 14px;
+    color: var(--marine-color);
+    font-weight: 500;
+    border: none;
+    height: 25px;
+    margin-top: 2px;
+
+}
+
+#sheet_headers .section input{
+
+    margin: 0;
+    margin-top: 0px;
+    padding: 0;
+    font-size: 14px;
+    color: var(--marine-color);
+    font-weight: 500;
+    border: none;
+    height: 25px;
+    margin-top: 2px;
+
+}
+#sheet_headers .section.content input{
+
+    font-weight: 400;
+
+}
+
+
+
+
+
+#sheet_attachments .file-card{
+
+    padding: 10px 12px!important;
+
+}
+
+@media screen and (min-width: 800px) { 
+    
+
+} 
+
+#sheet_attachments .title input:focus{
+
+    box-shadow: none;
+
+}
+
+#sheet_attachments td.icon{
+
+    width: 30px;
+
+}
+
+
+#sheet_attachments td.delete{
+
+    width: 10px;
+
+}
+
+/* Attachment Upload */
+.inputfile {
+	width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+}
+
+.inputfile + label {
+
+    padding: 6px 8px;
+    font-size: 12px;
+    font-weight: 500;
+
+    color: var(--grey-70-color);
+    background-color: var(--grey-15-color);
+
+    border-radius: 8px;
+
+    display: inline-block;
+}
+
+.inputfile:focus + label,
+.inputfile + label:hover {
+    background-color: var(--grey-30-color);
+}
+
+.inputfile + label {
+	cursor: pointer; /* "hand" cursor */
+}
+
+.inputfile:focus + label {
+	outline: 1px dotted #000;
+	outline: -webkit-focus-ring-color auto 5px;
+}
+
+
+/* .sheet-form input.form-control-file{
+
+    border: 2px solid var(--grey-40-color);
+    border-style: dashed;
+    min-height: 50px;
+    line-height: 50px;
+
+    padding: 10px 20px;
+
+    border-radius: 8px;
+
+} */
+
+/* input:focus,
+select:focus,
+textarea:focus,
+button:focus {
+    outline: none;
+} */
+
+.sheet-form #sheet_title:focus,
+.sheet-form #sheet_subtitle:focus,
+#sheet_headers .header_title input,
+#sheet_headers .section input,
+#sheet_paragraphs .paragraph_title input{
+
+    outline: 0!important;
+    outline-width: 0!important;
+    box-shadow: none!important;
+
+    background-color: transparent!important;
+
+}
+
+#sheet_headers input,
+#sheet_paragraphs input{
 
     margin-top: 0;
-    font-size: 18px;
-    color: black;
-    font-weight: 600;
 
+}
+
+#sheet_headers .header_title input,
+#sheet_paragraphs .paragraph_title input{
+
+    border: none;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+    color: var(--marine-color);
+    font-size: 18px;
+    font-weight: 500;
+    height: 25px;
+    margin-left: -2px;   
+    
+    margin-bottom: 0;
+
+}
+
+.form-group.paragraph:first-child .paragraph-move.up,
+.form-group.paragraph:last-child .paragraph-move.down{
+    
+    
+    pointer-events: none;
+    opacity: 0.4;
+    cursor: not-allowed;
 
 }
 

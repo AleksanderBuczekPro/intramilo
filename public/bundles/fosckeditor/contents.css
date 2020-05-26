@@ -3,26 +3,32 @@ Copyright (c) 2003-2019, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 
+
+@import url("/css/main.css");
+
 body
 {
 	/* Font */
 	/* Emoji fonts are added to visualise them nicely in Internet Explorer. */
-	font-family: sans-serif, Arial, Verdana, "Trebuchet MS", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+	font-family: 'Poppins', sans-serif;
 	font-size: 12px;
 
 	/* Text color */
-	color: #333;
+	color: var(--marine-color)!important;
 
 	/* Remove the background color to make it transparent. */
 	background-color: #fff;
 
 	margin: 20px;
+
+	padding: 0;
+	min-height: 0;
 }
 
 .cke_editable
 {
-	font-size: 13px;
-	line-height: 1.6;
+	font-size: 15px;
+	line-height: 20px;
 
 	/* Fix for missing scrollbars with RTL texts. (#10488) */
 	word-wrap: break-word;
@@ -69,6 +75,7 @@ h1,h2,h3,h4,h5,h6
 {
 	font-weight: normal;
 	line-height: 1.2;
+	color: var(--marine-color);
 }
 
 hr

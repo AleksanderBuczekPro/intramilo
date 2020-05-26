@@ -82,12 +82,6 @@ class Attachment
     private $views;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Organization", inversedBy="attachments")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $organization;
-
-    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="attachments")
      * @ORM\JoinColumn(nullable=false)
      */
@@ -265,18 +259,6 @@ class Attachment
     public function setViews(int $views): self
     {
         $this->views = $views;
-
-        return $this;
-    }
-
-    public function getOrganization(): ?Organization
-    {
-        return $this->organization;
-    }
-
-    public function setOrganization(?Organization $organization): self
-    {
-        $this->organization = $organization;
 
         return $this;
     }

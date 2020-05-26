@@ -9,6 +9,238 @@
 {% form_theme form 'documentation/sheet/_collection.html.twig' %}
 {{ form_start(form) }}
 
+<div class="container-fluid sheet-form px-4 mb-4">
+    <div class="row">
+
+        {# Sheet #}
+        <div class="col-xl-6 offset-xl-2 col-lg-8 col-md-7">
+            <div class="card my-card my-box no-border p-0">
+                <div class="card-body p-0">
+
+                    {# Title / Subtitle #}
+                    <div class="card my-card mt-0 no-border pt-4 px-4 pb-0">
+                        <div class="card-body p-4">
+                            <div class="text my-secondary marine">Nouvelle fiche
+                            
+                                
+
+                            </div>
+
+                            {# <div class="row mt-4">
+                                <div class="sheet_image_container">
+                                    <div id="sheet_image" class="ml-3 p-2">
+
+                                        
+                                        <div class="background" style="background-image: url({{ asset('files/pictures/' ~ category.pole.pictureFilename) }});">
+                                        
+                                    </div>
+                                </div>
+                                <div class="col-9 ml-3">
+                                    {{ form_widget(form.title) }}
+                                    {{ form_widget(form.subtitle) }}
+                                </div>
+                            </div> #}
+                            <div class="row">
+                                <div class="col-11 pl-3 mt-4">
+                                    {{ form_widget(form.title) }}
+                                    {{ form_widget(form.subtitle) }}
+                                </div>
+                                <div class="col-1">
+                                    <button type="button" class="btn btn-my-light marine my-tooltip p-0 float-right mt-4" data-toggle="tooltip" data-placement="left" title="<br> Privilégiez un <strong>titre court</strong>.<br><br>S'il s'agit d'un acronyme, placez le nom complet de celui-ci dans 'Complément de titre'<br><br>">
+                                        <i class="uil uil-question-circle"></i>
+                                    </button>                                
+                                </div>
+                            </div>                 
+                                               
+                        </div>
+                    </div>
+                    
+                    <hr class="mt-0 mx-4">
+
+                    {# Pièces jointes #}
+                    <div class="card my-card no-border px-4 pt-0 mt-0">
+                        <div class="card-body px-0">
+
+                        
+                                <label class="m-0 py-2 pl-4">Pièces jointes</label>
+                                <button type="button" class="btn btn-my-light marine my-tooltip p-0" data-toggle="tooltip" data-placement="right" title="<br> Importez des pièces jointes depuis votre ordinateur qui visibles uniquement dans cette fiche. <br><br>">
+                                <i class="uil uil-question-circle"></i>
+                                </button>
+                                <button type="button" id="add-attachment" class="btn btn-my-marine py-2 px-2 mt-0 float-right no-focus">
+                                    <i class="uil uil-plus"></i>
+                                </button>
+
+                                {{ form_widget(form.attachments) }}
+                        
+                        </div>
+                    </div>
+
+                    
+                
+                </div>
+            </div>
+
+            {# Introduction #}
+            <div class="card my-card my-box no-border p-0">
+
+                <div>
+                    <div class="p-4">
+                        
+                        <label class="m-0 py-2 pl-4">Introduction</label>
+                        <button type="button" class="btn btn-my-light marine my-tooltip p-0" data-toggle="tooltip" data-placement="right" title="<br> <i>Champ optionnel</i> <br> <br> Rédigez ici votre <strong>introduction</strong> (ou votre définition). <br><br> Vous pouvez également y mettre votre contenu lorsque la fiche ne nécessite pas la création de sections.<br><br>">
+                           <i class="uil uil-question-circle"></i>
+                        </button>
+                        <button type="button" id="add-introduction" class="btn btn-my-marine py-2 px-2 mt-0 float-right no-focus">
+                            <i class="uil uil-plus"></i>
+                        </button>
+                        <button id="delete-introduction" type="button" class="btn btn-my-outline op-40 small mt-2 py-1 px-2 float-right d-none mr-4">Supprimer</button>
+                    
+                    </div>
+
+                </div>
+                {# Introduction #}
+                <div id="block_introduction" class="card my-card no-border no-br m-0 px-4 pb-4 pt-0 d-none">
+                    <div class="card-body px-4 pt-0">
+                        {{ form_widget(form.introduction) }}                        
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="card my-card my-box no-border p-0">
+                <div>
+                    <div class="p-4">
+                        {{ form_widget(form.headers) }}                    
+                    </div>
+
+                </div>
+                {# <div class="card-body p-0">
+                      
+                </div> #}
+            </div>
+
+
+            <div class="card my-card my-box no-border p-0 mb-4">
+                <div class="card-body p-0">
+                    {# Section #}
+                    <div class="p-4">
+                    {{ form_widget(form.paragraphs) }}
+                    </div>
+                    {# <div class="card my-card no-border bg-marine">
+                        <div class="card-body">
+                            <div class="card-title">{{ form_label(form.paragraphs) }}</div>
+                            {{ form_widget(form.paragraphs) }}                        
+                        </div>
+                    </div> #}
+
+                    {# <div class="row">
+                        <div class="col-6">
+                            <div class="card my-card no-border bg-marine">
+                                <div class="card-body">
+                                    <div class="card-title">{{ form_label(form.tool) }}</div>
+                                    {{ form_row(form.tool, { 'attr': {'size': 10} }) }}                   
+                                </div>
+                            </div>
+                            
+                        </div>
+                        <div class="col-6">
+                            <div class="card my-card no-border bg-marine">
+                                <div class="card-body">
+                                    <div class="card-title">{{ form_label(form.sheetDocuments) }}</div>
+                                    {{ form_row(form.sheetDocuments, { 'attr': {'size': 10} }) }}                   
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div> #}
+
+                    
+                </div>
+
+            </div>
+        </div>
+
+        {# Sidebar #}
+        <div class="col-xl-3 col-lg-4 col-md-5 form-header">
+            <div style="width: 350px;" class="sticky">
+
+                <div class="row mt-4 mx-0">
+                    {# <div class="col-2 px-1">
+                        <div class="btn btn-my-dark w-100 px-2"><i class="uil uil-paperclip"></i></div>
+                    </div> #}
+                    <div class="col-6 px-1">
+                        {{ form_widget(form.save) }}
+                    </div>
+                    <div class="col-6 px-1">
+                        {{ form_widget(form.saveDraft) }}
+                    </div>
+                </div>
+                <div class="card my-card my-box no-border">
+                    <div class="card-body px-3 py-2">
+                        <div class="">
+                    
+                            <div class="card my-card no-border p-0 mt-0">
+                                <div class="card-body p-0">
+                                    <div class="card-title mt-0 mb-2">
+                                        Informations
+                                    </div>
+
+                                    <table class="table my-table">
+                                        <tr>
+                                            <td class="marine pl-0 op-70 no-border">Sous-catégorie</td>
+                                            <td class="marine bolder no-border">{{ form_widget(form.subCategory) }}</td>
+                                        </tr>
+                                        {% if not is_granted("ROLE_ADMIN") %}
+                                        <tr>
+                                            <td class="marine pl-0 op-70 no-border">Responsable de validation</td>
+                                            <td class="marine bolder no-border">{{ app.user.groupe.responsable }}</td>
+                                        </tr>
+                                        {% endif %}
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div class="card my-card no-border p-0">
+                                <div class="card-body p-0">
+                                    <div class="card-title mt-0 mb-4">
+                                        Organisme et Interlocuteurs
+                                        <button type="button" class="btn btn-my-light marine my-tooltip p-0" data-toggle="tooltip" data-placement="right" title="<br> <i>Organisme obligatoire</i> <br> <br> Liste des organismes et des interlocuteurs enregistrés dans l'annuaire. <br><br> Pour voir l'annuaire, cliquez <a href='{{ path('organizations_index') }}' target='_blank'><u class='white'>ici</u></a>. <br><br>">
+                                            <i class="uil uil-question-circle"></i>
+                                        </button>
+                                    </div>
+                                    
+                                    {{ form_widget(form.organization) }}
+                                    
+                                    <div id="interlocutors-message" class="mb-0">
+                                        <p class="text mb-0">Sélectionnez un organisme pour voir la liste des interlocuteurs disponibles.
+                                        </p>
+                                    </div>
+
+                                    <div class="row" id="interlocutors">
+                                    
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{{ form_end(form) }}
+
+{# 
+{% form_theme form 'documentation/sheet/_collection.html.twig' %}
+{{ form_start(form) }}
+
 <div class="container sheet-form">
     <h1 class="my-h1">Création d'une fiche</h1>
 
@@ -34,7 +266,7 @@
 
             <div class="tab-content" id="pills-tabContent">
 
-                {# Entete #}
+
                 <div class="tab-pane fade show" id="pills-header" role="tabpanel" aria-labelledby="pills-header-tab">
 
                     <div class="form-headers">    
@@ -43,12 +275,8 @@
                 
                 </div>
 
-                {# Content #}
                 <div class="tab-pane fade show active" id="pills-content" role="tabpanel" aria-labelledby="pills-content-tab">
                         
-                    {# <div class="form-content mt-4">
-                        {{ form_widget(form.content) }}
-                    </div> #}
 
                     <div class="form-content mt-4">
                         {{ form_widget(form.paragraphs) }}
@@ -56,15 +284,12 @@
                 
                 </div>
 
-                {# Outils #}
                 <div class="tab-pane fade" id="pills-tools" role="tabpanel" aria-labelledby="pills-tools-tab">
                     <div class="row">
                         <div class="col-6">
                             <div class="card my-card">
                                 <div class="card-body p-3">
-                                    {# <div class="card-title mt-0 mb-4">
-                                        Pièces jointes
-                                    </div> #}
+
                                     <label for="">Pièces jointes</label>
                                         <div>
                                             {{ form_widget(form.attachments) }}
@@ -77,9 +302,7 @@
                         <div class="col-6">
                             <div class="card my-card">
                                 <div class="card-body p-3">
-                                    {# <div class="card-title mt-0 mb-4">
-                                        Fiches existantes
-                                    </div> #}
+
                                      {{ form_row(form.tool, { 'attr': {'size': 10} }) }}
 
                                     
@@ -88,9 +311,7 @@
                             </div>
                             <div class="card my-card">
                                 <div class="card-body p-3">
-                                    {# <div class="card-title mt-0 mb-4">
-                                        Documents existants
-                                    </div> #}
+
                                     {{ form_row(form.sheetDocuments, { 'attr': {'size': 10} }) }}
                                     
                                 </div>
@@ -120,10 +341,7 @@
                                 <td class="my-secondary no-border">Etat</td>
                                 <td class="main no-border">Création</td>
                             </tr>
-                            {# <tr>
-                                <td class="my-secondary no-border">Catégorie</td>
-                                <td id="categorie" class="main no-border">-</td>
-                            </tr> #}
+
                             <tr>
                                 <td class="my-secondary no-border">Sous-catégorie</td>
                                 <td class="main no-border">{{ form_widget(form.subCategory) }}</td>
@@ -133,12 +351,10 @@
                                 <td class="main no-border">{{ app.user.groupe.responsable }}</td>
                             </tr>
                         </table>
-                        {# <i class="fas fa-check white"></i> #}
+
                         
                         {{ form_widget(form.save) }}
-                        {# <button type="submit" class="btn btn-success success float-right white">
-                            <i class="uil uil-check-circle"></i> Ajouter la fiche
-                        </button> #}
+
                     </div>
                 </div>
 
@@ -170,13 +386,181 @@
     </div>
 </div>
 
-{{ form_end(form) }}
+{{ form_end(form) }} #}
 
 {% endblock %}
 
 {% block javascripts %}
 
 <script>
+
+$('#sheet_subtitle').prop('required',false);
+
+
+
+autosize($('#sheet_title'));
+
+function formatSizeUnits(bytes)
+{
+    if (bytes >= 1073741824)
+    {
+        bytes = (bytes / 1073741824).toFixed(2) + ' Go';
+    }
+    else if (bytes >= 1048576)
+    {
+        bytes = (bytes / 1048576).toFixed(1) + ' Mo';
+    }
+    else if (bytes >= 1024)
+    {
+        bytes = Math.ceil(bytes / 1024) + ' Ko';
+    }
+    else if (bytes > 1)
+    {
+        bytes = Math.ceil(bytes) + ' o';
+    }
+    else if (bytes == 1)
+    {
+        bytes = bytes + ' o';
+    }
+    else
+    {
+        bytes = '0 o';
+    }
+
+    return bytes;
+}
+
+
+// Fonction permettant de charger l'input de chargement d'une pièce jointe
+function initializeAttachment() {
+
+    var inputs = document.querySelectorAll( '.inputfile' );
+
+	Array.prototype.forEach.call( inputs, function( input )
+	{
+		var label	 = input.nextElementSibling,
+			labelVal = label.innerHTML;
+
+            console.log(label);
+            console.log(labelVal);
+
+		input.addEventListener( 'change', function( e )
+		{
+            console.log(this.files);
+            var name = (this.files[0].name).split('.', 1);
+            var size = formatSizeUnits(this.files[0].size);
+            var mime = this.files[0].type;
+
+
+            console.log("Name => " + name);
+            console.log("Size => " + size);
+            console.log("Mime => " + mime);
+
+
+            var type = "?";
+            var color = "black";
+
+            if (mime == "image/jpeg"){
+
+                type = "jpg";
+                color = "violet";
+
+            }
+
+            if (mime == "image/png"){
+
+                type = "png";
+                color = "rose";
+
+            }
+
+            if (mime == "application/vnd.openxmlformats-officedocument.wordprocessingml.document" || mime == "application/msword" || mime == "application/vnd.openxmlformats-officedocument.wordprocessingml.documentapplication/vnd.openxmlformats-officedocument.wordprocessingml.document"){
+
+                type = "jpg";
+                color = "violet";
+
+            }
+
+            if (mime == "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" || mime == "application/vnd.ms-excel"){
+
+                type = "x";
+                color = "vert";
+
+            }
+
+            if (mime == "application/pdf"){
+
+                type = "pdf";
+                color = "rouge";
+
+            }
+
+            console.log(mime);
+
+
+			/*var fileName = '';
+			if( this.files && this.files.length > 1 )
+				fileName = ( this.getAttribute( 'data-multiple-caption' ) || '' ).replace( '{count}', this.files.length );
+			else
+				fileName = e.target.value.split( '\\' ).pop();
+
+			if( fileName )
+				label.querySelector( 'span' ).innerHTML = fileName;
+			else
+				label.innerHTML = labelVal;*/
+
+            // Affichage Attachement
+
+            // Je récupère le numéro des futurs champs que je vais créer
+            const index = +$('#widgets-attachment-counter').val(); // + transforme la chaine de caractère en nombre
+
+            // Je récupère le prototype des entrées
+            const tmpl = $('#sheet_attachments').data('prototype').replace(/__a__/g, index); // g = "pour chaque"
+
+            // J'injecte ce code au sein de la div
+            $('#sheet_attachments').append(tmpl);
+
+
+            console.log('#sheet_attachments' + index + '_title');
+            $('#sheet_attachments_' + index + '_title').val(name);
+            $('#sheet_attachments_' + index + ' .details').html(size);
+
+            $('#sheet_attachments_' + index + ' .type').html(type);
+            $('#sheet_attachments_' + index + ' .type').addClass(color);
+
+            $('#widgets-attachment-counter').val(index + 1);
+
+            // Je gère le bouton supprimer
+            handleDeleteButtons();
+
+
+		});
+
+		// Firefox bug fix
+		input.addEventListener( 'focus', function(){ input.classList.add( 'has-focus' ); });
+		input.addEventListener( 'blur', function(){ input.classList.remove( 'has-focus' ); });
+	});
+    
+}
+
+$('#add-attachment').click(function(){
+
+    // Je récupère le numéro des futurs champs que je vais créer
+    const index = +$('#widgets-attachment-counter').val(); // + transforme la chaine de caractère en nombre
+
+    // Je récupère le prototype des entrées
+    const tmpl = $('#sheet_attachments').data('prototype').replace(/__a__/g, index); // g = "pour chaque"
+
+    // J'injecte ce code au sein de la div
+    $('#sheet_attachments').append(tmpl);
+
+    $('#widgets-attachment-counter').val(index + 1);
+
+    // Je gère le bouton supprimer
+    handleDeleteButtons();
+
+});
+
 
 $('#add-paragraph').click(function(){
 
@@ -196,23 +580,97 @@ $('#add-paragraph').click(function(){
 
 });
 
-$('#add-attachment').click(function(){
 
-    // Je récupère le numéro des futurs champs que je vais créer
-    const index = +$('#widgets-attachment-counter').val(); // + transforme la chaine de caractère en nombre
+$('#add-introduction').click(function(){
 
-    // Je récupère le prototype des entrées
-    const tmpl = $('#sheet_attachments').data('prototype').replace(/__a__/g, index); // g = "pour chaque"
+    // On affiche l'introduction
+    $('#block_introduction').removeClass("d-none");
+    $('#delete-introduction').removeClass("d-none");
 
-    // J'injecte ce code au sein de la div
-    $('#sheet_attachments').append(tmpl);
 
-    $('#widgets-attachment-counter').val(index + 1);
+    // On affiche plus le bouton "Ajouter une introduction"
+    $(this).addClass("d-none");
 
-    // Je gère le bouton supprimer
-    handleDeleteButtons();
 
 });
+
+
+$('#delete-introduction').click(function(){
+
+
+    // On vide l'éditeur de l'introduction
+    CKEDITOR.instances.sheet_introduction.setData('');
+
+
+    // On n'affiche plus l'introduction
+    $('#block_introduction').addClass("d-none");
+    $('#delete-introduction').addClass("d-none");
+
+    // On affiche de nouveau le bouton "Ajouter une introduction"
+    $('#add-introduction').removeClass("d-none");
+
+
+});
+
+
+
+$("#sheet_paragraphs").on('click', '.paragraph-move', function () {
+    
+    var id = $(this).data('id'); // sheet_paragraphs_[i]
+
+    // Counter
+    var counter = parseInt(id.split("_")[2]);
+
+    // Current title
+    var current_title = $("#" + id + "_title");
+
+    // CKE Content sheet_paragraphs_[i]_content
+    var current_editor = CKEDITOR.instances["sheet_paragraphs_" + counter + "_content"];
+
+    // Si on descend le block
+    if($(this).hasClass("down")){
+
+        // Next title
+        counter = counter + 1;
+        while($("#" + id.split("_")[0] + "_" + id.split("_")[1] + "_" +  counter + '_title').length === 0){
+            
+            counter = counter + 1;
+
+        }
+        
+    // Up
+    }else{
+
+        // Next title
+        counter = counter - 1;
+        while($("#" + id.split("_")[0] + "_" + id.split("_")[1] + "_" +  counter + '_title').length === 0){
+            
+            counter = counter - 1;
+
+        }
+
+    }
+        
+        var next_title = $("#" + id.split("_")[0] + "_" + id.split("_")[1] + "_" +  counter + '_title');
+
+        // var next_cke_id = id.split("_")[0] + "_" + id.split("_")[1] + "_" +  counter + '_content';
+        var next_editor = CKEDITOR.instances["sheet_paragraphs_" + counter + "_content"];
+
+        // Relacement
+        var temp = next_title.val();
+
+        next_title.val(current_title.val());
+        current_title.val(temp);
+
+
+        var temp_content = next_editor.getData();
+
+        next_editor.setData(current_editor.getData());
+        current_editor.setData(temp_content);
+
+
+
+}); 
 
 
 $('#add-header').click(function(){
@@ -412,6 +870,8 @@ $(document).ready(function() {
     updateCounter();
     handleDeleteButtons();
 
+    initializeAttachment();
+
 });
 
 
@@ -423,7 +883,21 @@ $("select#sheet_organization").change(function() {
 
 
 
+{# $('#add-introduction').click(function(){
+    
+    if($('#block_introduction').hasClass("d-none")){
 
+        $('#block_introduction').removeClass("d-none");
+        $(this).html("<i class='uil uil-times'></i> Supprimer l'introduction");
+
+    }else{
+
+        $('#block_introduction').addClass("d-none");
+        $(this).html("<i class='uil uil-plus'></i> Ajouter une introduction");
+
+    }
+    
+}; #}
 
 
 
