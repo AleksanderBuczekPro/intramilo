@@ -70,7 +70,7 @@ class Docs{
     public function getFrontDocs(){
 
         $end_date = new DateTime();
-        $end_date->modify('-2 weeks'); 
+        $end_date->modify('-3 months'); 
 
         $parameters = array(
             'end_date'=> $end_date
