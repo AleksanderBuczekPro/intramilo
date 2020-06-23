@@ -4,6 +4,7 @@
     --marine-color: #253858;
     /* --purple-color: #8338ec; */
     --purple-color: #7839FF;
+    --purple-color: #4e3dea;
     --pink-color: #ff006e;
     --orange-color: #fb5607;
     --yellow-color: #ffbe0b;
@@ -14,7 +15,7 @@
     --light-transparent-color: rgba(255,255,255,0.2);
     --blue-transparent-color: rgba(58,134,255,0.2);
     /* --marine-transparent: rgba(37,56,88,0.2); */
-    --purple-transparent-color:rgba(131,56,236,0.2);
+    --purple-transparent-color:rgba(78,61,234,0.07);
     --pink-transparent-color:rgba(255,0,110,0.2);
     --orange-transparent-color: rgba(251,86,7,0.2);
     --yellow-transparent-color: rgba(255,190,11,0.1);
@@ -39,8 +40,8 @@
 
 }
 
-.bleu, .success{ color: var(--blue-color)!important; }
-.violet{ color: var(--purple-color)!important; }
+.bleu{ color: var(--blue-color)!important; }
+.violet, .success{ color: var(--purple-color)!important; }
 .rose{ color: var(--pink-color)!important; }
 .orange, .warning{ color: var(--orange-color)!important; }
 .jaune{ color: var(--yellow-color)!important; }
@@ -52,7 +53,7 @@
 .vert{ color: var(--green-color)!important; }
 .rouge{ color: var(--red-color)!important; }
 
-
+.bg-transparent{ background-color: transparent!important; }
 .bg-bleu{ background-color: var(--blue-color)!important; }
 .bg-violet{ background-color: var(--purple-color)!important; }
 .bg-rose{ background-color: var(--pink-color)!important; }
@@ -65,7 +66,9 @@
 .bg-marine-10{ background-color: var(--marine-10-color)!important; }
 .bg-marine{ background-color: var(--marine-background-color)!important; }
 .bg-marine-transparent{ background-color: var(--marine-background-color)!important; }
-.bg-vert{ background-color: var(--green-color) };
+.bg-vert{ background-color: var(--green-color); }
+.bg-grey{ background-color: var(--grey-15-color); }
+.bg-purple{ background-color: var(--purple-transparent-color)!important; }
 /* .bg-marine-transparent{ background-color: var(--marine-color)!important; } */
 
 .bg-my-light{ background-color:var(--purple-background-color)!important; }
@@ -106,6 +109,12 @@
 .no-br{
 
     border-radius: 0!important;
+
+}
+
+.my-br{
+
+    border-radius: 25px!important;
 
 }
 
@@ -184,12 +193,20 @@ body{
     background-color: var(--marine-background-color);
 
 
-    min-height:110vh; padding:0; margin:0; position:relative;
+    /* min-height:110vh; */
+    padding:0; margin:0; position:relative;
 
-    padding-bottom: 100px;
+    /* padding-bottom: 100px; */
+
 
     /* margin-bottom: 80px; */
     
+
+}
+
+p{
+
+    font-family: "Roboto", sans-serif;
 
 }
 
@@ -228,12 +245,10 @@ body{
 
 .my-dropdown a{
 
-    font-family: 'Poppins', sans-serif;
-    font-size: 14px!important;
-
+    font-family: 'Roboto', sans-serif;
+    font-size: 15px !important;
     color: black;
-
-    line-height: 20px!important;
+    line-height: 20px !important;
 }
 
 .my-dropdown .my-rounded{
@@ -246,13 +261,119 @@ body{
     padding: 7px;
     text-align: center;
     border-radius: 50%;
-    margin-right: 4px;
+    margin-right: 6px;
     height: 30px;
     width: 30px;
 
 
 }
 
+/* Login */
+div.container.login{
+
+    padding-top: 120px;
+    height: 100vh;
+    width: 100vw;
+
+}
+
+div.container.login img.logo{
+
+    height: 25px;
+
+}
+
+.navbar-brand .logo{
+
+    height: 18px;
+
+}
+
+div.container.login div.description{
+
+
+    font-family: 'Fira Sans', sans-serif;
+    margin-top: 40px;
+
+    font-size: 16px;
+
+}
+
+div.container.login .login-form{
+
+    padding-left: 80px;
+    padding-right: 80px;
+
+}
+
+div.container.login .login-form input.form-control{
+
+
+    margin: 0;
+    padding: 26px 20px;
+    font-family: 'Fira Sans', sans-serif;
+
+    border-radius: 4px;
+}
+
+div.container.login .login-form label{
+
+    font-size: 14px;
+
+    font-weight: 400;
+}
+
+div.container.login .btn-login{
+
+    width: 100%;
+    height: 55px;
+
+    color: white;
+    background-color: #4e3dea;
+
+    border-radius: 4px;
+    font-weight: 400;
+    font-size: 15px;
+
+    font-family: 'Poppins', sans-serif;
+}
+
+
+div.container.login .eye-icon{
+
+    position: relative;
+    margin-top: -38px;
+    margin-right: 15px;
+
+}
+
+div.container.login .eye-icon:hover{
+
+    cursor: pointer;
+
+}
+
+
+
+
+div.container.login a{
+
+    font-size: 14px;
+    color: #4e3dea;
+
+    font-weight: 500;
+
+}
+
+div.container.login .no-account{
+
+    margin-top: 60px;
+
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+
+
+}
 
 /* footer{ 
 
@@ -317,6 +438,18 @@ a{
 
 }
 
+div.card.my-card a{
+
+    color: black;
+
+}
+
+div.card.my-card a:hover .file-title{
+
+    color: var(--purple-color)!important;
+
+}
+
 a.website{
 
     font-size: 15px;
@@ -326,7 +459,7 @@ a.website{
 
 p.text{
 
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Roboto', sans-serif;
     font-weight: 400;
     font-style: italic;
     color: var(--grey-50-color);
@@ -338,8 +471,8 @@ p.text{
 
 .home-content{
 
-    padding-left: 30px;
-    padding-right: 30px; 
+    padding-left: 80px;
+    padding-right: 20px; 
 
 }
 
@@ -353,6 +486,15 @@ p.text{
 .event-sidebar{
 
     padding-right: 40px;
+
+}
+
+.event-sidebar div.card.my-card .file-title{
+
+    font-size: 14px;
+    line-height: 14px;
+
+    margin: 5px 0px;
 
 }
 
@@ -410,13 +552,9 @@ i.small-icon{
     /* border: none!important; */
 }
 
-div.front div.card.my-card{
+div.card.my-card{
 
-    background-color: var(--purple-background-color)!important;
-    box-shadow: none!important;
-    padding: 0px;
-
-    /* border: 1px solid var(--grey-15-color)!important; */
+    margin-bottom: 10px;
 }
 
 div.front.white div.card.my-card{
@@ -428,22 +566,48 @@ div.front.white div.card.my-card{
 
 
 
-div.front div.card.my-card .file-title{
+div.card.my-card .file-title{
 
-    font-weight: 600;
-    font-size: 14px;
-
-    line-height: 20px;
-
+    font-weight: 700;
+    font-size: 21px;
+    line-height: 31px;
     margin: 0px;
-
+    margin-top: 10px;
+    margin-bottom: 10px;
+    color: black;
 }
 
-div.front div.card.my-card .category-front{
+ div.card.my-card .category-front{
 
     font-size: 13px;
     font-weight: 500;
 
+}
+
+div.card.my-card .date{
+
+    position: absolute;
+    bottom: 25px;
+
+}
+
+span.badge.pole{
+
+    font-size: 10px;
+    
+    background-color: var(--grey-10-color);
+    color: var(--grey-50-color);
+
+    border-radius: 20px;
+
+    margin-bottom: 5px;
+
+}
+
+span.badge.pole.small{
+
+    font-size: 10px;
+    
 }
 
 div.front div.card.my-card span.my-secondary{
@@ -486,7 +650,7 @@ div.front div.card.my-card.my-hover:hover{
 /* Tableaux */
 table.my-table{
 
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Roboto', sans-serif;
 
 }
 
@@ -615,16 +779,36 @@ div.card.my-card .my-table td{
 }
 
 /* App */
+.app{
+
+    padding: 8px 10px 10px;
+
+    border-radius: 40px;
+
+    margin-bottom: 5px;
+
+}
+
+
+.app:hover{
+
+    background-color: var(--grey-15-color);
+
+}
+
 .app-icon{
 
-    width: 50px;
-    height: 50px;
+    position: relative;
+    top: -1px;
 
-    font-size: 20px;
+    
+    font-size: 22px;
     color: white;
 
     text-align: center;
     vertical-align: middle;
+
+    color: var(--grey-50-color);
 
 }
 
@@ -638,10 +822,15 @@ div.card.my-card .my-table td{
 }
 
 .app-name{
+    position: relative;
+    top: 3px;
+    font-size: 17px;
 
-    font-size: 15px;
+    text-align: center;
 
-    font-weight: 500;
+    font-weight: 700;
+
+    color: var(--grey-70-color);
 
 }
 
@@ -649,7 +838,7 @@ div.card.my-card .my-table td{
 
     color: black!important;
     font-weight: 500!important;
-
+    font-size: 14px;
 
 }
 
@@ -751,7 +940,7 @@ table.my-table.admin td.users div.center-cropped{
 .init-circle, .nav-item .init-circle span.init{
 
     font-family: 'Poppins', sans-serif;
-    background-color: var(--grey-15-color);
+    /* background-color: var(--grey-15-color); */
     color: black;
 
     font-weight: 400;
@@ -846,14 +1035,14 @@ td.interlocutor .init-circle{
 /* Texte */
 .my-secondary, span.my-secondary{
 
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Roboto', sans-serif;
     padding: 0!important;   
 
 }
 
 .my-secondary.small{
 
-    font-size: 13px!important;
+    font-size: 14px!important;
 
 }
 
@@ -901,6 +1090,8 @@ form input.form-control, form select.form-control, form textarea.form-control, .
 
     font-size: 14px;
 
+    font-family: "Roboto", sans-serif;
+
 }
 
 #comment_comment{
@@ -922,7 +1113,7 @@ div.card.my-card{
     border-width: 1px!important;
     border-color: var(--grey-20-color)!important;
 
-    border-radius: 8px;
+    border-radius: 20px;
 
     overflow: hidden;
 
@@ -1047,7 +1238,7 @@ img.weather-icon {
 
 div.card.my-card div.card-body{
 
-    padding: 15px 12px 20px;
+    padding: 20px 12px;
 
 }
 
@@ -1256,6 +1447,7 @@ div.card.my-card.notification{
 
 }
 
+
 /* Liste des sous-catégories */
 
 span.subcategory{
@@ -1288,12 +1480,12 @@ span#notification-circle{
     display: inline-block;
     height: 20px;
     width: 20px;
-    background-color: var(--red-color);
+    background-color: #F02849;
     color: white;
     /* box-shadow: 0 0 0 2px white; */
     border-radius: 50%;
     text-align: center;
-    right: 100px;
+    right: 108px;
     z-index: 3;
 }
 
@@ -1406,4 +1598,24 @@ span.mime{
 
 }
 
+
+div.alert.alert-danger{
+
+    color: black;
+    background-color: transparent;
+
+    border-left: 4px solid var(--red-color);
+
+    font-family: "Fira Sans", "sans serif";
+    font-weight: 400;
+
+    border-radius: 14px;
+
+}
+
+.my-title.weather-title{
+
+    margin-top: 20px;
+
+}
 

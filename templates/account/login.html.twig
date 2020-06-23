@@ -4,13 +4,82 @@
 
 {% block body %}
 
-<div class="container login">
+<div class="bg-white">
+    <div class="container login mt-0">
 
+    <div class="row">
+        <div class="offset-md-3 col-md-6 text-center">
+
+            {# logo #}
+            <img class="logo large" src="{{ asset('images/logo_intramilo.png') }}" alt="Logo Intramilo">
+
+            {# Description #}
+            <div class="description">
+                Bienvenue ! Vous êtes sur le site Intranet <br>
+                de la Mission Locale de l’arrondissement de Dijon
+            </div>
+
+            <div class="login-form text-left mt-4">
+                <form action="{{ path('account_login') }}" method="post">
+
+                    {% if hasError %}
+                        <div class="alert alert-danger my-box">
+                            <div>
+                                <i class="fas fa-exclamation-circle rouge mr-2"></i>
+                                L'email ou le mot de passe est invalide.
+                            </div>
+                        </div>
+                    {% endif %}
+                    <div class="form-group">
+                        {# <label for="email">Email</label> #}
+                        <input type="text" name="_username" id="email" class="form-control" placeholder="Adresse mail" required value="{{ username }}">
+                    </div>
+                    <div class="form-group">
+                        {# <label for="password">Mot de passe</label> #}
+                        <input type="password" name="_password" id="password" placeholder="Mot de passe" class="form-control" required>
+                        <span class="eye-icon float-right">
+                            <i id="eye" class="uil uil-eye-slash"></i>
+                        </span>
+                        {# <div class="input-group mb-3">
+                            
+                            <input type="password" name="_password" id="password" placeholder="Mot de passe" class="form-control password-input" required>
+                            <div class="input-group-append">
+                                <button class="btn btn-eye  no-focus" type="button" id="button-addon2"><i class="uil uil-eye"></i></button>
+                            </div>
+                        </div> #}
+
+                    </div>
+                    <div class="form-group text-center mt-4">
+                        <button type="submit" class="btn btn-login mt-0">Me connecter</button>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <input class="mr-1" type="checkbox" id="remember_me" name="_remember_me" checked/>
+                            <label for="remember_me">Se souvenir de moi</label>
+                        </div>
+                        <div class="col-6">
+                            <div class="text-right"><a href="{{ path('account_reset_password') }}">Mot de passe oublié ?</a></div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="no-account op-70">
+                Pas encore de compte ? Contactez un administrateur
+            </div>
+        
+        </div>
+
+    </div>
+</div>
+
+
+{# 
 <div class="row">
     <div class="col-md-3">&nbsp;</div>
     <div class="col-md-6">
     
-        <div class="bg-light py-3 px-3">
+        <div class="py-3 px-3">
             
 
             <div class="card login">
@@ -49,7 +118,36 @@
         </div>
 
     </div>
-</div>
+</div> #}
     
 </div>
+{% endblock %}
+
+{%  block javascripts %}
+
+    <script>
+
+        $('#eye').click(function(){
+        
+            if($(this).hasClass('uil-eye-slash')){
+            
+                $(this).removeClass('uil-eye-slash');
+                
+                $(this).addClass('uil-eye');
+                
+                $('#password').attr('type','text');
+                
+            }else{
+            
+                $(this).removeClass('uil-eye');
+                
+                $(this).addClass('uil-eye-slash');  
+                
+                $('#password').attr('type','password');
+
+            }
+        });
+
+    </script>
+
 {% endblock %}

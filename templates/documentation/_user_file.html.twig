@@ -8,8 +8,8 @@
                         {% include '_picture.html.twig' with {'user': user, 'class': 'medium'} %}
                     </td>
                     <td class="text-left pl-2 no-border">
-                        <div class="marine main">{{ user }}</div>
-                        <div class="marine small my-secondary">{{ file.updatedAt|localizeddate('none', 'none', 'fr', null, 'd MMMM Y') }} • {{ file.views }} vue{% if file.views > 1 %}s{% endif %}</div>
+                        <div class="black main">{{ user }}</div>
+                        <div class="black op-70">{{ file.updatedAt|localizeddate('none', 'none', 'fr', null, 'd MMMM Y') }} • {{ file.views }} vue{% if file.views > 1 %}s{% endif %}</div>
                     </td>
                     
                 </tr>

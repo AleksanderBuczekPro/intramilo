@@ -387,7 +387,7 @@ class AccountController extends AbstractController
             $manager->flush();
 
             // Envoie du mail
-            $message = (new \Swift_Message('Mot de pass oublié - Intramilo'))
+            $message = (new \Swift_Message('Mot de passe oublié - Intramilo'))
             ->setFrom('intramilo.dijon@gmail.com')
             ->setTo($email)
             ->setBody(

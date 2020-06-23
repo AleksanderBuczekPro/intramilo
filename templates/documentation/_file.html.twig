@@ -61,10 +61,13 @@
 
 <a href="{{ path }}">
 
-<div class="card my-card px-4 file-card no-border my-box">
-    <div class="card-body">
+    <div class="card my-card mt-0 mb-4 file-card no-border my-box">
+        <div class="card-body p-0">
 
-        <div class="file-organization">
+        {# <div class="file-organization">
+            <span class="mr-1">
+                {% include '_organization_logo.html.twig' with {'organization': file.organization, 'class': 'small'} %}
+            </span>
             {{ file.organization }}
 
             {% if type == 'document' %}
@@ -84,7 +87,81 @@
             <span class="file-author float-right">
                 {% include '_picture.html.twig' with {'user': file.author, 'class': 'small'} %}
             </span>
-        </div>
+        </div> #}
+        
+        <table class="table my-table no-border">
+            <tr>
+                <td class="w-25 py-0 pl-0 pr-3">
+                    {% if (file.pictureFilename is defined) and file.pictureFilename is not null %}
+
+                        <div class="sheet-picture" style="background-image: url({{ asset('files/pictures/' ~ file.pictureFilename) }});">
+                            
+                            <div class="author-picture my-box">
+                                {% include '_picture.html.twig' with {'user': file.author, 'class': 'small'} %}
+                            </div>
+
+                            {% if (file.publishedAt is not null) and (date(file.publishedAt) >= date('-4days', 'Europe/Paris')) %}
+
+                                <div class="float-right badge-new text-center my-box">
+                                    <i class="uil uil-fire"></i>
+                                </div>
+
+                            {% endif %}
+
+                        </div>
+
+
+                    {% else %}
+
+                        <div class="sheet-picture" style="background-image: url({{ asset('files/pictures/' ~ file.subcategory.category.pole.pictureFilename) }});">
+
+                            <div class="author-picture my-box">
+                                {% include '_picture.html.twig' with {'user': file.author, 'class': 'small'} %}
+                            </div>
+
+                            {% if (file.publishedAt is not null) and (date(file.publishedAt) >= date('-4days', 'Europe/Paris')) %}
+
+                                <div class="float-right badge-new text-center my-box">
+                                    <i class="uil uil-fire"></i>
+                                </div>
+
+                            {% endif %}
+                        </div>
+
+                    {% endif %}
+                </td>
+                <td class="w-75 align-top">
+                    <div class="category-front">
+                        <span class="badge pole"> {{ file.subcategory.category.pole|upper }}</span>
+                    </div>
+                    <a href="{{ path }}">
+                        <div class="file-title pr-3">
+                            {% if file.title|length > 60 %}
+                                {{ file.title|slice(0, 60) }}...
+                            {% else %}
+                                {{ file.title }}
+                            {% endif %}
+                            {# <i class="fas fa-{{icon}}-circle {{state_class}} fa-xs"></i> #}
+                        </div>
+                    </a>
+                    <div class="w-100">
+                        <span class="my-secondary marine date">
+                            {# {{ file.updatedAt|localizeddate('none', 'none', 'fr', null, 'd MMMM Y') }} • {{ file.views }} vue{% if file.views > 1 %}s{% endif %} #}
+
+                            {{ file.updatedAt|localizeddate('none', 'none', 'fr', null, 'd MMMM Y') }}  • {{ file.views }} vue{% if file.views > 1 %}s{% endif %}
+                            {# {{ file.organization }} #}
+                                {# • {{ file.views }} vue{% if file.views > 1 %}s{% endif %} #}
+                            {# {% if type == 'document' %}
+                                <span class="mime ml-2">{{ file.mimeType|upper }}</span>
+                            {% endif %} #}
+                        </span>
+                        {# <span class="file-author float-right">
+                            {% include '_picture.html.twig' with {'user': file.author, 'class': 'small'} %}
+                        </span> #}
+                    </div>
+                </td>
+            </tr>
+        </table>  
 
     </div>
 </div>

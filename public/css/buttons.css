@@ -4,20 +4,28 @@ button.no-focus:focus{
 }
 
 .btn, span.my-badge{
-    font-family: 'Karla';
-    font-weight: 600;
+    font-family: 'Roboto', sans-serif;
 
     /* padding: 0.3em 1em 0.3em 0.5em; */
     padding-left: 14px;
     padding-right: 20px;
     border-radius: 8px;
     letter-spacing: 0.3px;
+
+    font-family: "Roboto",sans-serif;
+    font-weight: 400;
+    padding: 0.3em 1em 0.3em 0.5em;
+    border-radius: 8px;
+    letter-spacing: 0.3px;
+    padding: 11px 15px;
+    border-radius: 6px;
+    font-size: 15px;
 }
 
 .btn.small{
 
-   font-size: 12px;
-   padding: 4px 8px 4px 14px;
+    font-size: 13px;
+    padding: 10px 15px 10px 13px;
 
 }
 
@@ -29,18 +37,31 @@ button.no-focus:focus{
     
 }
 
-.nav-btn .btn{
+.nav-btn .btn, a.intramilo{
 
 
-    width: 50px;
+    width: 40px;
     height: 40px;
+
+    border-radius: 25px;
+
+    font-size: 14px;
+    line-height: 35px;
+
+    text-align: center;
+
+    padding: 0px;
+
+    background: var(--grey-15-color);
+    color: black;
+    font-weight: 600;
     
 }
 
 .navbar button[aria-expanded="true"], .navbar .nav-hover[aria-expanded="true"], .navbar .nav-hover:hover{
 
-    background-color: var(--blue-transparent-color)!important;
-    color: var(--blue-color)!important;
+    background-color: var(--purple-transparent-color)!important;
+    color: var(--purple-color)!important;
 
 }
 
@@ -55,12 +76,17 @@ button.no-focus:focus{
 
 .btn.btn-my-outline{
 
-    border: 1px solid var(--marine-color);
-
     color: var(--marine);
     background-color: transparent;
 
     border-radius: 5px;
+
+}
+
+.btn.btn-my-outline:hover{
+
+    color: var(--red-color);
+    opacity: 1!important;
 
 }
 
@@ -73,10 +99,10 @@ button.no-focus:focus{
 
 }
 
-.btn.btn-my-marine:hover, .btn.btn-my-outline:hover{
+.btn.btn-my-marine:hover{
 
     color: white!important;
-    background-color: var(--marine-color)!important;
+    background-color: var(--purple-color)!important;
 
 }
 
@@ -152,7 +178,6 @@ button.no-focus:focus{
     background: var(--grey-10-color);
     color: black;
 
-    font-weight: 600;
 
 }
 
@@ -169,21 +194,26 @@ button.no-focus:focus{
 }
 
 
-.btn.btn-my-primary{
+.btn.btn-my-primary, .btn.btn-my-primary.active:hover{
 
-    background: var(--blue-color);
+    background: var(--purple-color);
     color: white;
-
-    font-weight: 600;
 
 }
 
 .btn.btn-my-primary:hover{
 
-    background: var(--blue-color);
+    background: var(--purple-color);
     color: white;
 
-    font-weight: 600;
+}
+
+
+.btn.btn-my-primary.active{
+
+    border: 1px solid var(--purple-color);
+    background: transparent;
+    color: var(--purple-color);
 
 }
 
@@ -191,8 +221,6 @@ button.no-focus:focus{
 
     background: var(--blue-transparent-color);
     color: var(--blue-color);
-
-    font-weight: 600;
 
 }
 
@@ -208,7 +236,6 @@ button.no-focus:focus{
     background: var(--orange-transparent-color);
     color: var(--orange-color);
 
-    font-weight: 600;
 
 }
 
@@ -217,7 +244,6 @@ button.no-focus:focus{
     background: var(--orange-color);
     color: white;
 
-    font-weight: 600;
 
 }
 
@@ -226,7 +252,7 @@ button.no-focus:focus{
     background: var(--red-transparent-color);
     color: var(--red-color);
 
-    font-weight: 600;
+
 
 }
 
@@ -235,7 +261,6 @@ button.no-focus:focus{
     background: var(--red-color);
     color: white;
 
-    font-weight: 600;
 
 }
 
@@ -302,9 +327,25 @@ span.my-badge{
 /* New badge */
 .badge-new{
 
-    font-size: 11px;
+    position: absolute;
+    top: 24px;
+    color: white;
+    background-color: var(--purple-color);
+    height: 30px;
+    width: 45px;
+    border-radius: 0px 25px 25px 0px;
+    font-size: 14px;
     padding: 4px 6px;
-    border-radius: 6px;
+
+
+
+}
+
+.badge-new i{
+
+    position: relative;
+    left: 4px;
+    top: -1px;
 
 }
 
@@ -491,10 +532,11 @@ ul li a.my-pill.active{
 
 .btn-paragraph:hover h5, .btn-paragraph.show h5{
 
-    color: var(--blue-color)!important;
+    color: var(--purple-color)!important;
 
 
 }
+
 
 
 

@@ -16,7 +16,7 @@ fos_ck_editor:
             # autoGrow_minHeight: 3000
             # full.colors: [ "TextColor", "BGColor" ]
             toolbar:
-               - { name: 'styles', items: [ 'Format'] }
+            # - { name: 'styles', items: [ 'Format'] }
             #    - { name: 'basicstyles', items: [ 'Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'CopyFormatting', 'RemoveFormat' ] }
                - { name: 'basicstyles', items: [ 'Bold', 'Italic', 'Underline'] }
             #    - { name: 'colors', items: [ 'TextColor', 'BGColor' ] }

@@ -6,9 +6,16 @@
 
 } */
 
+nav ul li a.nav-link{
+
+    font-size: 17px;
+    font-family: 'Fira Sans', 'sans serif';
+
+}
+
 nav ul li a.nav-link i{
 
-    font-size: 1.1em;
+    font-size: 12px;
     font-weight: 700;
     vertical-align: middle;
 
@@ -50,6 +57,8 @@ nav.navbar-admin{
 
 .navbar-brand {
     color: white;
+    padding: 0px 36px;
+
 }
 
 nav.navbar-admin ul li a.nav-link{
@@ -86,10 +95,15 @@ nav.navbar-admin ul li a.nav-link.active{
 
 }
 
-a.btn.intramilo{
+.navbar input.form-control{
 
-    /* Code à améliorer */
-    /* margin-top: 22px;
-    margin-right: 20px; */
+    background-color: var(--grey-10-color);
+    border: none;
+
+}
+
+.navbar input.form-control::placeholder{
+
+        color: var(--grey-40-color);
 
 }

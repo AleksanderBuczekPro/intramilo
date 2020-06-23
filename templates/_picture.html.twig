@@ -1,19 +1,18 @@
+{% if (user.pictureFilename is defined) and user.pictureFilename is not null %}
 
-                {% if (user.pictureFilename is defined) and user.pictureFilename is not null %}
+    <div class="center-cropped {{ class }} align-middle" 
+        style="background-image: url({{ asset('files/pictures/' ~ user.pictureFilename) }});">
+    </div>
 
-                    <div class="center-cropped {{ class }} align-middle" 
-                        style="background-image: url({{ asset('files/pictures/' ~ user.pictureFilename) }});">
-                    </div>
+{% else %}
 
-                {% else %}
+    {# Initiales #}
+    {% set firstName = user.firstName|split('') %}
+    {% set lastName = user.lastName|split('') %}
 
-                    {# Initiales #}
-                    {% set firstName = user.firstName|split('') %}
-                    {% set lastName = user.lastName|split('') %}
+    {% set initiales = firstName[0]|upper ~ lastName[0]|upper %}
+    <div class="init-circle {{ class }} align-middle bg-grey">
+        <span class="init ">{{ initiales }}</span>
+    </div>
 
-                    {% set initiales = firstName[0]|upper ~ lastName[0]|upper %}
-                    <div class="init-circle {{ class }} align-middle">
-                        <span class="init">{{ initiales }}</span>
-                    </div>
-
-                {% endif %}
+{% endif %}

@@ -6,9 +6,11 @@ use App\Entity\Organization;
 use App\Form\OrganizationType;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\OrganizationRepository;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 class OrganizationController extends AbstractController
 {
@@ -47,6 +49,45 @@ class OrganizationController extends AbstractController
 
         if($form->isSubmitted() && $form->isValid()){
 
+            $pictureFile = $form->get('logo')->getData();
+
+            // this condition is needed because the 'brochure' field is not required
+            // so the PDF file must be processed only when a file is uploaded
+            if ($pictureFile) {
+
+                $originalFilename = pathinfo($pictureFile->getClientOriginalName(), PATHINFO_FILENAME);
+                // this is needed to safely include the file name as part of the URL
+                $safeFilename = transliterator_transliterate('Any-Latin; Latin-ASCII; [^A-Za-z0-9_] remove; Lower()', $originalFilename);
+                $newFilename = $safeFilename.'-'.uniqid().'.'.$pictureFile->guessExtension();
+
+                // Move the file to the directory where brochures are stored
+                try {
+                    $pictureFile->move(
+                        $this->getParameter('pictures_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+
+                // updates the 'brochureFilename' property to store the PDF file name
+                // instead of its contents
+
+                // Si une photo de profil existe déjà, on la supprime
+                $oldFilename = $organization->getLogoFilename();
+                if($oldFilename){
+                    
+                    $path = $this->getParameter('pictures_directory').'/'.$oldFilename;
+
+                    $filesystem = new Filesystem();
+                    $filesystem->remove($path);                    
+
+                }
+
+                $organization->setLogoFilename($newFilename);
+                
+            }
+
             $manager->persist($organization);
             $manager->flush();
 
@@ -57,6 +98,80 @@ class OrganizationController extends AbstractController
             );
 
             return $this->redirectToRoute('organizations_index');
+        
+        }
+
+        return $this->render('organization/create.html.twig', [
+            'form' => $form->createView()
+        ]);
+
+    }
+
+    /**
+     * Permet de créer un organisme depuis une fiche
+     * 
+     * @Route("/organization/create/from-sheet", name="organization_create_from_sheet")
+     *
+     * @return Response
+     * 
+     */
+    public function createFromSheet(Request $request, EntityManagerInterface $manager) {
+
+        $organization = new Organization();
+
+        $form = $this->createForm(OrganizationType::class, $organization);
+
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()){
+
+            $pictureFile = $form->get('logo')->getData();
+
+            // this condition is needed because the 'brochure' field is not required
+            // so the PDF file must be processed only when a file is uploaded
+            if ($pictureFile) {
+
+                $originalFilename = pathinfo($pictureFile->getClientOriginalName(), PATHINFO_FILENAME);
+                // this is needed to safely include the file name as part of the URL
+                $safeFilename = transliterator_transliterate('Any-Latin; Latin-ASCII; [^A-Za-z0-9_] remove; Lower()', $originalFilename);
+                $newFilename = $safeFilename.'-'.uniqid().'.'.$pictureFile->guessExtension();
+
+                // Move the file to the directory where brochures are stored
+                try {
+                    $pictureFile->move(
+                        $this->getParameter('pictures_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+
+                // updates the 'brochureFilename' property to store the PDF file name
+                // instead of its contents
+
+                // Si une photo de profil existe déjà, on la supprime
+                $oldFilename = $organization->getLogoFilename();
+                if($oldFilename){
+                    
+                    $path = $this->getParameter('pictures_directory').'/'.$oldFilename;
+
+                    $filesystem = new Filesystem();
+                    $filesystem->remove($path);                    
+
+                }
+
+                $organization->setLogoFilename($newFilename);
+                
+            }
+
+            $manager->persist($organization);
+            $manager->flush();
+
+            $this->addFlash(
+                'success',
+                "L'organisme <strong>{$organization->getName()}</strong> a bien été créé !"
+
+            );
         
         }
 
@@ -80,6 +195,45 @@ class OrganizationController extends AbstractController
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
+
+            $pictureFile = $form->get('logo')->getData();
+
+            // this condition is needed because the 'brochure' field is not required
+            // so the PDF file must be processed only when a file is uploaded
+            if ($pictureFile) {
+
+                $originalFilename = pathinfo($pictureFile->getClientOriginalName(), PATHINFO_FILENAME);
+                // this is needed to safely include the file name as part of the URL
+                $safeFilename = transliterator_transliterate('Any-Latin; Latin-ASCII; [^A-Za-z0-9_] remove; Lower()', $originalFilename);
+                $newFilename = $safeFilename.'-'.uniqid().'.'.$pictureFile->guessExtension();
+
+                // Move the file to the directory where brochures are stored
+                try {
+                    $pictureFile->move(
+                        $this->getParameter('pictures_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+
+                // updates the 'brochureFilename' property to store the PDF file name
+                // instead of its contents
+
+                // Si une photo de profil existe déjà, on la supprime
+                $oldFilename = $organization->getLogoFilename();
+                if($oldFilename){
+                    
+                    $path = $this->getParameter('pictures_directory').'/'.$oldFilename;
+
+                    $filesystem = new Filesystem();
+                    $filesystem->remove($path);                    
+
+                }
+
+                $organization->setLogoFilename($newFilename);
+                
+            }
 
             $manager->persist($organization);
             $manager->flush();

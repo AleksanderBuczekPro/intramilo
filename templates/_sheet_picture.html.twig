@@ -1,0 +1,23 @@
+{# {% if (sheet.pictureFilename is defined) and sheet.pictureFilename is not null %}
+
+    <div class="background" style="background-image: linear-gradient(0deg, rgba(37,56,88,0.8) 5%, rgba(37,56,88,0) 100%), url({{ asset('files/pictures/' ~ sheet.pictureFilename) }});">
+    </div>
+
+{% else %}
+
+    <div class="background" style="background-image: linear-gradient(0deg, rgba(37,56,88,0.8) 5%, rgba(37,56,88,0) 100%), url({{ asset('files/pictures/' ~ category.pole.pictureFilename) }});">
+    </div>
+
+{% endif %} #}
+
+{% if (sheet.pictureFilename is defined) and sheet.pictureFilename is not null %}
+
+    <div class="background" style="background-image: url({{ asset('files/pictures/' ~ sheet.pictureFilename) }});">
+    </div>
+
+{% else %}
+
+    <div class="background" style="background-image: url({{ asset('files/pictures/' ~ category.pole.pictureFilename) }});">
+    </div>
+
+{% endif %}

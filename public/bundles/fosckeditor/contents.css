@@ -10,11 +10,11 @@ body
 {
 	/* Font */
 	/* Emoji fonts are added to visualise them nicely in Internet Explorer. */
-	font-family: 'Poppins', sans-serif;
+	font-family: 'Roboto', sans-serif;
 	font-size: 12px;
 
 	/* Text color */
-	color: var(--marine-color)!important;
+	color: black!important;
 
 	/* Remove the background color to make it transparent. */
 	background-color: #fff;
@@ -60,7 +60,7 @@ blockquote
 
 a
 {
-	color: #0782C1;
+	color: var(--purple-color);
 }
 
 ol,ul,dl

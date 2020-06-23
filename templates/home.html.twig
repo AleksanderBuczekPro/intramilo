@@ -11,200 +11,71 @@
 
 {% block body %}
 
-<div class="container my-container home-container mt-0">
+<div class="container my-container home-container mt-2">
     <div class="row">
 
         {# Profile Sidebar #}
         <div class="col-12 col-md-auto profile-sidebar">
-            <div style="width: 300px;" class="sticky">
+            <div style="width: 150px;" class="sticky">
 
-                {# Profile Card #}
-                <div class="card my-card no-border ml-4 p-0">
-                    <div class="card-body">
-                        <div class="card my-card no-border my-hover mt-0 p-1">
-                            <div class="card-body p-0">
-                                <table class="table my-table">
-                                    <tr>
-                                        <td class="pr-3 text-right align-top pt-3">{% include '_picture.html.twig' with {'user': app.user, 'class': 'medium'} %}</td>
-                                        <td class="pl-0">
-                                            <div class="main">{{ app.user }}</div>
-                                            <div class="my-secondary mb-2">{{ app.user.poste }}</div>
-                                            {% if is_granted("ROLE_ADMIN") %}
-                                            <span class="admin text-center w-75">Administrateur</span>
-                                            {% endif %}
-                                        
-                                        </td>
-                                    </tr>
-                                </table>
-                            </div>
+                {# App Cards #}
+
+                {# Agenda #}
+                <a href="http://intramilo21000.fr/intranet/agenda/admin/agendaAdmin.php" target="_blank" class="violet">
+                    <div class="app align-middle bg-white my-box">
+                        <div class="app-icon inline pl-1 pr-1">
+                            <i class="uil uil-fire violet"></i>
                         </div>
+                        <div class="app-name inline violet">A la Une</div>
                     </div>
-                </div>
+                </a>
 
-                
-                <div class="ml-4">
-                    {# My Websites #}
-                    <div class="card my-card no-border mt-2">
-                        <div class="card-body">
-                            <div class="card-title ml-2 mb-3">Mes raccourcis <a href="{{ path('website_index') }}" class="btn btn-my-secondary float-right p-1"><i class="uil uil-cog"></i></a></div>
-                             {% if websites|length > 0 %}
-
-                                {% for website in websites %}
-
-                                <a class="website" href="{{ website.url }}" target="_blank">
-                                    <div class="card my-card no-border my-hover mt-0">
-                                        <div class="card-body p-0">
-                                            
-                                                <i class="uil uil-arrow-up-right small-icon mr-2 bg-transparent-violet violet"></i>
-                                                
-                                                <span class="title-secondary">
-                                                    {% if website.title|length > 20 %}
-                                                        {{ website.title|slice(0, 20) }}...
-                                                    {% else %}
-                                                        {{ website.title }}
-                                                    {% endif %}
-                                                </span>
-                                                
-                                        </div>
-                                    </div>
-                                </a>
-
-                                {% endfor %}
-
-                            {% else %}
-
-                                <p class="text">Aucun raccourci.</p>
-
-                                <a href="{{ path('website_index') }}" class="btn btn-my-secondary">Ajouter</a>
-
-                            {% endif %}
-
-
-                        </div>                       
+                {# Agenda #}
+                <a href="http://intramilo21000.fr/intranet/agenda/admin/agendaAdmin.php" target="_blank" class="violet">
+                    <div class="app align-middle">
+                        <div class="app-icon inline pl-1 pr-1">
+                            <i class="uil uil-calendar-alt"></i>
+                        </div>
+                        <div class="app-name inline">Agenda</div>
                     </div>
-                    {# My Group #}
-                    <div class="card my-card no-border mt-2">
-                        <div class="card-body">
-                            <div class="card-title ml-2 mb-3">Groupe {{ app.user.groupe }}</div>
+                </a>
 
-                            {% for user in app.user.groupe.users %}
-
-                                {% if user != app.user %}
-
-                                    <div class="card my-card my-hover no-border mt-0 p-0">
-                                        <div class="card-body p-0">
-                                            <table class="table my-table">
-                                                <tr>
-                                                    <td class="init py-2 pr-0 pl-1">{% include '_picture.html.twig' with {'user': user, 'class': 'medium'} %}</td>
-                                                    <td class="title-secondary py-1">{{ user }}</td>
-                                                </tr>
-                                            </table>
-                                        </div>
-                                    </div>
-
-                                {% endif %}
-
-                            {% endfor %}
-
-                        </div>                       
+                {# Flux #}
+                <a href="http://intramilo21000.fr/intranet/epaflux/calendrier.php" target="_blank" class="rose">
+                    <div class="app align-middle">
+                        <div class="app-icon inline pl-1 pr-1">
+                            <i class="uil uil-bookmark"></i>
+                        </div>
+                        <div class="app-name inline">Flux</div>
                     </div>
+                </a>
 
-                    
-
-                </div>
+                {# Manatime #}
+                <a href="https://app.manatime.com/connexion" target="_blank" class="jaune">
+                    <div class="app align-middle">
+                        <div class="app-icon inline pl-1 pr-1">
+                            <i class="uil uil-chart-pie-alt"></i>
+                        </div>
+                        <div class="app-name inline">Manatime</div>
+                    </div>
+                </a>
             </div>
         </div>
 
         {# Content #}
         <div class="col-12 col-md bg-purple-transparent home-content">
 
-            {# Apps #}
-            <div class="row mb-4">
-                <div class="col-4">
-                    <a href="http://intramilo21000.fr/intranet/agenda/admin/agendaAdmin.php" target="_blank">
-                        <div class="card my-card my-box no-border p-0">
-                            <div class="card-body p-0">
-                                <table class="table my-table">
-                                    <tr>
-                                        <td class="pr-1">
-                                            <div class="card my-card mt-0 no-border bg-violet app-icon">
-                                                <div class="card-body p-0">
-                                                    <i class="uil uil-calendar-alt"></i>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td class="pl-0">
-                                            <div class="app-type pr-1">Evénements</div>
-                                            <div class="app-name violet">Agenda</div>
-                                        </td>
-                                    </tr>
-                                
-                                </table>
-                            
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-4">
-                    <a href="http://intramilo21000.fr/intranet/epaflux/calendrier.php" target="_blank">
-                        <div class="card my-card my-box no-border p-0">
-                            <div class="card-body p-0">
-                                <table class="table my-table">
-                                    <tr>
-                                        <td class="pr-1">
-                                            <div class="card my-card mt-0 no-border bg-rose app-icon">
-                                                <div class="card-body p-0">
-                                                    <i class="uil uil-bookmark"></i>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td class="pl-0">
-                                            <div class="app-type pr-1">Réservation</div>
-                                            <div class="app-name rose">Flux</div>
-                                        </td>
-                                    </tr>
-                                
-                                </table>
-                            
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-4">
-                    <a href="https://app.manatime.com/connexion" target="_blank">
-                        <div class="card my-card my-box no-border p-0">
-                            <div class="card-body p-0">
-                                <table class="table my-table">
-                                    <tr>
-                                        <td class="pr-1">
-                                            <div class="card my-card mt-0 no-border bg-jaune app-icon">
-                                                <div class="card-body p-0">
-                                                    <i class="uil uil-chart-pie-alt"></i>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td class="pl-0">
-                                            <div class="app-type">RTT / Congés</div>
-                                            <div class="app-name jaune">Manatime</div>
-                                        </td>
-                                    </tr>
-                                
-                                </table>
-                            
-                            </div>
-                        </div>
-                    </a>
-                </div>
-            </div>
+          
 
             {# Fil d'actualité #}
             <div class="row">
 
-                <div class="ml-3 my-title">Documentations à la Une</div>
+                {# <div class="ml-3 my-title">A la Une</div> #}
                 {% for front in fronts %}
 
                     <div class="col-12">
-                        <div class="card my-card no-border pb-3 mt-0 mb-3 my-box">
+                        {% include 'documentation/_file_front.html.twig' with {'file': front} only %}
+                        {# <div class="card my-card no-border pb-3 mt-0 mb-3 my-box">
                             <div class="card-body p-0">
                                 <div class="author">
                                     <table class="table my-table">
@@ -213,7 +84,6 @@
                                             <td class="pl-2">
                                                 <div class="author-front main">{{ front.frontAuthor }}</div>
                                                 <div class="mb-2 date-front my-secondary">{{ front.publishedAt|localizeddate('none', 'none', 'fr', null, 'd MMMM') }}, à {{ front.publishedAt|localizeddate('none', 'none', 'fr', null, 'H:mm') }}</div>
-                                                {# 30 avril, à 20:11 #}
                                             </td>
                                             
                                             {% if date(front.publishedAt) >= date('-3days', 'Europe/Paris') %}
@@ -224,11 +94,11 @@
                                 </div>
 
 
-                                    {% include 'documentation/_file_front.html.twig' with {'file': front} only %}
+                                    
 
                             
                             </div>
-                        </div>
+                        </div> #}
                     
                     </div>
 
@@ -250,6 +120,7 @@
                
 
                 {# Weather Card #}
+                <div class="my-title weather-title">Météo du {{ "now"|localizeddate('none', 'none', 'fr', null, 'd MMMM') }}</div>
                 <div class="card my-card no-border weather-card p-0 my-box">
                     
                     <div class="weather-content">
@@ -273,7 +144,7 @@
                 <div class="sticky">
 
                     {# Today Event Card #}
-                    <div class="card my-card no-border my-box">
+                    {# <div class="card my-card no-border my-box">
                         <div class="card-body">
                             <div class="card-title black">
                                 Aujourd'hui, {{ "now"|localizeddate('none', 'none', 'fr', null, 'd MMMM') }}            
@@ -299,18 +170,19 @@
                                 </table>
                             </div>
                         </div>
-                    </div>
+                    </div> #}
 
                     {# Last Activities #}
-                    <div class="card my-card no-border my-box sticky">
-                        <div class="card-body">
-                            <div class="card-title">
+                    <div class="mt-4 my-title">Dernières activités</div>
+                    <div class="card my-card no-border sticky p-0">
+                        <div class="card-body p-1">
+                            {# <div class="card-title">
                             Dernières activités
-                            </div>
+                            </div> #}
 
                             {% for file in files %}
 
-                                {% if loop.index <= 6 %}
+                                {% if loop.index <= 4 %}
 
                                     {# Définition des variables #}
                                     {% set type = constant('TYPE', file) %}
@@ -326,7 +198,7 @@
                                         {% set path = path('document_show', {'id': file.subCategory.category.slug, 'sub_slug': file.subCategory.slug, 'id': file.id }) %}
                                     {% endif %}
 
-                                    <a href="{{ path }}">
+                                    {# <a href="{{ path }}">
                                         <div class="card my-card front-card no-border bg-marine mt-2 px-3">
                                             <div class="card-body p-0">
                                                 <div class="title-secondary main">
@@ -341,7 +213,60 @@
                                                 <div class="my-secondary small">{{ file.updatedAt|localizeddate('none', 'none', 'fr', null, 'd MMMM Y') }}</div>
                                             </div>
                                         </div>
-                                    </a>
+                                    </a> #}
+
+                                    <table class="table my-table no-border">
+
+                                        
+                                            <tr>
+                                                <td class="w-25">
+
+                                                    
+                                                    <a href="{{ path }}">
+
+                                                        {% if (file.pictureFilename is defined) and file.pictureFilename is not null %}
+
+                                                            <div class="sheet-picture small" style="background-image: url({{ asset('files/pictures/' ~ file.pictureFilename) }});">
+                                                            </div>
+
+                                                        {% else %}
+
+                                                            <div class="sheet-picture small" style="background-image: url({{ asset('files/pictures/' ~ file.subcategory.category.pole.pictureFilename) }});">
+                                                            </div>
+
+                                                        {% endif %}
+
+                                                    </a>
+                                                                                            
+                                                </td>
+                                                
+                                                <td class="w-75 pl-1 pr-0">
+                                                    <a href="{{ path }}">
+                                                        <div>
+                                                            <span class="badge pole small"> {{ file.subcategory.category.pole }} </span>
+                                                        </div>
+                                                        <div class="title-secondary main file-title">
+                                                            
+                                                            
+
+                                                                {% if file.title|length > 32 %}
+                                                                    {{ file.title|slice(0, 32) }}...
+                                                                {% else %}
+                                                                    {{ file.title }}
+                                                                {% endif %}
+
+                                                            
+
+                                                        </div>
+                                                        <div class="my-secondary small">
+                                                            {{ file.updatedAt|localizeddate('none', 'none', 'fr', null, 'd MMMM Y') }}
+                                                        </div>
+                                                    </a>
+                                                </td>
+                                                
+                                            </tr>
+                                        </a>
+                                    </table>
 
                                 {% endif %}
 

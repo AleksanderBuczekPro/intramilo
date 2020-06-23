@@ -11,13 +11,13 @@
     <input type="hidden" id="widgets-counter" value="0">
 
 
-        <label class="m-0 py-2 pl-4">Entête</label>
+        {# <label class="m-0 py-2 pl-4">Entête</label>
         <button type="button" class="btn btn-my-light marine my-tooltip p-0" data-toggle="tooltip" data-placement="right" title="<br> <i>Champs optionnels</i> <br> <br> Une <strong>entête</strong> est un tableau à <br><strong>2 colonnes</strong> permettant de mettre en avant certaines informations. <br><br> Par exemple: Dates, Lieux, Accès Bus...<br><br>">
             <i class="uil uil-question-circle"></i>
-        </button>
-        <button type="button" id="add-header" class="btn btn-my-marine py-2 px-2 mt-0 float-right no-focus">
+        </button> #}
+        {# <button type="button" id="add-header" class="btn btn-my-marine py-2 px-2 mt-0 float-right no-focus">
             <i class="uil uil-plus"></i>
-        </button>
+        </button> #}
     
     <div class="px-4">
         {{ form_widget(form) }}
@@ -30,24 +30,30 @@
     <div class="form-group mb-0 header" id="block_{{id}}">
         
         
-            <div class="card my-card my-border my-4 w-100 px-3 py-4">
+            <div class="card my-card paragraph-card my-4 w-100 px-3 py-4 bg-purple no-border">
                 <div class="card-body py-0">
                     <div class="card-title mb-0">
                     
-                        <div class="row mb-3 py-1">
+                        <div class="row mb-0 py-1">
                             <div class="col-8 header_title">
-                                <div class="ml-1"> <div class="inline-block"><i class="uil uil-bookmark header-icon"></i></div> <div class="inline-block">{{ form_widget(form.title, { 'attr': {'autocomplete': 'off'} }) }}</div></div>                          
+                                {# <div class="ml-1"> <div class="inline-block"> #}
+                                {# <i class="uil uil-bookmark header-icon"></i> #}
+                                {# </div>  #}
+                                
+                                <div class="inline-block w-100">{{ form_widget(form.title, { 'attr': {'autocomplete': 'off'} }) }}</div>
+                                
+                                {# </div> #}
                             
                             </div>
                             <div class="col-4 header">
 
-                                <button type="button" data-action="delete" data-target="#block_{{id}}" class="btn btn-my-outline marine op-40 small py-1 px-2 float-right">Supprimer</button>
+                                <button type="button" data-toggle="modal" data-target="#deleteHeaderModal_{{id}}" class="btn btn-my-outline marine op-40 small py-1 px-2 float-right">Supprimer</button>
                             
                             </div>                      
                         </div>
                     </div>
                         <div class="row">
-                            <div class="col-12">
+                            <div class="col-12 px-2">
                                 {{ form_row(form.sections) }}
                             </div>
                         </div>
@@ -58,6 +64,22 @@
         
     
     </div>
+
+    <div class="modal fade" id="deleteHeaderModal_{{id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="false">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+            <div class="modal-body text-center">
+                <p class="px-4 pt-4 pb-0"> Voulez-vous vraiment supprimer cette entête ? </p>
+            </div>
+            <div class="modal-footer no-border">
+                    <button id="delete-header" type="button" class="w-50 btn btn-danger" data-action="delete" data-target="#block_{{id}}" data-dismiss="modal">Oui</button>
+                    <button type="button" class="w-50 btn btn-secondary" data-dismiss="modal">Non</button>
+
+            </div>
+            </div>
+        </div>
+    </div>
+
 
 {% endblock %}
 
@@ -72,7 +94,7 @@
 {# Pour ajouter des lignes #}
 {% block _sheet_headers_entry_sections_widget %}
 
-    <div class="card my-card no-border bg-marine p-4 mt-0 mb-4">
+    <div class="card my-card no-border bg-transparent px-2 mt-0 mb-0">
 
         {{ form_widget(form) }}
         
@@ -83,7 +105,7 @@
         <input type="hidden" id="widgets-section-counter-{{ id }}" value="0">
 
         <div class="form-group mb-0">
-            <button type="button" id="{{id}}" class="btn btn-my-outline marine small add-section float-right px-3">
+            <button type="button" id="{{id}}" class="btn btn-my-outline marine small add-section float-right p-0 mr-2">
                 Ajouter une ligne
             </button>
         </div>
@@ -140,13 +162,13 @@
     <input type="hidden" id="widgets-paragraph-counter" value="0">
 
 
-    <label class="m-0 py-2 pl-4">Section</label>
+    {# <label class="m-0 py-2 pl-4">Section</label>
     <button type="button" class="btn btn-my-light marine my-tooltip p-0" data-toggle="tooltip" data-placement="right" title="<br>Le contenu de votre fiche est réparti dans les différentes sections. <br><br>Une <strong>section</strong> est une partie de votre contenu. Chaque section correspond à une thématique. <br><br> Vous pouvez ajouter autant de sections que vous le souhaitez. <br><br>">
         <i class="uil uil-question-circle"></i>
     </button>
     <button type="button" id="add-paragraph" class="btn btn-my-marine py-2 px-2 mt-0 float-right no-focus">
         <i class="uil uil-plus"></i>
-    </button>
+    </button> #}
     
     <div class="px-4">
         {{ form_widget(form) }}
@@ -177,22 +199,24 @@
         </div> #}
 
          <div class="card my-card my-border my-4 px-0 mt-0 pb-0">
-                <div class="card-body px-0 pb-0">
+                <div class="card-body p-0">
                     <div class="card-title mb-0">
                     
                         <div class="row px-4 mb-3">
                             <div class="col-8 paragraph_title">
-                                <div class="ml-1">{{ form_widget(form.title, { 'attr': {'autocomplete': 'off'} }) }}</div>                          
+                                <div class="ml-1 mt-2">{{ form_widget(form.title, { 'attr': {'autocomplete': 'off'} }) }}</div>                          
                             
                             </div>
                             <div class="col-4 header inline-block">
 
                                 <div class="row float-right pr-2">
 
-                                        <button type="button" data-action="delete" data-target="#block_paragraph_{{id}}" class="btn btn-my-outline marine op-40 small py-1 px-2 float-right mx-1">Supprimer</button>
+                                        <button type="button"
+                                        {# data-toggle="modal" data-target="#deleteParagraphModal_{{id}}" #}
+                                        data-action="delete" data-target="#block_paragraph_{{id}}" class="btn btn-my-outline marine op-40 small py-1 px-2 float-right mx-1">Supprimer</button>
                                         
-                                        <button type="button" data-id="{{id}}" class="btn btn-my-marine paragraph-move down float-right small px-2 mx-1"><i class="uil uil-arrow-down"></i></button>
-                                        <button type="button" data-id="{{id}}" class="btn btn-my-marine paragraph-move up float-right small px-2 mx-1"><i class="uil uil-arrow-up"></i></button>  
+                                        <button type="button" data-id="{{id}}" class="btn btn-my-marine paragraph-move down float-right small p-1 mt-1 mx-1"><i class="uil uil-arrow-down"></i></button>
+                                        <button type="button" data-id="{{id}}" class="btn btn-my-marine paragraph-move up float-right small p-1 mt-1 mx-1"><i class="uil uil-arrow-up"></i></button>  
                                 </div>
 
                             </div>                      
@@ -206,18 +230,32 @@
                 </div>
             </div>
 
-
          
 
     </div>
+
+    {# <div class="modal fade" id="deleteParagraphModal_{{id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+            <div class="modal-body text-center">
+                <p class="px-4 pt-4 pb-0"> Voulez-vous vraiment supprimer cette section ? </p>
+            </div>
+            <div class="modal-footer no-border">
+                    <button id="delete-paragraph" type="button" class="w-50 btn btn-danger" data-action="delete" data-target="#block_paragraph_{{id}}" data-dismiss="modal">Oui</button>
+                    <button type="button" class="w-50 btn btn-secondary" data-dismiss="modal">Non</button>
+
+            </div>
+            </div>
+        </div>
+    </div> #}
 
 {% endblock %}
 
 
 {#######################################################################################}
 
-
-{# Affichage du formulaire AttachmentType #}
+{# 
+Affichage du formulaire AttachmentType
 
 {% block _sheet_attachments_entry_row %}
     {{ form_widget(form) }}
@@ -226,6 +264,84 @@
 
 {% block _sheet_attachments_widget %}
     <div class="row">
+        <div class="col-12">
+            <div class="row justify-content-center">
+
+                {{ form_widget(form) }}
+
+            </div>
+        </div>
+    </div>
+    
+    <input type="hidden" id="widgets-attachment-counter" value="0">
+
+        <div class="form-group">
+            <button type="button" id="add-attachment" class="btn btn-my-primary-light mt-4">
+            <i class="uil uil-plus"></i> Ajouter une pièce-jointe
+            </button>
+        </div>
+
+        <div class="">
+            <input type="file" name="file" id="file" class="inputfile" data-multiple-caption="{count} fichiers selectionnés" />
+            <label for="file"><span class="text-center"><i class="uil uil-paperclip"></i></span></label>
+        </div>
+
+
+{% endblock %}
+
+Pour chaque Attachment ajouté
+{% block _sheet_attachments_entry_widget %}
+
+    <div class="w-100" id="my-input">
+        {{ form_widget(form.genericFile) }}
+    </div>
+    
+    <div class="col-xl-6 col-lg-6 col-md-6 d-none attachments" id="{{id}}">
+        <div class="card my-card file-card attachment mt-4 py-0 px-3">
+            <div class="card-body p-0">
+                <table class="table my-table no-border">
+                    <tr>
+                        <td class="p-0 text-center icon">
+                            <div class="type"></div>
+                        </td>
+                        <td class="py-0 pr-0">
+                            <div class="title">
+                                {{ form_widget(form.title) }}
+                                - {{file.mimeType }}
+                            </div>
+                            <div class="details op-70 marine">
+                                taille inconnue
+                            </div>
+                            <div class="details op-70 marine">
+                                taille inconnue
+                            </div>
+                
+                        </td>
+                        <td class="p-0 align-top text-right delete">
+                            <button type="button" data-action="delete" data-target="#{{id}}" class="btn small op-40 marine p-0 float-right mt-2"><i class="uil uil-times"></i></button>
+                        </td>
+                    </tr>
+                
+                </table>
+                
+
+            </div>
+        </div>
+
+
+        
+        
+    </div>
+ #}
+
+
+ {% block _sheet_attachments_entry_row %}
+    {{ form_widget(form) }}
+{% endblock %}
+
+
+{% block _sheet_attachments_widget %}
+    <div class="row mx-2">
         <div class="col-12">
             <div class="row justify-content-center">
 
@@ -264,15 +380,14 @@
             <div class="col-9 attachment">
                     {{ form_widget(form.genericFile) }}
             </div>
-
         
         </div>        
     
     </div>
     <hr> #}
     
-    <div class="col-xl-6 col-lg-6 col-md-6" id="{{id}}">
-        <div class="card my-card file-card attachment mt-0 py-2 px-3 mb-4">
+    {# <div class="col-xl-6 col-lg-6 col-md-6" id="{{id}}"> #}
+        <div class="card my-card file-card attachment mt-0 p-0 mb-2 mr-2" id="block_attachment_{{id}}">
             <div class="card-body p-0">
                 <table class="table my-table no-border">
                     <tr>
@@ -282,19 +397,20 @@
                         <td class="py-0 pr-0">
                             <div class="title mb-2">
                                 {{ form_widget(form.title) }}
+                                <div class="details op-70 marine">
+                                    -
+                                </div>
                                 {{ form_widget(form.genericFile) }}
                                 {# - {{file.mimeType }} #}
                             </div>
                             {# <div class="details op-70 marine">
                                 taille inconnue
                             </div> #}
-                            <div class="details op-70 marine">
-                                {{ form_widget(form.genericFile) }}
-                            </div>
+                            
                 
                         </td>
                         <td class="p-0 align-top text-right delete">
-                            <button type="button" data-action="delete" data-target="#{{id}}" class="btn small op-40 marine p-0 float-right"><i class="uil uil-times"></i></button>
+                            <button type="button" data-toggle="modal" data-target="#deleteAttachmentModal_{{id}}" class="btn small op-40 marine p-0 float-right"><i class="uil uil-times"></i></button>
                         </td>
                     </tr>
                 
@@ -303,8 +419,25 @@
 
             </div>
         </div>
+
+    <div class="modal fade" id="deleteAttachmentModal_{{id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="false">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+            <div class="modal-body text-center">
+                <p class="px-4 pt-4 pb-0"> Voulez-vous vraiment supprimer cette pièce jointe ? </p>
+            </div>
+            <div class="modal-footer no-border">
+                    <button id="delete-attachment" data-action="delete" data-target="#block_attachment_{{id}}" type="button" class="w-50 btn btn-danger" data-action="delete" data-target="#block_{{id}}" data-dismiss="modal">Oui</button>
+                    <button type="button" class="w-50 btn btn-secondary" data-dismiss="modal">Non</button>
+
+            </div>
+            </div>
+        </div>
     </div>
+
+    {# </div> #}
 {% endblock %}
+
 
 
 

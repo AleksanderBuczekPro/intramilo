@@ -1,0 +1,20 @@
+{% if (organization.logoFilename is defined) and organization.logoFilename is not null %}
+
+    <div class="center-cropped {{ class }} align-middle bg-white my-box" 
+        style="background-image: url({{ asset('files/pictures/' ~ organization.logoFilename) }});">
+    </div>
+
+{% else %}
+
+    {# Initiales #}
+    {# {% set firstName = user.firstName|split('') %}
+    {% set lastName = user.lastName|split('') %}
+
+    {% set initiales = firstName[0]|upper ~ lastName[0]|upper %} #}
+    <div class="init-circle {{ class }} align-middle">
+        <span class="init bg-grey my-br my-box">
+            <i class="uil uil-building black op-70"></i>
+        </span>
+    </div>
+
+{% endif %}

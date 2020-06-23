@@ -32,12 +32,19 @@
         <!-- Shards -->
         <script src="https://unpkg.com/shards-ui@latest/dist/js/shards.min.js"></script> 
 
+        <link rel="stylesheet" href="https://unicons.iconscout.com/release/v2.1.3/css/unicons.css">
+
             {{ encore_entry_link_tags('css/app') }}
             {{ encore_entry_link_tags('css/documentation') }}
             {{ encore_entry_link_tags('css/files') }}
             {{ encore_entry_link_tags('css/header') }}
             {{ encore_entry_link_tags('css/main') }}
             {{ encore_entry_link_tags('css/sheet') }}
+
+        <link rel="stylesheet" href="{{ asset('/css/main.css') }}" />
+        <link rel="stylesheet" href="{{ asset('/css/header.css') }}" />
+        <link rel="stylesheet" href="{{ asset('/css/buttons.css') }}" />
+        <link rel="stylesheet" href="{{ asset('/css/documentation.css') }}" />
 
         {% block stylesheets %}
             {# CSS #}

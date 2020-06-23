@@ -7,7 +7,7 @@ For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 
 .cke_reset {
     margin: 0;
-    padding: 0;
+    padding: 4px;
     border: 0;
     background: transparent;
     text-decoration: none;
@@ -87,8 +87,8 @@ For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 }
 .cke_top {
     border-bottom: 1px solid #d1d1d1;
-    background: #f8f8f8;
-    padding: 6px 8px 2px;
+    background: #f8f8f8!important;
+    padding: 6px 20px 2px;
     white-space: normal;
 }
 
@@ -363,17 +363,17 @@ a.cke_button_expandable {
 }
 
 a.cke_button_on {
-    background: var(--blue-transparent-color);
+    background: var(--purple-transparent-color);
     border: none;
     padding: 6px 8px;
 }
 
 a.cke_button span{
-    filter: invert(18%) sepia(51%) saturate(572%) hue-rotate(177deg) brightness(96%) contrast(92%);
+    filter: invert(63%) sepia(0%) saturate(1%) hue-rotate(172deg) brightness(84%) contrast(82%);
 }
 
 a.cke_button_on span{
-    filter: invert(48%) sepia(59%) saturate(3298%) hue-rotate(201deg) brightness(99%) contrast(107%);
+    filter: invert(36%) sepia(80%) saturate(7492%) hue-rotate(244deg) brightness(94%) contrast(95%);
 }
 
 
@@ -772,8 +772,8 @@ a.cke_combo_button:hover {
     outline: 0;
 }
 .cke_combo_on a.cke_combo_button, .cke_combo_off a.cke_combo_button:active {
-    background: var(--blue-transparent-color);
-    color: var(--blue-color);
+    background: var(--purple-transparent-color);
+    color: var(--purple-color);
 }
 .cke_rtl .cke_combo_on a.cke_combo_button, .cke_rtl .cke_combo_off a.cke_combo_button:hover, .cke_rtl .cke_combo_off a.cke_combo_button:focus, .cke_rtl .cke_combo_off a.cke_combo_button:active {
     padding: 0 1px 0 0;

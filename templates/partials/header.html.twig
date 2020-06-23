@@ -1,9 +1,10 @@
  {% set counter = app.session.get('notification-counter') %}
  
  <nav class="navbar navbar-expand-lg sticky-top navbar-light bg-light my-navbar no-border my-box">
-            <a class="navbar-brand" href="{{ path('homepage') }}">
+
+            <a class="navbar-brand mb-1" href="{{ path('homepage') }}">
                 {# <img src="/images/logo_milo.png" alt="Logo Mission Locale de l'arrondissment de Dijon">/ #}
-                intramilo
+                <img class="logo large" src="{{ asset('images/logo_intramilo.png') }}" alt="Logo Intramilo">
             </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -13,17 +14,30 @@
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item px-2">
                         <a class="nav-link home {% if app.request.attributes.get('_route') starts with 'home'  %}active{% endif %}" href="{{ path('homepage') }}">
-                        <i class="uil uil-home-alt"></i>
-                        Accueil</a>
+                        
+                        {# <i class="uil uil-home-alt"></i> #}
+                        Accueil
+                        
+                        </a>
                     </li>
                     {# <li class="nav-item">
                         <a class="nav-link" href="{{ path('ads_index') }}">Annonces</a>
                     </li> #}
                     <li class="nav-item px-2">
-                        <a class="nav-link documentation {% if (app.request.attributes.get('_route') starts with 'doc') or (app.request.attributes.get('_route') starts with 'sheet')%}active{% endif %}" href="{{ path('doc_index') }}"><i class="uil uil-book-alt"></i> Documentation</a>
+                        <a class="nav-link documentation {% if (app.request.attributes.get('_route') starts with 'doc') or (app.request.attributes.get('_route') starts with 'sheet')%}active{% endif %}" href="{{ path('doc_index') }}">
+                        
+                        {# <i class="uil uil-book-alt"></i> #}
+                        Documentation
+                        
+                        </a>
                     </li>
                     <li class="nav-item px-2">
-                        <a class="nav-link antennes {% if app.request.attributes.get('_route') starts with 'antennes' %}active{% endif %}" href="{{ path('antennes_show') }}"><i class="uil uil-map"></i> Antennes</a>
+                        <a class="nav-link antennes {% if app.request.attributes.get('_route') starts with 'antennes' %}active{% endif %}" href="{{ path('antennes_show') }}">
+                        
+                        {# <i class="uil uil-map"></i> #}
+                        Antennes
+                        
+                        </a>
                     </li>
                     
                 </ul>   
@@ -40,8 +54,8 @@
                         </span>
 
                         {# Mes sous-catégories #}
-                        <div class="dropdown nav-btn float-right mx-2">
-                            <button class="btn btn-my-dark nav-hover py-1 px-2 larger" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <div class="dropdown nav-btn float-right mx-1">
+                            <button class="btn nav-hover larger" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fas fa-folder"></i>
                             </button>
                             <div class="dropdown-menu dropdown-menu-right my-dropdown no-border box" aria-labelledby="dropdownMenuButton">
@@ -58,8 +72,8 @@
                         </div>
 
                         {# Ajout rapide #}
-                        <div class="dropdown nav-btn float-right mx-2">
-                            <button class="btn btn-my-dark nav-hover py-1 px-2 larger" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <div class="dropdown nav-btn float-right mx-1">
+                            <button class="btn nav-hover larger" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="uil uil-plus"></i>
                             </button>
                             <div class="dropdown-menu dropdown-menu-right my-dropdown no-border box" aria-labelledby="dropdownMenuButton">
@@ -78,7 +92,7 @@
                                 {{ path('account_documents') }}
                             {% endif %}
                             
-                            class="btn btn-my-primary intramilo mx-2">
+                            class="btn btn-my-primary intramilo mx-1">
                                 <i class="uil uil-web-grid"></i>
                             </a>
                         </span>
@@ -108,9 +122,9 @@
                 {% if app.user %}
 
                     {# Notifications #}
-                    <li class="dropdown nav-btn float-right mx-2">
-                        <a class="btn btn-my-dark nav-hover py-1 px-2" href="#" data-toggle="dropdown" id="accountDropdownLink">
-                            <i class="fas fa-bell fa-lg mt-2"></i>
+                    <li class="dropdown nav-btn float-right mx-1">
+                        <a class="btn nav-hover py-1 px-2" href="#" data-toggle="dropdown" id="accountDropdownLink">
+                            <i class="fas fa-bell fa-lg mb-4"></i>
                         </a>
                         <div class="dropdown-menu dropdown-menu-right box no-border" id="my-dropdown" aria-labelledby="accountDropdownLink">
                             <h6 class="dropdown-header black pl-3">Notifications</h6>
@@ -189,7 +203,7 @@
                     
                 </ul>              
             </div>
-        </nav>
+</nav>
 
     {% for label, messages in app.flashes %}
         <div class="container">

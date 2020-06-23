@@ -18,7 +18,9 @@ use App\Repository\SubCategoryRepository;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Validator\Constraints\Image;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -98,7 +100,6 @@ class SheetType extends ApplicationType
                      'allow_delete' => true,
     
                      'prototype_name' => "__a__"
-     
                     ])
             
                 // ->add('tool', EntityType::class, [
@@ -135,9 +136,37 @@ class SheetType extends ApplicationType
     
                 //     }
                 // ])
+                ->add('pic', FileType::class, [
+
+                    // 'label' => 'Photo de profil (fichier Image)',
+                    'label' => "Image de fond",
+    
+                    // unmapped means that this field is not associated to any entity property
+                    'mapped' => false,
+    
+                    // make it optional so you don't have to re-upload the PDF file
+                    // everytime you edit the Product details
+                    'required' => false,
+    
+                    // unmapped fields can't define their validation using annotations
+                    // in the associated entity, so you can use the PHP constraint classes
+                    'constraints' => [
+                        new Image([
+                            'maxSize' => '50M',
+                            'mimeTypes' => [
+                                'image/jpeg'
+                            ],
+                            'mimeTypesMessage' => 'Merci de charger une image.',
+                            'minHeight' => 125,
+                            'minHeightMessage' => 'Merci de charger une image d\'une hauteur de 125 pixels minimum.',
+                            'minWidth' => 125,
+                            'minWidthMessage' => 'Merci de charger une image d\'une largeur de 125 pixels minimum.'
+                        ])
+                    ],
+                ])
                 ->add('save', SubmitType::class, [
-                    'label' => 'Créer',
-                    'attr' => ['class' => 'btn btn-primary white w-100 px-2']
+                    'label' => 'Sauvegarder',
+                    'attr' => ['class' => 'btn btn-my-primary white w-100 px-2']
                     
                 ])
                 ->add('saveDraft', SubmitType::class, [

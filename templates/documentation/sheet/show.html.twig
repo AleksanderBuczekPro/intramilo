@@ -14,55 +14,55 @@
     {% set admin = true %}
 {% endif %}
 
-<div class="container-fluid sheet-container">
+<div class="container-fluid sheet-container bg-white">
     <div class="row">
 
         {# Summary #}
-        <div class="col-xl-2 col-lg-1 bg-marine sidebar">
-            <a href="{{ path('doc_show', {'slug': category.slug, 'sub_slug': subCategory.slug }) }}" class="btn btn-my-secondary"><i class="uil uil-angle-left-b"></i> Retour</a>
+        <div class="col-xl-2 d-lg-none d-md-none d-sm-none d-xs-none d-xl-block bg-marine sidebar">
+            {# <a href="{{ path('doc_show', {'slug': category.slug, 'sub_slug': subCategory.slug }) }}" class="btn btn-my-secondary"><i class="uil uil-angle-left-b"></i> Retour</a> #}
 
         </div>
 
         {# Content #}
-        <div class="col-xl-6 col-lg-8 content bg-white">
+        <div class="col-xl-7 col-lg-8 col-md-8 content bg-white">
 
-        
             <div class="row">
-                <div class="col-6">
+
+                <div class="col-xl-7 col-lg-6">
                     {# Titre et infos #}
-                    <p class="fil-ariane marine mt-2 mb-0">
-                        <span href="" class="my-badge mt-1 bg-{{ category.pole.labelColor }} white px-2 py-1">{{ category.pole |slice(0, 1) }}</span>
-                        <a href="{{ path('doc_pole', { 'id': category.pole.id }) }}" class="marine"><span class="mx-1 doc-secondary">{{ category.pole }}</span></a>
+                    <p class="fil-ariane mt-2 mb-0 black op-70">
+                        {# <span href="" class="my-badge mt-1 bg-{{ category.pole.labelColor }} white px-2 py-1">{{ category.pole |slice(0, 1) }}</span> #}
+                        <a href="{{ path('doc_pole', { 'id': category.pole.id }) }}" class="black"><span class="mx-1 doc-secondary">{{ category.pole }}</span></a>
                         <span class="">></span>
                         <span class="mx-1 doc-secondary">{{ category }}</span>
                         <span class="">></span>
-                        <a href="{{ path('doc_show', { 'slug': category.slug, 'sub_slug': subCategory.slug }) }}" class="marine"><span class="mx-1 doc-secondary">{{ subCategory }}</span></a>
+                        <a href="{{ path('doc_show', { 'slug': category.slug, 'sub_slug': subCategory.slug }) }}" class="black"><span class="mx-1 doc-secondary">{{ subCategory }}</span></a>
                     </p>
                 </div>
-
-                <div class="col-6 float-right">
+                <div class="col-xl-5 col-lg-6 float-right">
                     
 
-                        <div class="dropdown float-right ml-2">
-                            <button class="btn btn-my-secondary py-1 px-2 larger" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="uil uil-ellipsis-v"></i>
-                            </button>
-                            <div class="dropdown-menu dropdown-menu-right my-dropdown " aria-labelledby="dropdownMenuButton">
-                                <a class="dropdown-item pl-3" href="{{ path('sheet_create_model', {'id_model': sheet.id }) }}"><span class="rounded"><i class="far fa-copy my-rounded"></i></span> Dupliquer</a>
-                                {% if app.user == sheet.author %}
-                                    <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item pl-3" href="{{ path('sheet_edit', {'id': sheet.id }) }}"><span class="rounded"><i class="fas fa-pen fa-xs my-rounded"></i></span> Modifier</a>
-                                    <a class="dropdown-item pl-3" href="{{ path('sheet_delete', {'id': sheet.id}) }}"><span class="rounded"><i class="fas fa-times my-rounded"></i></span> Supprimer</a>
-                                {% endif %}
-                            </div>
+                    <div class="dropdown float-right ml-2">
+                        <button class="btn btn-my-secondary small" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="uil uil-ellipsis-v"></i>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-right my-dropdown " aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item pl-3" href="{{ path('sheet_create_model', {'id_model': sheet.id }) }}"><span class="rounded"><i class="far fa-copy my-rounded"></i></span> Dupliquer</a>
+                            {% if app.user == sheet.author %}
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item pl-3" href="{{ path('sheet_edit', {'id': sheet.id }) }}"><span class="rounded"><i class="fas fa-pen fa-xs my-rounded"></i></span> Modifier</a>
+                                <a class="dropdown-item pl-3" href="{{ path('sheet_delete', {'id': sheet.id}) }}"><span class="rounded"><i class="fas fa-times my-rounded"></i></span> Supprimer</a>
+                            {% endif %}
                         </div>
+                    </div>
                     
                     {% if is_granted("ROLE_ADMIN") and sheet.status is null %}
-                        <a href="{{ path('sheet_front', {'id': sheet.id }) }}" class="btn btn-my-primary px-3 {% if sheet.front %}active{% endif %} float-right">
+
+                        <a href="{{ path('sheet_front', {'id': sheet.id }) }}" class="btn btn-my-primary small {% if sheet.front %}active{% endif %} float-right">
                         {% if sheet.front and (sheet.publishedAt is not null and date(sheet.publishedAt) > date('-2weeks', 'Europe/Paris')) %}
-                            <i class="uil uil-message"></i> Re-publier
+                            <i class="uil uil-fire"></i> Enlever de la Une
                         {% else %}
-                            <i class="uil uil-message"></i> Publier
+                            <i class="uil uil-fire"></i> Mettre à la Une
                         {% endif %}
                         </a>
                     {% endif %}
@@ -75,7 +75,7 @@
 
 
 
-            {% if sheet.publishedAt is not null %}
+            {# {% if sheet.publishedAt is not null %}
 
 
 
@@ -83,16 +83,20 @@
                     <p class="mt-1 float-right text">Publié le {{ sheet.publishedAt|localizeddate('none', 'none', 'fr', null, 'd MMMM') }}, à {{ sheet.publishedAt|localizeddate('none', 'none', 'fr', null, 'H:mm') }}</p>
                 {% endif %}
 
-            {% endif %}
+            {% endif %} #}
 
             {# Title #}
-            <div class="sheet-title marine">{{ sheet.title }} {% include 'documentation/_file_icon.html.twig' with {'file': sheet} %}</div>
+            <div class="sheet-title black">{{ sheet.title }} {% include 'documentation/_file_icon.html.twig' with {'file': sheet} %}</div>
 
             {# Subtitle #}
-            <div class="sheet-subtitle marine">{{ sheet.subtitle }}</div>
+            <div class="sheet-subtitle op-70">{{ sheet.subtitle }}</div>
+
+            {% if  sheet.front and date(sheet.publishedAt) > date('-2weeks', 'Europe/Paris') and is_granted("ROLE_ADMIN") %}
+                <p class="mt-1 text">Publié à la Une le {{ sheet.publishedAt|localizeddate('none', 'none', 'fr', null, 'd MMMM') }}, à {{ sheet.publishedAt|localizeddate('none', 'none', 'fr', null, 'H:mm') }}</p>
+            {% endif %}
 
             <div class="row">
-                <div class="col-5 sheet-author">
+                <div class="col-12 sheet-author">
 
                     {% include 'documentation/_user_file.html.twig' with {'user': sheet.author, 'file': sheet} %}
                 </div>
@@ -109,19 +113,19 @@
             </div>
 
             {# Pièces jointes #}
-            <div class="row">
+            <div class="mt-4">
                 {% for file in sheet.attachments %}
 
-                    <div class="col-4 p-2">
+                    <span class="inline-block pr-1">
                         {% include 'documentation/_attachment.html.twig' %}
-                    </div>
+                    </span>
 
                 {% endfor %}
             </div>
 
             {# Introduction #}
             <div class="row">
-                <div class="col-12 sheet-content paragraph-body my-4 marine">
+                <div class="col-12 sheet-content paragraph-body sheet-introduction mt-3 mb-0 black">
                     {{ sheet.introduction|raw }}
                 
                 </div>
@@ -133,30 +137,25 @@
             <div class="row">
                 <div class="col-12 sheet-content">
 
-                    <div class="row">
-                        <div class="col-12">
-                            <button id="toggle-c" class="btn btn-my-secondary small bg-marine marine float-right mb-2 px-3 py-2">Tout déplier <i class="uil uil-angle-down"></i></button>
-                            {# <button id="hide-c" class="btn btn-my-secondary small bg-marine marine float-right mr-2 mb-2 px-3 py-2">Tout replier <i class="uil uil-angle-up"></i></button> #}
-
-                        
-                        </div>
-                    
-                    </div>
 
                     {% for h in sheet.headers %}
                     <div id="accordion-h">
-                        <div class="card my-card paragraph-card mt-2 p-0">
-                            <button class="btn btn-paragraph marine text-left no-focus p-4" data-toggle="collapse" data-target="#collapse-h-{{ loop.index }}" aria-expanded="true" aria-controls="collapse-{{ loop.index }}">
-                                <div class="card-header pl-0 py-0" id="heading-h-{{ loop.index }}">
-                                    <h5 class="my-0 marine">
-                                            <i class="uil uil-bookmark"></i> {{ h.title }} <i class="uil uil-angle-down float-right"></i>
+                        <div class="card my-card paragraph-card header bg-purple no-border my-2 pt-2 px-0 pb-1">
+                            <button class="btn btn-paragraph purple text-left no-focus pt-4 pb-2 px-4 show"
+                            {# data-toggle="collapse" data-target="#collapse-h-{{ loop.index }}" aria-expanded="true" aria-controls="collapse-{{ loop.index }}" #}
+                            >
+                                <div class="card-header bg-transparent pl-3 py-0" id="heading-h-{{ loop.index }}">
+                                    <h5 class="my-0 purple">
+                                            {# <i class="uil uil-bookmark"></i> #}
+                                            {{ h.title }} 
+                                            {# <i class="uil uil-angle-down float-right"></i> #}
                                     </h5>
                                 </div>
                             </button>
 
-                            <div id="collapse-h-{{ loop.index }}" class="collapse" aria-labelledby="heading-h-{{ loop.index }}" data-parent="#accordion-h">
+                            <div id="collapse-h-{{ loop.index }}" class="collapse show" aria-labelledby="heading-h-{{ loop.index }}" data-parent="#accordion-h">
                             <div class="card-body paragraph-body px-4 pt-0">
-                                <table class="table my-table mx-1">
+                                <table class="table my-table mx-1 bg-transparent">
                                     {% for section in h.sections %}
                                         <tr>
                                             <th class="no-border w-50">{{ section.title }}</th>
@@ -168,12 +167,20 @@
                             </div>
                         </div>
                     </div>
+                    
                     {% endfor %}
+
+                    <div class="row mt-4">
+                        <div class="col-12">
+                            <button id="toggle-c" class="btn btn-my-secondary small bg-marine marine float-right mb-2">Tout déplier <i class="uil uil-angle-down"></i></button>
+                            {# <button id="hide-c" class="btn btn-my-secondary small bg-marine marine float-right mr-2 mb-2 px-3 py-2">Tout replier <i class="uil uil-angle-up"></i></button> #}
+                        </div>
+                    </div>
 
                     {% for p in sheet.paragraphs %}
                     <div id="accordion">
                         <div class="card my-card paragraph-card mt-2 p-0">
-                            <button class="btn btn-paragraph marine text-left no-focus p-4" data-toggle="collapse" data-target="#collapse-{{ loop.index }}" aria-expanded="true" aria-controls="collapse-{{ loop.index }}">
+                            <button class="btn btn-paragraph marine text-left no-focus pt-4 pb-4 px-4" data-toggle="collapse" data-target="#collapse-{{ loop.index }}" aria-expanded="true" aria-controls="collapse-{{ loop.index }}">
                                 <div class="card-header pl-0 py-0" id="heading-{{ loop.index }}">
                                     <h5 class="my-0 marine">
                                             {{ p.title }} <i class="uil uil-angle-down float-right"></i>
@@ -184,7 +191,7 @@
                             <div id="collapse-{{ loop.index }}" class="collapse" aria-labelledby="heading-{{ loop.index }}" data-parent="#accordion">
                             
                             <div class="card-body paragraph-body px-4 pt-0 mx-1">
-                                <hr class="mt-0 px-4">
+                                {# <hr class="mt-0 px-4"> #}
                                 {{ p.content|raw }}
                             </div>
                             </div>
@@ -233,46 +240,52 @@
         </div>
 
         {# Header #}
-        <div class="col-xl-3 col-lg-3 bg-white header pr-0">
+        <div class="col-md-auto bg-white header pr-0">
 
-            <div style="width: 250px;" class="sticky">
+            <div style="width: 300px;" class="">
 
-                {# Card #}
-                <div class="card my-card header-card my-box no-border">
-                    <div class="background" style="background-image: linear-gradient(0deg, rgba(37,56,88,0.8) 5%, rgba(37,56,88,0) 100%), url({{ asset('files/pictures/' ~ category.pole.pictureFilename) }});">
-                    </div>
+                <div class="card my-card header-card my-box no-border my-0">
 
+                        {% include '_sheet_picture.html.twig' with {'sheet': sheet} %}
+                </div>
+
+
+                <div class="organization-logo">
+                    {% include '_organization_logo.html.twig' with {'organization': sheet.organization, 'class': 'medium'} %}
+                </div>
+                <div class="card my-card organization-card my-0">
                     <div class="card-body">
-                        <div class="col-12 text-center">
-                            <div class="white title align-bottom">{{ sheet.title }}</div>
-                            <div class="white organization align-bottom">{{ sheet.organization }}</div>
+
+                        <div class="organization-title black">{{ sheet.organization }}</div>
+                        <div class="organization-address small my-secondary black op-70 mt-1">{{ sheet.organization.address }}</div>
+                        <div class="organization-phone small my-secondary black  op-70 mt-2 ">
+                            <i class="uil uil-phone-alt"></i>
+                            {{ sheet.organization.phoneNumber }}
                         </div>
-                    </div>
-                </div>
+                        <div class="organization-email small my-secondary black">
+                            
+                            <a class="mail-link" href="mailto:{{ sheet.organization.email }}"><i class="uil uil-envelope-alt"></i> {{ sheet.organization.email }}</a>
+                        </div>
+                        <div class="organization-email small my-secondary">
+                                                        
+                            <a class="violet" href="{{ sheet.organization.website }}" target="_blank"><i class="uil uil-external-link-alt"></i> Voir le site web</a>
+                        </div>
 
-
-                {# Organization #}
-                <div class="card my-card organization-card my-box bg-marine-10 no-border">
-                    <div class="card-body">
-                        <div class="organization-title marine">{{ sheet.organization }}</div>
-                        <div class="organization-address small my-secondary marine">{{ sheet.organization.address }}</div>
-                        <div class="organization-phone small my-secondary marine mt-2 "><i class="uil uil-envelope-alt"></i> {{ sheet.organization.phoneNumber }}</div>
-                        <div class="organization-email small my-secondary marine"><i class="uil uil-phone-alt"></i> {{ sheet.organization.email }}</div>
-
-                        {# Interlocutors #}
-                        {% if sheet.interlocutors|length > 0 %}
-                            <div class="mt-4">
-                                {% for interlocutor in sheet.interlocutors %}
-
-                                    {% include 'documentation/_user_interlocutor.html.twig' with {'user': interlocutor} %}
-
-                                {% endfor %}
-                            </div>
-
-                        {% endif %}
+                        
 
                     </div>
                 </div>
+
+                {% if sheet.interlocutors|length > 0 %}
+                    <div class="interlocutors-container">
+                        {% for interlocutor in sheet.interlocutors %}
+
+                            {% include 'documentation/_user_interlocutor.html.twig' with {'user': interlocutor} %}
+
+                        {% endfor %}
+                    </div>
+
+                {% endif %}
 
                 
 
@@ -389,8 +402,8 @@ $('#toggle-c').on('click', function(e) {
     if(!$(this).hasClass('show')){
 
 
-        $('#accordion-h .collapse').removeAttr("data-parent");
-        $('#accordion-h .collapse').collapse('show');
+        /*$('#accordion-h .collapse').removeAttr("data-parent");
+        $('#accordion-h .collapse').collapse('show');*/
 
         $('#accordion .collapse').removeAttr("data-parent");
         $('#accordion .collapse').collapse('show');
@@ -403,8 +416,8 @@ $('#toggle-c').on('click', function(e) {
     }else{
 
 
-        $('#accordion-h .collapse').attr("data-parent","#accordion");
-        $('#accordion-h .collapse').collapse('hide');
+        /*$('#accordion-h .collapse').attr("data-parent","#accordion");
+        $('#accordion-h .collapse').collapse('hide');*/
 
         $('#accordion .collapse').attr("data-parent","#accordion");
         $('#accordion .collapse').collapse('hide');

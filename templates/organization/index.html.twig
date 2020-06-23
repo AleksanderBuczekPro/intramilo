@@ -43,7 +43,10 @@
 
                             {% endif %}
                             </td>
-                            <td><span class="main">{{ organization }}</span></td>
+                            
+                            <td>
+                            <span class="mr-1">{% include '_organization_logo.html.twig' with {'organization': organization, 'class': 'small'} %}</span>
+                            <span class="main">{{ organization }}</span></td>
                             <td class="text-center"><i class="uil uil-user"></i> <span class="main">{{ organization.interlocutors|length }}</span></td>
                         </tr>
 
@@ -60,6 +63,9 @@
             <div data-organization="{{ organization.id }}" class="organization d-none">
 
                 <div class="title mb-4">Détails de l'organisme</div>
+                <div class="mb-2">
+                    {% include '_organization_logo.html.twig' with {'organization': organization, 'class': 'large'} %}
+                </div>
                 {% if organization.sheets|length == 0 and organization.documents|length == 0 %}
                     <a href="{{ path('organization_delete', {'id': organization.id }) }}" class="my-secondary float-right"> <i class="uil uil-times"></i></a>
                 {% endif %}

@@ -229,9 +229,15 @@ div.card.my-card.file td.file-content{
 
     .file-title{
 
-        color: var(--marine-color);
+        color: black;
         font-size: 20px;
         font-weight: 700;
+
+    }
+
+    .file-title:hover{
+
+        color: var(--purple-color)!important;
 
     }
 
@@ -328,8 +334,9 @@ div.sidebar{
 
 .sheet-container div.content{
 
-    padding: 70px;
+    padding: 40px 40px 40px 60px;
     min-height: 100vh;
+
 
 }
 /* 
@@ -344,7 +351,7 @@ div.sidebar{
 
 .sheet-container div.header{
 
-    padding: 70px 20px 70px 20px;
+    padding: 100px 20px 70px 0px;
 
 }
 
@@ -394,29 +401,30 @@ ul.sheet-menu a:hover {
 .sheet-title{
 
     font-family: 'Poppins', sans-serif;
-
     font-weight: 700;
-    font-size: 48px;
-    line-height: 1.1em;
-
-    margin-top: 30px;
+    font-size: 42px;
+    line-height: 48px;
+    margin-top: 40px;
+    margin-bottom: 2px;
 
 }
 
 .sheet-title i{
 
     vertical-align: middle;
-    font-size: 30px;
+    font-size: 23px;
     margin-left: 5px;
 
 }
 
 .sheet-subtitle{
 
-    font-size: 25px;
-    font-weight: 600;
-    margin-bottom: 15px;
+    font-size: 21px;
+    font-weight: 500;
+    margin-bottom: 25px;
     margin-top: 2px;
+    line-height: 34px;
+    font-family: "Roboto";
 }
 
 }
@@ -431,7 +439,7 @@ div.sheet-content{
 
 div.sheet-content table{
 
-    background-color: var(--marine-background-color)!important;
+    /* background-color: var(--purple-transparent-color)!important; */
     font-style: 15px!important;
     border-radius: 8px!important;
 
@@ -450,13 +458,15 @@ div.sheet-content table{
     padding: 15px;
     margin-bottom: 10px;
 
+    font-family: "Roboto", sans-serif;
+
 
 }
 
 div.sheet-content table th{
 
     font-weight: 500;
-    padding: 10px 15px;
+    padding: 7px 15px;
     text-align: center;
     border: none!important;
 
@@ -471,7 +481,7 @@ div.sheet-content table th{
 div.sheet-content table td{
 
     font-size: 14px;
-    padding: 10px 15px;
+    padding: 7px 15px;
 
     border: none!important;
 
@@ -509,11 +519,20 @@ div.sheet-content h2{
 
 }
 
-div.sheet-content p{
+div.sheet-content .paragraph-body p, div.sheet-content .paragraph-body li{
 
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Roboto', sans-serif;
     font-size: 15px;
-    line-height: 24px;
+    line-height: 25px;
+
+}
+
+div.sheet-introduction, div.sheet-introduction p, div.sheet-introduction li{
+
+    font-size: 16px;
+    line-height: 27px;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
 
 }
 
@@ -523,8 +542,10 @@ div.sheet-content p{
 
 div.sheet-content blockquote {
     padding: 15px 20px 5px;
-    border-left: 4px solid var(--blue-color);
-    background-color: var(--blue-transparent-color);
+    border-left: 4px solid var(--yellow-color);
+    background-color: var(--yellow-transparent-color);
+
+    border-radius: 4px;
 
 
 }
@@ -549,8 +570,8 @@ div.sheet-content ul li::before {
     font-family: 'Poppins', sans-serif;
     margin-top: 4px;
     margin-bottom: 14px;
-    font-size: 16px;
-    font-weight: 500;
+    font-size: 17px;
+    font-weight: 600;
 
 }
 
@@ -572,26 +593,12 @@ div.sheet-content ul li::before {
 
     font-weight: 700;
 }
-/* 
+
 div.card.header-card{
 
-    color: white;
+    border-radius: 14px 14px 0px 0px;
 
-    text-align: center;
-    margin-top: 0;
-
-    min-height: 200px;
-    background-color: rgba(0,0,0,.5);
-    background-blend-mode: multiply;
-    border-radius: 10px;
-    font-weight: 400;
-    border: none!important;
-    
-    -webkit-box-shadow: 12px 12px 23px -15px rgba(0,0,0,.7);
-    -moz-box-shadow: 12px 12px 23px -15px rgba(0,0,0,.7);
-    box-shadow: 12px 12px 23px -15px rgba(0,0,0,.7);
-
-} */
+}
 
 div.card.header-card .sheet-folder{
 
@@ -607,14 +614,12 @@ div.card.header-card .title{
     line-height: 25px;
     font-weight: 600;
 
-    margin-top: 60px;
+    margin-top: 25px;
 
     display: block;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-
-
     
     
 }
@@ -630,23 +635,73 @@ div.card.header-card .organization{
 /* Organization */
 div.card.my-card.organization-card{
 
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Roboto', sans-serif;
     font-size: 0.9em;
-    color: black;  
+    color: black;
+
+    border-radius: 0;
+
+    width: 300px;
+
+    border-top: none!important;
+
+    
+
+}
+
+div.card.my-card.interlocutor-card{
+
+    border-top: none!important;
+    font-family: "Roboto", sans-serif;
+
+}
+
+.interlocutors-container .interlocutor-card:last-of-type {
+    /* border-radius: 0px 0px 20px 20px; */
+}
+
+
+td.interlocutor-contact{
+
+    width: 50px;
+    
+}
+
+td.interlocutor-contact i:hover{
+
+    color: var(--purple-color);
+    
+}
+
+.organization-logo{
+
+    position: absolute;
+    top: 280px;
+    z-index: 10;
+    left: 20px;
+    background-color: var(--grey-15-color);
+    border-radius: 25px;
 
 }
 
 .organization-title{
 
-    font-size: 1.2em;
+    font-size: 21px;
     font-weight: 600;
+
+    line-height: 27px;
 
 }
 
 .organization-phone, .organization-email{
 
     font-size: 0.9em;
-    font-weight: 500;
+
+}
+
+a.mail-link:hover{
+
+    color: var(--purple-color)!important;
 
 }
 
@@ -953,14 +1008,40 @@ div.card.my-card.notification.light i{
 
 .sheet-form label, .sheet-form legend, .form-header .my-card .card-title{
 
+    font-family: "Roboto", sans-serif;
     color: var(--marine-color)!important;
     font-weight: 500;
     font-size: 15px;
-    opacity: 0.7;
+    opacity: 0.5;
 
     cursor: normal;
     
 }
+
+.sheet-form label.custom-file-label{
+
+    font-size: 13px;
+    opacity: 1;
+
+    border: 2px solid var(--grey-20-color);
+    height: 50px;
+    border-style: dashed;
+
+    line-height: 32px;
+}
+
+label.custom-file-label[for="sheet_pic"]{
+
+    height: 50px;
+    margin-top: 3px;
+}
+
+.sheet-form label.custom-file-label::after{
+
+    display: none;
+
+}
+
 
 .sheet-form .sheet_image_container{
 
@@ -982,19 +1063,23 @@ div.card.my-card.notification.light i{
 
 .sheet-form #sheet_title{
 
-    margin-top: 5px;
+    margin-top: 25px;
     margin-bottom: 0;
 
     padding: 0;
 
     height: 45px;
 
-    color: var(--marine-color);
+    color: black;
     background-color: transparent;
-    font-weight: 700;
-    font-size: 35px;
 
     border: none;
+
+    
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    font-size: 42px;
+    line-height: 48px;
 
 }
 
@@ -1007,13 +1092,20 @@ div.card.my-card.notification.light i{
 
     height: 30px;
 
-    color: var(--marine-color);
+    color: var(--grey-70-color);
     background-color: transparent;
 
-    font-size: 20px;
-    font-weight: 500;
+    /* font-size: 20px; */
+    /* font-weight: 500; */
 
     border: none;
+
+    font-size: 21px;
+    font-weight: 500;
+    /* margin-bottom: 25px;
+    margin-top: 2px; */
+    line-height: 34px;
+    font-family: "Roboto";
 
 }
 
@@ -1021,6 +1113,27 @@ div.card.my-card.notification.light i{
 
     font-size: 18px;
     color: var(--marine-color);
+
+}
+
+.sheet-form .action-container{
+
+    margin-top: 230px;
+
+}
+
+.sheet-form .form-container{
+
+    min-height: 110vh;
+
+    padding-bottom: 100px;
+
+}
+
+.vich-file, .attachments{
+
+    width: 100%;
+    margin: 12px 0px 20px;
 
 }
 
@@ -1040,9 +1153,10 @@ div.card.my-card.notification.light i{
     font-weight: 500;
     border: none;
     height: 25px;
-    margin-top: 2px;
+    margin-top: 4px;
 
 }
+
 
 #sheet_headers .section input{
 
@@ -1056,6 +1170,8 @@ div.card.my-card.notification.light i{
     height: 25px;
     margin-top: 2px;
 
+    font-family: "Roboto", sans-serif;
+
 }
 #sheet_headers .section.content input{
 
@@ -1067,11 +1183,17 @@ div.card.my-card.notification.light i{
 
 
 
-#sheet_attachments .file-card{
+#sheet_attachments .file-card, div.card.my-card.file-card.attachment{
 
+    font-family: "Roboto", sans-serif;
     padding: 10px 12px!important;
 
+    border-radius: 4px;
+
+    width: 300px!important;
+
 }
+
 
 @media screen and (min-width: 800px) { 
     
@@ -1182,14 +1304,15 @@ button:focus {
 
     border: none;
     padding: 0;
-    font-family: 'Poppins', sans-serif;
-    color: var(--marine-color);
-    font-size: 18px;
-    font-weight: 500;
+    color: var(--purple-color);
     height: 25px;
     margin-left: -2px;   
     
     margin-bottom: 0;
+
+    font-family: "Roboto";
+    font-size: 18px;
+    font-weight: 500;
 
 }
 
@@ -1221,9 +1344,9 @@ div.form-header table.my-table td{
 div.form-header table.my-table td select#sheet_subCategory{
 
     margin: 0;
-    height: 30px;
-    font-size: 12px;
-    padding: 5px;
+    height: 40px;
+    font-size: 13px;
+    padding: 9px;
 
 }
 
@@ -1236,7 +1359,7 @@ div.card.my-card.interlocutor:hover{
 
 div.card.my-card.interlocutor.active{
 
-    background-color: var(--blue-transparent-color);
+    background-color: var(--purple-transparent-color);
 
 }
 
@@ -1255,7 +1378,7 @@ div.card.my-card.interlocutor.active div.init-circle{
 
 div.card.my-card.interlocutor.active div.text{
 
-    color: var(--blue-color)!important;
+    color: var(--purple-color)!important;
 
 }
 
@@ -1320,7 +1443,7 @@ div.card.my-card.header{
     line-height: 22px;
     text-align: center;
     border-radius: 5px;
-    background-color: var(--marine-10-color)!important;
+    background-color: var(--grey-10-color)!important;
 
     padding: 9px 7px;
 
@@ -1332,9 +1455,7 @@ div.card.my-card.header{
 .attachment .title{
 
     font-size: 14px;
-    color: var(--marine-color);
-
-    font-weight: 500;
+    color: black;
 
     white-space: nowrap;
     text-overflow: ellipsis;
@@ -1346,39 +1467,6 @@ div.card.my-card.header{
     font-size: 14px;
     
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -1446,6 +1534,14 @@ div.card.my-card.paragraph-card{
     font-family: 'Poppins', sans-serif;
     color: var(--marine-color);
 
+    border-radius: 4px;
+
+}
+
+div.card.my-card.paragraph-card.header{
+
+
+    border-radius: 14px;
 
 }
 
@@ -1463,6 +1559,8 @@ div.card.my-card.paragraph-card .card-header{
 
 .sheet-container h5, .btn-paragraph h5{
 
+    font-family: "Roboto";
+
     font-size: 18px;
     font-weight: 500;
 
@@ -1472,8 +1570,20 @@ div.card.my-card.paragraph-card .card-header{
 
 .paragraph-body{
 
+
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+
     font-size: 15px;
     line-height: 25px;
+    color: black;
+
+}
+.paragraph-body table{
+
+    background-color: var(--purple-transparent-color);
+    padding-top: 20px!important;
+    padding-bottom: 20px!important;
 }
 
 .comment{
@@ -1495,13 +1605,43 @@ div.card.my-card.paragraph-card .card-header{
 
 /* Pole card */
 
-div.pole-card, .header-card{
+div.pole-card{
+    
+    position: relative;
+    overflow: hidden;
+
+
+
+    height: 150px;
+
+    /* border-radius: 4px!important; */
+
+
+}
+
+.header-card{
 
     
     position: relative;
     overflow: hidden;
 
-    min-height: 200px;   
+    height: 200px;   
+    width: 300px;
+
+}
+/* 
+@media screen and (max-width: 1280px) {
+
+    .header-card{
+
+        height: 100px;   
+        width: 200px;
+    }
+} */
+
+.header-card .background{
+
+    border-radius: 8px 8px 0px 0px;
 
 }
 
@@ -1517,7 +1657,9 @@ div.pole-card, .header-card{
     background-blend-mode: multiply;
     transition: all 0.2s ease;
 
-    border-radius: 8px;
+    background-position: center;
+
+    border-radius: 4px;
 
 }
 
@@ -1550,7 +1692,7 @@ div.pole-card, .header-card{
 
     position: absolute;
 
-    bottom: 33px;
+    bottom: 15px;
 
 
     font-size: 18px;
@@ -1578,6 +1720,62 @@ div.pole-card, .header-card{
     overflow: hidden;
     text-overflow: ellipsis;
 
+
+}
+
+.sheet-picture{
+
+    background-size: cover;
+    background-position: center;
+
+    height: 155px;
+    width: 155px;
+
+    border-radius: 14px;
+
+    transition: all 0.2s ease;
+
+
+}
+
+/* .sheet-picture:hover{
+
+    transform: scale(1.2);
+
+} */
+
+
+.author-picture{
+
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+
+    background-color: white;
+    height: 28px;
+    width: 28px;
+
+    border-radius: 25px;
+
+}
+
+.author-picture div{
+
+    position: absolute;
+    left: 50%;
+    top: 50%;
+
+    -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+
+}
+
+.sheet-picture.small{
+
+    height: 60px;
+    width: 60px;
+
+    border-radius: 10px;
 
 }
 

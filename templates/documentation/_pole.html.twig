@@ -1,19 +1,19 @@
 <a href="{{ path('doc_pole', {'id': pole.id }) }}" class="pole-link">
-    <div class="card my-card no-border my-box pole-card p-0">
+    <div class="card my-card no-border my-box pole-card p-0 px-0 mx-0">
 
-        <div class="background" style="background-image: linear-gradient(0deg, rgba(0,0,0,0.45) 100%, rgba(0,0,0,0) 100%), url({{ asset('files/pictures/' ~ pole.pictureFilename) }});">
+        <div class="background" style="background-image: linear-gradient(0deg, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0) 70%), url({{ asset('files/pictures/' ~ pole.pictureFilename) }});">
         </div>
 
         <div class="card-body p-3">
 
             <div class="pole-title">{{ pole.title }}</div>
-            <div class="pole-subtitle">
+            {# <div class="pole-subtitle">
 
                 {% for cat in pole.category %}
                     {{ cat.title }} {% if not loop.last %},{% endif %}
                 {% endfor %}
 
-            </div>
+            </div> #}
 
         </div>
 

@@ -73,6 +73,11 @@ class Organization
      */
     private $attachments;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $logoFilename;
+
     public function __construct()
     {
         $this->sheets = new ArrayCollection();
@@ -306,6 +311,18 @@ class Organization
                 $attachment->setOrganization(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getLogoFilename(): ?string
+    {
+        return $this->logoFilename;
+    }
+
+    public function setLogoFilename(?string $logoFilename): self
+    {
+        $this->logoFilename = $logoFilename;
 
         return $this;
     }

@@ -7,20 +7,50 @@
 {% block body %}
 
 {% form_theme form 'documentation/sheet/_collection.html.twig' %}
+
 {{ form_start(form) }}
 
-<div class="container-fluid sheet-form px-4 mb-4">
+<div class="container-fluid sheet-form m-0 px-4 mb-4">
     <div class="row">
 
+        <div class="col-xl-2 text-center action-container px-4">
+            <div style="width: 200px;" class="sticky float-right">
+
+                <div class="">
+                    <button type="button" id="add-attachment" class="btn btn-my-marine text-left no-focus w-100 mb-2">
+                        <i class="uil uil-plus mr-2"></i> Pièce jointe
+                    </button>
+                </div>
+                <div>
+                    <button type="button" id="add-introduction" class="btn btn-my-marine text-left no-focus w-100 mb-2">
+                        <i class="uil uil-plus mr-2"></i> Introduction
+                    </button>
+                </div>
+
+                <div>
+                    <button type="button" id="add-header" class="btn btn-my-marine text-left no-focus w-100 mb-2">
+                        <i class="uil uil-plus mr-2"></i> Entête
+                    </button>
+                </div>
+
+                <div>
+                    <button type="button" id="add-paragraph" class="btn btn-my-marine text-left no-focus w-100 mb-2">
+                        <i class="uil uil-plus mr-2"></i> Section
+                    </button>
+                </div>
+
+            </div>
+        </div>
+
         {# Sheet #}
-        <div class="col-xl-6 offset-xl-2 col-lg-8 col-md-7">
-            <div class="card my-card my-box no-border p-0">
+        <div class="col-xl-7 col-lg-9 col-md-8 form-container bg-white px-0">
+            <div class="card my-card no-border m-0 no-br p-0">
                 <div class="card-body p-0">
 
                     {# Title / Subtitle #}
-                    <div class="card my-card mt-0 no-border pt-4 px-4 pb-0">
-                        <div class="card-body p-4">
-                            <div class="text my-secondary marine">Nouvelle fiche
+                    <div class="card my-card m-0 m-0 no-border pt-4 px-4 pb-0">
+                        <div class="card-body px-4 py-0">
+                            <div class="text my-secondary mt-1">Nouvelle fiche
                             
                                 
 
@@ -54,21 +84,19 @@
                                                
                         </div>
                     </div>
-                    
-                    <hr class="mt-0 mx-4">
 
                     {# Pièces jointes #}
-                    <div class="card my-card no-border px-4 pt-0 mt-0">
-                        <div class="card-body px-0">
+                    <div class="card my-card no-border px-4 pt-4 pb-0 mt-1 mb-0 no-br">
+                        <div class="card-body px-3 pt-0 pb-0">
 
                         
-                                <label class="m-0 py-2 pl-4">Pièces jointes</label>
+                                {# <label class="m-0 py-2 pl-4">Pièces jointes</label>
                                 <button type="button" class="btn btn-my-light marine my-tooltip p-0" data-toggle="tooltip" data-placement="right" title="<br> Importez des pièces jointes depuis votre ordinateur qui visibles uniquement dans cette fiche. <br><br>">
                                 <i class="uil uil-question-circle"></i>
-                                </button>
-                                <button type="button" id="add-attachment" class="btn btn-my-marine py-2 px-2 mt-0 float-right no-focus">
+                                </button> #}
+                                {# <button type="button" id="add-attachment" class="btn btn-my-marine py-2 px-2 mt-0 float-right no-focus">
                                     <i class="uil uil-plus"></i>
-                                </button>
+                                </button> #}
 
                                 {{ form_widget(form.attachments) }}
                         
@@ -81,19 +109,19 @@
             </div>
 
             {# Introduction #}
-            <div class="card my-card my-box no-border p-0">
+            <div class="card my-card no-border m-0 p-0 no-br">
 
                 <div>
-                    <div class="p-4">
+                    <div class="px-4">
                         
-                        <label class="m-0 py-2 pl-4">Introduction</label>
+                        {# <label class="m-0 py-2 pl-4">Introduction</label>
                         <button type="button" class="btn btn-my-light marine my-tooltip p-0" data-toggle="tooltip" data-placement="right" title="<br> <i>Champ optionnel</i> <br> <br> Rédigez ici votre <strong>introduction</strong> (ou votre définition). <br><br> Vous pouvez également y mettre votre contenu lorsque la fiche ne nécessite pas la création de sections.<br><br>">
                            <i class="uil uil-question-circle"></i>
-                        </button>
-                        <button type="button" id="add-introduction" class="btn btn-my-marine py-2 px-2 mt-0 float-right no-focus">
+                        </button> #}
+                        {# <button type="button" id="add-introduction" class="btn btn-my-marine py-2 px-2 mt-0 float-right no-focus">
                             <i class="uil uil-plus"></i>
-                        </button>
-                        <button id="delete-introduction" type="button" class="btn btn-my-outline op-40 small mt-2 py-1 px-2 float-right d-none mr-4">Supprimer</button>
+                        </button> #}
+                        <button id="delete-introduction" type="button" class="btn btn-my-outline op-40 small mb-2 py-1 px-2 float-right d-none mt-3 mr-4" data-toggle="modal" data-target="#deleteIntroModal">Supprimer l'introduction</button>
                     
                     </div>
 
@@ -108,9 +136,9 @@
             </div>
 
 
-            <div class="card my-card my-box no-border p-0">
+            <div class="card my-card no-border p-0 m-0 no-br">
                 <div>
-                    <div class="p-4">
+                    <div class="px-4">
                         {{ form_widget(form.headers) }}                    
                     </div>
 
@@ -121,10 +149,10 @@
             </div>
 
 
-            <div class="card my-card my-box no-border p-0 mb-4">
+            <div class="card my-card no-border no-br p-0 m-0">
                 <div class="card-body p-0">
                     {# Section #}
-                    <div class="p-4">
+                    <div class="px-4">
                     {{ form_widget(form.paragraphs) }}
                     </div>
                     {# <div class="card my-card no-border bg-marine">
@@ -162,8 +190,8 @@
         </div>
 
         {# Sidebar #}
-        <div class="col-xl-3 col-lg-4 col-md-5 form-header">
-            <div style="width: 350px;" class="sticky">
+        <div class="col-xl-2 col-lg-3 col-md-4 form-header">
+            <div style="width: 300px;" class="">
 
                 <div class="row mt-4 mx-0">
                     {# <div class="col-2 px-1">
@@ -180,17 +208,22 @@
                     <div class="card-body px-3 py-2">
                         <div class="">
                     
-                            <div class="card my-card no-border p-0 mt-0">
-                                <div class="card-body p-0">
+                            <div class="card my-card no-border no-br p-0 mt-0">
+                                <div class="card-body p-0 pb-4">
                                     <div class="card-title mt-0 mb-2">
                                         Informations
                                     </div>
 
                                     <table class="table my-table">
                                         <tr>
-                                            <td class="marine pl-0 op-70 no-border">Sous-catégorie</td>
-                                            <td class="marine bolder no-border">{{ form_widget(form.subCategory) }}</td>
+                                            {# <td class="marine pl-0 op-70 no-border">Sous-catégorie</td> #}
+                                            <td class="marine bolder no-border p-0">{{ form_widget(form.subCategory) }}</td>
                                         </tr>
+                                        <tr>
+                                            {# <td class="marine pl-0 op-70 no-border">Image de fond</td> #}
+                                            <td class="marine bolder no-border p-0">{{ form_widget(form.pic) }}</td>
+                                        </tr>
+                                        
                                         {% if not is_granted("ROLE_ADMIN") %}
                                         <tr>
                                             <td class="marine pl-0 op-70 no-border">Responsable de validation</td>
@@ -205,9 +238,14 @@
                                 <div class="card-body p-0">
                                     <div class="card-title mt-0 mb-4">
                                         Organisme et Interlocuteurs
+
                                         <button type="button" class="btn btn-my-light marine my-tooltip p-0" data-toggle="tooltip" data-placement="right" title="<br> <i>Organisme obligatoire</i> <br> <br> Liste des organismes et des interlocuteurs enregistrés dans l'annuaire. <br><br> Pour voir l'annuaire, cliquez <a href='{{ path('organizations_index') }}' target='_blank'><u class='white'>ici</u></a>. <br><br>">
                                             <i class="uil uil-question-circle"></i>
                                         </button>
+
+                                        {# <button type="button" id="add-organization"  data-toggle="modal" data-target="#exampleModal" class="btn btn-my-marine py-2 px-2 mt-0 float-right no-focus">
+                                            <i class="uil uil-plus"></i>
+                                        </button> #}
                                     </div>
                                     
                                     {{ form_widget(form.organization) }}
@@ -220,6 +258,7 @@
                                     <div class="row" id="interlocutors">
                                     
                                     </div>
+
                                 </div>
                             </div>
 
@@ -388,15 +427,69 @@
 
 {{ form_end(form) }} #}
 
+
+<!-- Modal d'ajout d'un organisme -->
+{{ form_start(orgForm) }}
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Nouveau organisme</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+
+            {{ form_row(orgForm) }}
+            
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Save changes</button>
+        </div>
+        </div>
+    </div>
+</div>
+{{ form_end(orgForm) }}
+
+
+{# Modal de suppression #}
+<div class="modal fade" id="deleteIntroModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-body text-center">
+        <p class="px-4 pt-4 pb-0"> Voulez-vous vraiment supprimer l'introduction ? </p>
+      </div>
+      <div class="modal-footer no-border">
+            <button id="delete-introduction-confirm" type="button" class="w-50 btn btn-danger" data-dismiss="modal">Oui</button>
+            <button type="button" class="w-50 btn btn-secondary" data-dismiss="modal">Non</button>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
 {% endblock %}
 
 {% block javascripts %}
 
 <script>
 
+
+// Sheet subtitle not required (à améliorer)
 $('#sheet_subtitle').prop('required',false);
 
+// File Uplaod file name in input
 
+
+    {# $('.custom-file-input').on('change', function() { 
+
+        let fileName = $(this).val().split('\\').pop(); 
+        $(this).next('.custom-file-label').addClass("selected").html(fileName); 
+
+    }); #}
 
 autosize($('#sheet_title'));
 
@@ -432,118 +525,105 @@ function formatSizeUnits(bytes)
 
 
 // Fonction permettant de charger l'input de chargement d'une pièce jointe
-function initializeAttachment() {
-
-    var inputs = document.querySelectorAll( '.inputfile' );
-
-	Array.prototype.forEach.call( inputs, function( input )
-	{
-		var label	 = input.nextElementSibling,
-			labelVal = label.innerHTML;
-
-            console.log(label);
-            console.log(labelVal);
-
-		input.addEventListener( 'change', function( e )
-		{
-            console.log(this.files);
-            var name = (this.files[0].name).split('.', 1);
-            var size = formatSizeUnits(this.files[0].size);
-            var mime = this.files[0].type;
-
-
-            console.log("Name => " + name);
-            console.log("Size => " + size);
-            console.log("Mime => " + mime);
-
-
-            var type = "?";
-            var color = "black";
-
-            if (mime == "image/jpeg"){
-
-                type = "jpg";
-                color = "violet";
-
-            }
-
-            if (mime == "image/png"){
-
-                type = "png";
-                color = "rose";
-
-            }
-
-            if (mime == "application/vnd.openxmlformats-officedocument.wordprocessingml.document" || mime == "application/msword" || mime == "application/vnd.openxmlformats-officedocument.wordprocessingml.documentapplication/vnd.openxmlformats-officedocument.wordprocessingml.document"){
-
-                type = "jpg";
-                color = "violet";
-
-            }
-
-            if (mime == "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" || mime == "application/vnd.ms-excel"){
-
-                type = "x";
-                color = "vert";
-
-            }
-
-            if (mime == "application/pdf"){
-
-                type = "pdf";
-                color = "rouge";
-
-            }
-
-            console.log(mime);
-
-
-			/*var fileName = '';
-			if( this.files && this.files.length > 1 )
-				fileName = ( this.getAttribute( 'data-multiple-caption' ) || '' ).replace( '{count}', this.files.length );
-			else
-				fileName = e.target.value.split( '\\' ).pop();
-
-			if( fileName )
-				label.querySelector( 'span' ).innerHTML = fileName;
-			else
-				label.innerHTML = labelVal;*/
-
-            // Affichage Attachement
-
-            // Je récupère le numéro des futurs champs que je vais créer
-            const index = +$('#widgets-attachment-counter').val(); // + transforme la chaine de caractère en nombre
-
-            // Je récupère le prototype des entrées
-            const tmpl = $('#sheet_attachments').data('prototype').replace(/__a__/g, index); // g = "pour chaque"
-
-            // J'injecte ce code au sein de la div
-            $('#sheet_attachments').append(tmpl);
-
-
-            console.log('#sheet_attachments' + index + '_title');
-            $('#sheet_attachments_' + index + '_title').val(name);
-            $('#sheet_attachments_' + index + ' .details').html(size);
-
-            $('#sheet_attachments_' + index + ' .type').html(type);
-            $('#sheet_attachments_' + index + ' .type').addClass(color);
-
-            $('#widgets-attachment-counter').val(index + 1);
-
-            // Je gère le bouton supprimer
-            handleDeleteButtons();
-
-
-		});
-
-		// Firefox bug fix
-		input.addEventListener( 'focus', function(){ input.classList.add( 'has-focus' ); });
-		input.addEventListener( 'blur', function(){ input.classList.remove( 'has-focus' ); });
-	});
-    
-}
-
 $('#add-attachment').click(function(){
+
+
+    // Je récupère le numéro des futurs champs que je vais créer
+    const index = +$('#widgets-attachment-counter').val(); // + transforme la chaine de caractère en nombre
+
+    console.log("INDEX => " + index);
+
+    // Je récupère le prototype des entrées
+    const tmpl = $('#sheet_attachments').data('prototype').replace(/__a__/g, index); // g = "pour chaque"
+
+    console.log("Nombre de pièces jointes = " + index);
+
+    // J'injecte ce code au sein de la div
+    $('#sheet_attachments').append(tmpl);
+
+    // Placeholder File Upload Input
+    $('#sheet_attachments_' + index + '_genericFile_file').next().html('<i class="fas fa-upload mr-3"></i> Aucun fichier selectionné');
+
+    $('input.custom-file-input:last-child').addClass('ok');
+
+    $('input.custom-file-input').on('change',function(){
+
+        var name = (this.files[0].name).split('.', 1);
+        var size = formatSizeUnits(this.files[0].size);
+        var mime = this.files[0].type;
+
+        console.log("--------------------------");
+        console.log("Name => " + name);
+        console.log("Size => " + size);
+        console.log("Mime => " + mime);
+
+        
+
+        console.log(this.files[0].type);
+
+        var type = "?";
+        var color = "black";
+
+        if (mime == "image/png"){
+
+            type = "png";
+            color = "rose";
+
+        }
+
+        if (mime == "image/jpeg"){
+
+            type = "jpeg";
+            color = "violet";
+
+        }
+
+        if (mime == "application/vnd.openxmlformats-officedocument.wordprocessingml.document" || mime == "application/msword" || mime == "application/vnd.openxmlformats-officedocument.wordprocessingml.documentapplication/vnd.openxmlformats-officedocument.wordprocessingml.document"){
+
+            type = "w";
+            color = "bleu";
+
+        }
+
+        if (mime == "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" || mime == "application/vnd.ms-excel"){
+
+            type = "x";
+            color = "vert";
+
+        }
+
+        if (mime == "application/pdf"){
+
+            type = "pdf";
+            color = "rouge";
+
+        }
+
+
+        let fileName = $(this).val().split('\\').pop(); 
+
+        console.log("INDEX => " + "sheet_attachments_" + index + "_title");
+
+        /* $('#sheet_attachments_' + index + '_title').val(name);*/
+        $(this, '#sheet_attachments_' + index + ' .details').html(size);
+
+        $(this, '#sheet_attachments_' + index + '_genericFile_file').next().html('<i class="fas fa-check-circle success mr-3"></i>' + name);
+
+        /* $('#sheet_attachments_' + index + ' .type').html(type);
+        $('#sheet_attachments_' + index + ' .type').addClass(color); */
+
+
+
+    });
+
+    $('#widgets-attachment-counter').val(index + 1);
+
+    // Je gère le bouton supprimer
+    handleDeleteButtons();
+    
+});
+
+$('#add-atachment').click(function(){
 
     // Je récupère le numéro des futurs champs que je vais créer
     const index = +$('#widgets-attachment-counter').val(); // + transforme la chaine de caractère en nombre
@@ -556,8 +636,13 @@ $('#add-attachment').click(function(){
 
     $('#widgets-attachment-counter').val(index + 1);
 
+    // Placeholder File Upload Input
+    $('#sheet_attachments_' + index + '_genericFile_file').next().html('<i class="fas fa-upload mr-3"></i> Aucun fichier selectionné');
+
     // Je gère le bouton supprimer
     handleDeleteButtons();
+
+    
 
 });
 
@@ -595,7 +680,7 @@ $('#add-introduction').click(function(){
 });
 
 
-$('#delete-introduction').click(function(){
+$('#delete-introduction-confirm').click(function(){
 
 
     // On vide l'éditeur de l'introduction
@@ -758,6 +843,22 @@ $(document).on('click', '.add-section', function(event){
 
 
 
+
+    
+
+$('form[name="organization"]').submit(function(e) {
+
+    e.preventDefault();
+    var path = "{{ path('organization_create_from_sheet') }}";
+    var formSerialize = $(this).serialize();
+
+    $.post(path, formSerialize, function(response) {
+        //your callback here
+        alert(response);
+    }, 'JSON');
+
+});
+
 // Fonction permettant de charger les interlocuteurs (quand l'organisme est sélectionné)
 function loadInterlocutors() {
 
@@ -793,17 +894,12 @@ function loadInterlocutors() {
 
                    // cards += " <div class='col-12'><div class='card'><div class='card-body'><div class='form-group'><label class='interlocutor_label'><input name='interlocutor-" + interlocutors[item]['id'] + "' type='checkbox' value='" + interlocutors[item]['id'] + "' class='interlocutor_checkbox'><span> Non sélectionné </span></label> <br>" + interlocutors[item]['function'] + "</div><div class='mt-2'><strong>" + interlocutors[item]['firstName'] + " "+ interlocutors[item]['lastName'] + "</strong></div>" + interlocutors[item]['phoneNumber'] + " <br>" + interlocutors[item]['email'] + " <br> </div></div></div>";
                     cards += "<div class='col-12'>" +
-                                "<div class='card my-card user interlocutor'>" +
+                                "<div class='card my-card user interlocutor no-br m-0'>" +
                                     "<div class='card-body p-0'>" +
 
                                         "<table class='my-table'>" +
                                             "<tbody>" +
                                                 "<tr>" +
-                                                    "<td class='p-2'>" +
-                                                        "<div class='init-circle medium'>" +
-                                                            "<span class='init'>" + initiales + "</span>" +
-                                                        "</div>" +
-                                                    "</td>" +
                                                     "<td class='text-left pl-2'>" +
                                                         "<input type='checkbox' name='interlocutor-" + id + "' value=" + id + " class='my-checkbox d-none'>" +
                                                         "<div class='text my-secondary main'>" + fullName +  "</div>" +
@@ -865,12 +961,16 @@ function loadInterlocutors() {
 
 // Quand le document a fini de se charger, on charge les interlocuteurs
 $(document).ready(function() {
+
     loadInterlocutors();
 
     updateCounter();
     handleDeleteButtons();
 
-    initializeAttachment();
+    /* initializeAttachment(); */
+
+    $('#sheet_attachments_' + index + '_genericFile_file').next().html('<i class="fas fa-upload mr-3"></i> Aucun fichier selectionné');
+    
 
 });
 
@@ -881,6 +981,14 @@ $("select#sheet_organization").change(function() {
     loadInterlocutors();
 });
 
+
+$('#sheet_pic').next().html('<i class="fas fa-upload mr-3"></i> Changer d\'image de fond');
+
+$('input.custom-file-input').on('change',function(){
+
+    $(this,'#sheet_pic').next().html('<i class="fas fa-check-circle success mr-3"></i> Image chargée');
+
+});
 
 
 {# $('#add-introduction').click(function(){

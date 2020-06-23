@@ -13,16 +13,20 @@ use App\Entity\Category;
 use App\Form\CommentType;
 use App\Entity\SubCategory;
 use App\Entity\Interlocutor;
+use App\Entity\Organization;
 use App\Form\AttachmentType;
+use App\Form\OrganizationType;
 use PhpParser\Node\Stmt\Foreach_;
 use App\Repository\SheetRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\SubCategoryRepository;
 use App\Repository\InterlocutorRepository;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 class SheetController extends AbstractController
@@ -152,6 +156,25 @@ class SheetController extends AbstractController
         
         }
 
+        // Ajout dynamique d'un organisme
+        $organization = new Organization();
+        $organizationForm = $this->createForm(OrganizationType::class, $organization);
+
+        // $organizationForm->handleRequest($request);
+
+        // if($organizationForm->isSubmitted() && $organizationForm->isValid()){
+
+        //     $manager->persist($organization);
+        //     $manager->flush();
+
+        //     $this->addFlash(
+        //         'success',
+        //         "L'organisme <strong>{$organization->getName()}</strong> a bien été créé !"
+
+        //     );
+
+        // }
+
         $form = $this->createForm(SheetType::class, $sheet, array('user' => $this->getUser()));
 
         $form->handleRequest($request);
@@ -243,6 +266,45 @@ class SheetController extends AbstractController
 
             $sheet->setUpdatedAt(new \DateTime(null, new DateTimeZone('Europe/Paris')));
 
+            $pictureFile = $form->get('pic')->getData();
+
+            // this condition is needed because the 'brochure' field is not required
+            // so the PDF file must be processed only when a file is uploaded
+            if ($pictureFile) {
+
+                $originalFilename = pathinfo($pictureFile->getClientOriginalName(), PATHINFO_FILENAME);
+                // this is needed to safely include the file name as part of the URL
+                $safeFilename = transliterator_transliterate('Any-Latin; Latin-ASCII; [^A-Za-z0-9_] remove; Lower()', $originalFilename);
+                $newFilename = $safeFilename.'-'.uniqid().'.'.$pictureFile->guessExtension();
+
+                // Move the file to the directory where brochures are stored
+                try {
+                    $pictureFile->move(
+                        $this->getParameter('pictures_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+
+                // updates the 'brochureFilename' property to store the PDF file name
+                // instead of its contents
+
+                // Si une photo de profil existe déjà, on la supprime
+                $oldFilename = $sheet->getPictureFilename();
+                if($oldFilename){
+                    
+                    $path = $this->getParameter('pictures_directory').'/'.$oldFilename;
+
+                    $filesystem = new Filesystem();
+                    $filesystem->remove($path);                    
+
+                }
+
+                $sheet->setPictureFilename($newFilename);
+                
+            }
+
             $manager->persist($sheet);
             $manager->flush();
 
@@ -258,7 +320,8 @@ class SheetController extends AbstractController
         }
 
         return $this->render('documentation/sheet/create.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'orgForm' => $organizationForm->createView()
         ]);
 
     }
@@ -279,6 +342,45 @@ class SheetController extends AbstractController
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
+
+            $pictureFile = $form->get('pic')->getData();
+
+            // this condition is needed because the 'brochure' field is not required
+            // so the PDF file must be processed only when a file is uploaded
+            if ($pictureFile) {
+
+                $originalFilename = pathinfo($pictureFile->getClientOriginalName(), PATHINFO_FILENAME);
+                // this is needed to safely include the file name as part of the URL
+                $safeFilename = transliterator_transliterate('Any-Latin; Latin-ASCII; [^A-Za-z0-9_] remove; Lower()', $originalFilename);
+                $newFilename = $safeFilename.'-'.uniqid().'.'.$pictureFile->guessExtension();
+
+                // Move the file to the directory where brochures are stored
+                try {
+                    $pictureFile->move(
+                        $this->getParameter('pictures_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+
+                // updates the 'brochureFilename' property to store the PDF file name
+                // instead of its contents
+
+                // Si une photo de profil existe déjà, on la supprime
+                $oldFilename = $sheet->getPictureFilename();
+                if($oldFilename){
+                    
+                    $path = $this->getParameter('pictures_directory').'/'.$oldFilename;
+
+                    $filesystem = new Filesystem();
+                    $filesystem->remove($path);                    
+
+                }
+
+                $sheet->setPictureFilename($newFilename);
+                
+            }
 
             // Paragraphs
             $place = 1;
@@ -337,7 +439,7 @@ class SheetController extends AbstractController
                 // Récupération de toutes les variables POST
                 $data = $request->request->all();
 
-                
+                dump($data);
                 // Pour chaque variable POST
                 foreach($data as $key => $val) {
 
@@ -474,6 +576,8 @@ class SheetController extends AbstractController
                         $manager->refresh($sheet);
 
                         $sheetToValidate->setUpdatedAt(new \DateTime(null, new DateTimeZone('Europe/Paris')));
+
+                        
                         $manager->persist($sheetToValidate);
 
                     }

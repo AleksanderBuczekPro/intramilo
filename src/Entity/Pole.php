@@ -44,7 +44,6 @@ class Pole
     private $color;
 
     private $manager;
-
     
 
     /**
