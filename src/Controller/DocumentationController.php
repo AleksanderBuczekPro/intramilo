@@ -43,7 +43,7 @@ class DocumentationController extends AbstractController
         
                 
         // Gestion des catégories
-        $poles = $repo->findBy(array(), array('title' => 'ASC'));
+        $poles = $repo->findBy(array(), array('place' => 'ASC'));
 
         $authors = $userRepo->findAll();
 
