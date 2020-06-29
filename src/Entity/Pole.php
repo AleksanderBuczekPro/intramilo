@@ -56,6 +56,11 @@ class Pole
      */
     private $pictureFilename;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $place;
+
     public function __construct()
     {
         $this->category = new ArrayCollection();
@@ -205,6 +210,18 @@ class Pole
     public function setPictureFilename(string $pictureFilename): self
     {
         $this->pictureFilename = $pictureFilename;
+
+        return $this;
+    }
+
+    public function getPlace(): ?int
+    {
+        return $this->place;
+    }
+
+    public function setPlace(int $place): self
+    {
+        $this->place = $place;
 
         return $this;
     }

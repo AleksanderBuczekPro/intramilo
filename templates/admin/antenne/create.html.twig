@@ -4,6 +4,83 @@
 
 {% block body %}
 
+<div class="container backoffice-container bg-white my-box">
+
+        
+            <h1 class="my-h1">
+                {# <a href="{{ path('admin_users_index') }}" class="btn btn-my-secondary small"><i class="uil uil-arrow-left"></i></a> #}
+                Nouvelle antenne
+            </h1>
+
+            {{ form_start(form) }}
+
+                <div class="row">
+
+                    {# Title #}
+                    <div class="col-lg-4 col-md-6">
+                        {{ form_row(form.title, { 'attr': {'autocomplete': 'new-password'} }) }}
+                    </div>
+                    <div class="col-lg-8 col-md-6"></div>
+
+                    {# Adresse #}
+                    <div class="col-lg-4 col-md-6">
+                        {{ form_row(form.address, { 'attr': {'autocomplete': 'new-password'} }) }}
+                    </div>
+                    <div class="col-lg-8 col-md-6"></div>
+
+                    {# Code postal #}
+                    <div class="col-lg-4 col-md-6">
+                        {{ form_row(form.postcode, { 'attr': {'autocomplete': 'new-password'} }) }}
+                    </div>
+                    <div class="col-lg-8 col-md-6"></div>
+
+                    {# Ville #}
+                    <div class="col-lg-4 col-md-6">
+                        {{ form_row(form.city, { 'attr': {'autocomplete': 'new-password'} }) }}
+                    </div>
+                    <div class="col-lg-8 col-md-6"></div>
+
+                    {# Numéro de téléphone #}
+                    <div class="col-lg-4 col-md-6">
+                        {{ form_row(form.phoneNumber, { 'attr': {'autocomplete': 'new-password'} }) }}
+                    </div>
+                    <div class="col-lg-8 col-md-6"></div>
+
+                </div>
+
+
+                
+
+                <div class="row mt-2">
+                    <div class="col-12">
+                        <button type="submit" class="btn btn-my-primary mr-2 mt-4">Créer l'antenne</button>
+                        <a href="{{ path('admin_antennes_index') }}" class="btn mt-4 rouge">Annuler</a>  
+                    </div>
+
+                
+                </div>
+
+            {{ form_end(form) }}
+
+
+</div>
+
+
+
+{% endblock %}
+
+{% block javascripts %}
+
+
+{% endblock %}
+
+
+{# {% extends 'admin/base.html.twig' %}
+
+{% block title %}Création d'une antenne{% endblock %}
+
+{% block body %}
+
 <div class="container">
 
     <div class="row">
@@ -18,7 +95,7 @@
 
                 <div class="row">
 
-                    {# Titre #}
+  
                     <div class="col-2 text-right my-auto">
                         <span class="align-middle">{{ form_label(form.title) }}</span>
                     </div>
@@ -27,7 +104,7 @@
                         {{ form_widget(form.title) }}
                     </div>
 
-                    {# Adresse #}
+
                     <div class="col-2 text-right my-auto">
                         <span class="align-middle">{{ form_label(form.address) }}</span>
                     </div>
@@ -36,7 +113,7 @@
                         {{ form_widget(form.address) }}
                     </div>
 
-                    {# Code postal #}
+     
                     <div class="col-2 text-right my-auto">
                         <span class="align-middle">{{ form_label(form.postcode) }}</span>
                     </div>
@@ -45,7 +122,7 @@
                         {{ form_widget(form.postcode) }}
                     </div>
 
-                    {# Ville #}
+
                     <div class="col-2 text-right my-auto">
                         <span class="align-middle">{{ form_label(form.city) }}</span>
                     </div>
@@ -54,7 +131,7 @@
                         {{ form_widget(form.city) }}
                     </div>
 
-                    {# Téléphone #}
+            
                     <div class="col-2 text-right my-auto">
                         <span class="align-middle">{{ form_label(form.phoneNumber) }}</span>
                     </div>
@@ -77,5 +154,5 @@
 
 
 </div>
-{% endblock %}
+{% endblock %} #}
 

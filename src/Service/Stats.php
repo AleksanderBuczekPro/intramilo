@@ -70,7 +70,7 @@ class Stats{
             FROM App\Entity\Sheet s
             ORDER BY s.views DESC'
         )
-        ->setMaxResults(6)
+        ->setMaxResults(8)
         ->getResult();
 
     }

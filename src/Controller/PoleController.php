@@ -197,4 +197,53 @@ class PoleController extends AbstractController
 
     }
 
+     /**
+     * Permet de trier l'ordre des Pôles
+     * 
+     * @Route("/admin/pole/sort", name="admin_pole_sort")
+     */
+    public function sort(PoleRepository $repo, Request $request)
+    {
+
+        // Interlocutors
+        // Récupération de toutes les variables POST
+        $test = $request->request->get('test');
+
+        dump($test);
+
+        if($request->request->get('test')){
+            dump("ok");
+        }
+        // Pour chaque variable POST
+        // foreach($data as $key => $val) {
+
+        //     // Si la clé contient 'interlocutor'
+        //     if (strpos($key, 'interlocutor') !== false) {
+                
+        //         // On ajoute l'interlocuteur
+        //         $sheet->addInterlocutor($repo->findOneById($val));
+
+        //     }
+
+        // }
+        // $manager->remove($pole);
+        // $manager->flush();
+
+        // $this->addFlash(
+        //     'success',
+        //     "Le pôle <strong>{$pole->getTitle()}</strong> a bien été supprimé !"
+
+        // );
+
+        // return $this->redirectToRoute('admin_documentation_sort');
+
+        $poles = $repo->findAll();
+
+        return $this->render('admin/pole/sort.html.twig', [
+            'poles' => $poles
+        ]);
+
+
+    }
+
 }

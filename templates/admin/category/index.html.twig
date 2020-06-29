@@ -5,59 +5,75 @@
 {% block body %}
 
 
-<div class="container">
+<div class="container backoffice-container bg-white my-box">
         
     <h1 class="my-h1">
-        <a href="{{ path('admin_documentation_index') }}" class="btn btn-my-dark"><i class="uil uil-arrow-left"></i> Retour à la liste des catégories</a> <br>
+        {# <a href="{{ path('admin_documentation_index') }}" class="btn btn-my-dark"><i class="uil uil-arrow-left"></i> Retour à la liste des catégories</a> <br> #}
         {{ category }}
-        <a href="{{ path('admin_category_delete', {'id': category.id }) }}" class="btn btn-my-danger float-right mr-4"><i class="uil uil-times"></i> Supprimer</a>
-        <a href="{{ path('admin_category_edit', {'id': category.id }) }}" class="btn btn-my-warning float-right mr-4"><i class="uil uil-pen"></i> Modifier</a>
-         <br>
-        <a href="" class="btn btn-my-primary">{{ category.pole }}</a>
+        
+        <a href="{{ path('admin_category_delete', {'id': category.id }) }}" class="btn rouge small float-right"><i class="uil uil-times"></i> Supprimer la catégorie</a>
+        <a href="{{ path('admin_category_edit', {'id': category.id }) }}" class="btn btn-my-secondary small float-right"><i class="uil uil-pen"></i> Modifier la catégorie</a>
+        
+        
+        <p class="text">dans {{ category.pole }}</p>
+        {# <a href="{{ path('admin_category_delete', {'id': category.id }) }}" class="btn btn-my-danger float-right mr-4"><i class="uil uil-times"></i> Supprimer</a>
+        <a href="{{ path('admin_category_edit', {'id': category.id }) }}" class="btn btn-my-warning float-right mr-4"><i class="uil uil-pen"></i> Modifier</a> #}
     </h1>
 
 
-    <h5>Sous-catégories <a href="{{ path('admin_sub_category_create', {'id': category.id }) }}" class="btn btn-my-add-admin"><i class="uil uil-plus"></i> Ajouter une sous-catégorie</a></h5>
+    <h5 class="">Sous-catégories <a href="{{ path('admin_sub_category_create', {'id': category.id }) }}" class="btn btn-my-primary float-right mb-4"><i class="uil uil-plus"></i> Ajouter une sous-catégorie</a></h5>
 
     <table class="table my-table">
         <thead>
             <tr>
-                <th>Sous-catégorie</th>
+                <th class="violet">Sous-catégorie</th>
                 <th class="text-left">Responsable de la mise à jour</th>
-                <th>Fiches</th>
-                <th>Documents</th>
+                <th class="text-center w-50p">Fiches</th>
+                <th class="text-center w-50p">Documents</th>
                 <th colspan="2"></th>
             </tr>
         </thead>
         <tbody>
 
-        {% for sub in category.subcategories %}
+        {% if category.subcategories|length > 0 %}
 
-            <tr>
-                <td>{{ sub.title }}</td>
-                <td>
-                    {% for author in sub.authors %}
-                        {% include 'documentation/_user_email.html.twig' with {'user':author} %}
-                    {% endfor %}
-                </td>
-                <td>
-                    {{ sub.sheets|length }}
-                </td>
-                <td>
-                    {{ sub.documents|length }}
-                </td>
-                <td class="pr-0">
-                    <a href="{{ path('admin_sub_category_edit', {'id':  sub.id }) }}" class="btn btn-my-warning">
-                        <i class="uil uil-pen"></i> Modifier
-                    </a>
-                </td>
-                <td class="pl-0">
-                    <a href="{{ path('admin_sub_category_delete', {'id':  sub.id }) }}" class="btn btn-my-danger">
-                        <i class="uil uil-times"></i> Supprimer
-                    </a>
-                </td>
-            </tr>
-        {% endfor %}
+            {% for sub in category.subcategories %}
+
+                <tr>
+                    <td class="w-25">{{ sub.title }}</td>
+                    <td>
+                        {% for author in sub.authors %}
+                            <div class="main">{{ author.fullname }}</div>
+                        {% endfor %}
+                    </td>
+                    <td class="text-center">
+                        {{ sub.sheets|length }}
+                    </td>
+                    <td class="text-center">
+                        {{ sub.documents|length }}
+                    </td>
+                    <td class="w-50p">
+                        <div class="dropdown float-right w-50p">
+                            <button class="btn btn-my-secondary bg-transparent" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="uil uil-ellipsis-v"></i>
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-right my-dropdown " aria-labelledby="dropdownMenuButton">
+                                    <a class="dropdown-item pl-3" href="{{ path('admin_sub_category_edit', {'id':  sub.id }) }}"><span class="rounded"><i class="fas fa-pen fa-xs my-rounded"></i></span> Modifier</a>
+                                    <a class="dropdown-item pl-3" href="{{ path('admin_sub_category_delete', {'id':  sub.id }) }}"><span class="rounded"><i class="fas fa-times my-rounded"></i></span> Supprimer</a>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
+
+        {% else %}
+        <tr>
+            <td colspan="5"><p class="text rouge">Aucune sous-catégorie</p></td>
+        
+        </tr>
+            
+
+        {% endif %}
 
         </tbody>
     </table>            

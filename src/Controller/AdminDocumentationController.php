@@ -15,7 +15,7 @@ class AdminDocumentationController extends AbstractController
      */
     public function index(PoleRepository $repo)
     {
-        $poles = $repo->findAll();
+        $poles = $repo->findBy(array(), array('title' => 'ASC'));
 
         return $this->render('admin/documentation/index.html.twig', [
             'poles' => $poles

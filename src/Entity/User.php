@@ -61,7 +61,7 @@ class User implements UserInterface
     public $passwordConfirm;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $introduction;
 

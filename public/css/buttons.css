@@ -58,6 +58,15 @@ button.no-focus:focus{
     
 }
 
+a.intramilo{
+
+    width: 150px;
+    margin-top: 16px;
+    padding-top: 2px;
+    padding-right: 3px;
+
+}
+
 .navbar button[aria-expanded="true"], .navbar .nav-hover[aria-expanded="true"], .navbar .nav-hover:hover{
 
     background-color: var(--purple-transparent-color)!important;
@@ -259,7 +268,7 @@ button.no-focus:focus{
 .btn.btn-my-danger:hover{
 
     background: var(--red-color);
-    color: white;
+    color: white!important;
 
 
 }

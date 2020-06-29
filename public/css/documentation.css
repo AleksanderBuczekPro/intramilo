@@ -1006,15 +1006,15 @@ div.card.my-card.notification.light i{
 
 }
 
-.sheet-form label, .sheet-form legend, .form-header .my-card .card-title{
+.sheet-form label, .sheet-form legend, .form-header .my-card .card-title, .custom-file-label{
 
     font-family: "Roboto", sans-serif;
     color: var(--marine-color)!important;
     font-weight: 500;
-    font-size: 15px;
     opacity: 0.5;
 
     cursor: normal;
+    text-transform: none!important;
     
 }
 
@@ -1778,7 +1778,6 @@ div.pole-card{
     border-radius: 10px;
 
 }
-
 
 
 

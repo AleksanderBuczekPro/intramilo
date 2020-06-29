@@ -6,6 +6,7 @@ use App\Entity\User;
 use App\Entity\Category;
 use App\Entity\SubCategory;
 use App\Repository\UserRepository;
+use App\Repository\CategoryRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -24,6 +25,10 @@ class SubCategoryType extends ApplicationType
             'choice_label' => function($category){
                 return $category->getTitle();
 
+            },
+            'query_builder' => function (CategoryRepository $cr) {
+                return $cr->createQueryBuilder('c')
+                    ->orderBy('c.title', 'ASC');
             }
 
         ])

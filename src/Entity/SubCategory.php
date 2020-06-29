@@ -3,10 +3,11 @@
 namespace App\Entity;
 
 use Cocur\Slugify\Slugify;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\OrderBy;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\SubCategoryRepository")
@@ -50,6 +51,7 @@ class SubCategory
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\User", inversedBy="subCategories")
      * @ORM\JoinColumn(nullable=false)
+     * @OrderBy({"lastName" = "ASC"})
      */
     private $authors;
 

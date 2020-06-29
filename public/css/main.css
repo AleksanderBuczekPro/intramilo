@@ -129,6 +129,11 @@
     opacity: 40%!important;
 
 }
+.w-50p{
+
+    width: 50px!important;
+
+}
 
 .b-marine{
 
@@ -182,6 +187,7 @@
 a:hover{
 
     cursor: pointer!important;
+    /* color: var(--purple-color)!important; */
 
 }
 
@@ -397,6 +403,80 @@ footer.my-foot {
 
 }
 
+div.container.backoffice-container{
+
+    margin-top: 50px;
+
+    z-index: 3;
+
+    position: relative;
+    top: -200px;
+
+    padding: 48px;
+
+}
+
+.backoffice-container ul.nav-tabs{
+
+    border: none;
+
+    margin-top: 40px;
+    margin-bottom: 20px;
+
+}
+
+.backoffice-container ul.nav-tabs li a{
+
+    font-family: "Roboto", sans-serif;
+
+    border: none;
+
+    background-color: transparent;
+    color: black;
+    font-weight: 500;
+    font-size: 16px;
+    padding: 12px;
+    margin-right: 4px;
+    border-radius: 4px;
+
+}
+
+.backoffice-container ul.nav-tabs li a.active, .backoffice-container ul.nav-tabs li a.active:hover{
+
+    background-color: var(--purple-color);
+    color: white;
+
+}
+
+.backoffice-container ul.nav-tabs li a:hover{
+
+    background-color: var(--grey-15-color);
+    color: black;
+
+}
+
+.backoffice-container table tr td{
+
+    vertical-align: middle;
+
+}
+
+.form-check-label{
+
+    text-transform: none;
+    color: black;
+    font-weight: 500;
+    font-size: 14px!important;
+    margin-bottom: 7px;
+}
+
+.form-check-label:hover{
+
+    color: var(--purple-color);
+}
+
+
+
 
 h1, h2, h3, h4, h5, h6{
 
@@ -406,9 +486,8 @@ h1, h2, h3, h4, h5, h6{
 }
 
 h1{
-    margin-top: 65px;
     margin-bottom: 20px;
-    font-size: 40px;
+    font-size: 32px;
 }
 
 h3{
@@ -429,8 +508,10 @@ h4{
 }
 
 h5{
-    margin-top: 20px;
     margin-bottom: 20px;
+    font-family: Roboto;
+    font-size: 17px;
+    font-weight: 700;
 }
 
 a{
@@ -877,6 +958,8 @@ table.my-table.admin td.users div.center-cropped{
 }
 
 
+
+
 .number{ /* number circle */
     display:inline-block;
     line-height:0px;
@@ -917,7 +1000,7 @@ table.my-table.admin td.users div.center-cropped{
 
 
 /* Initiales */
-/* .nav-item span.init, .table.my-table span.init {
+.nav-item span.init, .table.my-table span.init {
 
     font-family: 'Poppins', sans-serif;
 
@@ -932,7 +1015,7 @@ table.my-table.admin td.users div.center-cropped{
 
     padding: 8px; 
 
-}*/
+}
 
 
 
@@ -1075,22 +1158,40 @@ form{
 
 }
 
-form label{
+form label, form legend{
 
     font-weight: 600;
+    font-family: "Roboto", sans-serif;
+    font-size: 12px!important;
+    text-transform: uppercase;
+    color: var(--grey-50-color);
+    letter-spacing: 0px;
 
+}
+
+.form-group-title{
+
+    font-size: 20px;
+    font-family: "Roboto", sans-serif;
+    margin-bottom: 13px;
+    margin-top: 20px;
 
 }
 
 form input.form-control, form select.form-control, form textarea.form-control, .input-group-prepend{
 
-    margin-top: 18px;
     margin-bottom: 15px;
-    border-radius: 9px;
-
+    border-radius: 4px;
     font-size: 14px;
-
     font-family: "Roboto", sans-serif;
+    padding: 25px;
+
+}
+
+form select.form-control{
+
+    padding: 16px;
+    height: 52px!important;
 
 }
 
@@ -1395,7 +1496,7 @@ div.card.my-card.users div.card-body div.card-title{
 
 div.card.my-card.user{
 
-    background-color: var(--grey-10-color);
+    /* background-color: var(--grey-10-color); */
     border: none!important;
 
 }
@@ -1618,4 +1719,33 @@ div.alert.alert-danger{
     margin-top: 20px;
 
 }
+
+ul#pole-list{
+
+    list-style: none;
+    padding-left: 0;
+
+    margin-top: 40px;
+    margin-bottom: 40px;
+
+}
+
+ul#pole-list li{
+
+    border: 1px solid var(--grey-20-color);
+    border-radius: 8px;
+
+    margin-bottom: 10px;
+
+    padding: 15px;
+
+    width: 400px;
+
+}
+
+ul#pole-list li:hover{
+
+    cursor: grab;
+}
+
 

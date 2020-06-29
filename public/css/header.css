@@ -39,7 +39,7 @@ nav.my-navbar ul li a.nav-link.antennes.active i{
 
 }
 
-nav.my-navbar ul li a.nav-link.active{
+nav.my-navbar ul li a.nav-link.active, #accountDropdownLink{
 
     color: black;
     opacity: 1;
@@ -51,7 +51,17 @@ nav.my-navbar ul li a.nav-link.active{
 
 nav.navbar-admin{
 
-    background-color: #8338ec;
+    background-color: var(--purple-color);
+
+}
+
+.backoffice-background{
+    
+
+    height: 200px;
+    z-index: -1;
+
+    background-color: var(--purple-color);
 
 }
 
@@ -63,10 +73,17 @@ nav.navbar-admin{
 
 nav.navbar-admin ul li a.nav-link{
 
-    color: white;
+    color: white!important;
     opacity: 0.6;
 
 }
+
+nav.navbar-admin ul li a.nav-link:hover{
+
+    opacity: 1;
+
+}
+
 
 nav.navbar-admin ul li a.nav-link.nav-my-avatar{
 
@@ -88,7 +105,7 @@ nav.navbar-admin ul li a.nav-link.active{
 }
 
 /* Padding du Menu  */
-.navbar-expand-lg .navbar-nav .nav-link {
+.navbar-expand-lg .navbar-nav a.nav-link {
 
     padding: 1.2rem;
     vertical-align: middle;

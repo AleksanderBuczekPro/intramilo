@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\User;
 use App\Entity\Groupe;
 use App\Form\ApplicationType;
+use App\Repository\UserRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -20,8 +21,12 @@ class GroupeType extends ApplicationType
             ->add('responsable', EntityType::class, [
                 'class' => User::class,
                 'choice_label' => function($user){
-                    return $user->getFullName();
+                    return $user->getLastName().' '.$user->getFirstName();
     
+                },
+                'query_builder' => function (UserRepository $ur) {
+                    return $ur->createQueryBuilder('u')
+                        ->orderBy('u.lastName', 'ASC');
                 }
             ])
         ;

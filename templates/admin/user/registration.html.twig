@@ -4,105 +4,86 @@
 
 {% block body %}
 
-<div class="container">
+<div class="container backoffice-container bg-white my-box">
 
-    <div class="row">
-        <div class="col-8 offset-md-2">
         
             <h1 class="my-h1">
-                <a href="{{ path('admin_users_index') }}" class="btn btn-my-dark"><i class="uil uil-arrow-left"></i> Retour à la liste des utilisateurs</a> <br>
+                {# <a href="{{ path('admin_users_index') }}" class="btn btn-my-secondary small"><i class="uil uil-arrow-left"></i></a> #}
                 Nouvel utilisateur
             </h1>
 
             {{ form_start(form) }}
 
-                <h4 class="my-h2">Général</h4>
+                {# <h4 class="my-h2">Général</h4> #}
+
+                <div class="form-group-title">Général</div>
 
                 <div class="row">
 
                     {# Prénom #}
-                    <div class="col-2 text-right my-auto">
+                    {# <div class="col-2 text-right my-auto">
                         <span class="align-middle">{{ form_label(form.firstName) }}</span>
-                    </div>
+                    </div> #}
 
-                    <div class="col-10">
-                        {{ form_widget(form.firstName) }}
+                    <div class="col-lg-4 col-md-6">
+                        {{ form_row(form.firstName, { 'attr': {'autocomplete': 'new-password'} }) }}
                     </div>
-
-                    {# Nom #}
-                    <div class="col-2 text-right my-auto">
-                        <span class="align-middle">{{ form_label(form.lastName) }}</span>
+                    <div class="col-lg-4 col-md-6">
+                        {{ form_row(form.lastName, { 'attr': {'autocomplete': 'new-password'} }) }}
                     </div>
-
-                    <div class="col-10">
-                        {{ form_widget(form.lastName) }}
-                    </div>
+                    <div class="col-lg-4 d-md-none d-lg-block"></div>
 
                     {# Email #}
-                    <div class="col-2 text-right my-auto">
-                        <span class="align-middle">{{ form_label(form.email) }}</span>
-                    </div>
-
-                    <div class="col-10">
-                        {{ form_widget(form.email) }}
+                    <div class="col-lg-4 col-md-6">
+                        <span class="align-middle">{{ form_row(form.email, { 'attr': {'autocomplete': 'new-password'} }) }}</span>
                     </div>
 
                 </div>
 
-                <h4 class="my-h2">Groupe et poste</h4>
 
-                <div class="row">
+                <div class="form-group-title">Groupe et poste</div>
 
-                    {# Groupe #}
-                    <div class="col-2 text-right my-auto">
-                        <span class="align-middle">{{ form_label(form.groupe) }}</span>
+                    <div class="row">
+
+                        {# Groupe #}
+                        <div class="col-lg-4 col-md-6">
+                            {{ form_row(form.groupe) }}
+                        </div>
+
+                        <div class="col-lg-8 col-md-6"></div>
+
+                        {# Poste #}
+                        <div class="col-lg-4 col-md-6">
+                            {{ form_row(form.poste) }}
+                        </div>
+
+                        <div class="col-lg-8 col-md-6"></div>
+
+                        {# Domaine #}
+                        <div class="col-lg-8 col-md-12">
+                            {{ form_row(form.introduction, { 'attr': {'autocomplete': 'new-password'} }) }}
+                        </div>
+
+
                     </div>
 
-                    <div class="col-10">
-                        {{ form_widget(form.groupe) }}
-                    </div>
-
-                    {# Poste #}
-                    <div class="col-2 text-right my-auto">
-                        <span class="align-middle">{{ form_label(form.poste) }}</span>
-                    </div>
-
-                    <div class="col-10">
-                        {{ form_widget(form.poste) }}
-                    </div>
-
-                    {# Domaine #}
-                    <div class="col-2 text-right my-auto">
-                        <span class="align-middle">{{ form_label(form.introduction) }}</span>
-                    </div>
-
-                    <div class="col-10">
-                        {{ form_widget(form.introduction) }}
-                    </div>
-
-                </div>
-
-                <h4 class="my-h2">Coordonnées</h4>
+                <div class="form-group-title">Coordonnées</div>
 
                 <div class="row">
 
                     {# Antenne #}
-                    <div class="col-2 text-right my-auto">
-                        <span class="align-middle">{{ form_label(form.antenne) }}</span>
+                    <div class="col-lg-4 col-md-6">
+                        {{ form_row(form.antenne) }}
                     </div>
-
-                    <div class="col-10">
-                        {{ form_widget(form.antenne) }}
-                    </div>
+                    <div class="col-8"></div>
 
                     {# Téléphone #}
-                    <div class="col-2 text-right my-auto">
-                        <span class="align-middle">{{ form_label(form.phoneNumber) }}</span>
+                    <div class="col-lg-4 col-md-6">
+                        {{ form_row(form.phoneNumber, { 'attr': {'autocomplete': 'new-password', 'maxlength': '14'} }) }}
                     </div>
 
-                    <div class="col-10">
-                        {{ form_widget(form.phoneNumber) }}
-                    </div>
+                    <div class="col-8"></div>
+
 
                     {# Ligne directe #}
                     {# <div class="col-3 text-right ">
@@ -115,40 +96,52 @@
                 
                 </div>
 
-                <h4 class="my-h2">Mot de passe initial</h4>
+                <div class="form-group-title mb-0">Mot de passe initial</div>
+                <p class="text mt-0 small">Il sera uniquement modifiable par l'utilisateur</p>
 
                 <div class="row">
 
                     {# Mot de passe #}
-                    <div class="col-2 text-right my-auto">
-                        <span class="align-middle">{{ form_label(form.hash) }}</span>
+                    <div class="col-lg-4 col-md-6">
+                        {{ form_row(form.hash, { 'attr': {'autocomplete': 'new-password'} }) }}
                     </div>
 
-                    <div class="col-10">
-                        {{ form_widget(form.hash) }}
-                    </div>
+                    <div class="col-8"></div>
 
                     {# Confirmez mot de passe #}
-                    <div class="col-2 text-right my-auto"
-                        <span class="align-middle">{{ form_label(form.passwordConfirm) }}</span>
+                    <div class="col-lg-4 col-md-6">
+                        {{ form_row(form.passwordConfirm, { 'attr': {'autocomplete': 'new-password'} }) }}
                     </div>
 
-                    <div class="col-10">
-                        {{ form_widget(form.passwordConfirm) }}
-                    </div>
-                
+                    <div class="col-8"></div>
+
                 </div>
 
-                <div class="mt-4 mb-4">
-                    <button type="submit" class="btn btn-my-add-admin float-right"><i class="uil uil-plus"></i> Ajouter l'utilisateur</button>
-                    <a href="{{ path('admin_users_index') }}" class="btn btn-my-danger float-right"><i class="uil uil-times"></i> Annuler</a>
+                <div class="row mt-2">
+                    <div class="col-12">
+                        <button type="submit" class="btn btn-my-primary mr-2 mt-4">Créer l'utilisateur</button>
+                        <a href="{{ path('admin_users_index') }}" class="btn mt-4 rouge">Annuler</a>  
+                    </div>
+
+                
                 </div>
 
             {{ form_end(form) }}
 
-        </div>
-    </div>
-
 
 </div>
+
+
+
+{% endblock %}
+
+{% block javascripts %}
+
+    <script>
+
+        $("#registration_introduction").prop('required',false);
+        $("#registration_phoneNumber").prop('required',false);
+
+    </script>
+
 {% endblock %}

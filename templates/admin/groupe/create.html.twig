@@ -4,13 +4,11 @@
 
 {% block body %}
 
-<div class="container">
+<div class="container backoffice-container bg-white my-box">
 
-    <div class="row">
-        <div class="col-8 offset-md-2">
         
             <h1 class="my-h1">
-                <a href="{{ path('admin_groupes_index') }}" class="btn btn-my-dark"><i class="uil uil-arrow-left"></i> Retour à la liste des groupes</a> <br>
+                {# <a href="{{ path('admin_users_index') }}" class="btn btn-my-secondary small"><i class="uil uil-arrow-left"></i></a> #}
                 Nouveau groupe
             </h1>
 
@@ -18,36 +16,42 @@
 
                 <div class="row">
 
-                    {# Titre #}
-                    <div class="col-2 text-right my-auto">
-                        <span class="align-middle">{{ form_label(form.title) }}</span>
+                    {# Title #}
+                    <div class="col-lg-4 col-md-6">
+                        {{ form_row(form.title, { 'attr': {'autocomplete': 'new-password'} }) }}
                     </div>
-
-                    <div class="col-10">
-                        {{ form_widget(form.title) }}
-                    </div>
+                    <div class="col-lg-8 col-md-6"></div>
 
                     {# Responsable #}
-                    <div class="col-2 text-right my-auto">
-                        <span class="align-middle">{{ form_label(form.responsable) }}</span>
+                    <div class="col-lg-4 col-md-6">
+                        {{ form_row(form.responsable, { 'attr': {'autocomplete': 'new-password'} }) }}
                     </div>
-
-                    <div class="col-10">
-                        {{ form_widget(form.responsable) }}
-                    </div>
+                    <div class="col-lg-8 col-md-6"></div>
 
                 </div>
 
-                <div class="mt-4 mb-4">
-                    <button type="submit" class="btn btn-my-add-admin float-right"><i class="uil uil-plus"></i> Ajouter le groupe</button>
-                    <a href="{{ path('admin_groupes_index') }}" class="btn btn-my-danger float-right"><i class="uil uil-times"></i> Annuler</a>
+
+                
+
+                <div class="row mt-2">
+                    <div class="col-12">
+                        <button type="submit" class="btn btn-my-primary mr-2 mt-4">Créer le groupe</button>
+                        <a href="{{ path('admin_groupes_index') }}" class="btn mt-4 rouge">Annuler</a>  
+                    </div>
+
+                
                 </div>
 
             {{ form_end(form) }}
 
-        </div>
-    </div>
-
 
 </div>
+
+
+
+{% endblock %}
+
+{% block javascripts %}
+
+
 {% endblock %}

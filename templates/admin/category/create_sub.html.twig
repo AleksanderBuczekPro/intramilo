@@ -4,6 +4,80 @@
 
 {% block body %}
 
+<div class="container backoffice-container bg-white my-box">
+
+        
+            <h1 class="my-h1">
+                {# <a href="{{ path('admin_users_index') }}" class="btn btn-my-secondary small"><i class="uil uil-arrow-left"></i></a> #}
+                Nouvelle sous-catégorie
+            </h1>
+
+            {{ form_start(form) }}
+
+                <div class="row">
+
+                    {# Category #}
+                    <div class="col-lg-4 col-md-6">
+                        {{ form_row(form.category, { 'attr': {'autocomplete': 'new-password'} }) }}
+                    </div>
+                    <div class="col-lg-8 col-md-6"></div>
+
+                    {# Titre #}
+                    <div class="col-lg-4 col-md-6">
+                        {{ form_row(form.title, { 'attr': {'autocomplete': 'new-password'} }) }}
+                    </div>
+                    <div class="col-lg-8 col-md-6"></div>
+
+                    {# Authors #}
+                    <div class="col-lg-8 col-md-12">
+                        {{ form_row(form.authors, { 'attr': {'autocomplete': 'new-password'} }) }}
+                    </div>
+                    <div class="col-lg-4"></div>
+
+
+                </div>
+
+
+                
+
+                <div class="row mt-2">
+                    <div class="col-12">
+                        <button type="submit" class="btn btn-my-primary mr-2 mt-4">Créer la sous-catégorie</button>
+                        <a href="{{ path('admin_category_index', {'id': category.id }) }}" class="btn mt-4 rouge">Annuler</a>  
+                    </div>
+
+                
+                </div>
+
+            {{ form_end(form) }}
+
+
+</div>
+
+
+
+{% endblock %}
+
+{% block javascripts %}
+
+
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+{# {% extends 'admin/base.html.twig' %}
+
+{% block title %}Création d'une sous-catégorie{% endblock %}
+
+{% block body %}
+
 <div class="container">
 
     <div class="row">
@@ -18,7 +92,7 @@
 
                 <div class="row">
 
-                    {# Catégorie #}
+                    Catégorie
                     <div class="col-2 text-right my-auto">
                         <span class="align-middle">{{ form_label(form.category) }}</span>
                     </div>
@@ -27,7 +101,7 @@
                         {{ form_widget(form.category) }}
                     </div>
 
-                    {# Titre #}
+                    Titre
                     <div class="col-2 text-right my-auto">
                         <span class="align-middle">{{ form_label(form.title) }}</span>
                     </div>
@@ -36,7 +110,6 @@
                         {{ form_widget(form.title) }}
                     </div>
 
-                    {# Auteur #}
                     <div class="col-2 text-right my-auto">
                         <span class="align-middle">{{ form_label(form.authors) }}</span>
                     </div>
@@ -59,4 +132,4 @@
 
 
 </div>
-{% endblock %}
+{% endblock %} #}

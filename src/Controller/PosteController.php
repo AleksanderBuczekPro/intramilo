@@ -96,7 +96,8 @@ class PosteController extends AbstractController
         }
 
         return $this->render('admin/poste/edit.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'poste' => $poste
         ]);
 
     }

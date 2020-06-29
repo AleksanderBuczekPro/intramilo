@@ -143,11 +143,11 @@ class DocumentationController extends AbstractController
         $filesWaiting = array_merge_recursive($sheetsWaiting, $documentsWaiting);
 
         usort($filesOnline, function($a, $b){ 
-            return strcasecmp($a->getTitle(), $b->getTitle());
+            return $a->getViews() < $b->getViews();
         });
 
         usort($filesWaiting, function($a, $b){ 
-            return strcasecmp($a->getTitle(), $b->getTitle());
+            return $a->getViews() < $b->getViews();
         });
 
         return $this->render('documentation/show.html.twig', [

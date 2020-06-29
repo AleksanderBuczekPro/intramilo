@@ -8,6 +8,9 @@ use App\Entity\Poste;
 use App\Entity\Groupe;
 use App\Entity\Antenne;
 use App\Form\ApplicationType;
+use App\Repository\PosteRepository;
+use App\Repository\GroupeRepository;
+use App\Repository\AntenneRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -30,12 +33,16 @@ class AdminAccountType extends ApplicationType
         ->add('lastName', TextType::class, $this->getConfiguration("Nom", "Nom de famille"))
         ->add('email', EmailType::class, $this->getConfiguration("Email", "Adresse email"))
         ->add('phoneNumber', TextType::class, $this->getConfiguration("Téléphone", "Numéro de téléphone"))
-        ->add('introduction', TextType::class, $this->getConfiguration("Domaine (optionnel)", "Bâtiment, Commerce, Numérique..."))
+        ->add('introduction', TextType::class, $this->getConfiguration("Domaine de compétence (optionnel)", "Bâtiment, Commerce, Numérique..."))
         ->add('antenne', EntityType::class, [
             'class' => Antenne::class,
             'choice_label' => function($antenne){
                 return $antenne->getTitle();
 
+            },
+            'query_builder' => function (AntenneRepository $ar) {
+                return $ar->createQueryBuilder('a')
+                    ->orderBy('a.title', 'ASC');
             }
         ])
         ->add('groupe', EntityType::class, [
@@ -43,6 +50,10 @@ class AdminAccountType extends ApplicationType
             'choice_label' => function($groupe){
                 return $groupe->getTitle();
 
+            },
+            'query_builder' => function (GroupeRepository $gr) {
+                return $gr->createQueryBuilder('g')
+                    ->orderBy('g.title', 'ASC');
             }
         ])
         ->add('poste', EntityType::class, [
@@ -50,8 +61,12 @@ class AdminAccountType extends ApplicationType
             'choice_label' => function($poste){
                 return $poste->getTitle();
 
+            },
+            'query_builder' => function (PosteRepository $pr) {
+                return $pr->createQueryBuilder('p')
+                    ->orderBy('p.title', 'ASC');
             }
-        ]);
+        ])
         ;
     }
 

@@ -4,30 +4,48 @@
 
 {% block body %}
 
-    <div class="container">
+<div class="container backoffice-container bg-white my-box">
+
         
-        {{ form_start(form) }}
+            <h1 class="my-h1">
+                {# <a href="{{ path('admin_users_index') }}" class="btn btn-my-secondary small"><i class="uil uil-arrow-left"></i></a> #}
+                {{ poste.title }}
+            </h1>
 
-        <div class="row">
-            <div class="col-md-10 offset-md-1">
+            {{ form_start(form) }}
 
-                <a href="{{ path('admin_postes_index') }}" class="btn btn-primary">Retour à la liste des postes</a>
-                <h1 class="my-5">Modification d'un poste</h1>
+                <div class="row">
 
-                <div class="card">
-                    <div class="card-body">
-                        {{ form_row(form.title) }}
-
-                        <button type="submit" class="btn btn-success float-right mt-2">
-                            <i class="fas fa-check"></i> Modifier le poste
-                        </button>
-                        <a href="{{ path('admin_postes_index') }}" class="btn btn-outline-danger float-right mr-1 mt-2">Annuler</a>      
+                    {# Title #}
+                    <div class="col-lg-6 col-md-6">
+                        {{ form_row(form.title, { 'attr': {'autocomplete': 'new-password'} }) }}
                     </div>
+                    <div class="col-lg-6 col-md-6"></div>
+
                 </div>
+
+
                 
-            </div>
-        </div>
-        {{ form_end(form) }}
-    </div>
+
+                <div class="row mt-2">
+                    <div class="col-12">
+                        <button type="submit" class="btn btn-my-primary mr-2 mt-4">Modifier</button>
+                        <a href="{{ path('admin_postes_index') }}" class="btn mt-4 rouge">Annuler</a>  
+                    </div>
+
+                
+                </div>
+
+            {{ form_end(form) }}
+
+
+</div>
+
+
+
+{% endblock %}
+
+{% block javascripts %}
+
 
 {% endblock %}

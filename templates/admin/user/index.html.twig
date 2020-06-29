@@ -4,8 +4,15 @@
 
 {% block body %}
 
-<div class="container">
-    <h1 class="my-h1">Liste des utilisateurs <a href="{{ path('admin_user_register') }}" class="btn btn-my-add-admin"><i class="uil uil-plus"></i> Ajouter un utilisateur</a></h1>
+<div class="container backoffice-container bg-white my-box">
+
+    <h1 class="my-h1">
+        Liste des utilisateurs
+        <a href="{{ path('admin_user_register') }}" class="btn btn-my-primary float-right">
+            <i class="uil uil-plus"></i>
+            Ajouter un utilisateur
+        </a>        
+    </h1>
 
     {# <table class="table my-table admin backoffice"> #}
         {# <thead>
@@ -22,22 +29,22 @@
         
         {% for groupe in groupes %}
 
-        <table class="table my-table admin backoffice  mb-4">
+        <table class="table my-table admin backoffice mb-4">
 
             {% if counter == 0 %}
                 <thead>
                     <tr>
                         <th class="switch">Admin</th>
-                        <th colspan="2" class="text-left">{{ groupe }} <span class="number"><span>{{ groupe.users|length }}</span></span></th>
-                        <th>Date de création</th>
-                        <th colspan="2"></th>
+                        <th colspan="2" class="text-left violet">{{ groupe }} <span class="number"><span>{{ groupe.users|length }}</span></span></th>
+                        <th class="">Date de création</th>
+                        <th class=""></th>
                     </tr>
                 </thead>
             {% else %}
                 <thead>
                     <tr>
-                        <th class="switch"></th>
-                        <th colspan="2" class="text-left">{{ groupe }} <span class="number"><span>{{ groupe.users|length }}</span></span></th>
+                        <th class="switch w-50p"></th>
+                        <th colspan="2" class="text-left violet">{{ groupe }} <span class="number"><span>{{ groupe.users|length }}</span></span></th>
                         <th></th>
                         <th colspan="2"></th>
                     </tr>
@@ -72,27 +79,46 @@
                                 <label class="custom-control-label" for="customSwitch{{ user.id }}"></label>
                             </div>
                         </td>
-                        <td class="pr-0">
+                        <td class="pl-2 pr-1 w-50p">
                             {% include '_picture.html.twig' with {'user': user, 'class': 'medium'} %}
                         </td>
-                        <td class="text-left pl-0 w-25">
-                            <span class="main">{{ user.lastName }} {{ user.firstName }}</span><br>
+                        <td class="text-left w-50 pl-3 user-fullname">
+                            <span class="main">
+                                <a href="{{ path('admin_user_edit', {'id':  user.id }) }}" class="black">
+                                    {{ user.lastName }} {{ user.firstName }}
+                                </a>
+                            </span><br>
                             <span class="my-secondary">{{ user.email }}</span>
                         </td>
                         <td class="w-25">
                             {{ user.createdAt|localizeddate('none', 'none', 'fr', null, 'd MMMM Y') }}
                         </td>
-                        <td class="pr-0">
-                            <a href="{{ path('admin_user_edit', {'id':  user.id }) }}" class="btn btn-my-warning">
-                                <i class="uil uil-pen"></i> Modifier
+                        {# <td class="pr-0">
+                            
+                        </td> #}
+                        <td class="pl-0 text-right">
+                            {# <a href="{{ path('admin_user_edit', {'id':  user.id }) }}" class="btn op-70 small">
+                                <i class="uil uil-pen"></i>
+                                Modifier
                             </a>
-                        </td>
-                        <td class="pl-0">
-                            <a href="{{ path('admin_user_delete', {'id':  user.id }) }}" class="btn btn-my-danger">
-                                <i class="uil uil-times"></i> Supprimer
-                            </a>
+                            <a href="{{ path('admin_user_delete', {'id':  user.id }) }}" class="btn op-70 small">
+                                <i class="uil uil-times"></i>
+                                Supprimer
+                            </a> #}
+
+                            <div class="dropdown float-right w-50p">
+                                <button class="btn btn-my-secondary bg-transparent" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="uil uil-ellipsis-v"></i>
+                                </button>
+                                <div class="dropdown-menu dropdown-menu-right my-dropdown " aria-labelledby="dropdownMenuButton">
+                                        <a class="dropdown-item pl-3" href="{{ path('admin_user_edit', {'id':  user.id }) }}"><span class="rounded"><i class="fas fa-pen fa-xs my-rounded"></i></span> Modifier</a>
+                                        <a class="dropdown-item pl-3" data-toggle="modal" data-target="#deleteUserModal" data-path="{{ path('admin_user_delete', {'id': user.id }) }}"><span class="rounded"><i class="fas fa-times my-rounded"></i></span> Supprimer</a>
+                                </div>
+                            </div>
+
                         </td>
                     </tr>
+
 
 
                     
@@ -111,11 +137,27 @@
 
         {% endfor %}
 
-                   
-
+  
 </div>
 
 
+                <!-- Modal -->
+                <div class="modal fade" id="deleteUserModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                        <div class="modal-body">
+                            Voulez-vous vraiment supprimer cet utilisateur ?
+                        </div>
+                        <div class="modal-footer">
+
+                            <a type="button" href="" class="btn btn-my-danger delete-user">Oui, je supprime</a>
+                            <button type="button" class="btn btn-my-secondary" data-dismiss="modal">Non</button>
+                            
+                        </div>
+                        </div>
+                    </div>
+                </div>
+                
 
 {% endblock %}
 
@@ -123,6 +165,18 @@
 {% block javascripts %}
 
 <script>
+
+    $('#deleteUserModal').on('show.bs.modal', function (event) {
+
+        
+        var button = $(event.relatedTarget); // Button that triggered the modal
+        var path = button.data('path'); // Extract info from data-* attributes
+
+        var modal = $(this);
+
+        modal.find('.delete-user').attr('href', path);
+
+    })
 
 
     $( ".admin-switch" ).change(function() {

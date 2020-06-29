@@ -116,14 +116,33 @@ class AdminUserController extends AbstractController
      */
     public function delete(User $user, EntityManagerInterface $manager)
     {
-        $manager->remove($user);
-        $manager->flush();
+        $size = sizeof($user->getSheets()) + sizeof($user->getDocuments());
 
-        $this->addFlash(
-            'success',
-            "L'utilisateur a bien été supprimé !"
+        dump($size);
 
-        );
+        if($size == 0){
+
+            $manager->remove($user);
+            $manager->flush();
+    
+            $this->addFlash(
+                'success',
+                "L'utilisateur a bien été supprimé !"
+    
+            );    
+
+
+        }else{
+
+            $this->addFlash(
+                'danger',
+                "L'utilisateur ne peut être supprimé. Des fiches ou des documents lui appartiennent."
+    
+            ); 
+            
+        }
+
+
 
         return $this->redirectToRoute('admin_users_index');
 

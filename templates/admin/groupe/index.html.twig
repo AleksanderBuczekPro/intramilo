@@ -4,13 +4,25 @@
 
 {% block body %}
 
-<div class="container">
-    <h1 class="my-h1">Liste des groupes <a href="{{ path('admin_groupe_create') }}" class="btn btn-my-add-admin"><i class="uil uil-plus"></i> Ajouter un groupe</a></h1>
+<div class="container backoffice-container bg-white my-box">
+    {# <h1 class="my-h1">Liste des groupes</h1>
+        <a href="{{ path('admin_groupe_create') }}" class="btn btn-my-primary float-right">
+            <i class="uil uil-plus"></i>
+            Ajouter un groupe
+        </a>    #}
+
+     <h1 class="my-h1">
+        Liste des groupes
+        <a href="{{ path('admin_groupe_create') }}" class="btn btn-my-primary float-right">
+            <i class="uil uil-plus"></i>
+            Ajouter un groupe
+        </a>        
+    </h1>
 
     <table class="table my-table admin backoffice">
         <thead>
             <tr>
-                <th class="text-left">Groupe</th>
+                <th class="text-left w-25 violet">Groupe</th>
                 <th colspan="2" class="text-left">Responsable</th>
                 {# <th>Date de création</th> #}
                 <th colspan="2"></th>
@@ -25,23 +37,24 @@
                 <td class="text-left main">
                     {{ groupe }}
                 </td>
-                <td class="pr-0">
+                <td class="pr-0 w-50p">
                     {% include '_picture.html.twig' with {'user': groupe.responsable, 'class': 'medium'} %}
                 </td>
-                <td class="text-left pl-0">
-                    <span class="main">{{ groupe.responsable.fullName }}</span><br>
-                    <span class="my-secondary">{{ groupe.responsable.email }}</span>
+                <td class="text-left">
+                    <span class="">{{ groupe.responsable.fullName }}</span><br>
+                    {# <span class="my-secondary">{{ groupe.responsable.email }}</span> #}
                 </td>
                 {# <td>25 mars 2020</td> #}
-                <td class="pr-0">
-                    <a href="{{ path('admin_groupe_edit', {'id':  groupe.id }) }}" class="btn btn-my-warning">
-                        <i class="uil uil-pen"></i> Modifier
-                    </a>
-                </td>
-                <td class="pl-0">
-                    <a href="{{ path('admin_groupe_delete', {'id':  groupe.id }) }}" class="btn btn-my-danger">
-                        <i class="uil uil-times"></i> Supprimer
-                    </a>
+                <td class="w-50p">
+                    <div class="dropdown float-right w-50p">
+                        <button class="btn btn-my-secondary bg-transparent" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="uil uil-ellipsis-v"></i>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-right my-dropdown " aria-labelledby="dropdownMenuButton">
+                                <a class="dropdown-item pl-3" href="{{ path('admin_groupe_edit', {'id':  groupe.id }) }}"><span class="rounded"><i class="fas fa-pen fa-xs my-rounded"></i></span> Modifier</a>
+                                <a class="dropdown-item pl-3" href="{{ path('admin_groupe_delete', {'id':  groupe.id }) }}"><span class="rounded"><i class="fas fa-times my-rounded"></i></span> Supprimer</a>
+                        </div>
+                    </div>
                 </td>
             </tr>
         {% endfor %}

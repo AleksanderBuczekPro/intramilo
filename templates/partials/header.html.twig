@@ -73,7 +73,7 @@
 
                         {# Ajout rapide #}
                         <div class="dropdown nav-btn float-right mx-1">
-                            <button class="btn nav-hover larger" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <button class="btn snav-hover larger" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="uil uil-plus"></i>
                             </button>
                             <div class="dropdown-menu dropdown-menu-right my-dropdown no-border box" aria-labelledby="dropdownMenuButton">
@@ -92,7 +92,7 @@
                                 {{ path('account_documents') }}
                             {% endif %}
                             
-                            class="btn btn-my-primary intramilo mx-1">
+                            class="btn btn-my-primary mx-1">
                                 <i class="uil uil-web-grid"></i>
                             </a>
                         </span>
@@ -168,24 +168,11 @@
                             <div class="mx-4 text-center">
                                 <a href="{{ path('account_index') }}" class="btn btn-my-secondary my-2">Gérer mon compte</a>
                             </div>
-                            
-
-                            {# <a href="{{ path('account_index') }}" class="dropdown-item">Mon profil</a>
-                            <a href="{{ path('account_picture_edit') }}" class="dropdown-item">Modifer ma photo de profil</a>
-                            <a href="{{ path('account_password') }}" class="dropdown-item">Modifier mon mot de passe</a>
-                            <div class="dropdown-divider"></div>
-                            <h6 class="dropdown-header">Documentation</h6>
-                            <a href="{{ path('organizations_index') }}" class="dropdown-item">Liste des organismes</a>
-                            <a href="{{ path('account_documents') }}" class="dropdown-item">Tableau de bord</a> #}
-
-                            {# {% if is_granted('ROLE_ADMIN') %}
-                                <a href="{{ path('admin_documents') }}" class="dropdown-item">Suivi de la documentation</a>
-                            {% endif %} #}
 
                             {% if is_granted('ROLE_ADMIN') %}
                                 <div class="dropdown-divider"></div>
                                 {# <h6 class="dropdown-header">Administration</h6> #}
-                                <a href="{{ path('admin_users_index') }}" target="_blank" class="dropdown-item text-center">BackOffice</a>
+                                <a href="{{ path('admin_users_index') }}" class="dropdown-item text-center">BackOffice</a>
                             {% endif %}
 
                             <div class="dropdown-divider"></div>

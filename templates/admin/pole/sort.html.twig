@@ -1,0 +1,94 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Création d'un pôle{% endblock %}
+
+{% block body %}
+
+<div class="container backoffice-container bg-white my-box">
+
+        
+        <h1 class="my-h1">
+            {# <a href="{{ path('admin_users_index') }}" class="btn btn-my-secondary small"><i class="uil uil-arrow-left"></i></a> #}
+            Ordre des Pôles
+        </h1>
+
+        <form>
+            <div class="mt-4">
+                <ul id="pole-list">
+
+                    {% for pole in poles %}
+                        <li data-id="{{ pole.id }}">
+                            <h5 class="m-0"> {{ pole }} </h5>
+                        </li>
+                    {% endfor %}
+
+                </ul>
+            </div>
+        </form>
+
+        <a id="btn-sort" type="submit" class="btn white btn-my-primary">Sauvegarder les modifications</a>
+        <a href="{{ path('admin_documentation_index') }}" class="btn rouge">Annuler</a>
+
+
+</div>
+
+
+{% endblock %}
+
+{% block javascripts %}
+
+<script>
+
+    // Without options:
+    $('#pole-list').sortable();
+
+
+    $("#btn-sort").click(function() {    
+
+            // Récupération des données
+
+            var order = new Array();
+
+            /* var index = 1;
+            $('#pole-list li').each(function() {
+
+                order[index] = $(this).data('id');
+
+                index = index + 1;
+            });
+
+            console.log(order);*/
+
+            var test = "test";
+
+            $.ajax({
+
+                type: 'POST',
+                url: "{{ path('admin_pole_sort') }}",
+                data: {test: "test"},
+                success: function(data) {
+
+                    //console.log(data);
+                    //location.reload();
+
+                    // alert('ok');
+                    
+                },
+                error: function(data) {
+                    alert("Error !")
+                }
+
+            });
+    
+            //location.reload();
+        
+        }); 
+
+</script>
+
+
+{% endblock %}
+
+
+
+
