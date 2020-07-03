@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Documentation - {{ sheet.title }} - {{ sheet.organization }}
+{% endblock %}
+
+{% block body %}
+
+<div class="container bg-white my-box p-4">
+    
+    <h1 class="my-h1 mb-1 px-4 pt-4">
+        {{ sheet.title }}
+    </h1>
+    <p class="px-4">Changement d'auteur (actuel : {{ sheet.author.fullName }})</p>
+
+    {{ form_start(form) }}
+
+
+
+    <div class="row p-4">
+        <div class="col-md-6">
+        
+            {{ form_widget(form) }}
+            <button type="submit" class="btn btn-my-primary mt-4">
+                Changer l'auteur
+            </button>
+            <a href="{{ path('sheet_show', {'id': sheet.id }) }}" class="btn rouge mt-4">Annuler</a>
+
+        </div>
+    </div>
+
+
+        
+
+    {{ form_end(form) }}
+
+</div>
+
+
+{% endblock %}
+
+{% block javascripts %}
+    
+    
+
+{% endblock %}

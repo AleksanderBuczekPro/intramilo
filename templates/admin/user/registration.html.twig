@@ -26,16 +26,32 @@
                     </div> #}
 
                     <div class="col-lg-4 col-md-6">
-                        {{ form_row(form.firstName, { 'attr': {'autocomplete': 'new-password'} }) }}
+                        <label for="{{ form.firstName.vars.id }}"
+                            class="{{ form.firstName.vars.required ? 'required' }}">
+                            {{ form.firstName.vars.label }}
+                        </label>
+                        {{ form_widget(form.firstName, { 'attr': {'autocomplete': 'new-password'} }) }}
                     </div>
+
                     <div class="col-lg-4 col-md-6">
-                        {{ form_row(form.lastName, { 'attr': {'autocomplete': 'new-password'} }) }}
+
+                        <label for="{{ form.lastName.vars.id }}"
+                            class="{{ form.lastName.vars.required ? 'required' }}">
+                            {{ form.lastName.vars.label }}
+                        </label>
+                        {{ form_widget(form.lastName, { 'attr': {'autocomplete': 'new-password'} }) }}
+
                     </div>
                     <div class="col-lg-4 d-md-none d-lg-block"></div>
 
                     {# Email #}
                     <div class="col-lg-4 col-md-6">
-                        <span class="align-middle">{{ form_row(form.email, { 'attr': {'autocomplete': 'new-password'} }) }}</span>
+
+                        <label for="{{ form.email.vars.id }}"
+                            class="{{ form.email.vars.required ? 'required' }}">
+                            {{ form.email.vars.label }}
+                        </label>
+                        <span class="align-middle">{{ form_widget(form.email, { 'attr': {'autocomplete': 'new-password'} }) }}</span>
                     </div>
 
                 </div>
@@ -47,21 +63,33 @@
 
                         {# Groupe #}
                         <div class="col-lg-4 col-md-6">
-                            {{ form_row(form.groupe) }}
+                            <label for="{{ form.groupe.vars.id }}"
+                                class="{{ form.groupe.vars.required ? 'required' }}">
+                                {{ form.groupe.vars.label }}
+                            </label>
+                            {{ form_widget(form.groupe) }}
                         </div>
 
                         <div class="col-lg-8 col-md-6"></div>
 
                         {# Poste #}
                         <div class="col-lg-4 col-md-6">
-                            {{ form_row(form.poste) }}
+                            <label for="{{ form.poste.vars.id }}"
+                                class="{{ form.poste.vars.required ? 'required' }}">
+                                {{ form.poste.vars.label }}
+                            </label>
+                            {{ form_widget(form.poste) }}
                         </div>
 
                         <div class="col-lg-8 col-md-6"></div>
 
                         {# Domaine #}
                         <div class="col-lg-8 col-md-12">
-                            {{ form_row(form.introduction, { 'attr': {'autocomplete': 'new-password'} }) }}
+                            <label for="{{ form.introduction.vars.id }}"
+                                class="{{ form.introduction.vars.required ? 'required' }}">
+                                {{ form.introduction.vars.label }}
+                            </label>
+                            {{ form_widget(form.introduction, { 'attr': {'autocomplete': 'new-password'} }) }}
                         </div>
 
 
@@ -73,13 +101,43 @@
 
                     {# Antenne #}
                     <div class="col-lg-4 col-md-6">
-                        {{ form_row(form.antenne) }}
+                        <label for="{{ form.antenne.vars.id }}"
+                            class="{{ form.antenne.vars.required ? 'required' }}">
+                            {{ form.antenne.vars.label }}
+                        </label>
+                        {{ form_widget(form.antenne) }}
                     </div>
                     <div class="col-8"></div>
 
                     {# Téléphone #}
                     <div class="col-lg-4 col-md-6">
-                        {{ form_row(form.phoneNumber, { 'attr': {'autocomplete': 'new-password', 'maxlength': '14'} }) }}
+                        <label for="{{ form.phoneNumber.vars.id }}"
+                            class="{{ form.phoneNumber.vars.required ? 'required' }}">
+                            {{ form.phoneNumber.vars.label }}
+                        </label>
+                        {{ form_widget(form.phoneNumber, { 'attr': {'autocomplete': 'new-password', 'maxlength': '14'} }) }}
+                    </div>
+
+                    <div class="col-8"></div>
+
+                    {# Ligne directe #}
+                    <div class="col-lg-4 col-md-6">
+                        <label for="{{ form.directNumber.vars.id }}"
+                            class="{{ form.directNumber.vars.required ? 'required' }}">
+                            {{ form.directNumber.vars.label }}
+                        </label>
+                        {{ form_widget(form.directNumber, { 'attr': {'autocomplete': 'new-password', 'maxlength': '3'} }) }}
+                    </div>
+
+                    <div class="col-8"></div>
+
+                    {# Téléphone professionnel #}
+                    <div class="col-lg-4 col-md-6">
+                        <label for="{{ form.proNumber.vars.id }}"
+                            class="{{ form.proNumber.vars.required ? 'required' }}">
+                            {{ form.proNumber.vars.label }}
+                        </label>
+                        {{ form_widget(form.proNumber, { 'attr': {'autocomplete': 'new-password', 'maxlength': '14'} }) }}
                     </div>
 
                     <div class="col-8"></div>
@@ -103,14 +161,22 @@
 
                     {# Mot de passe #}
                     <div class="col-lg-4 col-md-6">
-                        {{ form_row(form.hash, { 'attr': {'autocomplete': 'new-password'} }) }}
+                        <label for="{{ form.hash.vars.id }}"
+                            class="{{ form.hash.vars.required ? 'required' }}">
+                            {{ form.hash.vars.label }}
+                        </label>
+                        {{ form_widget(form.hash, { 'attr': {'autocomplete': 'new-password'} }) }}
                     </div>
 
                     <div class="col-8"></div>
 
                     {# Confirmez mot de passe #}
                     <div class="col-lg-4 col-md-6">
-                        {{ form_row(form.passwordConfirm, { 'attr': {'autocomplete': 'new-password'} }) }}
+                        <label for="{{ form.passwordConfirm.vars.id }}"
+                            class="{{ form.passwordConfirm.vars.required ? 'required' }}">
+                            {{ form.passwordConfirm.vars.label }}
+                        </label>
+                        {{ form_widget(form.passwordConfirm, { 'attr': {'autocomplete': 'new-password'} }) }}
                     </div>
 
                     <div class="col-8"></div>
@@ -136,11 +202,10 @@
 {% endblock %}
 
 {% block javascripts %}
-
     <script>
 
-        $("#registration_introduction").prop('required',false);
-        $("#registration_phoneNumber").prop('required',false);
+        {# $("#registration_introduction").prop('required',false);
+        $("#registration_phoneNumber").prop('required',false); #}
 
     </script>
 

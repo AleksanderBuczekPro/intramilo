@@ -10,6 +10,7 @@ use App\Entity\Section;
 use App\Form\SheetType;
 use App\Form\ToolsType;
 use App\Entity\Category;
+use App\Form\AuthorType;
 use App\Form\CommentType;
 use App\Entity\SubCategory;
 use App\Entity\Interlocutor;
@@ -102,7 +103,6 @@ class SheetController extends AbstractController
      */
     public function create(SubCategory $subCategory = null, Sheet $sheetFromModel = null, Request $request, EntityManagerInterface $manager, SubCategoryRepository $subRepo, InterlocutorRepository $repo) {
         
-
         $sheet = new Sheet();
 
         // Si c'est depuis un modèle
@@ -758,6 +758,44 @@ class SheetController extends AbstractController
 
          return $this->redirectToRoute('doc_show', ['slug' => $slug, 'sub_slug' => $subSlug]);
 
+
+    }
+
+    /**
+     * Permet de changer l'auteur d'une fiche
+     *
+     * @Route("/documentation/sheet/{id}/author", name="sheet_change_author")
+     * 
+     * @IsGranted("ROLE_ADMIN")
+     * 
+     */
+    public function author(Sheet $sheet, EntityManagerInterface $manager, SheetRepository $sheetRepo, Request $request)
+    {
+        $form = $this->createForm(AuthorType::class, $sheet);       
+
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()){
+
+            $manager->persist($sheet);
+            $manager->flush();
+
+            $this->addFlash(
+                'success',
+                "Auteur de la fiche changé avec succès !"
+
+            );
+
+            return $this->redirectToRoute('sheet_show', ['id' => $sheet->getId()]);
+
+        }
+        
+        return $this->render('documentation/sheet/author.html.twig', [
+
+            'form'=> $form->createView(),
+            'sheet' => $sheet
+
+        ]);
 
     }
 

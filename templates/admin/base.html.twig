@@ -68,14 +68,33 @@
         {{ encore_entry_script_tags('js/app') }}
 
         <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js" integrity="sha256-eGE6blurk5sHj+rmkfsGYeKyZx3M4bG+ZlFyA7Kns7E=" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.4-beta.33/jquery.inputmask.min.js" integrity="sha256-L4kpZP1BsqygY+/b55A6N3o7zGWuRQcJGZaVomcwKD4=" crossorigin="anonymous"></script>
+
 
         {% block javascripts %}    
         {% endblock %}
 
         <script>
-        $(function () {
-            $('[data-toggle="tooltip"]').tooltip({html : true})
-        })
+
+            $(function () {
+                $('[data-toggle="tooltip"]').tooltip({html : true})
+            })
+
+            $(document).ready(function(){
+
+                // Masques
+                $('input[type="tel"]').inputmask("99 99 99 99 99");  //static mask
+                $('#registration_directNumber, #admin_account_directNumber').inputmask("999");  //static mask
+
+                $('#antenne_postcode, #organization_postcode').inputmask("99999");  //static mask
+
+                $('#antenne_city, #registration_lastName, #admin_account_lastName, #organization_city').keyup(function(){
+                    $(this).val($(this).val().toUpperCase());
+                });
+
+
+
+            });
         </script>
 
         

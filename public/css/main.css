@@ -210,6 +210,14 @@ body{
 
 }
 
+.required::after {
+	content: " *";
+	color: var(--red-color);
+
+	position: relative;
+	bottom: 4px;
+}
+
 p{
 
     font-family: "Roboto", sans-serif;
@@ -249,7 +257,7 @@ p{
 
 }
 
-.my-dropdown a{
+.my-dropdown a, .my-dropdown button{
 
     font-family: 'Roboto', sans-serif;
     font-size: 15px !important;
@@ -636,6 +644,7 @@ i.small-icon{
 div.card.my-card{
 
     margin-bottom: 10px;
+
 }
 
 div.front.white div.card.my-card{
@@ -960,17 +969,17 @@ table.my-table.admin td.users div.center-cropped{
 
 
 
-.number{ /* number circle */
-    display:inline-block;
-    line-height:0px;
-    background-color: var(--grey-10-color);
-
-    color: var(--grey-50-color);
-    border-radius:50%;
-  
-    font-size:12px;
-    margin-left: 5px;
-  }
+.number {
+	display: inline-block;
+	line-height: 20px;
+	background-color: var(--grey-10-color) !important;
+	color: var(--grey-50-color);
+	border-radius: 50%;
+	font-size: 12px;
+	margin-left: 5px;
+	height: 20px;
+	width: 20px;
+}
   
 .number span {
     display:inline-block;
@@ -1201,12 +1210,52 @@ form select.form-control{
 
 }
 
+.select-sub {
+	border: 1px solid var(--grey-15-color);
+	border-radius: 25px;
+	margin: 8px 8px 8px 0px;
+	overflow-wrap: break-word;
+	display: inline-block;
+	padding: 5px 13px;
+	font-family: "Roboto", sans-serif;
+	font-size: 15px;
+}
+
+.select-sub.active, .select-sub.active:hover {
+
+    background-color: var(--purple-transparent-color);
+    border: 1px solid transparent;
+    color: var(--purple-color);
+
+}
+
+.select-sub:hover {
+
+    background-color: var(--grey-10-color);
+    border: 1px solid var(--grey-10-color);
+    cursor: pointer;
+
+}
+
+.modal-title{
+
+    font-family: "Roboto", sans-serif!important;
+
+
+}
+
+#subModal a.add.disbaled{
+
+    cursor: not-allowed;
+
+}
+
 /* Cards */
 div.card.my-card{
 
     padding: 10px;
 
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Roboto', sans-serif;
 
     box-shadow: none;
 
@@ -1700,17 +1749,15 @@ span.mime{
 }
 
 
-div.alert.alert-danger{
+div.alert.alert-danger {
 
-    color: black;
-    background-color: transparent;
-
-    border-left: 4px solid var(--red-color);
-
-    font-family: "Fira Sans", "sans serif";
-    font-weight: 400;
-
-    border-radius: 14px;
+	color: black;
+	background-color: transparent;
+	border-left: 6px solid var(--red-color);
+	font-family: "Roboto", "sans serif";
+	font-weight: 600;
+	border-radius: 6px;
+	margin-top: 40px;
 
 }
 

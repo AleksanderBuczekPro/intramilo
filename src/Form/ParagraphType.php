@@ -14,8 +14,14 @@ class ParagraphType extends ApplicationType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('title', TextType::class, $this->getConfiguration("Titre", "Section sans titre"))
-            ->add('content', CKEditorType::class, $this->getConfiguration("Texte", "Ici le contenu de la section"))
+            ->add('title', TextType::class, $this->getConfiguration("Titre", "Section sans titre", [
+                'required' => false,
+                'empty_data' => 'Section sans titre'
+            ]))
+            ->add('content', CKEditorType::class, $this->getConfiguration("Texte", "Ici le contenu de la section", [
+                'required' => false,
+                'empty_data' => 'Aucune information renseignée'
+            ]))
         ;
     }
 

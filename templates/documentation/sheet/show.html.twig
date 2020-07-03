@@ -48,9 +48,17 @@
                         </button>
                         <div class="dropdown-menu dropdown-menu-right my-dropdown " aria-labelledby="dropdownMenuButton">
                             <a class="dropdown-item pl-3" href="{{ path('sheet_create_model', {'id_model': sheet.id }) }}"><span class="rounded"><i class="far fa-copy my-rounded"></i></span> Dupliquer</a>
-                            {% if app.user == sheet.author %}
+                            
+                            {% if is_granted("ROLE_ADMIN")%}
+                                <a class="dropdown-item pl-3" href="{{ path('sheet_change_author', {'id': sheet.id }) }}"><span class="rounded"><i class="far fa-user my-rounded"></i></span> Changer d'auteur</a>
+                            {% endif %}
+
+                            {% if app.user == sheet.author or is_granted("ROLE_ADMIN") %}
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item pl-3" href="{{ path('sheet_edit', {'id': sheet.id }) }}"><span class="rounded"><i class="fas fa-pen fa-xs my-rounded"></i></span> Modifier</a>
+                            {% endif %}
+
+                            {% if app.user == sheet.author %}
                                 <a class="dropdown-item pl-3" href="{{ path('sheet_delete', {'id': sheet.id}) }}"><span class="rounded"><i class="fas fa-times my-rounded"></i></span> Supprimer</a>
                             {% endif %}
                         </div>
@@ -249,26 +257,23 @@
                         {% include '_sheet_picture.html.twig' with {'sheet': sheet} %}
                 </div>
 
-
                 <div class="organization-logo">
-                    {% include '_organization_logo.html.twig' with {'organization': sheet.organization, 'class': 'medium'} %}
+                    {% if sheet.organization %} {% include '_organization_logo.html.twig' with {'organization': sheet.organization, 'class': 'medium'} %} {% endif %} 
                 </div>
                 <div class="card my-card organization-card my-0">
                     <div class="card-body">
 
-                        <div class="organization-title black">{{ sheet.organization }}</div>
-                        <div class="organization-address small my-secondary black op-70 mt-1">{{ sheet.organization.address }}</div>
+                        <div class="organization-title black">{% if sheet.organization %} {{ sheet.organization }} {% else %} <p class="text mb-0"> Organisme non renseigné</p>{% endif %}  </div>
+                        <div class="organization-address small my-secondary black op-70 mt-1">{% if sheet.organization %} {{ sheet.organization.address }} {% endif %}</div>
                         <div class="organization-phone small my-secondary black  op-70 mt-2 ">
-                            <i class="uil uil-phone-alt"></i>
-                            {{ sheet.organization.phoneNumber }}
+                            {% if sheet.organization %} <i class="uil uil-phone-alt"></i> {{ sheet.organization.phoneNumber }} {% endif %}
                         </div>
                         <div class="organization-email small my-secondary black">
-                            
-                            <a class="mail-link" href="mailto:{{ sheet.organization.email }}"><i class="uil uil-envelope-alt"></i> {{ sheet.organization.email }}</a>
+                            {% if sheet.organization %} <a class="mail-link" href="mailto:{{ sheet.organization.email }}"><i class="uil uil-envelope-alt"></i> {{ sheet.organization.email }}</a> {% endif %}
                         </div>
                         <div class="organization-email small my-secondary">
-                                                        
-                            <a class="violet" href="{{ sheet.organization.website }}" target="_blank"><i class="uil uil-external-link-alt"></i> Voir le site web</a>
+                            {% if sheet.organization %} <a class="violet" href="{{ sheet.organization.website }}" target="_blank"><i class="uil uil-external-link-alt"></i> Voir le site web</a> {% endif %}      
+                            
                         </div>
 
                         

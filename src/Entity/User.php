@@ -5,9 +5,10 @@ namespace App\Entity;
 use DateTimeZone;
 use Cocur\Slugify\Slugify;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\OrderBy;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\Common\Collections\ArrayCollection;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -146,6 +147,7 @@ class User implements UserInterface
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\SubCategory", mappedBy="authors")
+     * @OrderBy({"title" = "ASC"})
      */
     private $subCategories;
 
@@ -153,6 +155,16 @@ class User implements UserInterface
      * @ORM\OneToMany(targetEntity="App\Entity\Attachment", mappedBy="author")
      */
     private $attachments;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $directNumber;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $proNumber;
 
 
     public function getFullName() {
@@ -638,6 +650,30 @@ class User implements UserInterface
                 $attachment->setAuthor(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getDirectNumber(): ?string
+    {
+        return $this->directNumber;
+    }
+
+    public function setDirectNumber(?string $directNumber): self
+    {
+        $this->directNumber = $directNumber;
+
+        return $this;
+    }
+
+    public function getProNumber(): ?string
+    {
+        return $this->proNumber;
+    }
+
+    public function setProNumber(?string $proNumber): self
+    {
+        $this->proNumber = $proNumber;
 
         return $this;
     }

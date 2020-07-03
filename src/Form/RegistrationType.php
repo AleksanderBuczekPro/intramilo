@@ -33,14 +33,22 @@ class RegistrationType extends ApplicationType
             ->add('firstName', TextType::class, $this->getConfiguration("Prénom", "Prénom"))
             ->add('lastName', TextType::class, $this->getConfiguration("Nom", "Nom de famille"))
             ->add('email', EmailType::class, $this->getConfiguration("Email", "Adresse email"))
-            ->add('phoneNumber', TelType::class, $this->getConfiguration("Téléphone", "Numéro de téléphone"))
+            ->add('phoneNumber', TelType::class, $this->getConfiguration("Téléphone", "Numéro de téléphone externe", [
+                'required' => false
+            ]))
+            ->add('directNumber', TelType::class, $this->getConfiguration("Ligne directe", "Ligne directe à 3 chiffres", [
+                'required' => false
+            ]))
+            ->add('proNumber', TelType::class, $this->getConfiguration("Téléphone professionnel", "Numéro de téléphone professionnel", [
+                'required' => false
+            ]))
             ->add('hash', PasswordType::class, $this->getConfiguration("Mot de passe", "Choissisez un bon mot de passe"))
             ->add('passwordConfirm', PasswordType::class, $this->getConfiguration("Confirmer mot de passe", "Veuillez confirmer votre mot de passe"))
-            ->add('introduction', TextType::class, $this->getConfiguration("Domaine de compétence (optionnel)", "Bâtiment, Commerce, Numérique..."), [
-                    'required'   => false
-                ]
-            )
+            ->add('introduction', TextType::class, $this->getConfiguration("Domaine de compétence (optionnel)", "Bâtiment, Commerce, Numérique...", [
+                'required' => false
+            ]))
             ->add('antenne', EntityType::class, [
+                'label' => "Antenne",
                 'class' => Antenne::class,
                 'choice_label' => function($antenne){
                     return $antenne->getTitle();
@@ -52,6 +60,7 @@ class RegistrationType extends ApplicationType
                 }
             ])
             ->add('groupe', EntityType::class, [
+                'label' => "Groupe",
                 'class' => Groupe::class,
                 'choice_label' => function($groupe){
                     return $groupe->getTitle();
@@ -63,6 +72,7 @@ class RegistrationType extends ApplicationType
                 }
             ])
             ->add('poste', EntityType::class, [
+                'label' => "Poste",
                 'class' => Poste::class,
                 'choice_label' => function($poste){
                     return $poste->getTitle();

@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Entity\Sheet;
+use App\Form\AuthorType;
 use App\Service\Pagination;
 use App\Form\AdminAccountType;
 use App\Form\RegistrationType;
@@ -109,6 +111,95 @@ class AdminUserController extends AbstractController
     }
 
     /**
+     * Permet de réaffecter la documentation d'un utilisateur
+     *
+     * @Route("/admin/user/{id}/reaffect", name="admin_user_reaffect")
+     * 
+     */
+    public function reaffect(User $user, EntityManagerInterface $manager, Request $request, UserRepository $repo)
+    {
+        $sheet = new Sheet();
+
+        $form = $this->createForm(AuthorType::class, $sheet);       
+
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()){
+
+            $newAuthor = $sheet->getAuthor();
+
+            foreach($user->getSheets() as $s){
+
+                $s->setAuthor($newAuthor);
+                $manager->persist($s);
+            }
+
+            foreach($user->getDocuments() as $d){
+
+                $d->setAuthor($newAuthor);
+                $manager->persist($d);
+            }
+
+            foreach($user->getSubCategories() as $sub){
+                
+                $isAlready = false;
+                
+                foreach($sub->getAuthors() as $a){
+
+                    // Si le nouvel auteur a déjà l'autorisation dans la nouvelle sous-catégorie
+                    if($a == $newAuthor){
+
+                        $isAlready = true;
+
+                    }
+
+                    // Si l'ancien auteur a les droits dans une sous-catégorie, on l'enlève
+                    if($a == $user){
+
+                        $sub->removeAuthor($user);
+
+                        $manager->persist($sub);
+
+                    }
+                    
+                }
+                
+                // S'il n'y est pas
+                if(!$isAlready){
+
+                    $sub->addAuthor($newAuthor);
+                    $manager->persist($sub);
+
+                }
+            }
+
+
+            $manager->flush();
+
+            $this->addFlash(
+                'success',
+                "La documentation de <strong>" . $user->getFullName() . "</strong> a été réaffectée à <strong>" . $newAuthor->getFullName() . "</strong> avec succès !"
+
+            );
+
+            return $this->redirectToRoute('admin_users_index');
+
+        }
+
+        
+        return $this->render('admin/user/reaffect.html.twig', [
+
+            // 'authors' => $authors,
+            'form' => $form->createView(),
+            'user' => $user
+
+        ]);
+
+
+
+    }
+
+    /**
      * Permet de supprimer un utilisateur
      *
      * @Route("/admin/user/{id}/delete", name="admin_user_delete")
@@ -136,7 +227,8 @@ class AdminUserController extends AbstractController
 
             $this->addFlash(
                 'danger',
-                "L'utilisateur ne peut être supprimé. Des fiches ou des documents lui appartiennent."
+                "L'utilisateur ne peut être supprimé. Des fiches ou des documents lui appartiennent.
+                <br> Veuillez réaffecter sa documentation."
     
             ); 
             

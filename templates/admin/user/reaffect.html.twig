@@ -1,0 +1,82 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}
+    Documentation
+{% endblock %}
+
+{% block body %}
+
+<div class="container backoffice-container bg-white my-box p-4">
+    
+    <h1 class="my-h1 mb-1 px-4 pt-4">
+        Réaffectation
+    </h1>
+    <p class="px-4">Documentation de {{ user }}</p>
+
+    {# <form action="{{ path('admin_user_reaffect', {'id': user.id })}}">
+
+        <div class="row">
+            <div class="col-6">
+                
+                    <div class="form-group px-4">
+                        <label>Nouveau propriétaire </label>
+                        <select name="authors" id="authors" class="form-control">
+                            {% for author in authors %}
+                                <option value="{{ author.id }}"> {{ author.lastName }} {{ author.firstName }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+
+            </div>
+        </div>
+        
+
+        
+
+        <div class="row p-4">
+            <div class="col-md-6">
+            
+                <button type="submit" class="btn btn-my-primary mt-4">
+                    Réaffecter
+                </button>
+                <a href="{{ path('admin_users_index') }}" class="btn rouge mt-4">Annuler</a>
+
+            </div>
+        </div>
+
+    </form> #}
+
+    {{ form_start(form) }}
+
+    
+
+    <div class="row p-4">
+        <div class="col-md-6">
+        
+            {{ form_widget(form) }}
+
+            <p class="text">Cette action va changer l'auteur des fiches et documents de {{ user }}. <br>De plus, le nouvel utilisateur aura également les droits d'ajout dans ses sous-catégories.</p>
+            <button type="submit" class="btn btn-my-primary mt-4">
+                Réaffecter
+            </button>
+            <a href="{{ path('admin_users_index') }}" class="btn rouge mt-4">Annuler</a>
+
+        </div>
+    </div>
+
+
+        
+
+    {{ form_end(form) }}
+
+</div>
+
+
+{% endblock %}
+
+{% block javascripts %}
+    
+    
+
+{% endblock %}

@@ -34,13 +34,16 @@ class SheetType extends ApplicationType
         $user = $options['user'];
 
         $builder
-            ->add('title', TextareaType::class, $this->getConfiguration("Titre", "Sans titre"))
-            ->add('subtitle', TextType::class, $this->getConfiguration("Sous-titre", "Sans complément de titre"),[
+            ->add('title', TextareaType::class, $this->getConfiguration("Titre", "Sans titre", [
                 'required' => false,
-                'empty_value' => true
-            ])
+                'empty_data' => 'Sans titre'
+            ]))
+            ->add('subtitle', TextType::class, $this->getConfiguration("Sous-titre", "Sans complément de titre", [
+                'required' => false
+            ]))
             ->add('introduction',  CKEditorType::class, $this->getConfiguration("Introduction", "Introduction de la fiche"))
             ->add('organization', EntityType::class, [
+                'required' => false,
                 'label' => "Organisme",
                 'placeholder' => "Sélectionnez un organisme",
                 'class' => Organization::class,

@@ -14,6 +14,8 @@
         </a>        
     </h1>
 
+    {% include 'admin/partials/flash.html.twig'  %}
+
     {# <table class="table my-table admin backoffice"> #}
         {# <thead>
             <tr>
@@ -34,19 +36,23 @@
             {% if counter == 0 %}
                 <thead>
                     <tr>
-                        <th class="switch">Admin</th>
-                        <th colspan="2" class="text-left violet">{{ groupe }} <span class="number"><span>{{ groupe.users|length }}</span></span></th>
-                        <th class="">Date de création</th>
-                        <th class=""></th>
+                        <th class="switch w-50p">Admin</th>
+                        <th colspan="2" class="text-left violet">{{ groupe }} <span class="number text-center">{{ groupe.users|length }}</span></th>
+                        {# <th class="">Date de création</th> #}
+                        <th class="text-center">Fiches / Documents</th>
+                        <th class="text-center">Sous-catégories</th>
+                        <th></th>
                     </tr>
                 </thead>
             {% else %}
                 <thead>
                     <tr>
                         <th class="switch w-50p"></th>
-                        <th colspan="2" class="text-left violet">{{ groupe }} <span class="number"><span>{{ groupe.users|length }}</span></span></th>
-                        <th></th>
-                        <th colspan="2"></th>
+                        <th colspan="2" class="text-left violet">{{ groupe }} <span class="number text-center">{{ groupe.users|length }}</span></th>
+                        {# <th class="">Date de création</th> #}
+                        <th class="text-center">Fiches / Documents</th>
+                        <th class="text-center">Sous-catégories</th>
+                        <th colspan=""></th>
                     </tr>
                 </thead>
             {% endif %}
@@ -56,7 +62,7 @@
                 {% for user in groupe.users %}
 
                     <tr>
-                        <td class="switch">
+                        <td class="switch w-50p">
                                 {# Gestion du Switch #}
                             {% set checked = "" %}
 
@@ -90,12 +96,15 @@
                             </span><br>
                             <span class="my-secondary">{{ user.email }}</span>
                         </td>
-                        <td class="w-25">
+                        {# <td class="w-25">
                             {{ user.createdAt|localizeddate('none', 'none', 'fr', null, 'd MMMM Y') }}
-                        </td>
-                        {# <td class="pr-0">
-                            
                         </td> #}
+                        <td class="text-center">
+                            <span class="number"> {{ user.sheets|length + user.documents|length }} </span>
+                        </td>
+                        <td class="text-center">
+                            <span class="number"> {{ user.subCategories|length }} </span>
+                        </td>
                         <td class="pl-0 text-right">
                             {# <a href="{{ path('admin_user_edit', {'id':  user.id }) }}" class="btn op-70 small">
                                 <i class="uil uil-pen"></i>
@@ -111,8 +120,11 @@
                                     <i class="uil uil-ellipsis-v"></i>
                                 </button>
                                 <div class="dropdown-menu dropdown-menu-right my-dropdown " aria-labelledby="dropdownMenuButton">
+                                        <a class="dropdown-item pl-3" href="{{ path('admin_user_reaffect', {'id':  user.id }) }}"><span class="rounded"><i class="fas fa-user fa-xs my-rounded"></i></span> Réaffecter sa documentation</a>
+                                        <div class="dropdown-divider"></div>
                                         <a class="dropdown-item pl-3" href="{{ path('admin_user_edit', {'id':  user.id }) }}"><span class="rounded"><i class="fas fa-pen fa-xs my-rounded"></i></span> Modifier</a>
                                         <a class="dropdown-item pl-3" data-toggle="modal" data-target="#deleteUserModal" data-path="{{ path('admin_user_delete', {'id': user.id }) }}"><span class="rounded"><i class="fas fa-times my-rounded"></i></span> Supprimer</a>
+                                
                                 </div>
                             </div>
 

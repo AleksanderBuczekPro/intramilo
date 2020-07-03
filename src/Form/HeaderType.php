@@ -15,11 +15,14 @@ class HeaderType extends ApplicationType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('title', TextType::class, $this->getConfiguration("Titre", "Entête sans titre"))
+            ->add('title', TextType::class, $this->getConfiguration("Titre", "Entête sans titre", [
+                'required' => false,
+                'empty_data' => 'Entête sans titre'
+            ]))
             ->add(
                 'sections',
                 CollectionType::class,[
-                    
+                
                  'entry_type' => SectionType::class,
                  'allow_add' => true,
                  'allow_delete' => true,

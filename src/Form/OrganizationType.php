@@ -7,6 +7,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints\Image;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\TelType;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -19,18 +20,24 @@ class OrganizationType extends ApplicationType
     {
         $builder
             ->add('name', TextType::class, $this->getConfiguration("Nom de l'organisme", "Entrez le nom de l'organisme"))
-            ->add('address', TextType::class, $this->getConfiguration("Adresse", "Adresse"))
-            ->add('postcode', NumberType::class, $this->getConfiguration("Code postal", "CP"))
-            ->add('city', TextType::class, $this->getConfiguration("Ville", "Entrez la ville"))
-            ->add('phoneNumber', TextType::class, $this->getConfiguration("Téléphone", "Entrez le numéro de téléphone de l'organisme"), [
+            ->add('address', TextType::class, $this->getConfiguration("Adresse", "Adresse", [
                 'required' => false
-            ])
-            ->add('email', EmailType::class, $this->getConfiguration("Email", "Entrez le mail de l'organisme"), [
+            ]))
+            ->add('postcode', NumberType::class, $this->getConfiguration("Code postal", "CP", [
                 'required' => false
-            ])
-            ->add('website', UrlType::class, $this->getConfiguration("Site web", "Copiez-collez l'URL du site web de l'organisme"), [
+            ]))
+            ->add('city', TextType::class, $this->getConfiguration("Ville", "Entrez la ville", [
                 'required' => false
-            ])
+            ]))
+            ->add('phoneNumber', TelType::class, $this->getConfiguration("Téléphone", "Entrez le numéro de téléphone de l'organisme", [
+                'required' => false
+            ]))
+            ->add('email', EmailType::class, $this->getConfiguration("Email", "Entrez le mail de l'organisme", [
+                'required' => false
+            ]))
+            ->add('website', UrlType::class, $this->getConfiguration("Site web", "Copiez-collez l'URL du site web de l'organisme", [
+                'required' => false
+            ]))
             ->add('logo', FileType::class, [
 
                 // 'label' => 'Photo de profil (fichier Image)',

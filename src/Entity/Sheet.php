@@ -6,6 +6,7 @@ use DateTime;
 use DateTimeZone;
 use Cocur\Slugify\Slugify;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\OrderBy;
 use Doctrine\ORM\Mapping\ManyToMany;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
@@ -29,7 +30,7 @@ class Sheet
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $title;
 
@@ -107,7 +108,7 @@ class Sheet
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Organization", inversedBy="sheets")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $organization;
 
@@ -119,6 +120,8 @@ class Sheet
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="sheets")
      * @ORM\JoinColumn(nullable=false)
+     * @OrderBy({"lastName" = "ASC"})
+     * 
      */
     private $author;
 

@@ -75,7 +75,24 @@
     // Quand le document a fini de se charger, on charge les interlocuteurs
     $(document).ready(function() {
         loadNotifications();
+
+        $(".select-sub").click(function() {
+
+            $(".select-sub").removeClass('active');
+            $(this).addClass('active');
+
+            var href = $(this).data('href');
+            $('a.add').attr('href', href);
+            $('a.add').removeClass('disabled');
+        });
+
+
+
     });
+
+
+
+
 
 
 

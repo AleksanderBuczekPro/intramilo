@@ -84,6 +84,20 @@
 
                     <div class="col-8"></div>
 
+                    {# Ligne directe #}
+                    <div class="col-lg-4 col-md-6">
+                        {{ form_row(form.directNumber, { 'attr': {'autocomplete': 'new-password', 'maxlength': '3'} }) }}
+                    </div>
+
+                    <div class="col-8"></div>
+
+                    {# Téléphone professionnel #}
+                    <div class="col-lg-4 col-md-6">
+                        {{ form_row(form.proNumber, { 'attr': {'autocomplete': 'new-password', 'maxlength': '14'} }) }}
+                    </div>
+
+                    <div class="col-8"></div>
+
                 </div>
 
 
@@ -104,11 +118,5 @@
 
 {% block javascripts %}
 
-    <script>
-
-        $("#registration_introduction").prop('required',false);
-        $("#registration_phoneNumber").prop('required',false);
-
-    </script>
 
 {% endblock %}
