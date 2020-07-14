@@ -249,7 +249,8 @@ class OrganizationController extends AbstractController
         }
 
         return $this->render('organization/edit.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'organization' => $organization
         ]);
 
     }
@@ -263,14 +264,31 @@ class OrganizationController extends AbstractController
      */
     public function delete(Organization $organization, EntityManagerInterface $manager)
     {
-        $manager->remove($organization);
-        $manager->flush();
+        $size = sizeof($organization->getSheets()) + sizeof($organization->getDocuments());
+        
+        if($size == 0){
 
-        $this->addFlash(
-            'success',
-            "L'organisme <strong>{$organization->getName()}</strong> a bien été supprimé !"
+            $manager->remove($organization);
+            $manager->flush();
+    
+            $this->addFlash(
+                'success',
+                "L'organisme <strong>{$organization->getName()}</strong> a bien été supprimé !"
+    
+            );
 
-        );
+        }else{
+
+            $this->addFlash(
+                'danger',
+                "L'organisme n'a pas pu être supprimé car des fiches et / ou des documents lui sont associés"
+    
+            );
+
+
+        }
+
+       
 
         return $this->redirectToRoute('organizations_index');
 

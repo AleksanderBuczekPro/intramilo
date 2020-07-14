@@ -40,9 +40,27 @@
                     </div>
                     <div class="col-lg-8 col-md-6"></div>
 
+                    {# Latitude #}
+                    <div class="col-lg-4 col-md-6">
+                        {{ form_row(form.latitude, { 'attr': {'autocomplete': 'new-password'} }) }}
+                    </div>
+                    <div class="col-lg-8 col-md-6"></div>
+
+                    {# Longitude #}
+                    <div class="col-lg-4 col-md-6">
+                        {{ form_row(form.longitude, { 'attr': {'autocomplete': 'new-password'} }) }}
+                    </div>
+                    <div class="col-lg-8 col-md-6"></div>
+
                     {# Numéro de téléphone #}
                     <div class="col-lg-4 col-md-6">
                         {{ form_row(form.phoneNumber, { 'attr': {'autocomplete': 'new-password'} }) }}
+                    </div>
+                    <div class="col-lg-8 col-md-6"></div>
+
+                    {# Horaires #}
+                    <div class="col-lg-4 col-md-6">
+                        {{ form_row(form.hours, { 'attr': {'autocomplete': 'new-password'} }) }}
                     </div>
                     <div class="col-lg-8 col-md-6"></div>
 

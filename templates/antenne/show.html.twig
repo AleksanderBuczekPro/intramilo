@@ -6,84 +6,254 @@
 
 {% block body %}
 
+<div class="container my-container mt-2">
+    <div class="row">
 
-    <div class="container">
-        <h1 class="mt-5 ">Antennes</h1>
-        <div class="row">
+        <div class="col-12 col-md-auto profile-sidebar pl-0">
+            <div style="width: 420px;" class="sticky">
 
-            {% for antenne in antennes %}
-            <div class="row">
-                <div class="col-12">
-                    <div class="antenne-btn ml-1">
-                        <a href="#antenne-{{ antenne.id }}" class="btn btn-sm btn-outline-success mr-2 mb-2 px-3">{{ antenne.title }}</a>
-                    </div>
+            <div class="col-12 px-0 mb-3">
+
+                <div class="row mb-2">
+                    <div class="col-md-4 pr-1"><a href="{{ path('antennes_show') }}" class="btn btn-my-primary small w-100 mr-1"> <i class="uil uil-map-marker"></i> Antennes</a></div>
+                    <div class="col-md-4 px-1"><a href="{{ path('organizations_index') }}" class="btn btn-my-secondary small w-100 mr-1"> <i class="uil uil-building"></i> Organismes</a></div>
+                    <div class="col-md-4 pl-1 pr-3"><a href="{{ path('users_show') }}" class="btn btn-my-secondary small w-100 mr-1"> <i class="uil uil-users-alt"></i> Employés</a></div>
                 </div>
             
             </div>
-            {% endfor %}
-            
-            {% for antenne in antennes %}
-            
 
+            <div class="card my-card no-border my-box mt-0 p-3">
+                {% for antenne in antennes %}
+                
+                    <div class="col-12 px-0">
+                        <div class="card my-card contact-card no-border no-br mt-0 mb-1 p-3" data-id="{{ antenne.id }}" data-latitude={{ antenne.latitude }} data-longitude={{ antenne.longitude }}>
 
-            <div class="col-6">
-                <div class="card antenne">
-                    <div class="card-body">
-                        <div id="antenne-{{ antenne.id }}" class="anchor"></div>
-                        <div class="title">{{ antenne.title }}</div>
-                        <div class="address mt-2">{{ antenne.address }} - {{ antenne.postcode }} {{ antenne.city }}</div>
-                        <div class="phone">{{ antenne.phoneNumber }}</div>
-
-                         <div class="employees mt-5">
-                            
-                                    
-
-                                    
-                                        
-                                            {% for employe in antenne.users %}
-
-                                            {# Initiales #}
-                                            {% set firstName = employe.firstName|split('') %}
-                                            {% set lastName = employe.lastName|split('') %} 
-
-                                            {% set initiales = firstName[0]|upper ~ lastName[0]|upper %}
-
-                                            <div class="card employees mb-2">
-                                                <div class="card-body">
-                                                    <table class="table employees">
-                                                        <tbody>
-                                                            <tr>
-                                                            <td class="align-middle initiales">
-                                                                {% include '_picture.html.twig' with {'user': employe, 'class': 'medium'} %}
-                                                            </td>
-                                                            <td>
-                                                                <div class="name">{{ employe.fullName }}</div>
-                                                                <div class="poste">{{ employe.poste.title }}</div>
-                                                                <div class="email mt-3"><i class="mr-3 far fa-envelope"></i> {{ employe.email }}</div>
-                                                                <div class="phone"><i class="mr-3 fas fa-phone-alt"></i> {{ employe.phoneNumber }}</div>
-                                                            </td>
-                                                            </tr>
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                            </div>
-
-                                            {% endfor %}
-
+                            <table class="my-table no-border w-100">
+                                <tr>
+                                    <td class="pr-3">
+                                        <div class="contact-icon text-center">
+                                            <i class="fas fa-map-marker-alt"></i>
+                                        </div>
+                                    </td>
+                                    <td class="w-100">
+                                        <div class="contact-title m-0">{{ antenne }}</div>
+                                        <div class="contact-secondary">
                                             
-                                
+                                            {{ antenne.phoneNumber }}
+                                            
+                                        </div>
+                                    </td>
+                                    {# <td class="w-50p contact-secondary pl-4">
+                                        <i class="uil uil-user"></i>
+                                        <span class="">{{ antenne.users|length }}</span>
                                         
-                                
-                        
-                        
+                                        
+                                    </td> #}
+                                </tr>
+                            </table>
+
                         </div>
                     </div>
-                </div>
+
+                {% endfor %}
             </div>
-            {% endfor %}
-            
+
+
+
+            </div>
         </div>
-        
+        <div class="col-12 col-md bg-purple-transparent home-content pl-4">
+
+            <div class="row sticky">
+
+                    <div class="col-md-12 pl-0">
+
+                            <div class="card my-card no-border contact-infos no-select no-br mt-0">
+                                <div class="card-body">
+                                    <p class="text">Sélectionnez un contact pour afficher ses informations</p>
+                                </div>
+                            </div>
+
+                            {% for antenne in antennes %}
+                                <div class="card my-card no-border contact-infos contact my-box no-br mt-0 d-none" data-contact="{{ antenne.id }}">
+                                    <div class="contact-map" id="map_{{ antenne.id }}"></div>
+                                    <div class="card-body">
+
+                                        <div class="contact-title">
+                                            {{ antenne.title }}
+                                        </div>
+                                        <hr>
+                                        <div class="contact-info mt-2">
+                                            <i class="uil uil-map-marker"></i> {{ antenne.address }}, {{ antenne.postCode }} {{ antenne.city }}
+                                        </div>
+                                        <div class="contact-info mt-1">
+                                            <i class="uil uil-phone"></i> {{ antenne.phoneNumber }}
+                                        </div>
+                                        {% if antenne.hours %}
+                                        <div class="contact-info mt-1">
+                                            <i class="uil uil-clock-five"></i> {{ antenne.hours }}
+                                        </div>
+                                        {% endif %}
+                                        <hr>
+                                        <div class="row px-3 pt-3">
+                                        {% for user in antenne.users %}
+
+                                            <div class="mr-1">
+                                                {% include '_picture.html.twig' with {'user': user, 'class': 'medium'} %}
+                                            </div>
+
+                                        {% endfor %}
+                                        </div>
+                                            {# <div class="col-md-4 px-1">
+                                                <div class="card my-card my-1 contact-user text-center no-border ">
+                                                    <div class="mb-2">{% include '_picture.html.twig' with {'user': user, 'class': 'small'} %}</div>
+                                                    <div class="black main small">{{ user }}</div>
+                                                    <div class="my-secondary small text-center">{{ user.poste }}</div>
+                                                </div>
+                                            </div> #}
+                                        
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        
+                    </div>
+                       
+
+                    </div>
+                
+            </div>
+
+        </div>
     </div>
+
+</div>
+
+{% endblock %}
+
+{% block javascripts %}
+
+
+    <script>
+
+        // Initialize and add the map
+        function initMap() {
+            // The location of Uluru
+
+            var id = $(".contact-card.active").data('id');
+            var latitude = $(".contact-card.active").data('latitude');
+            var longitude = $(".contact-card.active").data('longitude');
+
+            console.log(id);
+            console.log(latitude);
+            console.log(longitude);
+
+            var location = {lat: latitude, lng: longitude};
+
+            var target = document.getElementById("map_" + id);
+
+            console.log(target);
+
+
+
+            // The map, centered at Uluru
+            var map = new google.maps.Map(target, {
+                zoom: 17, 
+                center: location,
+                styles :
+                [
+                    {
+                        "stylers": [
+                            {
+                                "saturation": -100
+                            },
+                            {
+                                "gamma": 0.8
+                            },
+                            {
+                                "lightness": 4
+                            },
+                            {
+                                "visibility": "on"
+                            }
+                        ]
+                    },
+                    {
+                        "featureType": "landscape.natural",
+                        "stylers": [
+                            {
+                                "visibility": "on"
+                            },
+                            {
+                                "color": "#f3f5f5"
+                            },
+                            {
+                                "gamma": 0
+                            },
+                            {
+                                "lightness": 1
+                            },
+                            {
+                                "saturation": 0
+                            }
+                        ]
+                    }
+                ]
+               
+
+            });
+
+            var image =
+            "/images/map-marker.png";
+
+            console.log(location);
+
+            // The marker, positioned at Location
+            var marker = new google.maps.Marker(
+                {
+                    position: location,
+                    map: map,
+                    icon: image
+                }
+            );
+
+        }
+
+    </script>
+
+        <script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDsQWJbFJU0a-P_ELoC8RgXQsNgL-mgmEU">
+    </script>
+
+
+    <script>
+
+    /* Quand le contact change, on change également les interlocuteurs */
+    $( "div.contact-card" ).click(function() {
+        
+        var contact_id = $(this).data('id');
+
+        //alert(organization_id);
+
+        $("div.no-select").addClass("d-none");
+        $("div.contact").addClass("d-none");
+
+        $(".contact-title").removeClass('active');
+        $(this).find(".contact-title").addClass('active');
+
+        $("div.contact[data-contact='"+ contact_id +"'").removeClass("d-none");
+
+
+        // Gestion de la Map
+        $(".contact-card").removeClass('active');
+        $(this).addClass('active');
+
+        initMap();
+
+
+        
+    });
+
+    </script>
+
 
 {% endblock %}

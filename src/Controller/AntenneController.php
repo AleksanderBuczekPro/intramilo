@@ -20,7 +20,7 @@ class AntenneController extends AbstractController
      */
     public function index(AntenneRepository $repo)
     {
-        $antennes =$repo->findAll();
+        $antennes = $repo->findBy(array(), array('title' => 'ASC'));
 
         return $this->render('admin/antenne/index.html.twig', [
             'antennes' => $antennes
@@ -132,9 +132,9 @@ class AntenneController extends AbstractController
      *
      * @return void
      */
-    public function show(AntenneRepository $antenneRepo){
+    public function show(AntenneRepository $repo){
 
-        $antennes = $antenneRepo->findAll();
+        $antennes = $repo->findBy(array(), array('title' => 'ASC'));
 
         return $this->render('antenne/show.html.twig', [
             'antennes' => $antennes

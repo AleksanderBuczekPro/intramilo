@@ -95,7 +95,8 @@ class InterlocutorController extends AbstractController
 
         return $this->render('interlocutor/edit.html.twig', [
             'form' => $form->createView(),
-            'organization' => $interlocutor->getOrganization()
+            'organization' => $interlocutor->getOrganization(),
+            'interlocutor' => $interlocutor
         ]);
 
     }

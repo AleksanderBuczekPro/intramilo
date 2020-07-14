@@ -19,7 +19,16 @@ class AntenneType extends ApplicationType
             ->add('address', TextType::class, $this->getConfiguration("Adresse", "Adresse"))
             ->add('postcode', NumberType::class, $this->getConfiguration("Code postal", "CP"))
             ->add('city', TextType::class, $this->getConfiguration("Ville", "Entrez la ville"))
+            ->add('latitude', NumberType::class, $this->getConfiguration("Latitude", "47.333498", [
+                'scale' => 6
+            ]))
+            ->add('longitude', NumberType::class, $this->getConfiguration("Longitude", "5.068202", [
+                'scale' => 6
+            ]))
             ->add('phoneNumber', TelType::class, $this->getConfiguration("Téléphone", "Entrez le numéro de téléphone de l'antenne"))
+            ->add('hours', TextType::class, $this->getConfiguration("Horaires", "8h15 - 12h15 / 13h00 - 17h00", [
+                "required" => false
+            ]))
         ;
     }
 

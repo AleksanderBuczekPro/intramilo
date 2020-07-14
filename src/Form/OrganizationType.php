@@ -26,22 +26,22 @@ class OrganizationType extends ApplicationType
             ->add('postcode', NumberType::class, $this->getConfiguration("Code postal", "CP", [
                 'required' => false
             ]))
-            ->add('city', TextType::class, $this->getConfiguration("Ville", "Entrez la ville", [
+            ->add('city', TextType::class, $this->getConfiguration("Ville", "Ville", [
                 'required' => false
             ]))
-            ->add('phoneNumber', TelType::class, $this->getConfiguration("Téléphone", "Entrez le numéro de téléphone de l'organisme", [
+            ->add('phoneNumber', TelType::class, $this->getConfiguration("Téléphone", "Numéro de téléphone", [
                 'required' => false
             ]))
-            ->add('email', EmailType::class, $this->getConfiguration("Email", "Entrez le mail de l'organisme", [
+            ->add('email', EmailType::class, $this->getConfiguration("Email", "Email", [
                 'required' => false
             ]))
-            ->add('website', UrlType::class, $this->getConfiguration("Site web", "Copiez-collez l'URL du site web de l'organisme", [
+            ->add('website', UrlType::class, $this->getConfiguration("Site web", "Copiez-collez l'URL du site web", [
                 'required' => false
             ]))
             ->add('logo', FileType::class, [
 
                 // 'label' => 'Photo de profil (fichier Image)',
-                'label' => "Logo de l'orgnaisme",
+                'label' => "Logo de l'organisme",
 
                 // unmapped means that this field is not associated to any entity property
                 'mapped' => false,

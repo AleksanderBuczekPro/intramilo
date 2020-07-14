@@ -4,25 +4,53 @@
 
 {% block body %}
 
-    <div class="container">
+     <div class="container">
 
         {{ form_start(form) }}
 
         <div class="row">
             <div class="col-md-10 offset-md-1">
 
-                <a href="{{ path('organizations_index') }}" class="btn btn-primary">Retour à la liste des organismes</a>
-                <h1 class="my-5">Ajout d'un interlocuteur à l'organisme {{ organization.name }}</h1>
+                <div class="card my-card no-border p-4 my-box">
+                    <div class="card-body p-4">
+                        <h1 class="my-h1">
+                            Nouveau interlocuteur
+                            <p class="text">pour {{ organization.name }}</p>
+                        </h1>
+                        <div class="row">
 
-                <div class="card">
-                    <div class="card-body">
-                        {{ form_widget(form) }}
-                    
+                            {# Nom #}
+                            <div class="col-md-4">
+                                {{ form_row(form.firstName, { 'attr': {'autocomplete': 'new-password'} }) }}
+                            </div>
+                            <div class="col-md-4">
+                                {{ form_row(form.lastName, { 'attr': {'autocomplete': 'new-password'} }) }}
+                            </div>
+                            <div class="col-md-4"></div>
 
-                        <button type="submit" class="btn btn-success float-right mt-2">
-                            <i class="fas fa-check"></i> Ajouter l'interlocuteur
+                            {# Function #}
+                            <div class="col-md-8">
+                                {{ form_row(form.function, { 'attr': {'autocomplete': 'new-password'} }) }}
+                            </div>
+                            <div class="col-md-4"></div>
+
+                            {# Numéro #}
+                            <div class="col-lg-4 col-md-6">
+                                {{ form_row(form.phoneNumber, { 'attr': {'autocomplete': 'new-password'} }) }}
+                            </div>
+                            <div class="col-lg-8 col-md-6"></div>
+
+                            {# Email #}
+                            <div class="col-md-8">
+                                {{ form_row(form.email, { 'attr': {'autocomplete': 'new-password'} }) }}
+                            </div>
+                            <div class="col-md-4"></div>
+
+                        </div>
+                        <button type="submit" class="btn btn-my-green float-right mt-4">
+                            Créer l'interlocuteur
                         </button>
-                        <a href="{{ path('organizations_index') }}" class="btn btn-outline-danger float-right mr-1 mt-2">Annuler</a>      
+                        <a href="{{ path('organizations_index') }}" class="btn rouge float-right mr-1 mt-4">Annuler</a>      
                     </div>
                 </div>
                 

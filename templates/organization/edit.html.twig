@@ -11,29 +11,65 @@
         <div class="row">
             <div class="col-md-10 offset-md-1">
 
-                <a href="{{ path('organizations_index') }}" class="btn btn-primary">Retour à la liste des organismes</a>
-                <h1 class="my-5">Modification d'un organisme</h1>
-
-                <div class="card">
-                    <div class="card-body">
-                        {{ form_row(form.name) }}
-                        {{ form_row(form.logo) }}   
-                    
+                <div class="card my-card no-border p-4 my-box">
+                    <div class="card-body p-4">
+                        <h1 class="my-h1">
+                            {{ organization.name }}
+                        </h1>
                         <div class="row">
-                            <div class="col-5">{{ form_row(form.address) }}</div>
-                            <div class="col-2">{{ form_row(form.postcode) }}</div>
-                            <div class="col-5">{{ form_row(form.city) }}</div>
-                        </div>
-                        
-                        
-                        {{ form_row(form.phoneNumber) }}
-                        {{ form_row(form.email) }}
-                        {{ form_row(form.website) }}
 
-                        <button type="submit" class="btn btn-success float-right mt-2">
-                            <i class="fas fa-check"></i> Modifer l'organisme
+                            {# Logo / Name #}
+                            <div class="col-md-4">
+                                {{ form_row(form.logo, { 'attr': {'autocomplete': 'new-password'} }) }}
+                            </div>
+                            <div class="col-md-8"></div>
+
+                            <div class="col-md-12">
+                                {{ form_row(form.name, { 'attr': {'autocomplete': 'new-password'} }) }}
+                            </div>
+
+                            {# Adresse #}
+                            <div class="col-lg-4 col-md-6 mt-4">
+                                {{ form_row(form.address, { 'attr': {'autocomplete': 'new-password'} }) }}
+                            </div>
+                            <div class="col-lg-8 col-md-6"></div>
+
+                            {# PostCode #}
+                            <div class="col-lg-4 col-md-6">
+                                {{ form_row(form.postcode, { 'attr': {'autocomplete': 'new-password'} }) }}
+                            </div>
+                            <div class="col-lg-8 col-md-6"></div>
+
+                            {# City #}
+                            <div class="col-lg-4 col-md-6">
+                                {{ form_row(form.city, { 'attr': {'autocomplete': 'new-password'} }) }}
+                            </div>
+                            <div class="col-lg-8 col-md-6"></div>
+
+
+                            {# Phone #}
+                            <div class="col-lg-4 col-md-6 mt-4">
+                                {{ form_row(form.phoneNumber, { 'attr': {'autocomplete': 'new-password'} }) }}
+                            </div>
+                            <div class="col-lg-8 col-md-6"></div>
+
+                            {# Mail #}
+                            <div class="col-lg-4 col-md-6">
+                                {{ form_row(form.email, { 'attr': {'autocomplete': 'new-password'} }) }}
+                            </div>
+                            <div class="col-lg-8 col-md-6"></div>
+
+                            {# Website #}
+                            <div class="col-lg-4 col-md-6">
+                                {{ form_row(form.website, { 'attr': {'autocomplete': 'new-password'} }) }}
+                            </div>
+                            <div class="col-lg-8 col-md-6"></div>
+
+                        </div>
+                        <button type="submit" class="btn btn-my-green float-right mt-4">
+                            Modifier
                         </button>
-                        <a href="{{ path('organizations_index') }}" class="btn btn-outline-danger float-right mr-1 mt-2">Annuler</a>      
+                        <a href="{{ path('organizations_index') }}" class="btn rouge float-right mr-1 mt-4">Annuler</a>      
                     </div>
                 </div>
                 

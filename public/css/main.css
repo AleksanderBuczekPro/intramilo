@@ -3,14 +3,14 @@
     --blue-color: #3a86ff;
     --marine-color: #253858;
     /* --purple-color: #8338ec; */
-    --purple-color: #7839FF;
+    /* --purple-color: #7839FF; */
     --purple-color: #4e3dea;
     --pink-color: #ff006e;
     --orange-color: #fb5607;
     --yellow-color: #ffbe0b;
 
     --red-color: #e20613;
-    --green-color: #29bf12;
+    --green-color: #00bd56;
 
     --light-transparent-color: rgba(255,255,255,0.2);
     --blue-transparent-color: rgba(58,134,255,0.2);
@@ -488,7 +488,7 @@ div.container.backoffice-container{
 
 h1, h2, h3, h4, h5, h6{
 
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Roboto', sans-serif;
     color: black;
     font-weight: 700;
 }
@@ -512,7 +512,8 @@ h3.my-h3{
 
 h4{
     /* margin-top: 60px; */
-    margin-bottom: 40px; 
+    margin-bottom: 40px;
+    font-size: 16px;
 }
 
 h5{
@@ -569,6 +570,13 @@ p.text{
 
     padding-top: 30px;
     padding-bottom: 30px;
+
+}
+
+.contact-list-container{
+    
+    height: 70vh;
+    overflow: auto;
 
 }
 
@@ -843,9 +851,9 @@ table.my-table.admin td.icon.folder i{
 
 }
 
-table.my-table.admin td.letter{
+div.letter{
 
-    width: 30px;
+
     font-weight: 600;
 
 }
@@ -1050,6 +1058,7 @@ table.my-table.admin td.users div.center-cropped{
 .init-circle .init, .nav-item span.init{
     display:table-cell;
     vertical-align:middle;
+    border-radius: 50px;
 
 }
 
@@ -1089,8 +1098,8 @@ td.interlocutor .init-circle{
 }
 .init-circle.medium, div.center-cropped.medium{
 
-    height: 36px;
-    width: 36px;
+    height: 40px;
+    width: 40px;
 
     font-size: 13px;
 
@@ -1318,7 +1327,6 @@ div.card.my-card.box:hover {
   ;
 
   transition: ease-in-out 0.3s;
-
 }
 
 /* Weather */
@@ -1402,7 +1410,7 @@ div.card.my-card div.card-body div.card-title{
 
     color: var(--grey-50-color);
 
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Roboto', sans-serif;
     font-weight: 500;
     font-size: 15px;
 
@@ -1752,7 +1760,7 @@ span.mime{
 div.alert.alert-danger {
 
 	color: black;
-	background-color: transparent;
+	background-color: white;
 	border-left: 6px solid var(--red-color);
 	font-family: "Roboto", "sans serif";
 	font-weight: 600;
@@ -1795,4 +1803,156 @@ ul#pole-list li:hover{
     cursor: grab;
 }
 
+#map{
+    width: 100%;
+    height: 400px;
+    background-color: grey;
+
+}
+
+.contact-tabs a.active{
+
+    background-color: var(--green-color)!important;
+
+}
+
+.contact-card:hover{
+
+    cursor: pointer;
+    background-color: var(--grey-10-color);
+
+}
+
+.contact-icon {
+
+	height: 40px;
+	width: 40px;
+	background-color: var(--grey-10-color);
+	color: var(--grey-40-color);
+	border-radius: 25px;
+	font-size: 15px;
+    line-height: 40px;
+    
+}
+
+.contact-card.active .contact-icon, .contact-card.active:hover {
+
+	background-color: var(--purple-transparent-color);
+	color: var(--purple-color);
+
+    
+}
+
+
+.contact-title {
+	font-family: "Roboto", sans-serif;
+	font-weight: 500;
+	font-size: 15px;
+	color: black;
+}
+
+
+.contact-title.active{
+
+    color: var(--purple-color);
+
+}
+
+.contact-secondary{
+
+    font-size: 13px;
+    color: var(--grey-70-color);
+
+}
+
+div.card.my-card.contact-infos{
+
+    min-height: 300px;
+    
+
+}
+
+.contact-infos .contact-title {
+    font-size: 27px;
+    font-weight: 400;
+    line-height: 40px;
+
+}
+
+.contact-infos .contact-secondary {
+	font-size: 15px;
+}
+
+.contact-info {
+
+	line-height: 16px;
+	font-weight: 500;
+	font-size: 15px;
+	padding-top: 8px;
+    padding-bottom: 8px;
+    
+}
+
+.contact-info:hover{
+
+    background-color: var(--grey-10-color);
+    cursor: pointer;
+
+
+}
+
+.contact-info:hover i.copy{
+
+    color: var(--grey-70-color);
+
+
+}
+
+.contact-info a:hover{
+
+    text-decoration: underline!important;
+
+
+}
+
+.contact-info i{
+
+    font-size: 20px;
+
+    color: var(--purple-color);
+
+    margin-right: 8px;
+
+}
+
+.contact-info i.copy{
+
+    font-size: 15px;
+
+    color: transparent;
+    margin: 3px 10px 3px;
+
+}
+
+.contact-map{
+
+    min-height: 400px;
+    min-width: 150px;
+
+    border-radius: 8px!important;
+
+}
+
+div.card.my-card.contact-user{
+
+    border-radius: 8px;
+
+}
+
+.contact-user .name{
+
+    font-size: 15px;
+    font-weight: 500;
+
+}
 

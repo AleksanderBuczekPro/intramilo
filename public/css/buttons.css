@@ -168,24 +168,23 @@ a.intramilo{
 
 .btn.btn-my-dark{
 
-    background: var(--grey-20-color);
+    background: var(--grey-15-color);
     color:black;
 
-    font-weight: 600;
+    font-weight: 500;
 
 }
 
 .btn.btn-my-dark:hover{
 
-    background: black;
-    color:white;
+    background: var(--grey-20-color);
 
 }
 
-.btn.btn-my-secondary{
+.btn.btn-my-secondary, .badge.secondary{
 
-    background: var(--grey-10-color);
-    color: black;
+    background: var(--grey-15-color);
+    color: black!important;
 
 
 }
@@ -203,10 +202,26 @@ a.intramilo{
 }
 
 
+.badge.secondary{
+
+    font-size: 11px;
+    background: var(--grey-70-color);
+    color: white!important;
+
+}
+
+.contact-card.active .badge.secondary{
+
+    background-color: var(--purple-color);
+    color: white!important;
+
+}
+
+
 .btn.btn-my-primary, .btn.btn-my-primary.active:hover{
 
     background: var(--purple-color);
-    color: white;
+    color: white!important;
 
 }
 
@@ -273,6 +288,31 @@ a.intramilo{
 
 }
 
+.btn.btn-my-danger{
+
+    background: var(--red-transparent-color);
+    color: var(--red-color);
+
+
+
+}
+
+.btn.btn-my-danger{
+
+    background: var(--red-transparent-color);
+    color: var(--red-color);
+
+
+
+}
+
+.btn.btn-my-green{
+
+    background: var(--green-color);
+    color: white!important;
+
+
+}
 
 
 .btn.btn-my-return{
@@ -544,6 +584,15 @@ ul li a.my-pill.active{
     color: var(--purple-color)!important;
 
 
+}
+
+.profile-btn {
+	border-radius: 25px;
+	background-color: var(--grey-15-color);
+	padding: 8px 17px;
+	margin-top: 16px;
+	margin-right: 40px;
+	margin-left: 40px;
 }
 
 

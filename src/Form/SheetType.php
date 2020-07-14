@@ -168,12 +168,12 @@ class SheetType extends ApplicationType
                     ],
                 ])
                 ->add('save', SubmitType::class, [
-                    'label' => 'Sauvegarder',
+                    'label' => 'Envoyer à valider',
                     'attr' => ['class' => 'btn btn-my-primary white w-100 px-2']
                     
                 ])
                 ->add('saveDraft', SubmitType::class, [
-                    'label' => 'Brouillon',
+                    'label' => 'Enregister en brouillon',
                     'attr' => ['class' => 'btn btn-my-dark dark w-100 px-2']
                 ])
             ;

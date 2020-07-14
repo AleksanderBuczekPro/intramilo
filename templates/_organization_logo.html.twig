@@ -11,9 +11,11 @@
     {% set lastName = user.lastName|split('') %}
 
     {% set initiales = firstName[0]|upper ~ lastName[0]|upper %} #}
+
+
     <div class="init-circle {{ class }} align-middle">
-        <span class="init bg-grey my-br my-box">
-            <i class="uil uil-building black op-70"></i>
+        <span class="init bg-grey contact-icon">
+            <i class="fas fa-building"></i>
         </span>
     </div>
 

@@ -32,10 +32,10 @@
                         </a>
                     </li>
                     <li class="nav-item px-2">
-                        <a class="nav-link antennes {% if app.request.attributes.get('_route') starts with 'antennes' %}active{% endif %}" href="{{ path('antennes_show') }}">
+                        <a class="nav-link antennes {% if app.request.attributes.get('_route') starts with 'antennes' or app.request.attributes.get('_route') starts with 'organization' or app.request.attributes.get('_route') starts with 'users' %}active{% endif %}" href="{{ path('antennes_show') }}">
                         
                         {# <i class="uil uil-map"></i> #}
-                        Antennes
+                        Annuaire
                         
                         </a>
                     </li>
@@ -109,7 +109,7 @@
                                         <span class="input-group-text bg-white px-2" id="basic-addon1"><i class="uil uil-search"></i></span>
                                     </div> #}
                                     <form action="{{ path('search_index') }}" method="get" class="inline-block">
-                                        <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="Recherche" name="q" required
+                                        <input type="text" class="form-control mt-2" id="formGroupExampleInput2" placeholder="Recherche" name="q" required
                                         value="{% if query is defined %}{{ query }}{% endif %}">
                                     </form>
                                 </span>
@@ -194,9 +194,9 @@
 
 {% for label, messages in app.flashes %}
     <div class="container">
-        <div class="alert alert-{{ label }}">
+        <div class="alert alert-{{ label }} my-box">
             {% for message in messages %}
-            <p>{{ message | raw}}</p>    
+            <p class="mb-0">{{ message | raw}}</p>    
             {% endfor %}
         </div>
     </div>

@@ -87,6 +87,7 @@
                 $('#registration_directNumber, #admin_account_directNumber').inputmask("999");  //static mask
 
                 $('#antenne_postcode, #organization_postcode').inputmask("99999");  //static mask
+                $('#antenne_hours').inputmask("99h99 - 99h99[ / 99h99 - 99h99]");  //static mask
 
                 $('#antenne_city, #registration_lastName, #admin_account_lastName, #organization_city').keyup(function(){
                     $(this).val($(this).val().toUpperCase());
