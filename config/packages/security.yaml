@@ -64,4 +64,4 @@ security:
         - { path: ^/admin, roles: ROLE_ADMIN }
         - { path: ^/doc, roles: ROLE_USER }
         # catch all other URLs
-        - { path: '^/', roles: ROLE_USER, requires_channel: https }
+        - { path: '^/', roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
