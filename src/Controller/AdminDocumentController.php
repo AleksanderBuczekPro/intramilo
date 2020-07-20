@@ -35,14 +35,7 @@ class AdminDocumentController extends AbstractController
             'filesUpToDate' => $files['filesUpToDate'],
             'filesWellObsolete' => $files['filesWellObsolete'],
             'filesObsolete' => $files['filesObsolete']
-            // 'filesToValidate' => "",
-            // 'filesToCorrect' =>"",
-            // 'filesUpToDate' => "",
-            // 'filesWellObsolete' => "",
-            // 'filesObsolete' => "",
-            // 'subCategories' => "",
-            // 'groupes' => "",
-            // 'users' => ""
+
         ]);
 
     }

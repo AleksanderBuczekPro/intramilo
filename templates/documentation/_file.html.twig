@@ -133,6 +133,7 @@
                 <td class="w-75 align-top">
                     <div class="category-front">
                         <span class="badge pole"> {{ file.subcategory.category.pole|upper }}</span>
+
                     </div>
                     <a href="{{ path }}">
                         <div class="file-title pr-3">
@@ -141,14 +142,14 @@
                             {% else %}
                                 {{ file.title }}
                             {% endif %}
-                            {# <i class="fas fa-{{icon}}-circle {{state_class}} fa-xs"></i> #}
+                            {# <i class="fas fa-{{icon}} {{state_class}} fa-xs"></i> #}
                         </div>
                     </a>
                     <div class="w-100">
-                        <span class="my-secondary marine date">
+                        <span class="date">
                             {# {{ file.updatedAt|localizeddate('none', 'none', 'fr', null, 'd MMMM Y') }} • {{ file.views }} vue{% if file.views > 1 %}s{% endif %} #}
 
-                            {{ file.updatedAt|localizeddate('none', 'none', 'fr', null, 'd MMMM Y') }}  • {{ file.views }} vue{% if file.views > 1 %}s{% endif %}
+                            <i class="fas fa-{{icon}} {{state_class}}"></i> <span class="ml-1">{{ file.updatedAt|localizeddate('none', 'none', 'fr', null, 'd MMMM Y') }}  • {{ file.views }} vue{% if file.views > 1 %}s{% endif %}</span>
                             {# {{ file.organization }} #}
                                 {# • {{ file.views }} vue{% if file.views > 1 %}s{% endif %} #}
                             {# {% if type == 'document' %}

@@ -4,7 +4,327 @@
 
 {% block body %}
 
-    <div class="container">
+<div class="container">
+
+    <div class="row account-header">
+
+        <div class="col-12">
+            <div class="card my-card no-border my-box pb-0">
+
+                {# Header #}
+                <div class="w-100 header-profile-card" style="background-image: linear-gradient(0deg, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0) 70%), url({{ asset('images/account2.jpg') }});">
+
+                    <div class="row">
+                        <div class="col-12 col-md-auto">
+                            <div style="width: 180px;" class="text-center">
+
+                                <div class="account-picture">
+                                    {% include '_picture.html.twig' with {'user': user, 'class': 'large'} %}
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="col-md account-title">
+
+                                <div class="w-100 account-name">{{ user.fullName }}</div>
+                                <div class="w-100 account-poste">
+
+                                    {{ user.poste }} <span class="badge">{{ user.groupe }}</span>
+
+                                </div>
+
+                                {# <div class="account-antenne">
+                                    <i class="fas fa-map-marker-alt mr-1"></i> {{ user.antenne }}
+                                </div> #}
+
+                                {# <div>
+                                    {% if user.introduction %}
+                                        <span class="introduction">{{ user.introduction }}</span>
+                                    {% endif %}
+                                </div> #}
+
+                                <div class="stat-table">
+
+                                    <table class="my-table no-border">
+                                        <tr>
+                                            <td class="text-center stat">{{ user.sheets|length + user.documents|length}} </td>
+                                            <td class="text-center stat">{{ user.subCategories|length }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-center pb-3 px-2 pt-0 op-70 txt">Fiches / Documents</td>
+                                            <td class="text-center pb-3 px-3 pt-0 op-70 txt">Sous-catégories</td>
+                                        </tr>
+                                    </table>
+
+                                </div>
+                        
+                        </div>
+                    
+                    </div>
+                
+                </div>
+                
+                <div class="account-nav px-4">
+                    <hr class="mt-4 mb-0">
+                    
+                    {# <a href="" class="btn active no-br mt-1">Accueil</a>
+                    <a href="" class="btn no-br mt-1">Groupe</a>
+                    <a href="" class="btn no-br mt-1">Evenements</a> #}
+
+                    <nav>
+                        <div class="nav nav-tabs no-border" id="nav-tab" role="tablist">
+                            <a class="nav-item nav-link active btn no-br mt-1" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Accueil</a>
+                            <a class="nav-item nav-link btn no-br mt-1" id="nav-groupe-tab" data-toggle="tab" href="#nav-groupe" role="tab" aria-controls="nav-groupe" aria-selected="false">Groupe</a>
+                            <a class="nav-item nav-link btn no-br mt-1" id="nav-event-tab" data-toggle="tab" href="#nav-event" role="tab" aria-controls="nav-event" aria-selected="false">Evenements</a>
+                            
+                            <span class="py-2 ml-auto">
+                                <a href="{{ path('account_picture_edit', { 'id': user.id }) }}" class="btn btn-my-secondary float-right py-2 px-3 mt-0 no-border">Modifier mon profil</a>
+                            </span>
+                        
+                        </div>
+                    </nav>
+                    
+
+                    
+                    
+                
+                </div>
+                    
+        
+        
+            </div>
+        
+        </div>
+
+    </div>
+
+    <div class="row">
+
+        {# Sidebar #}
+        <div class="col-12 col-md-auto mt-3">
+            <div style="width: 350px;" class="account-sidebar">
+
+                <div class="card my-card no-border my-box mt-2 infos-card">
+
+                    <div class="card-body p-4">
+
+                        <h5>A propos</h5>
+
+                        <div class="mb-2">
+                            <table class="my-table no-border">
+
+                                {# Antenne #}
+                                <tr>
+                                    <td class="info-icon">
+                                        <i class="fas fa-map-marker-alt"></i>
+                                    </td>
+                                    <td class="info-content">
+                                        <span class="info">{{ user.antenne }}</span>
+                                    </td>
+                                </tr>
+
+                                {# Phone Number #}
+                                <tr>
+                                    <td class="info-icon">
+                                        <i class="fas fa-phone-alt"></i>
+                                    </td>
+                                    <td class="info-content">
+                                       <span class="info">{{ user.phoneNumber }} </span> <span class="badge secondary p-1 ml-1 align-middle">{{ user.directNumber }}</span><br>
+                                       {% if user.proNumber %} <span class="info">{{ user.proNumber }}</span> (pro)  {% endif %}
+                                    </td>
+                                </tr>
+                                
+                                {# Email #}
+                                <tr>
+                                    <td class="info-icon">
+                                        <i class="fas fa-envelope"></i>
+                                    </td>
+                                    <td class="info-content">
+                                       <span class="info"><a class="violet" href="mailto:{{user.email}}">{{ user.email }}</a></span>
+                                    </td>
+                                </tr>
+
+                                {# Introduction #}
+                                {% if user.introduction %}
+
+                                    <tr>
+                                        <td class="info-icon">
+                                            <i class="fas fa-briefcase"></i>
+                                        </td>
+                                        <td class="info-content">
+                                        <span class="info">{{ user.introduction }}</span>
+                                        </td>
+                                    </tr>
+
+                                {% endif %}
+
+                                {# SubCategories #}
+                                <tr>
+                                    <td class="info-icon">
+                                        <i class="fas fa-folder-open"></i>
+                                    </td>
+                                    <td class="info-content">
+                                        <span class="info">
+                                            
+                                            {% for sub in user.subCategories %}
+
+                                                    <a href="{{ path('doc_show', { 'slug': sub.category.slug, 'sub_slug': sub.slug }) }}" class="black"><span class="violet">{{ sub }}</span></a>
+                                                    {% if not loop.last %}
+                                                    ,
+                                                    {% endif %}
+
+
+                                            {% endfor %}
+
+                                            
+                                        </span>
+                                    </td>
+                                </tr>
+
+                                {# CreatedAt #}
+                                <tr>
+                                    <td class="info-icon">
+                                        <i class="fas fa-clock"></i>
+                                    </td>
+                                    <td class="info-content">
+                                       <span class="info">Membre depuis {{ user.createdAt|localizeddate('none', 'none', 'fr', null, 'MMMM Y')|capitalize }}</span>
+                                    </td>
+                                </tr>
+
+                            </table>
+                             
+                        </div>
+
+                    </div>      
+                
+                </div>
+
+
+            </div>
+        </div>
+
+
+        {# Content #}
+        <div class="col-12 col-md mt-4 account-content">
+
+            <div class="tab-content" id="nav-tabContent">
+
+                {# Home #}
+                <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                    
+                    {# A corriger #}
+                    {% for file in filesToCorrect %}
+                        {% include 'documentation/_file.html.twig' %}
+                    {% endfor %}
+
+                    {# En attente de validation #}
+                    {% for file in filesToValidate %}
+                        {% include 'documentation/_file.html.twig' %}
+                    {% endfor %}
+                    
+                    {# Obsolète #}
+                    {% for file in filesObsolete %}
+                        {% include 'documentation/_file.html.twig' %}
+                    {% endfor %}
+
+                    {# Bientôt obsolète #}
+                    {% for file in filesWellObsolete %}
+                        {% include 'documentation/_file.html.twig' %}
+                    {% endfor %}
+                    
+                    {# A jour #}
+                    {% for file in filesUpToDate %}
+                        {% include 'documentation/_file.html.twig' %}
+                    {% endfor %}
+
+
+                </div>
+
+                {# Groupe #}
+                <div class="tab-pane fade" id="nav-groupe" role="tabpanel" aria-labelledby="nav-groupe-tab">
+
+
+                    
+                    <div class="row">
+
+                        <div class="col-12">
+
+                                <div class="card my-card no-border mt-0 my-box">
+
+                                    <div class="card-body">
+                                        <h5 class="mb-0">Groupe</h5>
+                                        <p class="text">{{ user.groupe }}</p>
+
+                                            <div class="row px-3">
+
+                                                {% for u in user.groupe.users %}
+
+                                                    {% if u != user %}
+
+                                                    <div class="col-6 px-1">
+                                                        <div class="card my-card contact-user mt-0">
+                                                            <table class="my-table no-border">
+                                                                <tr>
+                                                                    <td class="picture">
+                                                                        {% include '_picture.html.twig' with {'user': u, 'class': 'medium'} %}
+                                                                    </td>
+                                                                    <td>
+                                                                        <div class="main">{{ u }}</div>
+                                                                        <div class="my-secondary">{{ u.poste }}</div>
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
+                                                        
+                                                        </div>
+                                                    </div>
+
+                                                    {% endif %}
+
+                                                {% endfor %}
+                                            </div>
+                                    </div>
+                                    
+                                </div>
+
+                        </div>
+                        
+                    </div>
+                
+                </div>
+
+                {# Events #}
+                <div class="tab-pane fade" id="nav-event" role="tabpanel" aria-labelledby="nav-event-tab">
+
+                    <div class="row">
+
+                        <div class="col-12">
+
+                                <div class="card my-card no-border mt-0 my-box">
+
+                                    <div class="card-body">
+                                        <h5 class="">Evénements</h5>
+
+                                        <p class="text my-4">
+                                             En cours de développement.
+                                           
+                                        </p>
+                                    </div>
+                                    
+                                </div>
+
+                        </div>
+                
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+
+</div>
+
+    {# <div class="container">
         <div class="row mb-5">
             <div class="col-3 text-center">
                 <div class="card profile-card documentation text-center py-3">
@@ -44,7 +364,7 @@
                                 
 
                                 <span class="mt-3">
-                                    {# <a href="{{ path('account_profile') }}" class="btn btn-primary mr-2 mb-2">Modifier mes informations</a> #}
+                                   
                                     
                                 </span>
                                 
@@ -73,16 +393,7 @@
                                     {% for subCategory in user.subCategories %}
 
                                         <a href="{{ path('doc_show', {'slug': subCategory.category.slug, 'sub_slug': subCategory.slug }) }}" class="btn btn-sm btn-pill btn-outline-secondary m-1 profile">{{ subCategory.title|upper }}</a>
-                                        
-                                        {# <div class="col-3">
-                                            <div class="card mb-4">
-                                                <div class="card-body">
-                                                    <span class="badge badge-primary">{{ subCategory.category.title }}</span>
-                                                    <a href=""><h5 class="mt-3 card-title">{{ subCategory.title }}</h5></a>
-                                                    
-                                                </div>
-                                            </div>
-                                        </div>          #}
+
 
                                     {% endfor %}
                                 
@@ -102,6 +413,6 @@
             </div>
         </div>
 
-    </div>
+    </div> #}
 
 {% endblock %}

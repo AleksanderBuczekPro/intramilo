@@ -8,9 +8,9 @@
 
 nav ul li a.nav-link {
 	font-size: 16px;
-	font-family: 'Roboto', 'sans serif';
-	font-weight: 600;
-	letter-spacing: 0.1px;
+	font-family: 'Fira Sans', 'sans serif';
+	font-weight: 500;
+	/* letter-spacing: 0.1px; */
 }
 
 nav ul li a.nav-link i{

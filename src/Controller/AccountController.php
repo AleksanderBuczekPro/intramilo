@@ -521,10 +521,19 @@ class AccountController extends AbstractController
      * 
      * @return Response
      */
-    public function myAccount() {
-        
+    public function myAccount(SheetRepository $sheetRepo, UserRepository $userRepo, Filter $filter) {
+
+        $files = $filter->getFiles($this->getUser(), $userRepo, $sheetRepo);
+    
         return $this->render('user/index.html.twig', [
+
+            'filesToValidate' => $files['filesToValidate'],
+            'filesToCorrect' => $files['filesToCorrect'],
+            'filesUpToDate' => $files['filesUpToDate'],
+            'filesWellObsolete' => $files['filesWellObsolete'],
+            'filesObsolete' => $files['filesObsolete'],
             'user' => $this->getUser()
+
         ]);
 
     }

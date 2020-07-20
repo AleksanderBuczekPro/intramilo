@@ -587,12 +587,27 @@ ul li a.my-pill.active{
 }
 
 .profile-btn {
-	border-radius: 25px;
+
 	background-color: var(--grey-15-color);
-	padding: 8px 17px;
-	margin-top: 16px;
-	margin-right: 40px;
-	margin-left: 40px;
+	margin-top: 17px;
+	padding: 5px 15px 5px 5px;
+	font-size: 14px;
+	font-weight: 500;
+	border-radius: 25px;
+
+}
+
+.profile-btn .center-cropped, .profile-btn .init-circle {
+
+    height: 30px!important;
+    width: 30px!important;
+    
+}
+
+.profile-btn span{
+
+    vertical-align: middle;
+
 }
 
 
