@@ -33,7 +33,7 @@ class PoleController extends AbstractController
     /**
      * @Route("/admin/pole/add", name="admin_pole_create")
      */
-    public function create(Request $request, EntityManagerInterface $manager, Color $color)
+    public function create(Request $request, EntityManagerInterface $manager, Color $color, PoleRepository $repo)
     {
         $pole = new Pole();
 
@@ -84,6 +84,7 @@ class PoleController extends AbstractController
 
             // On sélectionne une couleur
             $pole->setColor($color->getPoleColor());
+            $pole->setPlace(count($repo->findAll()));
 
             $manager->persist($pole);
             $manager->flush();

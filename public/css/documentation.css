@@ -536,6 +536,18 @@ div.sheet-introduction, div.sheet-introduction p, div.sheet-introduction li{
 
 }
 
+#block_introduction{
+
+    z-index: 0;
+
+}
+
+.modal-dialog{
+
+    z-index: 50;
+
+}
+
 /* div.sheet-content li:before {
     color: var(--blue-color);
 } */

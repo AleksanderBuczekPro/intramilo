@@ -89,7 +89,7 @@
 
                         {# Ajout rapide #}
                         <div class="dropdown nav-btn float-right mx-1">
-                            <button class="btn snav-hover larger" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <button class="btn nav-hover larger" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="uil uil-plus"></i>
                             </button>
                             <div class="dropdown-menu dropdown-menu-right my-dropdown no-border box" aria-labelledby="dropdownMenuButton">
@@ -114,7 +114,7 @@
                                 <i class="uil uil-web-grid"></i>
                             </a> #}
 
-                            <a href="" class="btn profile-btn">
+                            <a href="{{ path('account_index') }}" class="btn profile-btn {% if app.request.attributes.get('_route') starts with 'account' %} active {% endif %}">
                                 {% include '_picture.html.twig' with {'user': app.user, 'class': 'small'} %}
                                 
                                 <span class="ml-1"> {{ app.user.firstName }}</span>
@@ -261,7 +261,7 @@
             {% for sub in app.user.subCategories %}
 
                     <div class="select-sub" data-href="{{ path('sheet_create_sub', {'id': sub.id}) }}">
-                        {{ sub }}
+                        {{ sub.category }} - {{ sub }}
                     </div>
 
             {% endfor %}
@@ -294,7 +294,7 @@
             {% for sub in app.user.subCategories %}
 
                     <div class="select-sub" data-href="{{ path('document_create_sub', {'id': sub.id}) }}">
-                        {{ sub }}
+                        {{ sub.category }} - {{ sub }}
                     </div>
 
             {% endfor %}

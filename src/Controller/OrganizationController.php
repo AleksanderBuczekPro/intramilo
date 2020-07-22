@@ -97,7 +97,7 @@ class OrganizationController extends AbstractController
 
             );
 
-            return $this->redirectToRoute('organizations_index');
+            return $this->redirectToRoute('organizations_index' , [ 'id' => $organization->getId() ]);
         
         }
 

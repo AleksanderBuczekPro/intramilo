@@ -53,7 +53,7 @@ class InterlocutorController extends AbstractController
 
             );
 
-            return $this->redirectToRoute('organizations_index');
+            return $this->redirectToRoute('organizations_index', [ 'id' => $interlocutor->getOrganization()->getId() ]);
         
         }
 
@@ -89,7 +89,7 @@ class InterlocutorController extends AbstractController
 
             );
 
-            return $this->redirectToRoute('organizations_index');
+            return $this->redirectToRoute('organizations_index' , [ 'id' => $interlocutor->getOrganization()->getId() ]);
         
         }
 
@@ -149,7 +149,7 @@ class InterlocutorController extends AbstractController
 
         );
 
-        return $this->redirectToRoute('organizations_index');
+        return $this->redirectToRoute('organizations_index', [ 'id' => $interlocutor->getOrganization()->getId() ]);
 
 
 

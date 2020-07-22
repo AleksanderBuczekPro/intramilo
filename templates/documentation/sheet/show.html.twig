@@ -180,7 +180,7 @@
 
                     <div class="row mt-4">
                         <div class="col-12">
-                            <button id="toggle-c" class="btn btn-my-secondary small bg-marine marine float-right mb-2">Tout déplier <i class="uil uil-angle-down"></i></button>
+                            <button id="toggle-c" class="btn btn-my-secondary small bg-marine marine float-right mb-2 {% if sheet.paragraphs|length < 1 %} d-none {% endif %}">Tout déplier <i class="uil uil-angle-down"></i></button>
                             {# <button id="hide-c" class="btn btn-my-secondary small bg-marine marine float-right mr-2 mb-2 px-3 py-2">Tout replier <i class="uil uil-angle-up"></i></button> #}
                         </div>
                     </div>

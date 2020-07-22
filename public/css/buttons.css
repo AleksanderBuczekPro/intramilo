@@ -67,7 +67,7 @@ a.intramilo{
 
 }
 
-.navbar button[aria-expanded="true"], .navbar .nav-hover[aria-expanded="true"], .navbar .nav-hover:hover{
+.navbar button[aria-expanded="true"], .navbar .nav-hover[aria-expanded="true"], .navbar .nav-hover:hover, .profile-btn:hover, .profile-btn.active{
 
     background-color: var(--purple-transparent-color)!important;
     color: var(--purple-color)!important;

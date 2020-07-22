@@ -13,6 +13,7 @@ use App\Entity\SubCategory;
 use App\Entity\Organization;
 use App\Repository\SheetRepository;
 use App\Repository\DocumentRepository;
+use App\Repository\OrganizationRepository;
 use Symfony\Component\Form\AbstractType;
 use App\Repository\SubCategoryRepository;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
@@ -47,8 +48,12 @@ class SheetType extends ApplicationType
                 'label' => "Organisme",
                 'placeholder' => "Sélectionnez un organisme",
                 'class' => Organization::class,
-                'choice_label' => function($organization){
-                    return $organization->getName();
+                'choice_label' => function($user){
+                    return $user->getName();
+                },
+                'query_builder' => function (OrganizationRepository $or) {
+                    return $or->createQueryBuilder('o')
+                        ->orderBy('o.name', 'ASC');
                 }
             ])
             // ->add('content', CKEditorType::class, $this->getConfiguration("Texte", "Ici le contenu de la fiche"))

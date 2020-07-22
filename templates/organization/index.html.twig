@@ -106,7 +106,7 @@
 
                     <div class="col-md-12 pl-0">
 
-                            <div class="card my-card no-border contact-infos no-select no-br mt-0">
+                            <div class="card my-card no-border contact-infos no-select no-br mt-0 {% if app.request.get('id') %} d-none {% endif %}">
                                 <div class="card-body">
                                     <p class="text">Sélectionnez un contact pour afficher ses informations</p>
                                 </div>
@@ -115,7 +115,7 @@
                             {% for organization in organizations %}
                             
 
-                                <div class="card my-card no-border contact-infos contact my-box no-br mt-0 p-4 d-none" data-contact="{{ organization.id }}">
+                                <div class="card my-card no-border contact-infos contact my-box no-br mt-0 p-4 {% if app.request.get('id') != organization.id %} d-none {% endif %}" data-contact="{{ organization.id }}">
                                     {# <div class="contact-map" id="map_{{ antenne.id }}"></div> #}
                                     <div class="card-body">
 

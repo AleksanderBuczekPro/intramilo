@@ -9,16 +9,16 @@
     <div class="row account-header">
 
         <div class="col-12">
-            <div class="card my-card no-border my-box pb-0">
+            <div class="card my-card no-border my-box pb-0 mt-0">
 
                 {# Header #}
-                <div class="w-100 header-profile-card" style="background-image: linear-gradient(0deg, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0) 70%), url({{ asset('images/account2.jpg') }});">
+                <div class="w-100 header-profile-card my-box" style="background-image: linear-gradient(0deg, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0) 70%), url({{ asset('images/account.jpg') }});">
 
                     <div class="row">
                         <div class="col-12 col-md-auto">
                             <div style="width: 180px;" class="text-center">
 
-                                <div class="account-picture">
+                                <div class="account-picture my-box">
                                     {% include '_picture.html.twig' with {'user': user, 'class': 'large'} %}
                                 </div>
 
@@ -30,6 +30,12 @@
                                 <div class="w-100 account-poste">
 
                                     {{ user.poste }} <span class="badge">{{ user.groupe }}</span>
+                                    
+                                    {% if is_granted('ROLE_ADMIN') %}
+                                    
+                                        <span class="badge">Administrateur</span>
+
+                                    {% endif %}
 
                                 </div>
 
@@ -49,11 +55,21 @@
                                         <tr>
                                             <td class="text-center stat">{{ user.sheets|length + user.documents|length}} </td>
                                             <td class="text-center stat">{{ user.subCategories|length }}</td>
+                                            
+                                            {% if user.adminGroupes|length > 0 %}
+                                                <td class="text-center stat">{{ user.adminGroupes|length }}</td>
+                                            {% endif %}
+
                                         </tr>
                                         <tr>
                                             <td class="text-center pb-3 px-2 pt-0 op-70 txt">Fiches / Documents</td>
                                             <td class="text-center pb-3 px-3 pt-0 op-70 txt">Sous-catégories</td>
+                                            {% if user.adminGroupes|length > 0 %}
+                                            <td class="text-center pb-3 px-3 pt-0 op-70 txt">Dossiers suivis</td>
+                                            {% endif %}
                                         </tr>
+
+                                        
                                     </table>
 
                                 </div>
@@ -76,6 +92,12 @@
                             <a class="nav-item nav-link active btn no-br mt-1" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Accueil</a>
                             <a class="nav-item nav-link btn no-br mt-1" id="nav-groupe-tab" data-toggle="tab" href="#nav-groupe" role="tab" aria-controls="nav-groupe" aria-selected="false">Groupe</a>
                             <a class="nav-item nav-link btn no-br mt-1" id="nav-event-tab" data-toggle="tab" href="#nav-event" role="tab" aria-controls="nav-event" aria-selected="false">Evenements</a>
+
+                            {% if user.adminGroupes|length > 0 %}
+
+                                <a class="nav-item nav-link btn no-br mt-1" id="nav-admin-tab" data-toggle="tab" href="#nav-admin" role="tab" aria-controls="nav-admin" aria-selected="false">Suivi de la documentation</a>
+
+                            {% endif %}
                             
                             <span class="py-2 ml-auto">
                                 <a href="{{ path('account_picture_edit', { 'id': user.id }) }}" class="btn btn-my-secondary float-right py-2 px-3 mt-0 no-border">Modifier mon profil</a>
@@ -209,8 +231,29 @@
 
             <div class="tab-content" id="nav-tabContent">
 
+                
                 {# Home #}
                 <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+
+                    <div class="card my-card no-border my-box mt-0 mb-4">
+                        <div class="card-body pb-2">
+                            <h5>Documentation</h5>
+                            <div class="row">
+                                <div class="col-6 pr-2">
+                                    <button data-toggle="modal" data-target="#subModalSheet" data-title="Nouvelle fiche" class="btn btn-my-secondary w-100">
+                                    {# <i class="far fa-file mr-3 violet"></i> #}
+                                    Créer une fiche
+                                    </button>
+                                </div>
+                                <div class="col-6 pl-2">
+                                    <button data-toggle="modal" data-target="#subModalDocument" data-title="Nouveau document" class="btn btn-my-secondary w-100">
+                                    {# <i class="fas fa-file-upload mr-3 violet"></i> #}
+                                    Importer un document
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     
                     {# A corriger #}
                     {% for file in filesToCorrect %}
@@ -322,6 +365,73 @@
     </div>
 
 
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade bd-example-modal-lg" id="subModalSheet" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content p-3">
+      <div class="modal-header no-border pb-0">
+        <h4 class="modal-title m-0" id="exampleModalLabel">Nouvelle fiche<span class="font-weight-light"> - Dans quelle sous-catégorie ?</span></h4>
+        
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        
+      </div>
+      {# <p class="px-3 text">Si la sous-catégorie où vous voulez ajouter la fiche n'apparaît pas, contactez votre responsable.</p> #}
+      {# <p class="px-3 op-70">Voici les sous-catégories où vous êtes autorisés à ajouter une nouvelle fiche</p> #}
+      <div class="modal-body">
+
+            {% for sub in app.user.subCategories %}
+
+                    <div class="select-sub" data-href="{{ path('sheet_create_sub', {'id': sub.id}) }}">
+                        {{ sub.category }} - {{ sub }}
+                    </div>
+
+            {% endfor %}
+
+
+      </div>
+      <div class="modal-footer no-border">
+        
+        <button type="button" class="btn rouge" data-dismiss="modal">Annuler</button>
+        <a type="button" href="" class="btn btn-my-primary add disabled">C'est parti !</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade bd-example-modal-lg" id="subModalDocument" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content p-3">
+      <div class="modal-header no-border pb-0">
+        <h4 class="modal-title m-0" id="exampleModalLabel">Nouveau document<span class="font-weight-light"> - Dans quelle sous-catégorie ?</span></h4>
+        
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        
+      </div>
+      {# <p class="px-3 op-70">Voici les sous-catégories où vous êtes autorisés à ajouter une nouvelle fiche</p> #}
+      <div class="modal-body">
+
+            {% for sub in app.user.subCategories %}
+
+                    <div class="select-sub" data-href="{{ path('document_create_sub', {'id': sub.id}) }}">
+                        {{ sub.category }} - {{ sub }}
+                    </div>
+
+            {% endfor %}
+
+      </div>
+      <div class="modal-footer no-border">
+        <button type="button" class="btn rouge" data-dismiss="modal">Annuler</button>
+        <a type="button" href="" class="btn btn-my-primary add disabled">C'est parti !</a>
+      </div>
+    </div>
+  </div>
 </div>
 
     {# <div class="container">

@@ -513,7 +513,7 @@ h3.my-h3{
 h4{
     /* margin-top: 60px; */
     margin-bottom: 40px;
-    font-size: 16px;
+    /* font-size: 16px; */
 }
 
 h5{
@@ -2012,20 +2012,19 @@ form.search-form input{
 
 .account-title .account-name {
 	position: absolute;
-	bottom: 33px;
-	font-size: 22px;
-	font-weight: 600;
+	bottom: 37px;
+	font-size: 25px;
+	font-weight: 800;
 	line-height: 40px;
-    font-family: "Roboto", sans-serif;
-    color: white;
-
+	font-family: "Roboto", sans-serif;
+	color: white;
+	/* letter-spacing: 0.5px; */
 }
-
 .account-title .account-poste {
 	position: absolute;
 	bottom: 16px;
 	font-family: "Roboto", sans-serif;
-	font-size: 15px;
+	font-size: 16px;
     font-weight: 400;
     color: white;
 }

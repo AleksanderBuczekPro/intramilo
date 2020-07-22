@@ -78,8 +78,7 @@ class AppFixtures extends Fixture
                 }
         }
 
-        // // Gestion des antennes 
-        $antennes = [];
+        // // Gestion des antennes        $antennes = [];
 
         $antenneNames = array(
             'Centre-Ville',
@@ -101,6 +100,8 @@ class AppFixtures extends Fixture
                     ->setAddress($faker->streetAddress())
                     ->setPostcode(21000)
                     ->setCity($city)
+                    ->setLatitude(47.324098)
+                    ->setLongitude(5.037072)
                     ->setPhonenumber($faker->e164PhoneNumber());
 
             $manager->persist($antenne);
@@ -258,6 +259,7 @@ class AppFixtures extends Fixture
             $pole->setTitle($title)
                  ->setSlug($slug)
                  ->setColor($colors[$i])
+                 ->setPlace($i)
                  ->setPictureFilename('pole_default.jpg');
 
             $manager->persist($pole);
