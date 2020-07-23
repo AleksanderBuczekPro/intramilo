@@ -524,6 +524,10 @@ class AccountController extends AbstractController
     public function myAccount(SheetRepository $sheetRepo, UserRepository $userRepo, Filter $filter) {
 
         $files = $filter->getFiles($this->getUser(), $userRepo, $sheetRepo);
+
+        $drafts = $filter->getDrafts($this->getUser());
+
+        dump($drafts);
     
         return $this->render('user/index.html.twig', [
 
@@ -532,6 +536,7 @@ class AccountController extends AbstractController
             'filesUpToDate' => $files['filesUpToDate'],
             'filesWellObsolete' => $files['filesWellObsolete'],
             'filesObsolete' => $files['filesObsolete'],
+            'drafts' => $drafts,
             'user' => $this->getUser()
 
         ]);

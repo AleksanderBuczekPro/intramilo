@@ -236,49 +236,95 @@
                 <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
 
                     <div class="card my-card no-border my-box mt-0 mb-4">
-                        <div class="card-body pb-2">
-                            <h5>Documentation</h5>
+                        <div class="card-body py-0">
+                            
                             <div class="row">
-                                <div class="col-6 pr-2">
-                                    <button data-toggle="modal" data-target="#subModalSheet" data-title="Nouvelle fiche" class="btn btn-my-secondary w-100">
-                                    {# <i class="far fa-file mr-3 violet"></i> #}
-                                    Créer une fiche
-                                    </button>
+                                <div class="col-4 pr-2">
+                                    <h5 class="pt-4">Documentation</h5>
                                 </div>
-                                <div class="col-6 pl-2">
-                                    <button data-toggle="modal" data-target="#subModalDocument" data-title="Nouveau document" class="btn btn-my-secondary w-100">
-                                    {# <i class="fas fa-file-upload mr-3 violet"></i> #}
-                                    Importer un document
-                                    </button>
+                                <div class="col-8 pl-2">
+                                    <div class="row">
+                                        <div class="col-6 pr-1">
+                                            <button data-toggle="modal" data-target="#subModalSheet" data-title="Nouvelle fiche" class="btn btn-my-secondary w-100 mt-2">
+                                            {# <i class="far fa-file mr-3 violet"></i> #}
+                                            Créer une fiche
+                                            </button>
+                                        </div>
+                                        <div class="col-6 pl-2">
+                                            <button data-toggle="modal" data-target="#subModalDocument" data-title="Nouveau document" class="btn btn-my-secondary w-100 mt-2">
+                                            {# <i class="fas fa-file-upload mr-3 violet"></i> #}
+                                            Importer un document
+                                            </button>
+                                        </div>
+                                    </div>
+                                    
+
                                 </div>
+                                
+                                <div class="col-12 pr-2 account-nav">
+                                    {# <hr class="mb-0 mt-1">
+
+                                    <nav class="">
+                                        <div class="nav nav-tabs no-border" id="nav-tab-2" role="tablist">
+                                            <a class="nav-item w-50 nav-link active btn no-br mt-1" id="nav-online-tab" data-toggle="tab" href="#nav-online" role="tab" aria-controls="nav-online" aria-selected="true">En ligne</a>
+                                            <a class="nav-item w-50 nav-link btn no-br mt-1" id="nav-draft-tab" data-toggle="tab" href="#nav-draft" role="tab" aria-controls="nav-draft" aria-selected="false">Brouillons ({{ drafts|length }})</a>
+                                        </div>
+                                    </nav> #}
+                                    
+                                </div>
+
                             </div>
                         </div>
                     </div>
-                    
-                    {# A corriger #}
-                    {% for file in filesToCorrect %}
-                        {% include 'documentation/_file.html.twig' %}
-                    {% endfor %}
 
-                    {# En attente de validation #}
-                    {% for file in filesToValidate %}
-                        {% include 'documentation/_file.html.twig' %}
-                    {% endfor %}
-                    
-                    {# Obsolète #}
-                    {% for file in filesObsolete %}
-                        {% include 'documentation/_file.html.twig' %}
-                    {% endfor %}
+                    {# Home #}
+                    <div class="tab-pane fade show active" id="nav-online" role="tabpanel" aria-labelledby="nav-online-tab">
 
-                    {# Bientôt obsolète #}
-                    {% for file in filesWellObsolete %}
-                        {% include 'documentation/_file.html.twig' %}
-                    {% endfor %}
+                        <div class="my-4">
+                            {% for file in drafts %}
+                                {% include 'documentation/_file.html.twig' %}
+                            {% endfor %}
+                        </div>
                     
-                    {# A jour #}
-                    {% for file in filesUpToDate %}
-                        {% include 'documentation/_file.html.twig' %}
-                    {% endfor %}
+                        {# A corriger #}
+                        {% for file in filesToCorrect %}
+                            {% include 'documentation/_file.html.twig' %}
+                        {% endfor %}
+
+                        {# En attente de validation #}
+                        {% for file in filesToValidate %}
+                            {% include 'documentation/_file.html.twig' %}
+                        {% endfor %}
+                        
+                        {# Obsolète #}
+                        {% for file in filesObsolete %}
+                            {% include 'documentation/_file.html.twig' %}
+                        {% endfor %}
+
+                        {# Bientôt obsolète #}
+                        {% for file in filesWellObsolete %}
+                            {% include 'documentation/_file.html.twig' %}
+                        {% endfor %}
+                        
+                        {# A jour #}
+                        {% for file in filesUpToDate %}
+                            {% include 'documentation/_file.html.twig' %}
+                        {% endfor %}
+
+                    </div>
+                    
+                    {# Brouillons #}
+                    <div class="tab-pane fade " id="nav-draft" role="tabpanel" aria-labelledby="nav-draft-tab">
+                        
+                        {# {% for file in drafts %}
+                            {% include 'documentation/_file.html.twig' %}
+                        {% endfor %} #}
+
+                        test
+
+                        
+
+                    </div>
 
 
                 </div>
