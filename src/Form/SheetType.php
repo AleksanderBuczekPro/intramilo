@@ -23,6 +23,7 @@ use Symfony\Component\Validator\Constraints\Image;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
@@ -74,11 +75,26 @@ class SheetType extends ApplicationType
                 'label' => "Sous-catégorie",
                 'class' => SubCategory::class,
                 'query_builder' => function (SubCategoryRepository $sr) use($user) {
+
+                    // dump($options['roles']);
+
+                    
+                if (in_array('ROLE_ADMIN', $user->getRoles())) {
+                    
+                    return $sr->createQueryBuilder('s')
+                              ->select('s');
+
+                }else{
+                    
                     return $sr->createQueryBuilder('s')
                               ->select('s')
                               ->join('s.authors', 'a')
                               ->where('a.id = :authorId')
                               ->setParameter('authorId', $user->getId());
+
+                }
+
+                    
                 },
                 'group_by' => function($subCategory){
                     return $subCategory->getCategory()->getTitle();

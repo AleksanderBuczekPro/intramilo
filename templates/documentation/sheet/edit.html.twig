@@ -225,6 +225,17 @@
                                             {# <td class="marine pl-0 op-70 no-border">Image de fond</td> #}
                                             <td class="marine bolder no-border p-0">{{ form_widget(form.pic) }}</td>
                                         </tr>
+                                        <tr>
+                                            <td class="marine bolder no-border p-0">
+                                                <div class="form-check mt-3 float-right">
+                                                    <input class="form-check-input" type="checkbox" name="default_pic" value="" id="default_pic" {% if not sheet.pictureFilename %} checked {% endif %}>
+                                                    <label class="form-check-label" for="defaultCheck1">
+                                                        Image par défault
+                                                    </label>
+                                                </div>
+                                            </td>
+                                            
+                                        </tr>
                                         
                                         {% if not is_granted("ROLE_ADMIN") %}
                                         <tr>
@@ -482,6 +493,22 @@
 
 // Sheet subtitle not required (à améliorer)
 $('#sheet_subtitle').prop('required',false);
+
+$('input#sheet_pic').on('change',function(){
+
+    
+
+    /*if ($('#default_pic').is(':checked')) {
+
+        $('#sheet_pic').next().html('<i class="fas fa-upload mr-3"></i> Changer d\'image de fond');
+       
+
+    }*/
+
+    
+     $('#default_pic').prop('checked',false);
+
+});
 
 // File Uplaod file name in input
 

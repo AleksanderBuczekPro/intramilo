@@ -343,6 +343,22 @@ class SheetController extends AbstractController
 
         if($form->isSubmitted() && $form->isValid()){
 
+            // Récupération de toutes les variables POST
+            $data = $request->request->all();
+        
+
+            $default = false;
+            foreach($data as $key => $val) {
+
+                // Si la clé contient 'interlocutor'
+                if (strpos($key, 'default_pic') !== false) {
+                    
+                    $default = true;
+
+                }
+
+            }
+
             $pictureFile = $form->get('pic')->getData();
 
             // this condition is needed because the 'brochure' field is not required
@@ -380,6 +396,23 @@ class SheetController extends AbstractController
 
                 $sheet->setPictureFilename($newFilename);
                 
+            }
+
+            // Image de fond par défaut
+            if($default){
+
+                $oldFilename = $sheet->getPictureFilename();
+                if($oldFilename){
+                    
+                    $path = $this->getParameter('pictures_directory').'/'.$oldFilename;
+
+                    $filesystem = new Filesystem();
+                    $filesystem->remove($path);                    
+
+                }
+
+                $sheet->setPictureFilename(null);
+
             }
 
             // Paragraphs
