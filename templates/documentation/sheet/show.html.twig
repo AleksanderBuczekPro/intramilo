@@ -47,18 +47,24 @@
                             <i class="uil uil-ellipsis-v"></i>
                         </button>
                         <div class="dropdown-menu dropdown-menu-right my-dropdown " aria-labelledby="dropdownMenuButton">
-                            <a class="dropdown-item pl-3" href="{{ path('sheet_create_model', {'id_model': sheet.id }) }}"><span class="rounded"><i class="far fa-copy my-rounded"></i></span> Dupliquer</a>
-                            
-                            {% if is_granted("ROLE_ADMIN")%}
-                                <a class="dropdown-item pl-3" href="{{ path('sheet_change_author', {'id': sheet.id }) }}"><span class="rounded"><i class="far fa-user my-rounded"></i></span> Changer d'auteur</a>
-                            {% endif %}
 
                             {% if app.user == sheet.author or is_granted("ROLE_ADMIN") %}
-                                <div class="dropdown-divider"></div>
+                                
                                 <a class="dropdown-item pl-3" href="{{ path('sheet_edit', {'id': sheet.id }) }}"><span class="rounded"><i class="fas fa-pen fa-xs my-rounded"></i></span> Modifier</a>
                             {% endif %}
 
+
+                            {% if sheet.status != 'DRAFT' %}
+                            <a class="dropdown-item pl-3" href="{{ path('sheet_create_model', {'id_model': sheet.id }) }}"><span class="rounded"><i class="far fa-copy my-rounded"></i></span> Dupliquer</a>
+                            {% endif %}
+
+
+                            {% if is_granted("ROLE_ADMIN") and sheet.status != 'DRAFT' %}
+                                <a class="dropdown-item pl-3" href="{{ path('sheet_change_author', {'id': sheet.id }) }}"><span class="rounded"><i class="far fa-user my-rounded"></i></span> Changer d'auteur</a>
+                            {% endif %}
+
                             {% if app.user == sheet.author %}
+                                <div class="dropdown-divider"></div>
                                 <a class="dropdown-item pl-3" href="{{ path('sheet_delete', {'id': sheet.id}) }}"><span class="rounded"><i class="fas fa-times my-rounded"></i></span> Supprimer</a>
                             {% endif %}
                         </div>

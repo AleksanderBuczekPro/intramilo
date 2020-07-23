@@ -75,11 +75,13 @@ class DocumentController extends AbstractController
      */
     public function show(Document $document = null, Attachment $attachment = null)
     {
-        if($attachment){
+        // if($attachment){
             
-            $document = $attachment;
+        //     $document = $attachment;
 
-        }
+        // }
+
+        dump($document);
 
 
         return $this->render('documentation/document/show.html.twig', [

@@ -504,15 +504,34 @@ class SheetController extends AbstractController
 
                 }else{
 
-                    if($sheet->getStatus() == "DRAFT"){
 
-                        $sheet->setStatus(null);
+                    if($form->get('saveDraft')->isClicked()){
+                
+                        $sheet->setStatus("DRAFT");
+        
+                    }else{
+        
+                        // user
+                        if(!$this->isGranted("ROLE_ADMIN")){
+                            $sheet->setStatus("TO_VALIDATE");
+                        
+                        }else{ // admin
+        
+                            $sheet->setStatus(null);
+        
+                        }
+        
                     }
+
+                    // if($sheet->getStatus() == "DRAFT"){
+
+                    //     $sheet->setStatus(null);
+                    // }
 
                     // Sinon c'est une fiche qui vient d'être modifiée
 
                     // Si c'est l'admin, on valide directement
-                    if($this->isGranted("ROLE_ADMIN")){
+                    if($this->isGranted("ROLE_ADMIN") && $sheet->getStatus() != 'DRAFT'){
 
                         // $sheet->setUpdatedAt(new \DateTime(null, new DateTimeZone('Europe/Paris')));
 
@@ -529,6 +548,8 @@ class SheetController extends AbstractController
                         //     }
                             
                         // }
+
+
 
                         $manager->persist($sheet);
                         $manager->flush();
