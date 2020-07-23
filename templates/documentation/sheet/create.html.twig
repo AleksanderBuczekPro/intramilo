@@ -557,6 +557,8 @@ $('#add-attachment').click(function(){
     // Placeholder File Upload Input
     $('#sheet_attachments_' + index + '_genericFile_file').next().html('<i class="fas fa-upload mr-3"></i> Aucun fichier selectionné');
 
+    $('#sheet_attachments_' + index + '_genericFile_file').prop('required',true);
+
     $('input.custom-file-input:last-child').addClass('ok');
 
     $('input.custom-file-input').on('change',function(){

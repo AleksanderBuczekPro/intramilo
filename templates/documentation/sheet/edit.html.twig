@@ -494,6 +494,8 @@
 // Sheet subtitle not required (à améliorer)
 $('#sheet_subtitle').prop('required',false);
 
+$('.form-container .custom-file-input').next().html('<span class="op-40"><i class="fas fa-upload mr-3"></i> Mettre à jour</span>');
+
 $('input#sheet_pic').on('change',function(){
 
     
@@ -505,8 +507,9 @@ $('input#sheet_pic').on('change',function(){
 
     }*/
 
+    $(this,'#sheet_pic').next().html('<i class="fas fa-check-circle success mr-3"></i> Image chargée');
     
-     $('#default_pic').prop('checked',false);
+    $('#default_pic').prop('checked',false);
 
 });
 
@@ -553,33 +556,18 @@ function formatSizeUnits(bytes)
 }
 
 
-// Fonction permettant de charger l'input de chargement d'une pièce jointe
-$('#add-attachment').click(function(){
 
 
-    // Je récupère le numéro des futurs champs que je vais créer
-    const index = +$('#widgets-attachment-counter').val(); // + transforme la chaine de caractère en nombre
 
-    console.log("INDEX => " + index);
-
-    // Je récupère le prototype des entrées
-    const tmpl = $('#sheet_attachments').data('prototype').replace(/__a__/g, index); // g = "pour chaque"
-
-    console.log("Nombre de pièces jointes = " + index);
-
-    // J'injecte ce code au sein de la div
-    $('#sheet_attachments').append(tmpl);
-
-    // Placeholder File Upload Input
-    $('#sheet_attachments_' + index + '_genericFile_file').next().html('<i class="fas fa-upload mr-3"></i> Aucun fichier selectionné');
-
-    $('input.custom-file-input:last-child').addClass('ok');
-
-    $('input.custom-file-input').on('change',function(){
+function loadAttachment(){
+$('.form-container input.custom-file-input').on('change',function(){
 
         var name = (this.files[0].name).split('.', 1);
         var size = formatSizeUnits(this.files[0].size);
         var mime = this.files[0].type;
+
+        // Je récupère le numéro des futurs champs que je vais créer
+        const i = +$('#widgets-attachment-counter').val(); // + transforme la chaine de caractère en nombre
 
         console.log("--------------------------");
         console.log("Name => " + name);
@@ -631,12 +619,12 @@ $('#add-attachment').click(function(){
 
         let fileName = $(this).val().split('\\').pop(); 
 
-        console.log("INDEX => " + "sheet_attachments_" + index + "_title");
+        console.log("INDEX => " + "sheet_attachments_" + i + "_title");
 
         /* $('#sheet_attachments_' + index + '_title').val(name);*/
-        $(this, '#sheet_attachments_' + index + ' .details').html(size);
+        $(this, '#sheet_attachments_' + i + ' .details').html(size);
 
-        $(this, '#sheet_attachments_' + index + '_genericFile_file').next().html('<i class="fas fa-check-circle success mr-3"></i>' + name);
+        $(this, '#sheet_attachments_' + i + '_genericFile_file').next().html('<i class="fas fa-check-circle success mr-3"></i>' + name);
 
         /* $('#sheet_attachments_' + index + ' .type').html(type);
         $('#sheet_attachments_' + index + ' .type').addClass(color); */
@@ -645,12 +633,41 @@ $('#add-attachment').click(function(){
 
     });
 
+}
+
+// Fonction permettant de charger l'input de chargement d'une pièce jointe
+$('#add-attachment').click(function(){
+
+
+    // Je récupère le numéro des futurs champs que je vais créer
+    const index = +$('#widgets-attachment-counter').val(); // + transforme la chaine de caractère en nombre
+
+    console.log("INDEX => " + index);
+
+    // Je récupère le prototype des entrées
+    const tmpl = $('#sheet_attachments').data('prototype').replace(/__a__/g, index); // g = "pour chaque"
+
+    console.log("Nombre de pièces jointes = " + index);
+
+    // J'injecte ce code au sein de la div
+    $('#sheet_attachments').append(tmpl);
+
+    // Placeholder File Upload Input
+    $('#sheet_attachments_' + index + '_genericFile_file').next().html('<i class="fas fa-upload mr-3"></i> Aucun fichier selectionné');
+
+    $('#sheet_attachments_' + index + '_genericFile_file').prop('required',true);
+
+    $('input.custom-file-input:last-child').addClass('ok');
+
+    loadAttachment();
+
     $('#widgets-attachment-counter').val(index + 1);
 
     // Je gère le bouton supprimer
     handleDeleteButtons();
     
 });
+
 
 $('#add-atachment').click(function(){
 
@@ -819,7 +836,7 @@ function handleDeleteButtons(){
 function updateCounter(){
     const count = +$('#sheet_headers div.form-group.header').length;
     const count_p = +$('#sheet_paragraphs div.form-group.paragraph').length;
-    const count_a = +$('#sheet_attachments div.form-group.attachment').length;
+    const count_a = +$('#sheet_attachments div.card.attachment').length;
 
     /* Attachments */
     $('#widgets-attachment-counter').val(count_a);
@@ -1019,9 +1036,10 @@ $(document).ready(function() {
     updateCounter();
     handleDeleteButtons();
 
-    /* initializeAttachment(); */
+    
+    loadAttachment();
 
-    $('#sheet_attachments_' + index + '_genericFile_file').next().html('<i class="fas fa-upload mr-3"></i> Aucun fichier selectionné');
+    /* initializeAttachment(); */
     
 
 });
@@ -1036,11 +1054,6 @@ $("select#sheet_organization").change(function() {
 
 $('#sheet_pic').next().html('<i class="fas fa-upload mr-3"></i> Changer d\'image de fond');
 
-$('input.custom-file-input').on('change',function(){
-
-    $(this,'#sheet_pic').next().html('<i class="fas fa-check-circle success mr-3"></i> Image chargée');
-
-});
 
 
 {# $('#add-introduction').click(function(){

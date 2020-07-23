@@ -127,6 +127,7 @@ class Sheet
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Attachment", mappedBy="sheet", orphanRemoval=true, cascade={"persist"})
+     * @OrderBy({"title" = "ASC"})
      */
     private $attachments;
 

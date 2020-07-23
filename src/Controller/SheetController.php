@@ -214,7 +214,7 @@ class SheetController extends AbstractController
             foreach($sheet->getAttachments() as $attachment){
 
 
-
+                
                 $attachment->setSheet($sheet);
                 $attachment->setAuthor($this->getUser());
                 $attachment->setSubCategory($sheet->getSubCategory());
