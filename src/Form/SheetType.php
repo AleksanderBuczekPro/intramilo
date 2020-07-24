@@ -189,8 +189,10 @@ class SheetType extends ApplicationType
                     ],
                 ])
                 ->add('save', SubmitType::class, [
-                    'label' => 'Envoyer à valider',
-                    'attr' => ['class' => 'btn btn-my-primary white w-100 px-2']
+                    'label' => 'Envoyer',
+                    'attr' => [
+                        'id' => 'send-btn',
+                        'class' => 'btn btn-my-primary']
                     
                 ])
                 ->add('saveDraft', SubmitType::class, [

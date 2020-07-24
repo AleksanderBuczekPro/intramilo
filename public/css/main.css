@@ -26,6 +26,9 @@
     --blue-background-color: rgba(58, 134, 255, 0.04);
     --marine-background-color: #f5f6fa!important;
     --purple-background-color: #F6F5FB;
+    --green-background-color: rgba(41,191,18,0.1);
+    --orange-background-color: rgba(251,86,7,0.1);
+    --red-background-color: rgba(226,6,19,0.1);
     --blue-shadow-color: rgba(58, 134, 255, 0.01);
 
     --grey-70-color: #575756;
@@ -1764,9 +1767,43 @@ div.alert.alert-danger {
 	background-color: white;
 	border-left: 6px solid var(--red-color);
 	font-family: "Roboto", "sans serif";
-	font-weight: 600;
+	font-weight: 500;
 	border-radius: 6px;
 	margin-top: 40px;
+
+}
+
+#form-notifications .alert {
+
+	font-family: "Roboto", "sans serif";
+	border-radius: 6px;
+	margin-top: 40px;
+
+}
+
+
+
+#form-notifications .alert.alert-success {
+
+	color: var(--green-color);
+	background-color: var(--green-background-color);
+	border: 1px solid var(--green-color);
+
+}
+
+#form-notifications .alert.alert-warning {
+
+	color: var(--orange-color);
+	background-color: var(--orange-background-color);
+	border: 1px solid var(--orange-color);
+
+}
+
+#form-notifications .alert.alert-danger {
+
+	color: var(--red-color);
+	background-color: var(--red-background-color);
+	border: 1px solid var(--red-color);
 
 }
 

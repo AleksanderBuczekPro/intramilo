@@ -200,7 +200,9 @@
                         <div class="btn btn-my-dark w-100 px-2"><i class="uil uil-paperclip"></i></div>
                     </div> #}
                     <div class="col-12 px-1 mb-2">
-                        {{ form_widget(form.save) }}
+
+                        <button id="confirm-btn" class="btn btn-my-primary white w-100 px-2" type="button" data-toggle="modal" data-target="#confirmModal">Envoyer à valider</button>
+                        {# {{ form_widget(form.save) }} #}
                     </div>
                     <div class="col-12 px-1">
                         {{ form_widget(form.saveDraft) }}
@@ -287,7 +289,7 @@
     </div>
 </div>
 
-{{ form_end(form) }}
+
 
 {# 
 {% form_theme form 'documentation/sheet/_collection.html.twig' %}
@@ -466,6 +468,52 @@
 </div>
 {{ form_end(orgForm) }} #}
 
+<div class="modal fade bd-example-modal-lg" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content p-3">
+      <div class="modal-header no-border pb-0">
+        <h4 class="modal-title m-0" id="exampleModalLabel">Envoyer à valider<span class="font-weight-light"> - Êtes-vous sûr ?</span></h4>
+        
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        
+      </div>
+      {# <p class="px-3 op-70">Voici les sous-catégories où vous êtes autorisés à ajouter une nouvelle fiche</p> #}
+      <div class="modal-body">
+
+            <div id="form-notifications">
+
+           
+            </div>
+
+
+            {# <table class="my-table no-border w-100">
+                <tr>
+                    <td class="w-25 main">Responsable de validation</td>
+                    <td class="w-75">{{ app.user.groupe.responsable }}</td>
+                </tr>
+            </table> #}
+
+            {# {% for sub in app.user.subCategories %}
+
+                    <div class="select-sub" data-href="{{ path('document_create_sub', {'id': sub.id}) }}">
+                        {{ sub.category }} - {{ sub }}
+                    </div>
+
+            {% endfor %} #}
+
+      </div>
+      <div class="modal-footer no-border">
+        <button type="button" class="btn rouge" data-dismiss="modal">Annuler</button>
+        {{ form_widget(form.save) }} 
+        {# <button id="send-btn" type="button" href="" class="btn btn-my-primary add">Envoyer</button> #}
+      </div>
+    </div>
+  </div>
+</div>
+{{ form_end(form) }}
+
 
 {# Modal de suppression #}
 <div class="modal fade" id="deleteIntroModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -489,6 +537,126 @@
 {% block javascripts %}
 
 <script>
+
+
+/* Modal de confirmation, inspection des champs vides */
+$('#confirm-btn').click(function(){
+
+    /* Init */
+    $('#form-notifications').empty();
+    $('#sheet_save').prop( "disabled", false );
+
+    $('#form-notifications').append('<div class="alert alert-success mt-2" role="alert" id="alert-valid"><i class="fas fa-check-circle mr-2"></i>Tout semble correct</div>');
+
+    /* Title empty */
+    if(!$('#sheet_title').val()) {
+
+        $('#alert-valid').addClass('d-none');
+        $('#form-notifications').append('<div class="alert alert-warning mt-2" role="alert"><i class="fas fa-exclamation-triangle mr-2"></i>Fiche sans titre</div>');
+
+    }
+
+    /* Header empty */
+    if($('#sheet_headers .header_title input').length > 0) {
+
+        $('#sheet_headers .header_title input').each(function() {
+           
+            if(!$(this).val()) {
+                
+                $('#alert-valid').addClass('d-none');
+                $('#form-notifications').append('<div class="alert alert-warning mt-2" role="alert"><i class="fas fa-exclamation-triangle mr-2"></i>Entête sans titre</div>')
+                return false;
+            }
+            
+        });
+
+    }
+
+    /* Header empty */
+    if($('#sheet_headers .section .title input').length > 0) {
+
+        $('#sheet_headers .section .title input').each(function() {
+           
+            if(!$(this).val()) {
+                
+                $('#alert-valid').addClass('d-none');
+                $('#form-notifications').append('<div class="alert alert-warning mt-2" role="alert"><i class="fas fa-exclamation-triangle mr-2"></i>Titre secondaire manquant (entête)</div>')
+                return false;
+            }
+            
+        });
+
+    }
+
+    if($('#sheet_headers .section .content input').length > 0) {
+
+        $('#sheet_headers .section .content input').each(function() {
+           
+            if(!$(this).val()) {
+                
+                $('#alert-valid').addClass('d-none');
+                $('#form-notifications').append('<div class="alert alert-warning mt-2" role="alert"><i class="fas fa-exclamation-triangle mr-2"></i>Information manquante (entête)</div>')
+                return false;
+            }
+            
+        });
+
+    }
+
+    /* Section empty */
+    if($('#sheet_paragraphs .paragraph_title input').length > 0) {
+
+        $('#sheet_paragraphs .paragraph_title input').each(function() {
+           
+            if(!$(this).val()) {
+                
+                $('#alert-valid').addClass('d-none');
+                $('#form-notifications').append('<div class="alert alert-warning mt-2" role="alert"><i class="fas fa-exclamation-triangle mr-2"></i>Section sans titre</div>');
+                return false;
+            }
+            
+        });
+
+    }
+
+    /* Attachment empty */
+    /*if($('#sheet_attachments .title input').length > 0) {
+
+        $('#sheet_attachments .title input').each(function() {
+           
+            if(!$(this).val()) {
+                
+                $('#alert-valid').addClass('d-none');
+                $('#sheet_save').attr('disabled', 'disabled');
+                $('#form-notifications').append('<div class="alert alert-danger mt-2" role="alert"><i class="fas fa-minus-circle mr-2"></i>Titre de pièce jointe manquant <a class="float-right" data-dismiss="modal" aria-label="Close"><strong>Corriger</strong></a></div>');
+                return false;
+            }
+            
+        });
+
+    }
+
+    if($('#sheet_attachments .custom-file input').length > 0) {
+
+        $('#sheet_attachments .custom-file input').each(function() {
+           
+            if(!$(this).val()) {
+                
+                $('#alert-valid').addClass('d-none');
+                $('#sheet_save').attr('disabled', 'disabled');
+                $('#form-notifications').append('<div class="alert alert-danger mt-2" role="alert"><i class="fas fa-minus-circle mr-2"></i>Fichier de pièce jointe manquant <a class="float-right" data-dismiss="modal" aria-label="Close"><strong>Corriger</strong></a></div>');
+                return false;
+            }
+            
+        });
+
+    }*/
+
+
+
+
+});
+
 
 
 // Sheet subtitle not required (à améliorer)
