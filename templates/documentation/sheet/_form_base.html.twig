@@ -225,10 +225,10 @@
                                         </tr>
                                         
                                         {% if not is_granted("ROLE_ADMIN") %}
-                                        <tr>
+                                        {# <tr>
                                             <td class="marine pl-0 op-70 no-border">Responsable de validation</td>
                                             <td class="marine bolder no-border">{{ app.user.groupe.responsable }}</td>
-                                        </tr>
+                                        </tr> #}
                                         {% endif %}
                                     </table>
                                 </div>

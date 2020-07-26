@@ -816,8 +816,8 @@ class SheetController extends AbstractController
             // dump($sheet->getStatus());
 
              // Redirection conditionnelle
-             if($action != 'draft'){
-
+            //  if($action != 'draft'){
+            if(!$form->get('saveDraft')->isClicked()){
                 $this->addFlash(
                     'success',
                     "La fiche <strong>{$sheet->getTitle()}</strong> a bien été modifiée !"
