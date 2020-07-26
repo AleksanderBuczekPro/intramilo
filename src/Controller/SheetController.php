@@ -87,6 +87,71 @@ class SheetController extends AbstractController
     }
 
     /**
+     * Fonction permettant de dupliquer une fiche (Brouillon et Envoyer à valider)
+     */
+    public function duplicate($sheet, $manager, $status){
+
+        // On duplique la fiche
+        $sheetDuplicated = clone $sheet;
+        
+        // Init
+        $sheetDuplicated->setOrigin($sheet);
+        $sheetDuplicated->setStatus($status);
+
+        // On duplique toutes les relations
+        
+        // Paragraphs
+        $place = 1;
+        foreach($sheet->getParagraphs() as $p){
+
+            $p->setPlace($place);
+            $p->setSheet($sheetDuplicated);
+            $manager->persist($p);
+
+            $place = $place + 1;
+            
+        }
+
+        // A VERIFIER
+        // Entêtes
+        foreach($sheetDuplicated->getHeaders() as $header){
+
+            $header->setSheet($sheetDuplicated);
+            $manager->persist($header);
+
+            foreach($header->getSections() as $section){
+
+                $section->setHeader($header);
+                $manager->persist($section);
+
+            }
+            
+        }
+
+        // Attachments
+        foreach($sheetDuplicated->getAttachments() as $attachment){
+
+            $attachment->setSheet($sheetDuplicated);
+            $manager->persist($attachment);
+            
+        }
+
+
+
+
+        $manager->refresh($sheet);
+
+        $sheetDuplicated->setUpdatedAt(new \DateTime(null, new DateTimeZone('Europe/Paris')));
+  
+        $manager->persist($sheetDuplicated);
+        $manager->flush();
+
+        return $sheetDuplicated->getId();
+
+
+    }
+
+    /**
      * Permet d'ajouter une fiche dans une sous-catégorie spécifique
      * 
      * @Route("/documentation/{id}/sheet/new", name="sheet_create_sub")
@@ -109,7 +174,6 @@ class SheetController extends AbstractController
         if($sheetFromModel){
             
             // On duplique les RELATIONS
-
             // Paragraphs
             foreach($sheetFromModel->getParagraphs() as $p){
                 
@@ -213,8 +277,6 @@ class SheetController extends AbstractController
             // Attachments
             foreach($sheet->getAttachments() as $attachment){
 
-
-                
                 $attachment->setSheet($sheet);
                 $attachment->setAuthor($this->getUser());
                 $attachment->setSubCategory($sheet->getSubCategory());
@@ -240,10 +302,15 @@ class SheetController extends AbstractController
                 
             }
             
+            // Init
             $sheet->setFront('0');
+            $sheet->setViews(0);
+            $sheet->setAuthor($this->getUser());
+
+            $sheet->setUpdatedAt(new \DateTime(null, new DateTimeZone('Europe/Paris')));
 
             // Enregistrement en tant que brouillon
-            if($form->get('saveDraft')->isClicked()){
+            if($form->get('saveDraft')->isClicked() || $form->get('saveDraftExit')->isClicked()){
                 
                 $sheet->setStatus("DRAFT");
 
@@ -251,6 +318,7 @@ class SheetController extends AbstractController
 
                 // user
                 if(!$this->isGranted("ROLE_ADMIN")){
+
                     $sheet->setStatus("TO_VALIDATE");
                 
                 }else{ // admin
@@ -261,10 +329,7 @@ class SheetController extends AbstractController
 
             }
             
-            $sheet->setViews(0);
-            $sheet->setAuthor($this->getUser());
 
-            $sheet->setUpdatedAt(new \DateTime(null, new DateTimeZone('Europe/Paris')));
 
             $pictureFile = $form->get('pic')->getData();
 
@@ -307,21 +372,34 @@ class SheetController extends AbstractController
 
             $manager->persist($sheet);
             $manager->flush();
+        
 
-            $this->addFlash(
-                'success',
-                "La fiche <strong>{$sheet->getTitle()}</strong> a bien été créée !"
 
-            );
+            // Redirection conditionnelle
+            if(!$form->get('saveDraft')->isClicked()){
 
-            // Gestion des nouveaux slugs
-            return $this->redirectToRoute('sheet_show', ['id' => $sheet->getId()]);
+                $this->addFlash(
+                    'success',
+                    "La fiche <strong>{$sheet->getTitle()}</strong> a bien été créée !"
+    
+                );
+            
+                // Redirection fiche
+                return $this->redirectToRoute('sheet_show', ['id' => $sheet->getId()]);
+
+            }else{
+
+                // Redirection formulaire
+                return $this->redirectToRoute('sheet_edit', ['id' => $sheet->getId()]);
+
+            }
 
         }
 
         return $this->render('documentation/sheet/create.html.twig', [
             'form' => $form->createView(),
-            'orgForm' => $organizationForm->createView()
+            'orgForm' => $organizationForm->createView(),
+            'sheet' => $sheet
         ]);
 
     }
@@ -335,7 +413,7 @@ class SheetController extends AbstractController
      *
      * @return void
      */
-    public function edit(Sheet $sheet, EntityManagerInterface $manager, Request $request, InterlocutorRepository $repo){
+    public function edit(Sheet $sheet, EntityManagerInterface $manager, Request $request, InterlocutorRepository $repo, SheetRepository $sheetRepo){
 
         $form = $this->createForm(SheetType::class, $sheet, array('user' => $this->getUser()));       
 
@@ -486,176 +564,291 @@ class SheetController extends AbstractController
 
                 }
 
-                
+            // CONDITIONS
+            // Quelle action ?
+            if($form->get('saveDraft')->isClicked() || $form->get('saveDraftExit')->isClicked()){
 
-            // Si c'est une fiche "En cours de validation" que l'on modifie
-            if($sheet->getStatus() == "TO_VALIDATE"){
-
-                // foreach($sheet->getHeaders() as $header){
-
-
-                //     $header->setSheet($sheet);
-                //     $manager->persist($header);
-    
-                //     foreach($header->getSections() as $section){
-    
-                //         $section->setHeader($header);
-                //         $manager->persist($section);
-    
-                //     }
-                    
-                // }
-
-                $sheet->setUpdatedAt(new \DateTime(null, new DateTimeZone('Europe/Paris')));
-
-                $manager->persist($sheet);
-                $manager->flush();
+                $action = 'draft';
 
             }else{
-                // Sinon c'est une fiche à corriger
-                if($sheet->getStatus() == "TO_CORRECT"){
 
-                    // foreach($sheet->getHeaders() as $header){
-
-                    //     $header->setSheet($sheet);
-                    //     $manager->persist($header);
-        
-                    //     foreach($header->getSections() as $section){
-        
-                    //         $section->setHeader($header);
-                    //         $manager->persist($section);
-        
-                    //     }
-                        
-                    // }
-                    
-                    $sheet->setStatus("TO_VALIDATE");
-
-                    // $sheet->setUpdatedAt(new \DateTime(null, new DateTimeZone('Europe/Paris')));
-                    $manager->persist($sheet);
-                    $manager->flush();
-
-                }else{
-
-
-                    if($form->get('saveDraft')->isClicked()){
-                
-                        $sheet->setStatus("DRAFT");
-        
-                    }else{
-        
-                        // user
-                        if(!$this->isGranted("ROLE_ADMIN")){
-                            $sheet->setStatus("TO_VALIDATE");
-                        
-                        }else{ // admin
-        
-                            $sheet->setStatus(null);
-        
-                        }
-        
-                    }
-
-                    // if($sheet->getStatus() == "DRAFT"){
-
-                    //     $sheet->setStatus(null);
-                    // }
-
-                    // Sinon c'est une fiche qui vient d'être modifiée
-
-                    // Si c'est l'admin, on valide directement
-                    if($this->isGranted("ROLE_ADMIN") && $sheet->getStatus() != 'DRAFT'){
-
-                        // $sheet->setUpdatedAt(new \DateTime(null, new DateTimeZone('Europe/Paris')));
-
-                        // foreach($sheet->getHeaders() as $header){
-
-                        //     $header->setSheet($sheet);
-                        //     $manager->persist($header);
-            
-                        //     foreach($header->getSections() as $section){
-            
-                        //         $section->setHeader($header);
-                        //         $manager->persist($section);
-            
-                        //     }
-                            
-                        // }
-
-
-
-                        $manager->persist($sheet);
-                        $manager->flush();
-
-
-                    }else{
-
-                        // On duplique la fiche
-                        $sheetToValidate = clone $sheet;
-                        
-                        $sheetToValidate->setOrigin($sheet);
-                        $sheetToValidate->setStatus('TO_VALIDATE');
-
-
-                        // On duplique toutes les relations
-                        
-                        // Paragraphs
-                        $place = 1;
-                        foreach($sheet->getParagraphs() as $p){
-
-                            $p->setPlace($place);
-                            $p->setSheet($sheetToValidate);
-                            $manager->persist($p);
-
-                            $place = $place + 1;
-                            
-                        }
-
-                        // A VERIFIER
-                        // Entêtes
-                        foreach($sheetToValidate->getHeaders() as $header){
-
-                            $header->setSheet($sheetToValidate);
-                            $manager->persist($header);
-            
-                            foreach($header->getSections() as $section){
-            
-                                $section->setHeader($header);
-                                $manager->persist($section);
-            
-                            }
-                            
-                        }
-
-                        $manager->refresh($sheet);
-
-                        $sheetToValidate->setUpdatedAt(new \DateTime(null, new DateTimeZone('Europe/Paris')));
-
-                        
-                        $manager->persist($sheetToValidate);
-
-                    }
-                    
-                    $manager->flush();
-
-                }
-
-                
+                $action = 'to_validate';
 
             }
 
-            return $this->redirectToRoute('sheet_show', ['id' => $sheet->getId()]);
+            // EN LIGNE
+            if($sheet->getStatus() == null){
+                
+                // Brouillon
+                if($action == "draft"){
+
+                    
+
+                    // DUPLICATA
+                    $duplicate = $this->duplicate($sheet, $manager, 'DRAFT');
+                    return $this->redirectToRoute('sheet_edit', ['id' => $duplicate]);
+
+
+                }else{
+                // Envoyer à valider
+                    // Admin
+                    if($this->isGranted("ROLE_ADMIN")){
+                        
+
+                    // User
+                    }else{
+
+                        // S'il y a déjà un brouillon enregistré
+                        $draft = $sheetRepo->findOneByOrigin($sheet->getId());
+
+                        dump($draft);
+                        if($draft){
+                            
+                            $draft->setOrigin(null);
+                            $manager->remove($draft);
+                            $manager->flush();
+
+                        }
+
+                        // DUPLICATA
+                        $duplicate = $this->duplicate($sheet, $manager, 'TO_VALIDATE');
+                        return $this->redirectToRoute('sheet_show', ['id' => $duplicate]);
+
+
+                    }
+
+                }
+
+            }
+
+            // EN ATTENTE DE VALIDATION / A VALIDER
+            if($sheet->getStatus() == "TO_VALIDATE"){
+
+                // Brouillon (bouton désactivé)
+                if($action == "draft"){
+
+                    $sheet->setStatus('DRAFT');
+
+                }else{
+                // Envoyer à valider
+                    // Admin
+                    if($this->isGranted("ROLE_ADMIN")){
+                        
+                        // On valide la fiche
+                        $sheet->setStatus(null);
+
+
+                    // User
+                    }else{
+                        
+                        // On garde le status TO_VALIDATE
+
+                    }
+
+                }
+
+            }
+
+            // A CORRIGER
+            if($sheet->getStatus() == "TO_CORRECT"){
+
+                // Brouillon (bouton désactivé)
+                if($action == "draft"){
+
+                    $sheet->setStatus('DRAFT');
+
+
+                }else{
+                // Envoyer à valider
+                    // Admin
+                    if($this->isGranted("ROLE_ADMIN")){
+                        
+                        // On valide la fiche
+                        $sheet->setStatus(null);
+
+                    // User
+                    }else{
+                        
+                        // On garde le status TO_VALIDATE
+                        $sheet->setStatus("TO_VALIDATE");
+                    }
+
+                }
+
+            }
+
+            // BROUILLON
+            if($sheet->getStatus() == "DRAFT"){
+
+                // Brouillon
+                if($action == "draft"){
+
+                    // On garde le status DRAFT
+
+                }else{
+                // Envoyer à valider
+                    // Admin
+                    if($this->isGranted("ROLE_ADMIN")){
+                        
+
+
+                        // On supprime l'ancienne fiche
+                        $oldSheet = $sheetRepo->findOneById($sheet->getOrigin());
+
+                        dump($oldSheet);
+                        if($oldSheet){
+                            
+                            $oldSheet->setOrigin(null);
+                            $manager->remove($oldSheet);
+
+
+                        }
+
+                        // On valide la fiche
+                        $sheet->setStatus(null);
+                        $sheet->setOrigin(null);
+
+                        $manager->flush();
+
+
+                    // User
+                    }else{
+                        
+                        // On garde le status TO_VALIDATE
+                        $sheet->setStatus("TO_VALIDATE");
+
+                    }
+
+                }
+
+            }
+
+
+            $manager->persist($sheet);
+            $manager->flush();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            // // Si c'est une fiche "En cours de validation" que l'on modifie
+            // if($sheet->getStatus() == "TO_VALIDATE"){
+
+            //     $sheet->setUpdatedAt(new \DateTime(null, new DateTimeZone('Europe/Paris')));
+
+            //     $manager->persist($sheet);
+            //     $manager->flush();
+
+            // }else{
+            //     // Sinon c'est une fiche à corriger
+            //     if($sheet->getStatus() == "TO_CORRECT"){
+                    
+            //         $sheet->setStatus("TO_VALIDATE");
+
+            //         // $sheet->setUpdatedAt(new \DateTime(null, new DateTimeZone('Europe/Paris')));
+            //         $manager->persist($sheet);
+            //         $manager->flush();
+
+            //     }else{
+
+
+            //         if($form->get('saveDraft')->isClicked() || $form->get('saveDraftExit')->isClicked()){
+                
+            //             $sheet->setStatus("DRAFT");
+        
+            //         }else{
+        
+            //             // user
+            //             if(!$this->isGranted("ROLE_ADMIN")){
+            //                 $sheet->setStatus("TO_VALIDATE");
+                        
+            //             }else{ // admin
+        
+            //                 $sheet->setStatus(null);
+        
+            //             }
+        
+            //         }
+
+            //         // Sinon c'est une fiche qui vient d'être modifiée
+
+            //         // Si c'est l'admin, on valide directement
+            //         if($this->isGranted("ROLE_ADMIN") && $sheet->getStatus() != 'DRAFT'){
+
+            //             $manager->persist($sheet);
+            //             $manager->flush();
+
+
+            //         }else{
+
+            //             dump($sheet->getStatus());
+                        
+            //             // DUPLICATION
+            //             if($sheet->getStatus() != 'DRAFT'){
+
+            //                 $this->duplicate($sheet, $manager);
+                        
+            //             }
+
+
+            //         }
+                    
+            //         $manager->flush();
+
+            //     }
+               
+
+            // }
+
+            // dump($sheet->getStatus());
+
+             // Redirection conditionnelle
+             if($action != 'draft'){
+
+                $this->addFlash(
+                    'success',
+                    "La fiche <strong>{$sheet->getTitle()}</strong> a bien été modifiée !"
+    
+                );
+            
+                // Gestion des nouveaux slugs
+                return $this->redirectToRoute('sheet_show', ['id' => $sheet->getId()]);
+
+            }else{
+                
+                $id = $sheet->getId();
+
+                // Gestion des nouveaux slugs
+                return $this->redirectToRoute('sheet_edit', ['id' => $id]);
+
+            }
 
         }
 
         $subCategory = $sheet->getSubcategory();
         $category = $sheet->getSubCategory()->getCategory();
 
+        $draft = $sheetRepo->findOneByOrigin($sheet->getId());
+
         return $this->render('documentation/sheet/edit.html.twig', [
             'form'=> $form->createView(),
             'category' => $category,
             'subCategory' => $subCategory,
-            'sheet' => $sheet
+            'sheet' => $sheet,
+            'draft' => $draft
         ]);
 
     }
@@ -766,8 +959,8 @@ class SheetController extends AbstractController
      */
     public function delete(Sheet $sheet, EntityManagerInterface $manager, SheetRepository $sheetRepo)
     {
-        // Si c'est une fiche "En cours de validation"
-        if($sheet->getStatus() == "TO_VALIDATE")
+        // Si c'est une fiche "En cours de validation" ou Brouillon
+        if($sheet->getStatus() == "TO_VALIDATE" || $sheet->getStatus() == "DRAFT")
         {
             // Suppression de la fiche "En cours de validation"
             $sheet->setOrigin(null);
@@ -810,7 +1003,7 @@ class SheetController extends AbstractController
          $slug = $sheet->getSubCategory()->getCategory()->getSlug();
          $subSlug = $sheet->getSubCategory()->getSlug();
 
-         return $this->redirectToRoute('doc_show', ['slug' => $slug, 'sub_slug' => $subSlug]);
+         return $this->redirectToRoute('account_index');
 
 
     }

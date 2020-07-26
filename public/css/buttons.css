@@ -3,6 +3,12 @@ button.no-focus:focus{
     box-shadow: none!important;
 }
 
+button:disabled{
+
+    cursor: not-allowed!important;
+
+}
+
 .btn, span.my-badge{
     font-family: 'Roboto', sans-serif;
 
@@ -37,7 +43,7 @@ button.no-focus:focus{
     
 }
 
-.nav-btn .btn, a.intramilo{
+.nav-btn .btn, a.intramilo, a.nav-dropdown{
 
 
     width: 40px;
@@ -56,6 +62,13 @@ button.no-focus:focus{
     color: black;
     font-weight: 600;
     
+}
+
+a.nav-dropdown i{
+
+    position: relative;
+    top: -5px;
+
 }
 
 a.intramilo{
@@ -221,6 +234,12 @@ a.intramilo{
 .btn.btn-my-primary, .btn.btn-my-primary.active:hover{
 
     background: var(--purple-color);
+    color: white;
+
+}
+
+.btn.btn-my-primary.active:hover{
+
     color: white!important;
 
 }

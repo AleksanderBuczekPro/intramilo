@@ -27,7 +27,12 @@ class HeaderType extends ApplicationType
                  'allow_add' => true,
                  'allow_delete' => true,
 
-                 'prototype_name' => "__s__"
+                 'prototype_name' => "__s__",
+
+                 'attr' => [
+                    'class' => 'sections'
+
+                 ]
   
                 ]
             )

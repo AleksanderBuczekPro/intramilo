@@ -189,15 +189,27 @@ class SheetType extends ApplicationType
                     ],
                 ])
                 ->add('save', SubmitType::class, [
-                    'label' => 'Envoyer',
+                    'label' => 'Oui, j\'envoie',
                     'attr' => [
                         'id' => 'send-btn',
                         'class' => 'btn btn-my-primary']
                     
                 ])
                 ->add('saveDraft', SubmitType::class, [
-                    'label' => 'Enregister en brouillon',
-                    'attr' => ['class' => 'btn btn-my-dark dark w-100 px-2']
+                    'label' => 'Enregistrer en brouillon',
+                    'attr' => [
+                        'class' => 'btn btn-my-dark dark w-100 px-2',
+                        'data-toggle' => 'modal',
+                        'data-target' => '#draftModal'                                     
+                        ]
+                ])
+                ->add('saveDraftExit', SubmitType::class, [
+                    'label' => 'Enregistrer en brouillon et Quitter',
+                    'attr' => [
+                        'class' => 'btn dark w-100 px-4',
+                        'data-toggle' => 'modal',
+                        'data-target' => '#draftModal'                  
+                        ]
                 ])
             ;
     }

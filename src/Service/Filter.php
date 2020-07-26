@@ -169,8 +169,7 @@ class Filter{
         //     'sheetsObsolete' => $sheetsObsolete
         // );
 
-        $sheets= $sheetRepo->findByAuthor($user);
-
+        $sheets= $sheetRepo->findByAuthor($user, array('updatedAt' => 'DESC'));
 
         dump($sheets);
 
@@ -349,6 +348,7 @@ class Filter{
             "SELECT s
             FROM App\Entity\Sheet s
             WHERE s.author = :author AND s.status = 'DRAFT'
+            ORDER BY s.updatedAt DESC
             "
         )
         ->setParameters($parameters)

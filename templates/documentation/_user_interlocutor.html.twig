@@ -11,10 +11,12 @@
                     {# <a data-toggle="collapse" href="#phone{{user.id}}" role="button" aria-expanded="false" aria-controls="phone{{user.id}}"><i class="uil uil-phone-alt"></i></a>
                     <a data-toggle="collapse" href="#mail{{user.id}}" role="button" aria-expanded="false" aria-controls="mail{{user.id}}"href=""><i class="uil uil-envelope-alt"></i></a>
                     <div class="collapse" id="#phone{{user.id}}">{{ user.phoneNumber }}</div> #}
-
+                    {% if user.phoneNumber or user.email %}
                     <a data-toggle="collapse" href="#collapse{{user.id}}" role="button" aria-expanded="false" aria-controls="collapse{{user.id}}" class="violet small">
                         Contact
                     </a>
+
+                    {% endif %}
 
                 </td>
             </tr>

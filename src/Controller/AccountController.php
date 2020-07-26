@@ -525,6 +525,8 @@ class AccountController extends AbstractController
 
         $files = $filter->getFiles($this->getUser(), $userRepo, $sheetRepo);
 
+        $adminFiles = $filter->getAdminFiles($this->getUser(), $userRepo, $sheetRepo);
+
         $drafts = $filter->getDrafts($this->getUser());
 
         dump($drafts);
@@ -536,6 +538,12 @@ class AccountController extends AbstractController
             'filesUpToDate' => $files['filesUpToDate'],
             'filesWellObsolete' => $files['filesWellObsolete'],
             'filesObsolete' => $files['filesObsolete'],
+
+            'adminFilesToValidate' => $adminFiles['filesToValidate'],
+            'adminFilesToCorrect' => $adminFiles['filesToCorrect'],
+            'adminFilesUpToDate' => $adminFiles['filesUpToDate'],
+            'adminFilesWellObsolete' => $adminFiles['filesWellObsolete'],
+            'adminFilesObsolete' => $adminFiles['filesObsolete'],
             'drafts' => $drafts,
             'user' => $this->getUser()
 

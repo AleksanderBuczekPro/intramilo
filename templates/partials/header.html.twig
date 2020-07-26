@@ -150,20 +150,24 @@
                                 </tr>
                             
                             </table>
-                            <div class="dropdown-divider"></div>
-                            <a href="{{ path('account_documents') }}" class="dropdown-item text-center dropdown-footer my-line-h">Voir plus</a>
+                            {# <div class="dropdown-divider"></div> #}
+                            {# <a href="{{ path('account_documents') }}" class="dropdown-item text-center dropdown-footer my-line-h">Voir plus</a> #}
                         </div>
                     </li>
                     
-                    <li class="nav-item dropdown ml-4">
-                        <a class="nav-link" href="#" data-toggle="dropdown" id="accountDropdownLink">
+                    <li class="nav-item nav-btn dropdown ml-4">
+                        {# <a class="nav-link" href="#" data-toggle="dropdown" id="accountDropdownLink">
                             {% include '_picture.html.twig' with {'user': app.user, 'class': 'medium'} %}
+                        
                             
-                            {# {{ app.user.fullName }} #}
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-right account-dropdown box no-border" aria-labelledby="accountDropdownLink">
+                            
+                        </a> #}
+                            <a class="btn nav-dropdown nav-hover py-1 px-2" href="#" data-toggle="dropdown" id="accountDropdownLink">
+                                <i class="fas fa-sort-down fa-lg"></i>
+                            </a>
+                        <div class="dropdown-menu my-dropdown dropdown-menu-right account-dropdown box no-border" aria-labelledby="accountDropdownLink">
 
-                            {# <h6 class="dropdown-header">Compte</h6> #}
+                            {# <h6 class="dropdown-header">Compte</h6>
                             <div class="p-2 text-center">
                                 <div class="pr-2 mt-2 mb-2">
                                     {% include '_picture.html.twig' with {'user': app.user, 'class': 'large'} %}
@@ -172,20 +176,21 @@
                                     <div class="main">{{ app.user.fullName }}</div>
                                     <div class="my-secondary small text-center mt-0">{{ app.user.email }}</div>
                                 </div>
-                            </div>
+                            </div> #}
 
-                            <div class="mx-4 text-center">
+                            {# <div class="mx-4 text-center">
                                 <a href="{{ path('account_index') }}" class="btn btn-my-secondary my-2">Gérer mon compte</a>
-                            </div>
+                            </div> #}
 
                             {% if is_granted('ROLE_ADMIN') %}
-                                <div class="dropdown-divider"></div>
+                                {# <div class="dropdown-divider"></div> #}
                                 {# <h6 class="dropdown-header">Administration</h6> #}
-                                <a href="{{ path('admin_users_index') }}" class="dropdown-item text-center">BackOffice</a>
+                                <a href="{{ path('admin_users_index') }}" class="dropdown-item text-center py-2">BackOffice</a>
+                                <div class="dropdown-divider"></div>
                             {% endif %}
 
-                            <div class="dropdown-divider"></div>
-                            <a href="{{ path('account_logout') }}" class="dropdown-item text-center">Se déconnecter</a>
+                            
+                            <a href="{{ path('account_logout') }}" class="dropdown-item text-center py-2">Se déconnecter</a>
                         </div>
                     </li>
                 {% else %}

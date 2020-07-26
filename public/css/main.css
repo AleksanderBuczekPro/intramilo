@@ -285,6 +285,8 @@ p{
 
 }
 
+.modal-open { overflow: auto !important; padding-right: 0px!important; }
+
 /* Login */
 div.container.login{
 
@@ -1025,7 +1027,6 @@ table.my-table.admin td.users div.center-cropped{
 
     font-family: 'Poppins', sans-serif;
 
-    background-color: var(--purple-background-color)!important;
     color: black;
     
     width: 35px;
@@ -1041,28 +1042,46 @@ table.my-table.admin td.users div.center-cropped{
 
 
 /* A modifier */
-.init-circle, .nav-item .init-circle span.init{
+.init-circle, .nav-item .init-circle span.init {
+	font-family: 'Poppins', sans-serif;
+	color: black;
+	font-weight: 400;
+	text-align: center;
+	border-radius: 50%;
+	font-size: 12px !important;
+	display: inline-table;
+	height: 22px;
+	width: 22px;
+	padding: 3px;
+}
 
-    font-family: 'Poppins', sans-serif;
-    /* background-color: var(--grey-15-color); */
-    color: black;
-
-    font-weight: 400;
-
-    text-align: center;
-
-    border-radius: 50%;
-
-    font-size: 15px;
-
-    display: inline-table;
+.nav-item .profile-btn .init-circle {
+    
+    background-color: var(--grey-30-color)!important;
 
 }
+
+.nav-item .profile-btn.active:hover, .nav-item .profile-btn.active .init-circle {
+    
+    background-color: var(--purple-color)!important;
+
+}
+
+.nav-item .profile-btn.active:hover, .nav-item .profile-btn.active .init-circle span.init{
+    
+    color: white!important; 
+
+}
+
+
+
+
+
 
 .init-circle .init, .nav-item span.init{
     display:table-cell;
     vertical-align:middle;
-    border-radius: 50px;
+    border-radius: 50%;
 
 }
 
@@ -1760,6 +1779,12 @@ span.mime{
 
 }
 
+.dropdown-item{
+
+    font-family: "Roboto", "sans-serif";
+
+}
+
 
 div.alert.alert-danger {
 
@@ -2229,5 +2254,34 @@ form.search-form input{
 
     width: 75px;
     text-align: center;
+
+}
+
+
+.modal-content.loading .modal-body{
+
+    font-family: "Roboto", 'sans-serif';
+    height: 300px;
+
+    text-align: center;
+    font-size: 20px;
+    font-weight: 500;
+
+}
+
+.modal-content.loading .modal-body div.content{
+
+    margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+
+}
+
+.modal-content.loading .modal-body div.message{
+
+  font-size: 13px;
 
 }

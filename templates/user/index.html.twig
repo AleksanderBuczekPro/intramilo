@@ -146,12 +146,13 @@
                                 </tr>
 
                                 {# Phone Number #}
+
                                 <tr>
                                     <td class="info-icon">
                                         <i class="fas fa-phone-alt"></i>
                                     </td>
                                     <td class="info-content">
-                                       <span class="info">{{ user.phoneNumber }} </span> <span class="badge secondary p-1 ml-1 align-middle">{{ user.directNumber }}</span><br>
+                                       <span class="info">{% if user.phoneNumber %}  {{ user.phoneNumber }} {% else %} - {% endif %}</span><span class="badge secondary p-1 ml-1 align-middle">{{ user.directNumber }}</span><br>
                                        {% if user.proNumber %} <span class="info">{{ user.proNumber }}</span> (pro)  {% endif %}
                                     </td>
                                 </tr>
@@ -280,6 +281,8 @@
                     {# Home #}
                     <div class="tab-pane fade show active" id="nav-online" role="tabpanel" aria-labelledby="nav-online-tab">
 
+                    {% if (filesToCorrect|length + filesToValidate|length + filesObsolete|length + filesWellObsolete|length + filesUpToDate|length + drafts|length) > 0 %}
+
                         <div class="my-4">
                             {% for file in drafts %}
                                 {% include 'documentation/_file.html.twig' %}
@@ -310,6 +313,12 @@
                         {% for file in filesUpToDate %}
                             {% include 'documentation/_file.html.twig' %}
                         {% endfor %}
+
+                    {% else %}
+
+                        <p class="text my-4 text-center w-100">Aucune documentation</p>
+
+                    {% endif %}
 
                     </div>
                     
@@ -403,8 +412,28 @@
 
                         </div>
                 
+                    </div>
                 </div>
-            </div>
+
+                {# Events #}
+                <div class="tab-pane fade" id="nav-admin" role="tabpanel" aria-labelledby="nav-admin-tab">
+
+                    {# En attente de validation #}
+                    {% for file in adminFilesToValidate %}
+                        {% include 'documentation/_file.html.twig' %}
+                    {% endfor %}
+                    
+                    {# Obsolète #}
+                    {% for file in adminFilesObsolete %}
+                        {% include 'documentation/_file.html.twig' %}
+                    {% endfor %}
+
+                    {# Bientôt obsolète #}
+                    {% for file in adminFilesWellObsolete %}
+                        {% include 'documentation/_file.html.twig' %}
+                    {% endfor %}
+
+                </div>
 
 
         </div>

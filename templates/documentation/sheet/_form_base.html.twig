@@ -1,0 +1,394 @@
+
+{# Affichage conditionnel #}
+{% if (draft is defined and draft) or ( is_granted('ROLE_ADMIN') and (sheet.status == "TO_VALIDATE" or sheet.status == "TO_CORRECT")) %}
+
+    {% set dnone = 'd-none' %}
+
+{% else %}
+
+    {% set dnone = '' %}
+
+{% endif %}
+
+
+{{ form_start(form) }}
+
+<div class="container-fluid sheet-form m-0 px-4 mb-4">
+    <div class="row">
+
+        <div class="col-xl-2 text-center action-container px-4">
+            <div style="width: 200px;" class="sticky float-right">
+
+                <div class="">
+                    <button type="button" id="add-attachment" class="btn btn-my-marine text-left no-focus w-100 mb-2">
+                        <i class="uil uil-plus mr-2"></i> Pièce jointe
+                    </button>
+                </div>
+                <div>
+                    <button type="button" id="add-introduction" class="btn btn-my-marine text-left no-focus w-100 mb-2">
+                        <i class="uil uil-plus mr-2"></i> Introduction
+                    </button>
+                </div>
+
+                <div>
+                    <button type="button" id="add-header" class="btn btn-my-marine text-left no-focus w-100 mb-2">
+                        <i class="uil uil-plus mr-2"></i> Entête
+                    </button>
+                </div>
+
+                <div>
+                    <button type="button" id="add-paragraph" class="btn btn-my-marine text-left no-focus w-100 mb-2">
+                        <i class="uil uil-plus mr-2"></i> Section
+                    </button>
+                </div>
+
+            </div>
+        </div>
+
+        {# Sheet #}
+        <div class="d-none" id="sheet_id">{{ sheet.id }}</div>
+        <input type="hidden" id="draft" value="
+
+            {# {% if (draft is defined and draft) or is_granted('ROLE_ADMIN')) %}draft_not_allowed{% endif %} #}
+        
+        "></input>
+
+
+
+        <div class="col-xl-7 col-lg-9 col-md-8 form-container bg-white px-0">
+            <div class="card my-card no-border m-0 no-br p-0">
+                <div class="card-body p-0">
+
+                    {# Title / Subtitle #}
+                    <div class="card my-card m-0 m-0 no-border pt-4 px-4 pb-0">
+                        <div class="card-body px-4 py-0">
+                            <div class="text my-secondary mt-3">
+                            {% if app.request.attributes.get('_route') starts with 'sheet_create' %}
+
+                                Non enregistré
+
+                            {% else %}
+
+                                {% if sheet.status == "DRAFT" %}
+                                
+                                    Brouillon enregistré le {{ sheet.updatedAt|localizeddate('none', 'none', 'fr', null, 'd MMMM YYYY') }} à {{ sheet.updatedAt|localizeddate('none', 'none', 'fr', null, 'HH:mm') }}
+                                
+                                {% endif %}
+
+                            {% endif %}
+
+                                     
+
+                            
+                            
+                    
+                            </div>
+
+                            <div class="row">
+                                <div class="col-11 pl-3 mt-4">
+                                    {{ form_widget(form.title) }}
+                                    {{ form_widget(form.subtitle) }}
+                                </div>
+                                <div class="col-1">
+                                    <button type="button" class="btn btn-my-light marine my-tooltip p-0 float-right mt-4" data-toggle="tooltip" data-placement="left" title="<br> Privilégiez un <strong>titre court</strong>.<br><br>S'il s'agit d'un acronyme, placez le nom complet de celui-ci dans 'Complément de titre'<br><br>">
+                                        <i class="uil uil-question-circle"></i>
+                                    </button>                                
+                                </div>
+                            </div>                 
+                                               
+                        </div>
+                    </div>
+
+                    {% if sheet.status == "TO_CORRECT" %}
+                        <div class="px-4 mx-4">
+                            {% include 'documentation/_sheet_notification.html.twig' with {'file': sheet} %}
+                        </div>
+
+                    {% endif %}
+
+                    {# Pièces jointes #}
+                    <div class="card my-card no-border px-4 pt-4 pb-0 mt-1 mb-0 no-br">
+                        <div class="card-body px-3 pt-0 pb-0">
+
+                                {{ form_widget(form.attachments) }}
+                        
+                        </div>
+                    </div>
+
+                    
+                
+                </div>
+            </div>
+
+            {# Introduction #}
+            <div class="card my-card no-border m-0 p-0 no-br">
+
+                <div>
+                    <div class="px-4">
+                        <button id="delete-introduction" type="button" class="btn btn-my-outline op-40 small mb-2 py-1 px-2 float-right {% if not sheet.introduction %}d-none{% endif %} mt-3 mr-4" data-toggle="modal" data-target="#deleteIntroModal">Supprimer l'introduction</button>        
+                    </div>
+
+                </div>
+                {# Introduction #}
+                <div id="block_introduction" class="card my-card no-border no-br m-0 px-4 pb-4 pt-0 {% if not sheet.introduction %}d-none{% endif %}">
+                    <div class="card-body px-4 pt-0">
+                        {{ form_widget(form.introduction) }}                        
+                    </div>
+                </div>
+
+            </div>
+            
+
+            {# Entêtes #}
+            <div class="card my-card no-border p-0 m-0 no-br">
+                <div>
+                    <div class="px-4">
+                        {{ form_widget(form.headers) }}                    
+                    </div>
+
+                </div>
+            </div>
+
+
+            <div class="card my-card no-border no-br p-0 m-0">
+                <div class="card-body p-0">
+                    {# Section #}
+                    <div class="px-4">
+                    {{ form_widget(form.paragraphs) }}
+                    </div>                    
+                </div>
+
+            </div>
+        </div>
+
+        {# Sidebar #}
+        <div class="col-xl-2 col-lg-3 col-md-4 form-header">
+            <div style="width: 300px;" class="">
+
+                <div class="row mt-4 mx-0">
+                   
+                    <div class="col-12 px-1 mb-2">
+
+                        <button id="confirm-btn" class="btn btn-my-primary white w-100 px-2" type="button" data-toggle="modal" data-target="#confirmModal">Envoyer à valider</button>
+                    </div>
+
+
+                    <div class="col-12 px-1 {{ dnone }}">
+                        
+                        <div class="btn-group w-100">
+                            {{ form_widget(form.saveDraft) }}
+                            <button type="button" class="btn btn-my-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="sr-only">Toggle Dropdown</span>
+                            </button>
+                        <div class="dropdown-menu dropdown-menu-right p-0">
+                            {{ form_widget(form.saveDraftExit) }}
+                        </div>
+                        </div>
+                    </div>
+
+                     {% if (draft is defined and draft) %}
+                     <div class="col-12 px-1">
+                        <a class="btn btn-my-dark dark w-100 px-2" target="_blank" href="{{ path('sheet_show', {'id': draft.id }) }}">Voir le brouillon existant</a>
+                     </div>
+                    {% endif %}
+                </div>
+                <div class="card my-card my-box no-border">
+                    <div class="card-body px-3 py-2">
+                        <div class="">
+                    
+                            <div class="card my-card no-border no-br p-0 mt-0">
+                                <div class="card-body p-0 pb-2">
+                                    <div class="card-title mt-0 mb-2">
+                                        Informations
+                                    </div>
+
+                                    <table class="table my-table">
+                                        <tr>
+
+                                            <td class="marine bolder no-border p-0">{{ form_widget(form.subCategory) }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="marine bolder no-border p-0">{{ form_widget(form.pic) }}</td>
+                                            
+                                        </tr>
+                                        
+                                        <tr>
+                                            <td class="marine bolder no-border p-0">
+                                                <div class="form-check mt-3 float-right">
+                                                    <input class="form-check-input" type="checkbox" name="default_pic" value="" id="defaultCheck1">
+                                                    <label class="form-check-label" for="defaultCheck1">
+                                                        Image par défault
+                                                    </label>
+                                                </div>
+                                            </td>
+                                            
+                                        </tr>
+                                        
+                                        {% if not is_granted("ROLE_ADMIN") %}
+                                        <tr>
+                                            <td class="marine pl-0 op-70 no-border">Responsable de validation</td>
+                                            <td class="marine bolder no-border">{{ app.user.groupe.responsable }}</td>
+                                        </tr>
+                                        {% endif %}
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div class="card my-card no-border p-0">
+                                <div class="card-body p-0">
+                                    <div class="card-title mt-0 mb-4">
+                                        Organisme et Interlocuteurs
+
+                                        <button type="button" class="btn btn-my-light marine my-tooltip p-0" data-toggle="tooltip" data-placement="right" title="<br> <i>Organisme obligatoire</i> <br> <br> Liste des organismes et des interlocuteurs enregistrés dans l'annuaire. <br><br> Pour voir l'annuaire, cliquez <a href='{{ path('organizations_index') }}' target='_blank'><u class='white'>ici</u></a>. <br><br>">
+                                            <i class="uil uil-question-circle"></i>
+                                        </button>
+
+                                        {# <button type="button" id="add-organization"  data-toggle="modal" data-target="#exampleModal" class="btn btn-my-marine py-2 px-2 mt-0 float-right no-focus">
+                                            <i class="uil uil-plus"></i>
+                                        </button> #}
+                                    </div>
+                                    
+                                    {{ form_widget(form.organization) }}
+                                    
+                                    <div id="interlocutors-message" class="mb-0">
+                                        <p class="text mb-0">Sélectionnez un organisme pour voir la liste des interlocuteurs disponibles.
+                                        </p>
+                                    </div>
+
+                                    <div class="row" id="interlocutors">
+                                    
+                                    </div>
+
+                                </div>
+                            </div>
+
+
+                            
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+{# Modal confirmation envoi #}
+<div class="modal fade bd-example-modal-lg" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-keyboard="false">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+
+    {# Validation #}
+    <div class="modal-content validation p-3">
+      <div class="modal-header no-border pb-0">
+        <h4 class="modal-title m-0" id="exampleModalLabel">Envoyer à valider<span class="font-weight-light"> - Êtes-vous sûr ?</span></h4>
+        
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        
+      </div>
+
+      <div class="modal-body">
+
+            <div id="form-notifications">
+           
+            </div>
+
+
+      </div>
+    
+
+      <div class="modal-footer no-border">
+        <button type="button" class="btn rouge" data-dismiss="modal">Non</button>
+        {{ form_widget(form.save) }} 
+
+      </div>
+    </div>
+
+    {# Loading #}
+    <div class="modal-content loading d-none">
+
+        <div class="modal-body">
+            <div class="content">
+                <div>
+                    <i class="fas fa-spinner fa-spin fa-lg mb-4 violet"></i><br>
+                    <span class="">Envoi en cours...</span><br>
+                    
+                </div>
+                <div class="my-secondary message text-center mt-1">Selon la taille de vos pièces jointes, cette opération peut prendre plusieurs minutes.</div>
+            
+            </div>
+        </div>
+
+        
+      
+    </div>
+  </div>
+</div>
+{{ form_end(form) }}
+
+
+{# Modal envoi de brouillon #}
+<div class="modal fade bd-example-modal-lg" id="draftModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-keyboard="false">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+
+    {# Validation #}
+    <div class="modal-content loading invalid">
+
+        {# <p class="px-3 op-70">Voici les sous-catégories où vous êtes autorisés à ajouter une nouvelle fiche</p> #}
+        <div class="modal-body">
+            <div class="content">
+                <div>
+                    <i class="fas fa-times fa-lg mb-4 rouge"></i><br>
+                    <span class="">Vérifiez vos pièces jointes.</span><br>
+                    
+                </div>
+                <div class="my-secondary message text-center mt-1">Vérifiez bien que vos pièces jointes ont un titre et que le fichier est bien importé depuis votre ordinateur.</div>
+                <a class="btn small mt-4 rouge" data-dismiss="modal">Corriger</a>
+            </div>
+        </div>
+
+        
+      
+    </div>
+
+    {# Loading #}
+    <div class="modal-content loading ok">
+
+        {# <p class="px-3 op-70">Voici les sous-catégories où vous êtes autorisés à ajouter une nouvelle fiche</p> #}
+        <div class="modal-body">
+            <div class="content">
+                <div>
+                    <i class="fas fa-spinner fa-spin fa-lg mb-4 violet"></i><br>
+                    <span class="">Enregistrement du brouillon...</span><br>
+                    
+                </div>
+                <div class="my-secondary message text-center mt-1">Selon la taille de vos pièces jointes, cette opération peut prendre plusieurs minutes.</div>
+            
+            </div>
+        </div>
+
+        
+      
+    </div>
+  </div>
+</div>
+
+{# Modal de suppression #}
+<div class="modal fade" id="deleteIntroModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-body text-center">
+        <p class="px-4 pt-4 pb-0"> Voulez-vous vraiment supprimer l'introduction ? </p>
+      </div>
+      <div class="modal-footer no-border">
+            <button id="delete-introduction-confirm" type="button" class="w-50 btn btn-danger" data-dismiss="modal">Oui</button>
+            <button type="button" class="w-50 btn btn-secondary" data-dismiss="modal">Non</button>
+
+      </div>
+    </div>
+  </div>
+</div>

@@ -49,6 +49,8 @@
 <link rel="stylesheet" href="{{ asset('/css/buttons.css') }}" />
 <link rel="stylesheet" href="{{ asset('/css/documentation.css') }}" />
 
+
+
 <script src="{{ asset('/js/notifications.js') }}"></script>
 <script src="{{ asset('/js/autosize.min.js') }}"></script>
 
@@ -89,7 +91,7 @@
             $(document).ready(function(){
 
                 // Masques
-                $('input[type="tel"]').inputmask("99 99 99 99 99");  //static mask
+                //$('input[type="tel"]').inputmask("99 99 99 99 99");
                 $('#registration_directNumber, #admin_account_directNumber').inputmask("999");  //static mask
 
                 $('#antenne_postcode, #organization_postcode').inputmask("99999");  //static mask

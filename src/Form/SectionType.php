@@ -7,6 +7,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class SectionType extends ApplicationType
 {
@@ -17,7 +18,7 @@ class SectionType extends ApplicationType
                 'required' => false,
                 'empty_data' => 'Sans titre secondaire'
             ]))
-            ->add('content', TextType::class, $this->getConfiguration(false, "Information", [
+            ->add('content', TextareaType::class, $this->getConfiguration(false, "Information", [
                 'required' => false,
                 'empty_data' => 'Non renseigné'
             ]))

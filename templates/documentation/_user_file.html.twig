@@ -9,7 +9,7 @@
                     </td>
                     <td class="text-left pl-2 no-border">
                         <div class="black main">{{ user }}</div>
-                        <div class="black op-70">{{ file.updatedAt|localizeddate('none', 'none', 'fr', null, 'd MMMM Y') }} • {{ file.views }} vue{% if file.views > 1 %}s{% endif %}</div>
+                        <div class="black op-70">{{ file.updatedAt|localizeddate('none', 'none', 'fr', null, 'd MMMM Y') }} à {{ sheet.updatedAt|localizeddate('none', 'none', 'fr', null, 'HH:mm') }} • {{ file.views }} vue{% if file.views > 1 %}s{% endif %}</div>
                     </td>
                     
                 </tr>
