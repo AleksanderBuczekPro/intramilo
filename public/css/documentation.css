@@ -488,6 +488,16 @@ div.sheet-content table td{
 
 }
 
+
+div.sheet-content .header table td{
+
+    white-space: pre-wrap;
+
+}
+
+
+
+
 div.sheet-tools{
 
     padding: 40px;
