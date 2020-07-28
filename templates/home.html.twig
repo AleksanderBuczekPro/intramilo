@@ -595,10 +595,13 @@ function displayWeatherInfos(data){
     const city = data.name;
     const temperature = data.main.temp;
     const condition = data.weather[0].main;
+
     const description = data.weather[0].description;
 
 
     console.log(condition);
+
+    
 
     $('#temp').html(Math.round(temperature));
     $('#description').html(description.substr(0,1).toUpperCase() + description.substr(1));
