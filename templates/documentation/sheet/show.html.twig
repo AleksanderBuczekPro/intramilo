@@ -127,19 +127,23 @@
             </div>
 
             {# Pièces jointes #}
-            <div class="mt-4">
-                {% for file in sheet.attachments %}
+            {% if sheet.attachments|length > 0 %}
+            
+                <div class="mt-4">
+                    {% for file in sheet.attachments %}
 
-                    <span class="inline-block pr-1">
-                        {% include 'documentation/_attachment.html.twig' %}
-                    </span>
+                        <span class="inline-block pr-1">
+                            {% include 'documentation/_attachment.html.twig' %}
+                        </span>
 
-                {% endfor %}
-            </div>
+                    {% endfor %}
+                </div>
+
+            {% endif %}
 
             {# Introduction #}
             <div class="row">
-                <div class="col-12 sheet-content paragraph-body sheet-introduction mt-3 mb-0 black">
+                <div class="col-12 sheet-content paragraph-body sheet-introduction mt-4 mb-0 black">
                     {{ sheet.introduction|raw }}
                 
                 </div>
@@ -153,7 +157,7 @@
 
                     {% for h in sheet.headers %}
                     <div id="accordion-h">
-                        <div class="card my-card paragraph-card header bg-purple no-border my-2 pt-2 px-0 pb-1">
+                        <div class="card my-card paragraph-card header bg-purple no-border mt-4 pt-2 px-0 pb-1">
                             <button class="btn btn-paragraph purple text-left no-focus show"
                             {# data-toggle="collapse" data-target="#collapse-h-{{ loop.index }}" aria-expanded="true" aria-controls="collapse-{{ loop.index }}" #}
                             >
@@ -171,7 +175,7 @@
                                 <table class="table my-table mx-1 bg-transparent">
                                     {% for section in h.sections %}
                                         <tr>
-                                            <th class="no-border w-50">{{ section.title }}</th>
+                                            <th class="no-border">{{ section.title }}</th>
                                             <td class="no-border">{{ section.content }}</td>
                                         </tr>
                                     {% endfor %}

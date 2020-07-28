@@ -475,8 +475,8 @@ div.sheet-content table th {
 
 #accordion-h table th{
 
-
     text-align: left;
+    width: 33%;
 }
 
 div.sheet-content table td{
@@ -485,8 +485,6 @@ div.sheet-content table td{
     padding: 7px 15px;
 
     border: none!important;
-
-    white-space: pre-wrap;
 
 }
 
@@ -519,6 +517,12 @@ div.sheet-content h2{
     font-family: 'Poppins', sans-serif;
     font-size: 20px;
     font-weight: 500;
+
+}
+
+div.sheet-content p{
+
+    margin: 0;
 
 }
 
