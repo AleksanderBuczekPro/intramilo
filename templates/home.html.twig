@@ -580,7 +580,7 @@ async function main(){
 
     // Appeler OpenWeatherMap
     // api key = 67485703371f20b1d8486a1bb4501d32
-    const meteo = await fetch('http://api.openweathermap.org/data/2.5/weather?q=' + ville + ',fr&APPID=67485703371f20b1d8486a1bb4501d32&units=metric&lang=fr')
+    const meteo = await fetch('https://api.openweathermap.org/data/2.5/weather?q=' + ville + ',fr&APPID=67485703371f20b1d8486a1bb4501d32&units=metric&lang=fr')
         .then(resultat => resultat.json())
         .then(json => json)
            
