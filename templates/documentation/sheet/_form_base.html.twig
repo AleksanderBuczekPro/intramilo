@@ -20,25 +20,42 @@
             <div style="width: 200px;" class="sticky float-right">
 
                 <div class="">
-                    <button type="button" id="add-attachment" class="btn btn-my-marine text-left no-focus w-100 mb-2">
-                        <i class="uil uil-plus mr-2"></i> Pièce jointe
+                    <button type="button" id="add-attachment" class="btn btn-my-marine text-left no-focus w-75 mb-2">
+                        {# <i class="uil uil-plus mr-2"></i> #}
+                        Pièce jointe
                     </button>
+                    <button type="button" class="btn btn-my-light marine my-tooltip p-0 float-right mt-2" data-toggle="tooltip" data-placement="right" title="<br> Importez des <strong>pièces jointes</strong> depuis votre ordinateur qui seront visibles uniquement dans cette fiche. <br><br>">
+                        <i class="uil uil-question-circle"></i>
+                    </button>
+
                 </div>
                 <div>
-                    <button type="button" id="add-introduction" class="btn btn-my-marine text-left no-focus w-100 mb-2">
-                        <i class="uil uil-plus mr-2"></i> Introduction
+                    <button type="button" id="add-introduction" class="btn btn-my-marine text-left no-focus w-75 mb-2">
+                        {# <i class="uil uil-plus mr-2"></i> #}
+                        Introduction
+                    </button>
+                    <button type="button" class="btn btn-my-light marine my-tooltip p-0 float-right mt-2" data-toggle="tooltip" data-placement="right" title="<br> Rédigez ici votre <strong>introduction</strong> (ou votre définition). <br><br> Vous pouvez également y mettre votre contenu lorsque la fiche ne nécessite pas la création de sections.<br><br>">
+                        <i class="uil uil-question-circle"></i>
                     </button>
                 </div>
 
                 <div>
-                    <button type="button" id="add-header" class="btn btn-my-marine text-left no-focus w-100 mb-2">
-                        <i class="uil uil-plus mr-2"></i> Entête
+                    <button type="button" id="add-header" class="btn btn-my-marine text-left no-focus w-75 mb-2">
+                        {# <i class="uil uil-plus mr-2"></i> #}
+                        Entête
+                    </button>
+                    <button type="button" class="btn btn-my-light marine my-tooltip p-0 float-right mt-2" data-toggle="tooltip" data-placement="right" title="<br> Une <strong>entête</strong> est un tableau à <br><strong>2 colonnes</strong> permettant de mettre en avant certaines informations. <br><br> Par exemple: Dates, Lieux, Accès Bus...<br><br>">
+                        <i class="uil uil-question-circle"></i>
                     </button>
                 </div>
 
                 <div>
-                    <button type="button" id="add-paragraph" class="btn btn-my-marine text-left no-focus w-100 mb-2">
-                        <i class="uil uil-plus mr-2"></i> Section
+                    <button type="button" id="add-paragraph" class="btn btn-my-marine text-left no-focus w-75 mb-2">
+                        {# <i class="uil uil-plus mr-2"></i> #}
+                        Section
+                    </button>
+                    <button type="button" class="btn btn-my-light marine my-tooltip p-0 float-right mt-2" data-toggle="tooltip" data-placement="right" title="<br>Le contenu de votre fiche est réparti dans les différentes sections. <br><br>Une <strong>section</strong> est une partie de votre contenu. Chaque section correspond à une thématique. <br><br> Vous pouvez ajouter autant de sections que vous le souhaitez. <br><br>">
+                        <i class="uil uil-question-circle"></i>
                     </button>
                 </div>
 
@@ -63,6 +80,7 @@
                     <div class="card my-card m-0 m-0 no-border pt-4 px-4 pb-0">
                         <div class="card-body px-4 py-0">
                             <div class="text my-secondary mt-3">
+                            
                             {% if app.request.attributes.get('_route') starts with 'sheet_create' %}
 
                                 Non enregistré
@@ -77,12 +95,10 @@
 
                             {% endif %}
 
-                                     
+                            </div>
 
                             
-                            
-                    
-                            </div>
+
 
                             <div class="row">
                                 <div class="col-11 pl-3 mt-4">
@@ -90,7 +106,7 @@
                                     {{ form_widget(form.subtitle) }}
                                 </div>
                                 <div class="col-1">
-                                    <button type="button" class="btn btn-my-light marine my-tooltip p-0 float-right mt-4" data-toggle="tooltip" data-placement="left" title="<br> Privilégiez un <strong>titre court</strong>.<br><br>S'il s'agit d'un acronyme, placez le nom complet de celui-ci dans 'Complément de titre'<br><br>">
+                                    <button type="button" class="btn btn-my-light marine my-tooltip p-0 float-right mt-4" data-toggle="tooltip" data-placement="left" title="<br> Privilégiez un <strong>titre court</strong>.<br><br>S'il s'agit d'un acronyme, placez le nom complet de celui-ci dans <strong>Complément de titre</strong><br><br>">
                                         <i class="uil uil-question-circle"></i>
                                     </button>                                
                                 </div>
@@ -239,7 +255,7 @@
                                     <div class="card-title mt-0 mb-4">
                                         Organisme et Interlocuteurs
 
-                                        <button type="button" class="btn btn-my-light marine my-tooltip p-0" data-toggle="tooltip" data-placement="right" title="<br> <i>Organisme obligatoire</i> <br> <br> Liste des organismes et des interlocuteurs enregistrés dans l'annuaire. <br><br> Pour voir l'annuaire, cliquez <a href='{{ path('organizations_index') }}' target='_blank'><u class='white'>ici</u></a>. <br><br>">
+                                        <button type="button" class="btn btn-my-light marine my-tooltip p-0" data-toggle="tooltip" data-placement="right" title="<br> <i>Organisme obligatoire</i> <br> <br> Liste des <strong>organismes</strong> et des <strong>interlocuteurs</strong> enregistrés dans l'annuaire. <br><br> Pour voir l'annuaire, cliquez <a href='{{ path('organizations_index') }}' target='_blank'><u class='white'>ici</u></a>. <br><br>">
                                             <i class="uil uil-question-circle"></i>
                                         </button>
 
