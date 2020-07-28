@@ -199,7 +199,7 @@
 {# Pour chaque Paragraph ajouté #}
 {% block _sheet_paragraphs_entry_widget %}
 
-    <div class="form-group paragraph mb-0" id="block_paragraph_{{id}}">
+    <div class="form-group my-paragraph mb-0" id="block_paragraph_{{id}}">
 
         {# <div class="card my-card no-border bg-marine no-br p-4 m-0">
             <div class="card-body p-4">
@@ -230,13 +230,14 @@
 
                                 <div class="row float-right pr-2">
 
-                                        <button type="button"
+
+                                        
+                                        <button type="button" data-id="{{id}}" class="btn btn-my-marine paragraph-move up float-right small p-1 mt-1 mx-1"><i class="uil uil-arrow-up"></i></button>  
+                                        <button type="button" data-id="{{id}}" class="btn btn-my-marine paragraph-move down float-right small p-1 mt-1 mx-1"><i class="uil uil-arrow-down"></i></button>
+                                                                                <button type="button"
                                         data-toggle="modal" data-target="#deleteParagraphModal_{{id}}"
                                         {# data-action="delete" data-target="#block_paragraph_{{id}}" #}
-                                        class="btn btn-my-outline marine op-40 small py-1 px-2 float-right mx-1">Supprimer</button>
-                                        
-                                        <button type="button" data-id="{{id}}" class="btn btn-my-marine paragraph-move down float-right small p-1 mt-1 mx-1"><i class="uil uil-arrow-down"></i></button>
-                                        <button type="button" data-id="{{id}}" class="btn btn-my-marine paragraph-move up float-right small p-1 mt-1 mx-1"><i class="uil uil-arrow-up"></i></button>  
+                                        class="btn btn-my-outline marine op-40 small py-1 px-2 float-right mx-1 mt-1">Supprimer</button>
                                 </div>
 
                             </div>                      
@@ -250,24 +251,26 @@
                 </div>
             </div>
 
+             <div class="modal fade" id="deleteParagraphModal_{{id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="false">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                    <div class="modal-body text-center">
+                        <p class="px-4 pt-4 pb-0"> Voulez-vous vraiment supprimer cette section ? </p>
+                    </div>
+                    <div class="modal-footer no-border">
+                            <button id="delete-paragraph" type="button" class="w-50 btn btn-danger" data-action="delete" data-target="#block_paragraph_{{id}}" data-dismiss="modal">Oui</button>
+                            <button type="button" class="w-50 btn btn-secondary" data-dismiss="modal">Non</button>
+
+                    </div>
+                    </div>
+                </div>
+            </div>
+
          
 
     </div>
 
-    <div class="modal fade" id="deleteParagraphModal_{{id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="false">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-            <div class="modal-body text-center">
-                <p class="px-4 pt-4 pb-0"> Voulez-vous vraiment supprimer cette section ? </p>
-            </div>
-            <div class="modal-footer no-border">
-                    <button id="delete-paragraph" type="button" class="w-50 btn btn-danger" data-action="delete" data-target="#block_paragraph_{{id}}" data-dismiss="modal">Oui</button>
-                    <button type="button" class="w-50 btn btn-secondary" data-dismiss="modal">Non</button>
-
-            </div>
-            </div>
-        </div>
-    </div>
+   
 
 {% endblock %}
 

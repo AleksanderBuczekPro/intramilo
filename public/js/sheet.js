@@ -314,7 +314,7 @@ function handleDeleteButtons(){
 
 function updateCounter(){
     const count = +$('#sheet_headers div.form-group.header').length;
-    const count_p = +$('#sheet_paragraphs div.form-group.paragraph').length;
+    const count_p = +$('#sheet_paragraphs div.form-group.my-paragraph').length;
     const count_a = +$('#sheet_attachments div.form-group.attachment').length;
 
     /* Attachments */
