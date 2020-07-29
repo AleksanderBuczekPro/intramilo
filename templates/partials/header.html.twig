@@ -263,7 +263,7 @@
       {# <p class="px-3 op-70">Voici les sous-catégories où vous êtes autorisés à ajouter une nouvelle fiche</p> #}
       <div class="modal-body">
 
-            {% for sub in app.user.subCategories %}
+            {% for sub in app.user.subCategories|sort((a, b) => a.category.title <=> b.category.title) %}
 
                     <div class="select-sub" data-href="{{ path('sheet_create_sub', {'id': sub.id}) }}">
                         {{ sub.category }} - {{ sub }}

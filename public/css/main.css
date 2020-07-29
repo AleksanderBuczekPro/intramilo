@@ -580,6 +580,7 @@ p.text{
 
 }
 
+
 .contact-list-container{
     
     height: 70vh;
@@ -607,6 +608,23 @@ p.text{
     position: sticky!important;
     top: 122px!important;
 
+}
+
+.fixed {
+    position: fixed;
+}
+.scrollit {
+    float: left;
+}
+
+
+.organization-list{
+
+    height: calc(100vh - 350px);
+    overflow-y: auto;
+
+    scrollbar-color: var(--grey-15-color) var(--grey-10-color);
+    scrollbar-width: thin;
 
 }
 
@@ -2283,5 +2301,12 @@ form.search-form input{
 .modal-content.loading .modal-body div.message{
 
   font-size: 13px;
+
+}
+
+.sheet-form-anchor{
+
+    position: relative;
+    top:-400px;
 
 }

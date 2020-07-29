@@ -18,7 +18,12 @@ class InterlocutorType extends ApplicationType
             ->add('firstName', TextType::class, $this->getConfiguration("Prénom", "Prénom"))
             ->add('lastName', TextType::class, $this->getConfiguration("Nom", "Nom"))
             ->add('function', TextType::class, $this->getConfiguration("Fonction", "Fonction"))
-            ->add('phoneNumber', TelType::class, $this->getConfiguration("Numéro de téléphone", "Téléphone", [
+            ->add('phoneNumber', TelType::class, $this->getConfiguration("Numéro de téléphone 1", "Téléphone 1", [
+
+                'required' => false
+
+            ]))
+            ->add('proNumber', TelType::class, $this->getConfiguration("Numéro de téléphone 2", "Téléphone 2", [
 
                 'required' => false
 
@@ -28,6 +33,7 @@ class InterlocutorType extends ApplicationType
                 'required' => false
 
             ]))
+            
         ;
     }
 

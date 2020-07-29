@@ -1,3 +1,9 @@
+function scroll_to(div){
+    $('html, body').animate({
+        scrollTop: $(div).offset().top
+    },1000);
+}
+
 function formatSizeUnits(bytes)
 {
     if (bytes >= 1073741824)
@@ -127,6 +133,8 @@ $('#add-attachment').click(function(){
 
     // Je gère le bouton supprimer
     handleDeleteButtons();
+
+    scroll_to('#anchor_attachments');
     
 });
 
@@ -146,6 +154,9 @@ $('#add-paragraph').click(function(){
 
     // Je gère le bouton supprimer
     handleDeleteButtons();
+
+    scroll_to('#block_paragraph_sheet_paragraphs_' + index);
+
 
 });
 
@@ -281,6 +292,42 @@ $("#sheet_headers").on('click', '.section-move', function () {
 });
 
 
+/* Introduction */
+$('#add-introduction').click(function(){
+
+    // On affiche l'introduction
+    $('#block_introduction').removeClass("d-none");
+    $('#delete-introduction').removeClass("d-none");
+
+
+    // On affiche plus le bouton "Ajouter une introduction"
+    $(this).prop('disabled', true);
+
+    scroll_to('#anchor_introduction');
+
+
+});
+
+
+$('#delete-introduction-confirm').click(function(){
+
+
+    // On vide l'éditeur de l'introduction
+    CKEDITOR.instances.sheet_introduction.setData('');
+
+
+    // On n'affiche plus l'introduction
+    $('#block_introduction').addClass("d-none");
+    $('#delete-introduction').addClass("d-none");
+
+    // On affiche de nouveau le bouton "Ajouter une introduction"
+    //$('#add-introduction').removeClass("d-none");
+    $('#add-introduction').prop('disabled', false);
+
+
+});
+
+
 
 
 $('#add-header').click(function(){
@@ -298,6 +345,8 @@ $('#add-header').click(function(){
 
     // Je gère le bouton supprimer
     handleDeleteButtons();
+
+    scroll_to('#anchor_sheet_headers_' + index);
 
 });
 

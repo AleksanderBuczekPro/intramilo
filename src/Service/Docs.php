@@ -154,6 +154,23 @@ class Docs{
     
     }
 
+
+    // public function getSubCategories($author){
+
+    //     return $this->manager->createQuery(
+    //         'SELECT s FROM App\Entity\SubCategory s
+    //         JOIN App\Entity\User u ON u.id = .post_id
+    //         JOIN App\Entity\Category c ON pt.tag_id = t.id
+    //         WHERE s.author = :author
+    //         ORDER BY c.title ASC, s.title ASC
+    //         '
+    //     )
+    //     ->setParameter('author', $author)
+    //     ->getResult();
+
+
+    // }
+
 }
 
 

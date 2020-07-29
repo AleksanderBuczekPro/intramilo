@@ -90,12 +90,13 @@
                                 {% if sheet.status == "DRAFT" %}
                                 
                                     Brouillon enregistré le {{ sheet.updatedAt|localizeddate('none', 'none', 'fr', null, 'd MMMM YYYY') }} à {{ sheet.updatedAt|localizeddate('none', 'none', 'fr', null, 'HH:mm') }}
-                                
+                                    <a class="violet p-0 ml-2" target="_blank" href="{{ path('sheet_show', {'id': sheet.id }) }}">Aperçu</a>
                                 {% endif %}
 
                             {% endif %}
 
                             </div>
+                            
 
                             
 
@@ -146,6 +147,7 @@
 
                 </div>
                 {# Introduction #}
+                <div id="anchor_introduction" class="sheet-form-anchor"></div>
                 <div id="block_introduction" class="card my-card no-border no-br m-0 px-4 pb-4 pt-0 {% if not sheet.introduction %}d-none{% endif %}">
                     <div class="card-body px-4 pt-0">
                         {{ form_widget(form.introduction) }}                        

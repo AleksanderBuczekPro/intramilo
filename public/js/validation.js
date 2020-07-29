@@ -217,39 +217,6 @@ $('#sheet_saveDraft, #sheet_saveDraftExit').click(function(){
 });
 
 
-
-/* Introduction */
-$('#add-introduction').click(function(){
-
-    // On affiche l'introduction
-    $('#block_introduction').removeClass("d-none");
-    $('#delete-introduction').removeClass("d-none");
-
-
-    // On affiche plus le bouton "Ajouter une introduction"
-    $(this).addClass("d-none");
-
-
-});
-
-
-$('#delete-introduction-confirm').click(function(){
-
-
-    // On vide l'éditeur de l'introduction
-    CKEDITOR.instances.sheet_introduction.setData('');
-
-
-    // On n'affiche plus l'introduction
-    $('#block_introduction').addClass("d-none");
-    $('#delete-introduction').addClass("d-none");
-
-    // On affiche de nouveau le bouton "Ajouter une introduction"
-    $('#add-introduction').removeClass("d-none");
-
-
-});
-
 $('#sheet_pic').next().html('<i class="fas fa-upload mr-3"></i> Changer d\'image de fond');
 
 $('input.custom-file-input').on('change',function(){

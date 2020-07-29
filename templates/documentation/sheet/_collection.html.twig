@@ -27,6 +27,7 @@
 
 {# Pour chaque Header ajouté #}
 {% block _sheet_headers_entry_widget %}
+    <div id="anchor_{{id}}" class="sheet-form-anchor"></div>
     <div class="form-group mb-0 header" id="block_{{id}}">
 
             <div class="card my-card paragraph-card my-4 w-100 px-3 py-4 bg-purple no-border">
@@ -58,8 +59,8 @@
                     </div>
                 </div>
             </div>
-
     </div>
+
 
     {# Entête #}
     <div class="modal fade" id="deleteHeaderModal_{{id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="false">
@@ -364,6 +365,7 @@ Pour chaque Attachment ajouté
 
 
 {% block _sheet_attachments_widget %}
+    <div id="anchor_attachments" class="sheet-form-anchor"></div>
     <div class="row mx-2">
         <div class="col-12">
             <div class="row justify-content-center">
@@ -372,7 +374,7 @@ Pour chaque Attachment ajouté
             </div>
         </div>
     </div>
-        <input type="hidden" id="widgets-attachment-counter" value="0">
+    <input type="hidden" id="widgets-attachment-counter" value="0">
 
         {# <div class="form-group">
             <button type="button" id="add-attachment" class="btn btn-my-primary-light mt-4">

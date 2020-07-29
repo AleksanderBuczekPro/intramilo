@@ -61,6 +61,11 @@ class Interlocutor
      * @Groups({"default"})
      */
     private $sheets;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $proNumber;
     
 
     public function __construct()
@@ -179,6 +184,18 @@ class Interlocutor
             $this->sheets->removeElement($sheet);
             $sheet->removeInterlocutor($this);
         }
+
+        return $this;
+    }
+
+    public function getProNumber(): ?string
+    {
+        return $this->proNumber;
+    }
+
+    public function setProNumber(?string $proNumber): self
+    {
+        $this->proNumber = $proNumber;
 
         return $this;
     }

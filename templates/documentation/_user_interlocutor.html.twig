@@ -11,7 +11,7 @@
                     {# <a data-toggle="collapse" href="#phone{{user.id}}" role="button" aria-expanded="false" aria-controls="phone{{user.id}}"><i class="uil uil-phone-alt"></i></a>
                     <a data-toggle="collapse" href="#mail{{user.id}}" role="button" aria-expanded="false" aria-controls="mail{{user.id}}"href=""><i class="uil uil-envelope-alt"></i></a>
                     <div class="collapse" id="#phone{{user.id}}">{{ user.phoneNumber }}</div> #}
-                    {% if user.phoneNumber or user.email %}
+                    {% if user.phoneNumber or user.proNumber or user.email %}
                     <a data-toggle="collapse" href="#collapse{{user.id}}" role="button" aria-expanded="false" aria-controls="collapse{{user.id}}" class="violet small">
                         Contact
                     </a>
@@ -36,11 +36,21 @@
                     
             <tr class="collapse" id="collapse{{user.id}}">
                 <td class="px-0">
-                    <div class="my-secondary"><i class="uil uil-phone-alt"></i> {{ user.phoneNumber }}</div>
-                    <div class="my-secondary">
-                        
-                        <a href="mailto:{{ user.email }}" class="mail-link"><i class="uil uil-envelope-alt"></i> {{ user.email }}</a>
-                    </div> 
+
+                    {% if user.email %}
+                        <div class="my-secondary">
+                            <a href="mailto:{{ user.email }}" class="mail-link"><i class="uil uil-envelope-alt"></i> {{ user.email }}</a>
+                        </div> 
+                    {% endif %}
+
+                    {% if user.phoneNumber %}
+                        <div class="my-secondary"><i class="uil uil-phone-alt"></i> {{ user.phoneNumber }}</div>
+                    {% endif %}
+                    {% if user.proNumber %}
+                        <div class="my-secondary"><i class="uil uil-phone-alt"></i> {{ user.proNumber }}</div>
+                    {% endif %}
+
+
                 </td>
             </tr>
         

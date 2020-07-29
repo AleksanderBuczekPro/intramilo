@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Repository\CategoryRepository;
 use App\Service\Docs;
 use App\Repository\UserRepository;
 use Symfony\Component\HttpFoundation\Request;
@@ -40,7 +41,7 @@ class HomeController extends Controller{
      * @Route("/", name="homepage")
      *
      */
-    public function home(UserRepository $userRepo, Docs $docs, Request $request){
+    public function home(UserRepository $userRepo, Docs $docs, Request $request, CategoryRepository $catRepo){
 
         $fronts = $docs->getFrontDocs();
         $files = $docs->getLastDocs();
@@ -51,7 +52,6 @@ class HomeController extends Controller{
         if(isset($query)){
             return $this->redirectToRoute('search_index', ['q' => $query]);
         }
-        
 
         return $this->render(
             'home.html.twig',
