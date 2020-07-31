@@ -8,7 +8,37 @@
                         {% include '_picture.html.twig' with {'user': user, 'class': 'medium'} %}
                     </td>
                     <td class="text-left pl-2 no-border">
-                        <div class="black main">{{ user }}</div>
+                        {# <div class="black main">
+                            <a href="{{ path('user_show', {'slug': user.slug })}}" data-toggle="user-tooltip" data-placement="bottom" title="<br> <i>Organisme obligatoire</i> <br> <br> Liste des <strong>organismes</strong> et des <strong>interlocuteurs</strong> enregistrés dans l'annuaire. <br><br> Pour voir l'annuaire, cliquez <a href='{{ path('organizations_index') }}' target='_blank'><u class='white'>ici</u></a>. <br><br>">{{ user }}</a>
+                        </div> #}
+                        {# <a href="" data-type="user" data-toggle="tooltip" data-placement="bottom" title="<br> <i>Organisme obligatoire</i> <br> <br> Liste des <strong>organismes</strong> et des <strong>interlocuteurs</strong> enregistrés dans l'annuaire. <br><br> Pour voir l'annuaire, cliquez <a href='{{ path('organizations_index') }}' target='_blank'><u class='white'>ici</u></a>. <br><br>">test</a> #}
+                        <a href="{{ path('user_show', {'slug': user.slug })}}" data-toggle="user-tooltip" data-placement="bottom" data-type="info"
+                        title="
+                        <div class='p-3 text-left'>
+                            <h5 class='mt-2 mb-0'>{{ user.fullName }}</h5>
+                            <div class='violet'>
+                                <strong>{{ user.poste }}</strong>
+                            </div>
+                            <div class='my-secondary mt-2 black'>
+                                <i class='uil uil-envelope-alt mr-2'></i><a class='black' href='mailto:{{user.email}}'> {{ user.email }}</a>
+                            </div>
+                            {% if user.phoneNumber %}
+                            <div class='my-secondary black mt-1'>
+                                <i class='uil uil-phone-alt mr-2'></i>{{ user.phoneNumber }}
+                            </div>
+                            {% endif %}
+                            
+                            {% if user.directNumber %}
+                            <div class='my-secondary black mt-1'>
+                                <i class='uil uil-phone-alt mr-2'></i>{{ user.directNumber }}
+                            </div>
+                            {% endif %}
+                            {% if user.proNumber %}
+                            <div class='my-secondary black mt-1'>
+                                <i class='uil uil-phone-alt mr-2'></i>{{ user.proNumber }} <span class='op-70'>(pro)</span>
+                            </div>
+                            {% endif %}
+                        </div>">{{ user.fullName }}</a>
                         <div class="black op-70">{{ file.updatedAt|localizeddate('none', 'none', 'fr', null, 'd MMMM Y') }} à {{ sheet.updatedAt|localizeddate('none', 'none', 'fr', null, 'HH:mm') }} • {{ file.views }} vue{% if file.views > 1 %}s{% endif %}</div>
                     </td>
                     

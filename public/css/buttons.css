@@ -452,6 +452,21 @@ span.my-badge{
 
 }
 
+.badge-admin{
+
+    border-radius: 25px;
+    padding: 6px 8px;
+    vertical-align: middle;
+    background-color: var(--purple-color);
+    color: white;
+
+    margin-bottom: 2px;
+    font-size: 12px;
+
+    margin-left: 8px;
+
+}
+
 /* Gestion des couleurs des Badge Pole*/
 .btn.my-filter.pole span.my-dot.bleu{
     color: var(--blue-color);

@@ -9,6 +9,7 @@ use App\Service\Filter;
 use App\Form\PictureType;
 use App\Form\EmailResetType;
 use App\Entity\PasswordUpdate;
+use App\Form\AccountType;
 use App\Form\AdminAccountType;
 use App\Form\RegistrationType;
 use App\Form\PasswordUpdateType;
@@ -355,6 +356,48 @@ class AccountController extends AbstractController
         }
 
         return $this->render('account/password.html.twig', [
+            'form' => $form->createView()
+        ]);
+
+    }
+
+    /**
+     * Permet de modifier ses informations personnelles
+     * 
+     * @Route("/account/infos", name="account_infos")
+     * @IsGranted("ROLE_USER")
+     *
+     * @return Response
+     */
+    public function updateInfos(Request $request, EntityManagerInterface $manager, UserPasswordEncoderInterface $encoder) {
+
+        $user = $this->getUser();
+
+        $form = $this->createForm(AccountType::class, $user);
+
+        $form->handleRequest($request);
+
+
+        if($form->isSubmitted() && $form->isValid()){
+
+
+            
+
+                $manager->persist($user);
+                $manager->flush();
+
+                $this->addFlash(
+                    'success',
+                    "Vos informations personnelles ont bien été modifiées !"
+    
+                );
+
+                return $this->redirectToRoute('account_index');
+
+        
+        }
+
+        return $this->render('account/infos.html.twig', [
             'form' => $form->createView()
         ]);
 

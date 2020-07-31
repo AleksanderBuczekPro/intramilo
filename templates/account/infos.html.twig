@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Informations personnelles{% endblock %}
+
+{% block body %}
+    <div class="container clearfix">
+    
+    {{ form_start(form) }}
+
+        <div class="col-md-10 offset-md-1">
+            <div class="card my-card no-border my-box p-4">
+                <div class="card-body p-4">
+
+                    <h1 class="my-h1">
+                        Informations personnelles
+                    </h1>
+
+                    {# Introduction #}
+                    <div class="col-lg-6 col-md-6 px-0">
+                        {{ form_row(form.introduction, { 'attr': {'autocomplete': 'new-password'} }) }}
+                    </div>
+
+                    {# Direct #}
+                    <div class="col-lg-6 col-md-6 px-0">
+                        {{ form_row(form.phoneNumber, { 'attr': {'autocomplete': 'new-password'} }) }}
+                    </div>
+
+                    {# Direct #}
+                    <div class="col-lg-6 col-md-6 px-0">
+                        {{ form_row(form.directNumber, { 'attr': {'autocomplete': 'new-password'} }) }}
+                    </div>
+
+                    {# Pro #}
+                    <div class="col-lg-6 col-md-6 px-0">
+                        {{ form_row(form.proNumber, { 'attr': {'autocomplete': 'new-password'} }) }}
+                    </div>
+
+
+                    <button type="submit" class="btn btn-my-primary float-right mt-4">Modifier</button>
+                    <a href="{{ path('account_index') }}" class="btn mt-4 float-right rouge">Annuler</a>  
+                
+                </div>    
+            </div>
+        </div>
+
+{{ form_end(form) }}
+</div>
+    
+
+{% endblock %}

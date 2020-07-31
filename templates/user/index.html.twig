@@ -4,15 +4,77 @@
 
 {% block body %}
 
-<div class="container">
+<div class="container-fluid mt-0">
 
     <div class="row account-header">
 
-        <div class="col-12">
-            <div class="card my-card no-border my-box pb-0 mt-0">
+        <div class="col-12 px-0">
+            <div class="card my-card no-border my-box pb-0 mt-0 no-br o-visible">
+                
+                <div class="mt-4 text-center">
+
+                    <div class="account-picture">
+                        {% include '_picture.html.twig' with {'user': user, 'class': 'large'} %}
+
+                        <a href="{{ path('account_picture_edit') }}" class="btn p-0"><i class="fas fa-camera"></i></a>
+
+
+                    </div>
+
+                    <div class="account-name">{{ user.fullName }}
+                    </div>
+                    <div class="account-poste">
+                        {{ user.poste }}
+
+                        {% set from_user_admin = false %}
+                            {% for role in user.roles %} 
+                                {% if role == 'ROLE_ADMIN' %}{% set from_user_admin = true %}{% endif %}
+                            {% endfor %}
+                        
+                        {% if from_user_admin %}
+                            {# <span class="badge badge-admin"></span> #}
+                            <i class="fas fa-user-shield ml-2 violet"></i>
+                        {% endif %}    
+                    </div>
+
+                    <div class="row justify-content-center">
+                        <div class="col-md-auto">
+                            <div class="card my-card mx-4 mt-4 stat-card no-border">
+
+                                    <table class="my-table no-border w-100">
+                                        <tr>
+                                            <td class="text-center stat">{{ user.sheets|length + user.documents|length}} </td>
+                                            <td class="text-center stat">{{ user.subCategories|length }}</td>
+                                            
+                                            {% if user.adminGroupes|length > 0 %}
+                                                <td class="text-center stat">{{ user.adminGroupes|length }}</td>
+                                            {% endif %}
+
+                                        </tr>
+                                        <tr>
+                                            <td class="text-center txt">Fiches / Documents</td>
+                                            <td class="text-center txt">Sous-catégories</td>
+
+                                            {% if user.adminGroupes|length > 0 %}
+                                            <td class="text-center txt">Dossiers suivis</td>
+                                            {% endif %}
+
+                                        </tr>
+
+                                        
+                                    </table>
+                            
+                            </div>
+                        </div>
+                    </diV>
+
+
+                </div>
+                
+
 
                 {# Header #}
-                <div class="w-100 header-profile-card my-box" style="background-image: linear-gradient(0deg, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0) 70%), url({{ asset('images/account.jpg') }});">
+                {# <div class="w-100 header-profile-card my-box">
 
                     <div class="row">
                         <div class="col-12 col-md-auto">
@@ -38,16 +100,6 @@
                                     {% endif %}
 
                                 </div>
-
-                                {# <div class="account-antenne">
-                                    <i class="fas fa-map-marker-alt mr-1"></i> {{ user.antenne }}
-                                </div> #}
-
-                                {# <div>
-                                    {% if user.introduction %}
-                                        <span class="introduction">{{ user.introduction }}</span>
-                                    {% endif %}
-                                </div> #}
 
                                 <div class="stat-table">
 
@@ -78,33 +130,46 @@
                     
                     </div>
                 
-                </div>
+                </div> #}
                 
-                <div class="account-nav px-4">
-                    <hr class="mt-4 mb-0">
-                    
-                    {# <a href="" class="btn active no-br mt-1">Accueil</a>
-                    <a href="" class="btn no-br mt-1">Groupe</a>
-                    <a href="" class="btn no-br mt-1">Evenements</a> #}
-
+                <div class="account-nav container px-4">
+                    <hr class="mt-0 mb-0">
+                
                     <nav>
                         <div class="nav nav-tabs no-border" id="nav-tab" role="tablist">
                             <a class="nav-item nav-link active btn no-br mt-1" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Accueil</a>
                             <a class="nav-item nav-link btn no-br mt-1" id="nav-groupe-tab" data-toggle="tab" href="#nav-groupe" role="tab" aria-controls="nav-groupe" aria-selected="false">Groupe</a>
                             <a class="nav-item nav-link btn no-br mt-1" id="nav-event-tab" data-toggle="tab" href="#nav-event" role="tab" aria-controls="nav-event" aria-selected="false">Evenements</a>
 
-                            {% if user.adminGroupes|length > 0 %}
+                            {% if user.adminGroupes|length > 0 and user == app.user %}
 
                                 <a class="nav-item nav-link btn no-br mt-1" id="nav-admin-tab" data-toggle="tab" href="#nav-admin" role="tab" aria-controls="nav-admin" aria-selected="false">Suivi de la documentation</a>
 
                             {% endif %}
                             
-                            <span class="py-2 ml-auto">
+                            {# <span class="py-2 ml-auto">
                                 <a href="{{ path('account_picture_edit', { 'id': user.id }) }}" class="btn btn-my-secondary float-right py-2 px-3 mt-0 no-border">Modifier mon profil</a>
-                            </span>
+                            </span> #}
+                            {% if user == app.user %}
+                                <span class="dropdown ml-auto mr-2">
+                                    <button class="btn btn-my-secondary px-3" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        {# <i class="uil uil-setting op-70"></i> #}
+                                        <i class="fas fa-pen mr-2"></i>
+                                        Modifier mon profil
+                                    </button>
+                                    <div class="dropdown-menu my-dropdown dropdown-menu-right no-border my-box pt-0" aria-labelledby="dropdownMenuButton">
+                                        <a class="dropdown-item pl-3" href="{{ path('account_password') }}"><i class="fas fa-unlock-alt my-rounded"></i></span> Mot de passe</a>
+                                        <a class="dropdown-item pl-3" href="{{ path('account_infos') }}"><i class="fas fa-info my-rounded"></i></span> Informations personnelles</a>
+                                    </div>
+                                </span>
+
+                            {% endif %}
+                            
                         
                         </div>
+                        
                     </nav>
+                    
                     
 
                     
@@ -120,6 +185,8 @@
 
     </div>
 
+</div>
+<div class="container mt-0">
     <div class="row">
 
         {# Sidebar #}
@@ -236,7 +303,7 @@
                 {# Home #}
                 <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
 
-                    <div class="card my-card no-border my-box mt-0 mb-4">
+                    <div class="card my-card no-border my-box mt-0 mb-4 pb-0">
                         <div class="card-body py-0">
                             
                             <div class="row">
@@ -244,6 +311,7 @@
                                     <h5 class="pt-4">Documentation</h5>
                                 </div>
                                 <div class="col-8 pl-2">
+                                {% if user == app.user %}
                                     <div class="row">
                                         <div class="col-6 pr-1">
                                             <button data-toggle="modal" data-target="#subModalSheet" data-title="Nouvelle fiche" class="btn btn-my-secondary w-100 mt-2">
@@ -258,19 +326,41 @@
                                             </button>
                                         </div>
                                     </div>
+                                {% endif %}
                                     
 
                                 </div>
                                 
                                 <div class="col-12 pr-2 account-nav">
-                                    {# <hr class="mb-0 mt-1">
+                                    <hr class="mb-0 mt-1">
 
-                                    <nav class="">
+                                    {# <nav>
                                         <div class="nav nav-tabs no-border" id="nav-tab-2" role="tablist">
                                             <a class="nav-item w-50 nav-link active btn no-br mt-1" id="nav-online-tab" data-toggle="tab" href="#nav-online" role="tab" aria-controls="nav-online" aria-selected="true">En ligne</a>
                                             <a class="nav-item w-50 nav-link btn no-br mt-1" id="nav-draft-tab" data-toggle="tab" href="#nav-draft" role="tab" aria-controls="nav-draft" aria-selected="false">Brouillons ({{ drafts|length }})</a>
                                         </div>
                                     </nav> #}
+
+                                    {% set counter = filesObsolete|length + filesWellObsolete|length + filesUpToDate|length %}
+
+                                    <nav>
+                                        <div class="nav nav-tabs no-border" id="nav-tab" role="tablist">
+                                            <a class="nav-item nav-link no-br px-4 btn active" id="nav-online-tab" data-toggle="tab" href="#nav-online" role="tab" aria-controls="nav-online" aria-selected="true">En ligne ({{ counter }})</a>
+                                            
+                                            {# {% if is_granted('ROLE_ADMIN') %}     #}
+                                            {% if user == app.user %}
+                                                <a class="nav-item nav-link no-br px-4 btn" id="nav-to-validate-tab" data-toggle="tab" href="#nav-to-validate" role="tab" aria-controls="nav-to-validate" aria-selected="false">En attente de validation ({{ filesToValidate|length }})</a>
+                                                <a class="nav-item nav-link no-br px-4 btn" id="nav-to-correct-tab" data-toggle="tab" href="#nav-to-correct" role="tab" aria-controls="nav-to-correct" aria-selected="false">A corriger ({{ filesToCorrect|length }})</a>
+                                                
+                                                {# {% endif %} #}
+                                                
+                                                <a class="nav-item nav-link no-br px-4 btn" id="nav-draft-tab" data-toggle="tab" href="#nav-draft" role="tab" aria-controls="nav-draft" aria-selected="false">Brouillons ({{ drafts|length }})</a>
+                                            {% endif %}
+                                        </div>
+                                    </nav>
+                                    
+                                    
+                                    
                                     
                                 </div>
 
@@ -278,61 +368,87 @@
                         </div>
                     </div>
 
-                    {# Home #}
-                    <div class="tab-pane fade show active" id="nav-online" role="tabpanel" aria-labelledby="nav-online-tab">
+                    <div class="tab-content" id="nav-tabContent">
 
-                    {% if (filesToCorrect|length + filesToValidate|length + filesObsolete|length + filesWellObsolete|length + filesUpToDate|length + drafts|length) > 0 %}
+                        {# Online #}
+                        <div class="tab-pane fade show active" id="nav-online" role="tabpanel" aria-labelledby="nav-online-tab">
+                        
+                        
+                            {% if (filesObsolete|length + filesWellObsolete|length + filesUpToDate|length) > 0 %}
 
-                        <div class="my-4">
-                            {% for file in drafts %}
-                                {% include 'documentation/_file.html.twig' %}
-                            {% endfor %}
+                                
+                                {# Obsolète #}
+                                {% for file in filesObsolete %}
+                                    {% include 'documentation/_file.html.twig' %}
+                                {% endfor %}
+
+                                {# Bientôt obsolète #}
+                                {% for file in filesWellObsolete %}
+                                    {% include 'documentation/_file.html.twig' %}
+                                {% endfor %}
+                                
+                                {# A jour #}
+                                {% for file in filesUpToDate %}
+                                    {% include 'documentation/_file.html.twig' %}
+                                {% endfor %}
+
+                            {% else %}
+
+                                <p class="text my-4 text-center w-100">Aucune documentation en ligne</p>
+
+                            {% endif %}
+ 
                         </div>
-                    
-                        {# A corriger #}
-                        {% for file in filesToCorrect %}
-                            {% include 'documentation/_file.html.twig' %}
-                        {% endfor %}
-
-                        {# En attente de validation #}
-                        {% for file in filesToValidate %}
-                            {% include 'documentation/_file.html.twig' %}
-                        {% endfor %}
                         
-                        {# Obsolète #}
-                        {% for file in filesObsolete %}
-                            {% include 'documentation/_file.html.twig' %}
-                        {% endfor %}
+                        {% if user == app.user %}
 
-                        {# Bientôt obsolète #}
-                        {% for file in filesWellObsolete %}
-                            {% include 'documentation/_file.html.twig' %}
-                        {% endfor %}
-                        
-                        {# A jour #}
-                        {% for file in filesUpToDate %}
-                            {% include 'documentation/_file.html.twig' %}
-                        {% endfor %}
+                            {# En attente de validation #}
+                            <div class="tab-pane fade" id="nav-to-validate" role="tabpanel" aria-labelledby="nav-to-validate-tab">
+                            
+                                {% if filesToValidate|length > 0 %}
+                            
+                                    {# En attente de validation #}
+                                    {% for file in filesToValidate %}
+                                        {% include 'documentation/_file.html.twig' %}
+                                    {% endfor %}
 
-                    {% else %}
+                                {% else %}
 
-                        <p class="text my-4 text-center w-100">Aucune documentation</p>
+                                    <p class="text text-center">Aucune fiche en attente de validation</p>
 
-                    {% endif %}
+                                {% endif %}
+                            
+                            </div>
 
-                    </div>
-                    
-                    {# Brouillons #}
-                    <div class="tab-pane fade " id="nav-draft" role="tabpanel" aria-labelledby="nav-draft-tab">
-                        
-                        {# {% for file in drafts %}
-                            {% include 'documentation/_file.html.twig' %}
-                        {% endfor %} #}
+                            {# A corriger #}
+                            <div class="tab-pane fade" id="nav-to-correct" role="tabpanel" aria-labelledby="nav-to-correct-tab">
+                            
+                                {% if filesToCorrect|length > 0 %}
+                            
+                                    {# En attente de validation #}
+                                    {% for file in filesToCorrect %}
+                                        {% include 'documentation/_file.html.twig' %}
+                                    {% endfor %}
 
-                        test
+                                {% else %}
 
-                        
+                                    <p class="text text-center">Aucune fiche à corriger</p>
 
+                                {% endif %}
+                            
+                            </div>
+
+                            {# Draft #}
+                            <div class="tab-pane fade" id="nav-draft" role="tabpanel" aria-labelledby="nav-draft-tab">
+                            
+                            
+                            
+                                {% for file in drafts %}
+                                    {% include 'documentation/_file.html.twig' %}
+                                {% endfor %}
+                            
+                            </div>
+                        {% endif %}
                     </div>
 
 
@@ -415,189 +531,224 @@
                     </div>
                 </div>
 
-                {# Events #}
-                <div class="tab-pane fade" id="nav-admin" role="tabpanel" aria-labelledby="nav-admin-tab">
+                {% if user.adminGroupes|length > 0 and user == app.user %}
 
-                    {# En attente de validation #}
-                    {% for file in adminFilesToValidate %}
-                        {% include 'documentation/_file.html.twig' %}
-                    {% endfor %}
-                    
-                    {# Obsolète #}
-                    {% for file in adminFilesObsolete %}
-                        {% include 'documentation/_file.html.twig' %}
-                    {% endfor %}
-
-                    {# Bientôt obsolète #}
-                    {% for file in adminFilesWellObsolete %}
-                        {% include 'documentation/_file.html.twig' %}
-                    {% endfor %}
-
-                </div>
+                    {# Suivi de la documentation #}
+                    <div class="tab-pane fade" id="nav-admin" role="tabpanel" aria-labelledby="nav-admin-tab">
 
 
-        </div>
-    </div>
-
-
-</div>
-
-
-<!-- Modal -->
-<div class="modal fade bd-example-modal-lg" id="subModalSheet" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-    <div class="modal-content p-3">
-      <div class="modal-header no-border pb-0">
-        <h4 class="modal-title m-0" id="exampleModalLabel">Nouvelle fiche<span class="font-weight-light"> - Dans quelle sous-catégorie ?</span></h4>
-        
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-        
-      </div>
-      {# <p class="px-3 text">Si la sous-catégorie où vous voulez ajouter la fiche n'apparaît pas, contactez votre responsable.</p> #}
-      {# <p class="px-3 op-70">Voici les sous-catégories où vous êtes autorisés à ajouter une nouvelle fiche</p> #}
-      <div class="modal-body">
-
-            {% for sub in app.user.subCategories %}
-
-                    <div class="select-sub" data-href="{{ path('sheet_create_sub', {'id': sub.id}) }}">
-                        {{ sub.category }} - {{ sub }}
-                    </div>
-
-            {% endfor %}
-
-
-      </div>
-      <div class="modal-footer no-border">
-        
-        <button type="button" class="btn rouge" data-dismiss="modal">Annuler</button>
-        <a type="button" href="" class="btn btn-my-primary add disabled">C'est parti !</a>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="modal fade bd-example-modal-lg" id="subModalDocument" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-    <div class="modal-content p-3">
-      <div class="modal-header no-border pb-0">
-        <h4 class="modal-title m-0" id="exampleModalLabel">Nouveau document<span class="font-weight-light"> - Dans quelle sous-catégorie ?</span></h4>
-        
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-        
-      </div>
-      {# <p class="px-3 op-70">Voici les sous-catégories où vous êtes autorisés à ajouter une nouvelle fiche</p> #}
-      <div class="modal-body">
-
-            {% for sub in app.user.subCategories %}
-
-                    <div class="select-sub" data-href="{{ path('document_create_sub', {'id': sub.id}) }}">
-                        {{ sub.category }} - {{ sub }}
-                    </div>
-
-            {% endfor %}
-
-      </div>
-      <div class="modal-footer no-border">
-        <button type="button" class="btn rouge" data-dismiss="modal">Annuler</button>
-        <a type="button" href="" class="btn btn-my-primary add disabled">C'est parti !</a>
-      </div>
-    </div>
-  </div>
-</div>
-
-    {# <div class="container">
-        <div class="row mb-5">
-            <div class="col-3 text-center">
-                <div class="card profile-card documentation text-center py-3">
-                    <div class="card-body">
-
-                        {% include '_picture.html.twig' with {'user': user, 'class': 'large'} %}
-                        
-                        <div class="card-title mt-4 mb-2">{{ user.firstName }} {{ user.lastName|upper }} </div>
-                        <div class="card-text">{{ user.poste.title }}</div>
-                        <a href="{{ path('account_picture_edit') }}" class="btn btn-sm btn-outline-light">Modifier ma photo de profil</a>
-                        <a href="{{ path('account_password') }}" class="btn btn-sm btn-outline-light mt-2">Modifier mon mot de passe</a>
-                        
-                    </div>
-                </div>
-
-            </div>
-
-            {% if app.user == user %}
-
-                {% set prefix = "Mes" %}
-
-            {% else %}
-
-                {% set prefix = "Ses" %}
-
-            {% endif %}
-
-
-            <div class="col-9">
-                <div class="card">
-                        <div class="card-body p-5">
-                            <h4 class="">{{ prefix }} informations personnelles
-            
-                            </h4>
-                            {% if user is same as(app.user) %}
-
+                        <div class="card my-card no-border my-box mt-0 mb-4 pb-0">
+                            <div class="card-body py-0">
                                 
-
-                                <span class="mt-3">
-                                   
+                                <div class="row">
+                                    <div class="col-12">
+                                        <h5 class="pt-4">Suivi de la documentation</h5>
+                                    </div>
+                                
                                     
-                                </span>
-                                
-                            {% endif %} 
-                             <div class="row">
-                                <div class="col">
-                                    <div class="h6 mt-4 mb-0">Email</div>
-                                    <div class="info"><a href="mailto:{{ user.email }}">{{ user.email }}</a></div>
-                                    <div class="h6 mt-4 mb-0">Antenne</div>
-                                    <div class="info">{{ user.antenne.title }}</div>
-                                </div>
-                                <div class="col">
-                                    <div class="h6 mt-4 mb-0">Téléphone</div>
-                                    <div class="info">{{ user.phoneNumber }}</div>
-                                    <div class="h6 mt-4 mb-0">Groupe</div>
-                                    <div class="info">{{ user.groupe.title }}</div>
-                                
+                                    <div class="col-12 pr-2 account-nav">
+                                        <hr class="mb-0 mt-1">
+
+                                        {# <nav>
+                                            <div class="nav nav-tabs no-border" id="nav-tab-2" role="tablist">
+                                                <a class="nav-item w-50 nav-link active btn no-br mt-1" id="nav-online-tab" data-toggle="tab" href="#nav-online" role="tab" aria-controls="nav-online" aria-selected="true">En ligne</a>
+                                                <a class="nav-item w-50 nav-link btn no-br mt-1" id="nav-draft-tab" data-toggle="tab" href="#nav-draft" role="tab" aria-controls="nav-draft" aria-selected="false">Brouillons ({{ drafts|length }})</a>
+                                            </div>
+                                        </nav> #}
+
+                                        {% set counter = filesToCorrect|length + filesToValidate|length + filesObsolete|length + filesWellObsolete|length + filesUpToDate|length %}
+
+                                        <nav>
+                                            <div class="nav nav-tabs no-border" id="nav-tab" role="tablist">
+                                                <a class="nav-item nav-link px-3 no-br btn active" id="nav-validate-tab" data-toggle="tab" href="#nav-validate" role="tab" aria-controls="nav-validate" aria-selected="true">En attente de validation ({{ adminFilesToValidate|length }})</a>
+                                                <a class="nav-item nav-link px-3 no-br btn" id="nav-correct-tab" data-toggle="tab" href="#nav-correct" role="tab" aria-controls="nav-correct" aria-selected="false">A corriger ({{ adminFilesToCorrect|length }})</a>
+                                                <a class="nav-item nav-link px-3 no-br btn" id="nav-obsolete-tab" data-toggle="tab" href="#nav-obsolete" role="tab" aria-controls="nav-obsolete" aria-selected="false">Obsolètes ({{ adminFilesObsolete|length }})</a>
+                                                <a class="nav-item nav-link px-3 no-br btn" id="nav-well-obsolete-tab" data-toggle="tab" href="#nav-well-obsolete" role="tab" aria-controls="nav-well-obsolete" aria-selected="false">Bientôt obsolètes ({{ adminFilesWellObsolete|length }})</a>
+
+                                            </div>
+                                        </nav>
+                                        
+                                        
+                                        
+                                        
+                                    </div>
+
                                 </div>
                             </div>
-
-                            <hr class="mt-4">
-                            <h4 class="mt-4">{{ prefix }} dossiers</h4>
-                            
-                            {% if user.subCategories | length > 0 %}
-                                <div class="row p-2">
-                                    {% for subCategory in user.subCategories %}
-
-                                        <a href="{{ path('doc_show', {'slug': subCategory.category.slug, 'sub_slug': subCategory.slug }) }}" class="btn btn-sm btn-pill btn-outline-secondary m-1 profile">{{ subCategory.title|upper }}</a>
-
-
-                                    {% endfor %}
-                                
-                                </div>
-                            {% else %}
-
-                                <div>Aucun dossier</div>
-
-                            {% endif %}
-                            <hr class="mt-4">
-                            <h4 class="mt-4">{{ prefix }} événements</h4>
-                            <div>Aucun événement</div>
                         </div>
+                        <div class="tab-content" id="nav-tabContent-2">
+
+                            <div class="tab-pane fade show active" id="nav-validate" role="tabpanel" aria-labelledby="nav-validate-tab">
+
+                                {% if adminFilesToValidate|length > 0 %}
+                            
+                                {# En attente de validation #}
+                                {% for file in adminFilesToValidate %}
+                                    {% include 'documentation/_file.html.twig' %}
+                                {% endfor %}
+
+                                {% else %}
+
+                                    <p class="text text-center">Aucune fiche en attente de validation</p>
+
+                                {% endif %}
+
+                            </div>
+                            <div class="tab-pane fade" id="nav-correct" role="tabpanel" aria-labelledby="nav-correct-tab">
+                            
+                                {% if adminFilesToCorrect|length > 0 %}
+                            
+                                    {# En attente de validation #}
+                                    {% for file in adminFilesToCorrect %}
+                                        {% include 'documentation/_file.html.twig' %}
+                                    {% endfor %}
+
+                                {% else %}
+
+                                    <p class="text text-center">Aucune fiche à corriger</p>
+
+                                {% endif %}
+
+                            </div>
+
+                            <div class="tab-pane fade" id="nav-obsolete" role="tabpanel" aria-labelledby="nav-obsolete-tab">
+
+                                {% if adminFilesObsolete|length > 0 %}
+
+                                    {# Obsolète #}
+                                    {% for file in adminFilesObsolete %}
+                                        {% include 'documentation/_file.html.twig' %}
+                                    {% endfor %}
+
+                                {% else %}
+
+                                    <p class="text text-center">Aucune fiche bientôt obsolète</p>
+
+                                {% endif %}
+                            </div>
+
+                            <div class="tab-pane fade" id="nav-well-obsolete" role="tabpanel" aria-labelledby="nav-well-obsolete-tab">
+
+                                {% if adminFilesWellObsolete|length > 0 %}
+
+                                    {# Bientôt obsolète #}
+                                    {% for file in adminFilesWellObsolete %}
+                                        {% include 'documentation/_file.html.twig' %}
+                                    {% endfor %}
+
+                                {% else %}
+
+                                    <p class="text text-center">Aucune fiche obsolète</p>
+
+                                {% endif %}
+                            </div>
+
+                            
+
+                        </div>
+
                     </div>
-                
 
-            </div>
+                {% endif %}
+
+
         </div>
+    </div>
 
-    </div> #}
+
+</div>
+
+    {% if user == app.user %}
+    <!-- Modal -->
+    <div class="modal fade bd-example-modal-lg" id="subModalSheet" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content p-3">
+        <div class="modal-header no-border pb-0">
+            <h4 class="modal-title m-0" id="exampleModalLabel">Nouvelle fiche<span class="font-weight-light"> - Dans quelle sous-catégorie ?</span></h4>
+            
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+            
+        </div>
+        {# <p class="px-3 text">Si la sous-catégorie où vous voulez ajouter la fiche n'apparaît pas, contactez votre responsable.</p> #}
+        {# <p class="px-3 op-70">Voici les sous-catégories où vous êtes autorisés à ajouter une nouvelle fiche</p> #}
+        <div class="modal-body">
+
+                {% for sub in app.user.subCategories %}
+
+                        <div class="select-sub" data-href="{{ path('sheet_create_sub', {'id': sub.id}) }}">
+                            {{ sub.category }} - {{ sub }}
+                        </div>
+
+                {% endfor %}
+
+
+        </div>
+        <div class="modal-footer no-border">
+            
+            <button type="button" class="btn rouge" data-dismiss="modal">Annuler</button>
+            <a type="button" href="" class="btn btn-my-primary add disabled">C'est parti !</a>
+        </div>
+        </div>
+    </div>
+    </div>
+
+    <div class="modal fade bd-example-modal-lg" id="subModalDocument" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content p-3">
+        <div class="modal-header no-border pb-0">
+            <h4 class="modal-title m-0" id="exampleModalLabel">Nouveau document<span class="font-weight-light"> - Dans quelle sous-catégorie ?</span></h4>
+            
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+            
+        </div>
+        {# <p class="px-3 op-70">Voici les sous-catégories où vous êtes autorisés à ajouter une nouvelle fiche</p> #}
+        <div class="modal-body">
+
+                {% for sub in app.user.subCategories %}
+
+                        <div class="select-sub" data-href="{{ path('document_create_sub', {'id': sub.id}) }}">
+                            {{ sub.category }} - {{ sub }}
+                        </div>
+
+                {% endfor %}
+
+        </div>
+        <div class="modal-footer no-border">
+            <button type="button" class="btn rouge" data-dismiss="modal">Annuler</button>
+            <a type="button" href="" class="btn btn-my-primary add disabled">C'est parti !</a>
+        </div>
+        </div>
+    </div>
+    </div>
+    {% endif %}
+
+{% endblock %}
+
+{% block javascripts %}
+
+
+<script>
+
+// Liens de stabs au rafraichissement des pages 
+$(document).ready(function() {
+    if (location.hash) {
+        $("a[href='" + location.hash + "']").tab("show");
+    }
+    $(document.body).on("click", "a[data-toggle='tab']", function(event) {
+        location.hash = this.getAttribute("href");
+    });
+});
+$(window).on("popstate", function() {
+    var anchor = location.hash || $("a[data-toggle='tab']").first().attr("href");
+    $("a[href='" + anchor + "']").tab("show");
+});
+
+</script>
+
+
 
 {% endblock %}

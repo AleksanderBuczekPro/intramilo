@@ -1,58 +1,64 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Modification de la photo de profil{% endblock %}
+{% block title %}Photo de profil{% endblock %}
 
 {% block body %}
     <div class="container clearfix">
-        
+    
+    {{ form_start(form) }}
 
-        {{ form_start(form) }}
+        <div class="col-md-10 offset-md-1">
+            <div class="card my-card no-border my-box p-4">
+                <div class="card-body p-4">
 
-        <div class="row">
-            <div class="col-md-10 offset-md-1">
-                <h1 class="my-5">Modification de la photo de profil <a href="{{ path('account_index') }}" class="ml-3 btn btn-outline-dark">Retour à mon profil</a></h1>
+                    <h1 class="my-h1">
+                        Photo de profil
+                    </h1>
+
+                    <h6 class="card-title mb-3">Photo de profil actuelle</h6>
+                    <div class="text-left">
+                        {% if app.user.pictureFilename %}
+                            {% include '_picture.html.twig' with {'user': app.user, 'class': 'large'} %}
+                        {% else %}
                 
-                 <div class="card p-4">
-                    <div class="card-body">
-                        <h6 class="card-title mb-3">Photo de profil actuelle</h6>
-                        <div class="text-left">
-                            {% if app.user.pictureFilename %}
-                                {% include '_picture.html.twig' with {'user': app.user, 'class': 'large'} %}
-                            {% else %}
-                        
-
                         <p class="text">Pas de photo de profil. Ce sont donc vos initiales qui apparaîtront.</p>
 
                         {% endif %}
-                        </div>
                     </div>
-                </div>
+
+                    <div class="mt-4">
+                    {{ form_widget(form) }}
+                    </div>
+                    <button type="submit" class="btn btn-my-primary float-right mt-4">Modifier la photo de profil</button>
+
+                    {% if app.user.pictureFilename %}
+                        <a href="{{ path('account_picture_delete') }}" class="btn btn-danger white float-right mr-4 mt-4">Supprimer ma photo de profil</a>
+                    {% endif %}
+                    <a href="{{ path('account_index') }}" class="btn mt-4 mr-4 float-right rouge">Annuler</a>  
                 
-                <div class="card p-4">
-                    <div class="card-body">
-                    <h6 class="card-title mb-3">Téléchargez un fichier JPG / JPEG depuis votre ordinatreur</h6>
-                        
-                        {{ form_widget(form) }}
-                        <button type="submit" class="btn btn-success float-right mt-4"><i class="fas fa-check"></i> Modifier la photo de profil</button>
-
-                        {% if app.user.pictureFilename %}
-                            <a href="{{ path('account_picture_delete') }}" class="btn btn-danger float-right mr-4 mt-4">Supprimer ma photo de profil</a>
-                        {% endif %}
-                    </div>
-                </div>
-
+                </div>    
             </div>
         </div>
 
-            
-
-            
-            
-            
-        
-        {{ form_end(form) }}
-
-    </div>
+{{ form_end(form) }}
+</div>
     
+
+{% endblock %}
+
+
+{% block javascripts %}
+
+<script>
+    $('#picture_pic').next().html('<i class="fas fa-upload mr-3"></i> Aucune photo selectionnée');
+
+    $('input.custom-file-input').on('change',function(){
+
+        var name = (this.files[0].name).split('.', 1);
+        $(this, '#picture_pic').next().html('<i class="fas fa-check-circle success mr-3"></i>' + name);
+
+
+    });
+</script>
 
 {% endblock %}

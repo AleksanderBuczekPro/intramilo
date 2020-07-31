@@ -18,7 +18,7 @@ class PictureType extends AbstractType
             ->add('pic', FileType::class, [
 
                 // 'label' => 'Photo de profil (fichier Image)',
-                'label' => false,
+                'label' => 'Importez votre photo depuis votre ordinateur (.JPG)',
 
                 // unmapped means that this field is not associated to any entity property
                 'mapped' => false,
