@@ -38,7 +38,12 @@ class SheetType extends ApplicationType
         $builder
             ->add('title', TextareaType::class, $this->getConfiguration("Titre", "Sans titre", [
                 'required' => false,
-                'empty_data' => 'Sans titre'
+                'empty_data' => 'Sans titre',
+                'attr' => [
+                    
+                    'maxlength' => 255
+
+                ]
             ]))
             ->add('subtitle', TextType::class, $this->getConfiguration("Sous-titre", "Sans complément de titre", [
                 'required' => false

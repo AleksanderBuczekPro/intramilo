@@ -293,6 +293,11 @@ body{
 
 
     /* margin-bottom: 80px; */
+
+
+    padding-bottom: 200px;
+
+    min-height: 150vh;
     
 
 }
@@ -616,12 +621,33 @@ h5{
 
 a{
     text-decoration: none!important;
+    color: var(--purple-color)
 
 }
 
 div.card.my-card a{
 
     color: black;
+
+}
+
+div.card.my-card.category-card a{
+
+    color: var(--grey-70-color);
+
+}
+
+div.card.my-card.category-card a:hover{
+
+    color: black;
+    font-weight: 500;
+
+}
+
+div.card.my-card.category-card .category-title{
+
+    font-weight: 500;
+    font-size: 21px;
 
 }
 

@@ -532,7 +532,7 @@ div.sheet-content h2{
 
 div.sheet-content p{
 
-    margin: 0;
+    margin: 15px 0px;
 
 }
 
@@ -575,17 +575,16 @@ div.sheet-introduction, div.sheet-introduction p, div.sheet-introduction li{
     color: var(--blue-color);
 } */
 
-div.sheet-content blockquote {
-    padding: 15px 20px 5px;
-    border-left: 4px solid var(--yellow-color);
-    background-color: var(--yellow-transparent-color);
-
-    border-radius: 4px;
-
-
+div.sheet-content blockquote, .cke_contents_ltr blockquote {
+	padding: 1px 20px;
+	border-left: 4px solid var(--pink-color);
+	background-color: var(--pink-transparent-color);
+	border-radius: 4px;
+	margin: 22px 0px;
+	color: var(--pink-color);
 }
 
-div.sheet-content ul {
+div.sheet-content ul, .cke_editable ul {
     list-style: none; /* Remove default bullets */
 }
 

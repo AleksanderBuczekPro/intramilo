@@ -1,19 +1,124 @@
+<div class="col-4">
+    <div class="card my-card category-card my-box no-border">
+        <div class="card-body p-3">
+
+            <h5 class="mt-2 category-title">{{ category.title }}</h5>
+             <div class="sub-container">
+                <table class="table my-table">
+                    <tbody>
+
+                        {% if category.subCategories|length > 0 %}
+
+                            {% for sub in category.subCategories %}
+                            {% if loop.index <= 4 %}
+                                <tr>
+                                    <td class="text-left pl-0 w-100 py-2">
+
+                                        <span class="my-secondary">
+                                            <a href="{{ path('doc_show', {'slug': category.slug, 'sub_slug': sub.slug }) }}">
+                                                {{ sub.title }}
+                                            </a>
+                                            {% if sub.sheets|length + sub.documents|length == 0 %}
+                                                <span class="my-italic float-right mr-2 my-secondary small">Vide</span>
+                                            {% endif %}
+                                        </span>
+
+                                    </td>
+                                    
+                                </tr>
+                                {% endif %}
+                            {% endfor %}
+
+                        {% else %}
+
+                            <p class="text rouge">Aucune sous-catégorie</p>
+
+                        {% endif %}
+                    </tbody>
+                
+                </table>
+            </div>
+            {% if category.subCategories|length > 4 %}
+
+                <table class="table my-table">
+                    <tbody>
+
+                        {% if category.subCategories|length > 0 %}
+
+                            {% for sub in category.subCategories %}
+                            {% if loop.index > 4 %}
+                                <tr class="collapse sub-collapse" id="collapse-{{ category.id }}">
+                                    <td class="text-left pl-0 w-100 py-2">
+
+                                        <span class="my-secondary">
+                                            <a href="{{ path('doc_show', {'slug': category.slug, 'sub_slug': sub.slug }) }}">
+                                                {{ sub.title }}
+                                            </a>
+                                            {% if sub.sheets|length + sub.documents|length == 0 %}
+                                                <span class="my-italic float-right mr-2 my-secondary small">Vide</span>
+                                            {% endif %}
+                                        </span>
+
+                                    </td>
+                                    
+                                </tr>
+                                {% endif %}
+                            {% endfor %}
+
+                        {% else %}
+
+                            <p class="text rouge">Aucune sous-catégorie</p>
+
+                        {% endif %}
+                    </tbody>
+                
+                </table>
+
+                    {# <div class="collapse sub-collapse" id="collapse-{{ category.id }}">
+                        {% for sub in category.subCategories %}
+
+                                {% if loop.index > 4 %}
+
+                                    <div class="card-subtitle">
+                                       
+                                            <a class="pl-1" href="{{ path('doc_show', {'slug': category.slug, 'sub_slug': sub.slug }) }}">
+       
+                                                {{ sub.title }} 
+                                            </a>
+                                    </div>
+                                
+
+                                {% endif %}
+
+                        {% endfor %}
+                    </div>                     #}
+
+                {% endif %}          
+
+        </div>
+        <div class="card-footer p-0 no-border text-left bg-white">
+            {% if category.subCategories|length > 4 %}
+            <a class="btn mr-2 small see more" data-toggle="collapse" href="#collapse-{{ category.id }}" role="button" aria-expanded="false" aria-controls="collapseExample">
+                Voir plus <i class="uil uil-angle-down"></i>
+            </a>
+            {% endif %}
+        </div>
+    
+    </div>
+</div>
 
 
-<div class="col-4" data-pole="{{ category.pole.id }}">
+{# <div class="col-4" data-pole="{{ category.pole.id }}">
     <div class="card my-card category my-box no-border p-2 pb-3">
         <div class="card-body pb-0">
-            {# <span href="" class="my-badge pole {{ category.pole.labelColor }}"> • {{ category.pole }}</span> #}
             <div class="card-title category mt-0"><i class="uil uil-books larger"></i> {{ category.title }}</div>
                 <div class="sub-container">
-                    {# Limit 4 #}
                     {% for sub in category.subCategories %}
 
                         {% if loop.index <= 4 %}
                         <div class="card-subtitle">
                             
                                 <a class="pl-1" href="{{ path('doc_show', {'slug': category.slug, 'sub_slug': sub.slug }) }}">
-                                    {# <span class="my-dot {{ category.pole.labelColor  }}"> • </span> #}
                                     {{ sub.title }}
                                     {% if sub.sheets|length + sub.documents|length == 0 %}
                                         <span class="my-italic float-right mr-2 marine small">Vide</span>
@@ -28,7 +133,6 @@
 
                     {% endfor %}
                 </div>
-                {# Voir plus #}
                 {% if category.subCategories|length > 4 %}
 
                     <div class="collapse sub-collapse" id="collapse-{{ category.id }}">
@@ -39,7 +143,7 @@
                                     <div class="card-subtitle">
                                        
                                             <a class="pl-1" href="{{ path('doc_show', {'slug': category.slug, 'sub_slug': sub.slug }) }}">
-                                                {# <span class="my-dot {{ category.pole.labelColor  }}"> • </span> #}
+       
                                                 {{ sub.title }} 
                                             </a>
                                     </div>
@@ -62,4 +166,4 @@
             {% endif %}
         </div>
     </div>
-</div>
+</div> #}
