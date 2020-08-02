@@ -51,7 +51,7 @@ form.search-form input{
 }
 
 
-form.search-form input::placeholder,{
+form.search-form input::placeholder{
 
     color: var(--marine-color);
     opacity: 0.4;
@@ -425,8 +425,6 @@ ul.sheet-menu a:hover {
     margin-top: 2px;
     line-height: 34px;
     font-family: "Roboto";
-}
-
 }
 
 div.sheet-content{
