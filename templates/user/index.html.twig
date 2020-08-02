@@ -15,9 +15,10 @@
 
                     <div class="account-picture">
                         {% include '_picture.html.twig' with {'user': user, 'class': 'large'} %}
-
+                        
+                        {% if user == app.user %}
                         <a href="{{ path('account_picture_edit') }}" class="btn p-0"><i class="fas fa-camera"></i></a>
-
+                        {% endif %}
 
                     </div>
 
@@ -41,9 +42,11 @@
                         <div class="col-md-auto">
                             <div class="card my-card mx-4 mt-4 stat-card no-border">
 
+                                    {% set counter = filesObsolete|length + filesWellObsolete|length + filesUpToDate|length %}
+
                                     <table class="my-table no-border w-100">
                                         <tr>
-                                            <td class="text-center stat">{{ user.sheets|length + user.documents|length}} </td>
+                                            <td class="text-center stat">{{ counter }} </td>
                                             <td class="text-center stat">{{ user.subCategories|length }}</td>
                                             
                                             {% if user.adminGroupes|length > 0 %}
@@ -341,7 +344,7 @@
                                         </div>
                                     </nav> #}
 
-                                    {% set counter = filesObsolete|length + filesWellObsolete|length + filesUpToDate|length %}
+
 
                                     <nav>
                                         <div class="nav nav-tabs no-border" id="nav-tab" role="tablist">
