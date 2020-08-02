@@ -2452,3 +2452,15 @@ div.card.my-card.stat-card table td{
     top:-400px;
 
 }
+
+#nav-favorites-tab, #nav-popular-tab{
+
+    color: var(--grey-40-color);
+
+}
+
+#nav-favorites-tab.active, #nav-popular-tab.active , #nav-favorites-tab:hover, #nav-popular-tab:hover{
+
+    color: black;
+
+}

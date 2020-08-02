@@ -53,6 +53,14 @@
                                 <a class="dropdown-item pl-3" href="{{ path('sheet_edit', {'id': sheet.id }) }}"><span class="rounded"><i class="fas fa-pen fa-xs my-rounded"></i></span> Modifier</a>
                             {% endif %}
 
+                            {% if sheet.status is null %}
+                                {% if app.user.favorites.contains(sheet) %}
+                                    <a class="dropdown-item pl-3" href="{{ path('favorites_remove', {'id': sheet.id }) }}"><span class="rounded"><i class="fas fa-star my-rounded"></i></span> Enlever le favori</a>
+                                {% else %}
+                                    <a class="dropdown-item pl-3" href="{{ path('favorites_add', {'id': sheet.id }) }}"><span class="rounded"><i class="far fa-star my-rounded"></i></span> Ajouter en favori</a>
+                                {% endif %}
+                            
+                            {% endif %}
 
                             {% if sheet.status != 'DRAFT' %}
                             <a class="dropdown-item pl-3" href="{{ path('sheet_create_model', {'id_model': sheet.id }) }}"><span class="rounded"><i class="far fa-copy my-rounded"></i></span> Dupliquer</a>

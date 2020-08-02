@@ -166,6 +166,11 @@ class User implements UserInterface
      */
     private $proNumber;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Sheet")
+     */
+    private $favorites;
+
 
     public function getFullName() {
 
@@ -224,6 +229,7 @@ class User implements UserInterface
         $this->sheets = new ArrayCollection();
         $this->documents = new ArrayCollection();
         $this->attachments = new ArrayCollection();
+        $this->favorites = new ArrayCollection();
     }
 
     public function __toString()
@@ -674,6 +680,32 @@ class User implements UserInterface
     public function setProNumber(?string $proNumber): self
     {
         $this->proNumber = $proNumber;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Sheet[]
+     */
+    public function getFavorites(): Collection
+    {
+        return $this->favorites;
+    }
+
+    public function addFavorite(Sheet $favorite): self
+    {
+        if (!$this->favorites->contains($favorite)) {
+            $this->favorites[] = $favorite;
+        }
+
+        return $this;
+    }
+
+    public function removeFavorite(Sheet $favorite): self
+    {
+        if ($this->favorites->contains($favorite)) {
+            $this->favorites->removeElement($favorite);
+        }
 
         return $this;
     }
