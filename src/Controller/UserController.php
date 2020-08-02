@@ -17,7 +17,7 @@ class UserController extends AbstractController
      */
     public function index(User $user, SheetRepository $sheetRepo, UserRepository $userRepo, Filter $filter)
     {
-        $files = $filter->getFiles($this->getUser(), $userRepo, $sheetRepo);
+        
 
         // Init
         $drafts = '';
@@ -33,8 +33,12 @@ class UserController extends AbstractController
             $adminFiles = $filter->getAdminFiles($this->getUser(), $userRepo, $sheetRepo);
             $drafts = $filter->getDrafts($this->getUser());
 
+            $user = $this->getUser();
+
 
         }
+
+        $files = $filter->getFiles($user, $userRepo, $sheetRepo);
     
         return $this->render('user/index.html.twig', [
 
