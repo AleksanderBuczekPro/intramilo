@@ -203,7 +203,7 @@ class SheetType extends ApplicationType
                 ->add('saveDraft', SubmitType::class, [
                     'label' => 'Enregistrer en brouillon',
                     'attr' => [
-                        'class' => 'btn btn-my-dark dark w-100 px-2',
+                        'class' => 'btn btn-my-dark dark w-100 px-4',
                         'data-toggle' => 'modal',
                         'data-target' => '#draftModal'                                     
                         ]

@@ -305,6 +305,7 @@ class SheetController extends AbstractController
             // Init
             $sheet->setFront('0');
             $sheet->setViews(0);
+            $sheet->setOrigin(null);
             $sheet->setAuthor($this->getUser());
 
             $sheet->setUpdatedAt(new \DateTime(null, new DateTimeZone('Europe/Paris')));

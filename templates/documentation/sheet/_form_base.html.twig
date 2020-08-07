@@ -13,7 +13,111 @@
 
 {{ form_start(form) }}
 
-<div class="container-fluid sheet-form m-0 px-4 mb-4">
+<div class="sheet-nav">
+    <div class="container-fluid m-0 p-0 h-100">
+        <div class="row h-100">
+            <div class="col-xl-4 text-center action-container px-4 my-auto">
+                    <div class="text my-secondary ml-4">
+                            
+                        {% if app.request.attributes.get('_route') starts with 'sheet_create' %}
+
+                            <table class="my-table no-border">
+                                    <tr>
+                                        <td class="pr-3 align-top pt-1">
+                                            <div id="change-circle" class="success">
+                                                <i class="fas fa-check-circle op-70"></i>
+                                            </div>
+                                            <div id="change-circle" class="danger d-none">
+                                                <i class="fas fa-exclamation-circle op-70"></i>
+                                            </div>
+                                        </td>
+                                        <td><strong id="change-text">Sans titre</strong></td>
+                                    </tr>
+                                </table>
+
+                        {% else %}
+
+                            {% if sheet.status == "DRAFT" %}
+
+                                <table class="my-table no-border">
+                                    <tr>
+                                        <td rowspan="2" class="pr-3 align-top pt-1">
+                                            <div id="change-circle" class="success">
+                                                <i class="fas fa-check-circle op-70"></i>
+                                            </div>
+                                            <div id="change-circle" class="danger d-none">
+                                                <i class="fas fa-exclamation-circle op-70"></i>
+                                            </div>
+                                        </td>
+                                        <td><strong id="change-text">{{ sheet.title }}</strong></td>
+                                    </tr>
+                                    <tr>
+                                        
+                                        <td>
+                                            <div class="text my-secondary">
+                                                {{ sheet.updatedAt|localizeddate('none', 'none', 'fr', null, 'd MMMM YYYY') }} à {{ sheet.updatedAt|localizeddate('none', 'none', 'fr', null, 'HH:mm') }}
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </table>
+                            
+                                
+                               
+                            {% endif %}
+
+                        {% endif %}
+
+                    </div>
+                    
+
+            </div>
+            <div class="col-xl-5 col-lg-9 col-md-8 form-container bg-white px-0 my-auto pr-4">
+
+                <button id="confirm-btn" class="btn btn-my-primary float-right white px-4" type="button" data-toggle="modal" data-target="#confirmModal">Envoyer à valider</button>
+                
+                
+
+                {% if app.request.attributes.get('_route') starts with 'sheet_create' %}
+
+                {% else %}
+
+                    {% if sheet.status == "DRAFT" %}
+                    
+                        <a class="op-70 btn float-right mr-3" target="_blank" href="{{ path('sheet_show', {'id': sheet.id }) }}"><i class="fas fa-eye mr-2"></i>Aperçu</a>
+                        
+                    {% endif %}
+
+                {% endif %}
+
+            </div>
+            <div class="col-xl-2 col-lg-3 col-md-4 form-header pl-1 my-auto">
+                <div style="width: 300px;" class="pr-1 pl-0 align-middle">
+
+                    <div class="btn-group w-100 {{dnone}}">
+                            
+                        {{ form_widget(form.saveDraft) }}
+                        
+                        <button type="button" class="btn btn-my-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="sr-only">Toggle Dropdown</span>
+                        </button>
+                        
+                        <div class="dropdown-menu dropdown-menu-right p-0">
+                            {{ form_widget(form.saveDraftExit) }}
+                        </div>
+                        
+                    </div>
+                    
+                     {% if (draft is defined and draft) %}
+                        <a class="btn btn-my-dark dark w-100 px-2" target="_blank" href="{{ path('sheet_show', {'id': draft.id }) }}">Voir le brouillon existant</a>
+                    {% endif %}
+                
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid sheet-form mx-0 px-4 mb-4">
     <div class="row">
 
         <div class="col-xl-2 text-center action-container px-4">
@@ -79,23 +183,7 @@
                     {# Title / Subtitle #}
                     <div class="card my-card m-0 m-0 no-border pt-4 px-4 pb-0">
                         <div class="card-body px-4 py-0">
-                            <div class="text my-secondary mt-3">
                             
-                            {% if app.request.attributes.get('_route') starts with 'sheet_create' %}
-
-                                Non enregistré
-
-                            {% else %}
-
-                                {% if sheet.status == "DRAFT" %}
-                                
-                                    Brouillon enregistré le {{ sheet.updatedAt|localizeddate('none', 'none', 'fr', null, 'd MMMM YYYY') }} à {{ sheet.updatedAt|localizeddate('none', 'none', 'fr', null, 'HH:mm') }}
-                                    <a class="violet p-0 ml-2" target="_blank" href="{{ path('sheet_show', {'id': sheet.id }) }}">Aperçu</a>
-                                {% endif %}
-
-                            {% endif %}
-
-                            </div>
                             
 
                             
@@ -183,101 +271,89 @@
         <div class="col-xl-2 col-lg-3 col-md-4 form-header">
             <div style="width: 300px;" class="">
 
-                <div class="row mt-4 mx-0">
-                   
-                    <div class="col-12 px-1 mb-2">
-
-                        <button id="confirm-btn" class="btn btn-my-primary white w-100 px-2" type="button" data-toggle="modal" data-target="#confirmModal">Envoyer à valider</button>
-                    </div>
+                <div class="card my-card my-box no-border mt-3">
+                    <div class="card-body px-3 pt-2 pb-3">
 
 
-                    <div class="col-12 px-1 {{ dnone }}">
-                        
-                        <div class="btn-group w-100">
-                            {{ form_widget(form.saveDraft) }}
-                            <button type="button" class="btn btn-my-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="sr-only">Toggle Dropdown</span>
-                            </button>
-                        <div class="dropdown-menu dropdown-menu-right p-0">
-                            {{ form_widget(form.saveDraftExit) }}
+                        <div class="card-title mt-0 mb-2 violet">
+                            Sous-catégorie
                         </div>
-                        </div>
-                    </div>
 
-                     {% if (draft is defined and draft) %}
-                     <div class="col-12 px-1">
-                        <a class="btn btn-my-dark dark w-100 px-2" target="_blank" href="{{ path('sheet_show', {'id': draft.id }) }}">Voir le brouillon existant</a>
-                     </div>
-                    {% endif %}
-                </div>
-                <div class="card my-card my-box no-border">
+                        <table class="table my-table">
+                            <tr>
+
+                                <td class="marine bolder no-border p-0">{{ form_widget(form.subCategory) }}</td>
+                            </tr>
+                        </table>
+
+
+                    </div>
+                </diV>
+
+                <div class="card my-card my-box no-border mt-3">
+                    <div class="card-body px-3 pt-2 pb-3">
+
+
+                        <div class="card-title mt-0 mb-2 violet">
+                            Image de fond
+                            <span class="form-check float-right">
+                                <input class="form-check-input" type="checkbox" name="default_pic" value="" id="defaultCheck1" class="mt-1">
+                                <label class="form-check-label" for="defaultCheck1">
+                                    Par défault
+                                </label>
+                            </span>
+                        </div>
+
+                        <table class="table my-table">
+                            <tr>
+                                <td class="marine bolder no-border p-0">{{ form_widget(form.pic) }}</td>
+                                
+                            </tr>
+                            
+                            <tr>
+                                <td class="marine bolder no-border p-0">
+                                    
+                                </td>
+                                
+                            </tr>
+                            
+                            {% if not is_granted("ROLE_ADMIN") %}
+                            {# <tr>
+                                <td class="marine pl-0 op-70 no-border">Responsable de validation</td>
+                                <td class="marine bolder no-border">{{ app.user.groupe.responsable }}</td>
+                            </tr> #}
+                            {% endif %}
+                        </table>
+
+
+                    </div>
+                </diV>
+
+                <div class="card my-card my-box mt-3 no-border">
                     <div class="card-body px-3 py-2">
-                        <div class="">
-                    
-                            <div class="card my-card no-border no-br p-0 mt-0">
-                                <div class="card-body p-0 pb-2">
-                                    <div class="card-title mt-0 mb-2">
-                                        Informations
-                                    </div>
+                        <div class="">                           
 
-                                    <table class="table my-table">
-                                        <tr>
+                            <div class="card-title mt-0 mb-3">
+                                Organisme et Interlocuteurs
 
-                                            <td class="marine bolder no-border p-0">{{ form_widget(form.subCategory) }}</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="marine bolder no-border p-0">{{ form_widget(form.pic) }}</td>
-                                            
-                                        </tr>
-                                        
-                                        <tr>
-                                            <td class="marine bolder no-border p-0">
-                                                <div class="form-check mt-3 float-right">
-                                                    <input class="form-check-input" type="checkbox" name="default_pic" value="" id="defaultCheck1">
-                                                    <label class="form-check-label" for="defaultCheck1">
-                                                        Image par défault
-                                                    </label>
-                                                </div>
-                                            </td>
-                                            
-                                        </tr>
-                                        
-                                        {% if not is_granted("ROLE_ADMIN") %}
-                                        {# <tr>
-                                            <td class="marine pl-0 op-70 no-border">Responsable de validation</td>
-                                            <td class="marine bolder no-border">{{ app.user.groupe.responsable }}</td>
-                                        </tr> #}
-                                        {% endif %}
-                                    </table>
-                                </div>
+                                <button type="button" class="btn btn-my-light marine my-tooltip p-0" data-toggle="tooltip" data-placement="right" title="<br> <i>Organisme obligatoire</i> <br> <br> Liste des <strong>organismes</strong> et des <strong>interlocuteurs</strong> enregistrés dans l'annuaire. <br><br> Pour voir l'annuaire, cliquez <a href='{{ path('organizations_index') }}' target='_blank'><u class='white'>ici</u></a>. <br><br>">
+                                    <i class="uil uil-question-circle"></i>
+                                </button>
+
+                                {# <button type="button" id="add-organization"  data-toggle="modal" data-target="#exampleModal" class="btn btn-my-marine py-2 px-2 mt-0 float-right no-focus">
+                                    <i class="uil uil-plus"></i>
+                                </button> #}
+                            </div>
+                            
+                            {{ form_widget(form.organization) }}
+                            
+                            <div id="interlocutors-message" class="mb-0">
+                                <p class="text mb-0">Sélectionnez un organisme pour voir la liste des interlocuteurs disponibles.
+                                </p>
                             </div>
 
-                            <div class="card my-card no-border p-0">
-                                <div class="card-body p-0">
-                                    <div class="card-title mt-0 mb-4">
-                                        Organisme et Interlocuteurs
-
-                                        <button type="button" class="btn btn-my-light marine my-tooltip p-0" data-toggle="tooltip" data-placement="right" title="<br> <i>Organisme obligatoire</i> <br> <br> Liste des <strong>organismes</strong> et des <strong>interlocuteurs</strong> enregistrés dans l'annuaire. <br><br> Pour voir l'annuaire, cliquez <a href='{{ path('organizations_index') }}' target='_blank'><u class='white'>ici</u></a>. <br><br>">
-                                            <i class="uil uil-question-circle"></i>
-                                        </button>
-
-                                        {# <button type="button" id="add-organization"  data-toggle="modal" data-target="#exampleModal" class="btn btn-my-marine py-2 px-2 mt-0 float-right no-focus">
-                                            <i class="uil uil-plus"></i>
-                                        </button> #}
-                                    </div>
-                                    
-                                    {{ form_widget(form.organization) }}
-                                    
-                                    <div id="interlocutors-message" class="mb-0">
-                                        <p class="text mb-0">Sélectionnez un organisme pour voir la liste des interlocuteurs disponibles.
-                                        </p>
-                                    </div>
-
-                                    <div class="row" id="interlocutors">
-                                    
-                                    </div>
-
-                                </div>
+                            <div class="row" id="interlocutors">
+                            
                             </div>
 
 

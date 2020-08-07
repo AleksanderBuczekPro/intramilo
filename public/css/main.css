@@ -727,6 +727,13 @@ p.text{
 
 }
 
+.sheet-form .sticky{
+    position: -webkit-sticky;
+    position: sticky!important;
+    top: 162px!important;
+
+}
+
 .fixed {
     position: fixed;
 }
@@ -2475,7 +2482,7 @@ div.card.my-card.stat-card table td{
 .sheet-form-anchor{
 
     position: relative;
-    top:-400px;
+    top:-600px;
 
 }
 
@@ -2488,5 +2495,49 @@ div.card.my-card.stat-card table td{
 #nav-favorites-tab.active, #nav-popular-tab.active , #nav-favorites-tab:hover, #nav-popular-tab:hover{
 
     color: black;
+
+}
+
+.sheet-nav{
+
+    position: fixed;
+    top: 70px;
+    height: 70px;
+    width: 100%;
+
+    background-color: white;
+
+    border-bottom: 1px solid var(--grey-15-color);
+
+    z-index: 3;
+    vertical-align: middle;
+}
+
+#change-circle {
+	height: 40px;
+	width: 40px;
+	text-align: center;
+	line-height: 40px;
+	border-radius: 25px;
+}
+
+#change-circle.success{
+    
+    background-color: var(--green-background-color);
+    color: var(--green-color)!important;
+
+}
+
+#change-circle.danger{
+    
+    background-color: var(--orange-background-color);
+    color: var(--orange-color)!important;
+
+}
+
+.form-header .card.my-card .card-title{
+
+    color: black!important;
+    opacity: 1;
 
 }

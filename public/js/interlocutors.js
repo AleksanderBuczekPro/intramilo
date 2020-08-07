@@ -86,6 +86,8 @@ function loadInterlocutors() {
                         $(this).addClass('active');
                         $(this).find('.my-checkbox').attr('checked', true);
                     }
+
+                    changeUpdate();
                 });
 
                 $('#confirm-btn, #sheet_saveDraft, #sheet_saveDraftExit').prop( "disabled", false );
@@ -105,7 +107,7 @@ function loadInterlocutors() {
     // Si aucun organisme sélectionné
     }else{
         
-        $("#interlocutors-message").html("<p class='text'>Aucun organisme sélectionné. Sélectionnez un organisme pour voir la liste des interlocuteurs disponibles. </p>");
+        $("#interlocutors-message").html("<p class='text'>Sélectionnez un organisme pour voir la liste des interlocuteurs disponibles. </p>");
         $("#interlocutors").html("");
 
         $('#confirm-btn, #sheet_saveDraft, #sheet_saveDraftExit').prop( "disabled", false );
