@@ -289,17 +289,6 @@ body{
     /* min-height:110vh; */
     padding:0; margin:0; position:relative;
 
-    /* padding-bottom: 100px; */
-
-
-    /* margin-bottom: 80px; */
-
-
-    padding-bottom: 200px;
-
-    min-height: 150vh;
-    
-
 }
 
 .required::after {
@@ -355,8 +344,6 @@ p{
     font-size: 15px !important;
     color: black;
     line-height: 20px !important;
-
-    overflow: ;
 }
 
 .my-dropdown .my-rounded{
@@ -678,6 +665,12 @@ p.text{
     font-style: italic;
     color: var(--grey-50-color);
     font-size: 14px;
+
+}
+
+p.text.normal{
+
+    font-style: normal;
 
 }
 
@@ -1940,7 +1933,7 @@ div.alert.alert-danger {
 
 }
 
-#form-notifications .alert {
+.alert {
 
 	font-family: "Roboto", "sans serif";
 	border-radius: 6px;
@@ -1950,7 +1943,7 @@ div.alert.alert-danger {
 
 
 
-#form-notifications .alert.alert-success {
+.alert.alert-success {
 
 	color: var(--green-color);
 	background-color: var(--green-background-color);
@@ -1958,7 +1951,7 @@ div.alert.alert-danger {
 
 }
 
-#form-notifications .alert.alert-warning {
+.alert.alert-warning {
 
 	color: var(--orange-color);
 	background-color: var(--orange-background-color);
@@ -1966,13 +1959,22 @@ div.alert.alert-danger {
 
 }
 
-#form-notifications .alert.alert-danger {
+.alert.alert-danger {
 
-	color: var(--red-color);
-	background-color: var(--red-background-color);
-	border: 1px solid var(--red-color);
+	color: var(--red-color)!important;
+	background-color: var(--red-background-color)!important;
+	border: 1px solid var(--red-color)!important;
 
 }
+
+.alert.alert-info {
+
+	color: var(--purple-color);
+	background-color: var(--purple-background-color);
+	border: 1px solid var(--purple-color);
+
+}
+
 
 .my-title.weather-title{
 
@@ -2482,7 +2484,8 @@ div.card.my-card.stat-card table td{
 .sheet-form-anchor{
 
     position: relative;
-    top:-600px;
+    /* top: -800px; */
+    top: -500px!important;
 
 }
 

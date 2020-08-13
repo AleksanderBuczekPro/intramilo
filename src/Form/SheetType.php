@@ -185,7 +185,7 @@ class SheetType extends ApplicationType
                             'mimeTypes' => [
                                 'image/jpeg'
                             ],
-                            'mimeTypesMessage' => 'Merci de charger une image.',
+                            'mimeTypesMessage' => 'Merci de charger une image JPEG.',
                             'minHeight' => 125,
                             'minHeightMessage' => 'Merci de charger une image d\'une hauteur de 125 pixels minimum.',
                             'minWidth' => 125,
@@ -194,7 +194,7 @@ class SheetType extends ApplicationType
                     ],
                 ])
                 ->add('save', SubmitType::class, [
-                    'label' => 'Oui, j\'envoie',
+                    'label' => 'Oui',
                     'attr' => [
                         'id' => 'send-btn',
                         'class' => 'btn btn-my-primary']
@@ -223,7 +223,8 @@ class SheetType extends ApplicationType
     {
         $resolver->setDefaults([
             'data_class' => Sheet::class,
-            'user' => null
+            'user' => null,
+            'allow_extra_fields' => true
         ]);
     }
 }

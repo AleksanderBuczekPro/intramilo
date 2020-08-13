@@ -92,6 +92,17 @@
                         </a>
                     {% endif %}
 
+                    {# {% if sheet.organization and sheet.status == "DRAFT" %}
+
+                        <a href="{{ path('sheet_front', {'id': sheet.id }) }}" class="btn btn-my-primary small {% if sheet.front %}active{% endif %} float-right">
+                        {% if is_granted("ROLE_ADMIN") %}
+                            <i class="far fa-paper-plane mr-1"></i> Mettre en ligne
+                        {% else %}
+                            <i class="far fa-paper-plane mr-1"></i> Envoyer à valider
+                        {% endif %}
+                        </a>
+                    {% endif %} #}
+
                 </div>
 
                     
