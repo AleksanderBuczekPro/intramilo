@@ -289,6 +289,8 @@ body{
     /* min-height:110vh; */
     padding:0; margin:0; position:relative;
 
+    margin-top: 70px;
+
 }
 
 .required::after {

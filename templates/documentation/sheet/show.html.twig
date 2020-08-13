@@ -193,7 +193,7 @@
                             </button>
 
                             <div id="collapse-h-{{ loop.index }}" class="collapse show" aria-labelledby="heading-h-{{ loop.index }}" data-parent="#accordion-h">
-                            <div class="card-body paragraph-body px-4 pt-0 pb-4">
+                            <div class="card-body px-4 pt-0 pb-4">
                                 <table class="table my-table mx-1 bg-transparent">
                                     {% for section in h.sections %}
                                         <tr>
@@ -385,7 +385,15 @@
         $("#validation").click(function() {    
 
             // Permet d'enlever les span (couleur) du contenu
-            $("div.sheet-content .paragraph-card span").contents().unwrap();
+            $("div.paragraph-body span").contents().unwrap();
+
+            var paragraphs = [];
+            $( "div.paragraph-body" ).each(function() {
+                //console.log($(this).html());
+                paragraphs.push($(this).html());
+            });
+
+            console.log(paragraphs);
 
             // Récupération des données
             var id = $("#sheetId").text();
@@ -400,14 +408,15 @@
 
                 type: 'POST',
                 url: path,
-                data: { id: id, content: content},
+                data: { id: id, paragraphs: paragraphs},
                 success: function(data) {
 
                     location.reload();
                     
                 },
                 error: function(data) {
-                    alert("Error !")
+                    /*console.log(data);
+                    alert("Error !")*/
                 }
 
             });

@@ -73,13 +73,26 @@
             </div>
             <div class="col-xl-5 col-lg-9 col-md-8 form-container bg-white px-0 my-auto pr-4">
 
-                <button id="confirm-btn" class="btn btn-my-primary float-right white pl-3 pr-4" type="button" data-toggle="modal" data-target="#confirmModal">
-                {% if is_granted("ROLE_ADMIN") %}
-                    <i class="far fa-paper-plane ml-1 mr-2"></i> Mettre en ligne
-                {% else %}
-                    <i class="far fa-paper-plane ml-1 mr-2"></i> Envoyer à valider
+                <div class="btn-group {{dnone}} float-right">
+                        
+                    {{ form_widget(form.saveDraft) }}
+                    {# {{ form_widget(form.saveDraft, {'label': '<i class="fa fa-search" aria-hidden="true"></i> Enregistrer en brouillon', 'attr': {'class': 'btn btn-my-dark dark w-100 px-4', 'data-toggle': 'modal', 'data-target': '#draftModal'}}) }} #}
+                    {# <button type="submit" id="sheet_saveDraft" name="sheet[saveDraft]" class="btn btn-my-dark dark w-100 pl-3 pr-4 btn" data-toggle="modal" data-target="#draftModal" aria-hidden="true"><i class="fas fa-save  ml-1 mr-2"></i> Enregistrer en brouillon</button> #}
+                    <button type="button" class="btn btn-my-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span class="sr-only">Toggle Dropdown</span>
+                    </button>
+                    
+                    <div class="dropdown-menu dropdown-menu-right p-0">
+                        {{ form_widget(form.saveDraftExit) }}
+                    </div>
+                    
+                </div>
+                
+                    {% if (draft is defined and draft) %}
+                    <a class="btn btn-my-dark dark px-4 float-right" target="_blank" href="{{ path('sheet_show', {'id': draft.id }) }}">Voir le brouillon existant</a>
                 {% endif %}
-                </button>
+
+                
                 
                 
 
@@ -99,24 +112,13 @@
             <div class="col-xl-2 col-lg-3 col-md-4 form-header pl-1 my-auto">
                 <div style="width: 300px;" class="pr-1 pl-0 align-middle">
 
-                    <div class="btn-group w-100 {{dnone}}">
-                        
-                        {{ form_widget(form.saveDraft) }}
-                        {# {{ form_widget(form.saveDraft, {'label': '<i class="fa fa-search" aria-hidden="true"></i> Enregistrer en brouillon', 'attr': {'class': 'btn btn-my-dark dark w-100 px-4', 'data-toggle': 'modal', 'data-target': '#draftModal'}}) }} #}
-                        {# <button type="submit" id="sheet_saveDraft" name="sheet[saveDraft]" class="btn btn-my-dark dark w-100 pl-3 pr-4 btn" data-toggle="modal" data-target="#draftModal" aria-hidden="true"><i class="fas fa-save  ml-1 mr-2"></i> Enregistrer en brouillon</button> #}
-                        <button type="button" class="btn btn-my-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <span class="sr-only">Toggle Dropdown</span>
-                        </button>
-                        
-                        <div class="dropdown-menu dropdown-menu-right p-0">
-                            {{ form_widget(form.saveDraftExit) }}
-                        </div>
-                        
-                    </div>
-                    
-                     {% if (draft is defined and draft) %}
-                        <a class="btn btn-my-dark dark w-100 px-2" target="_blank" href="{{ path('sheet_show', {'id': draft.id }) }}">Voir le brouillon existant</a>
+                    <button id="confirm-btn" class="btn btn-my-primary float-right white pl-3 pr-4 w-100" type="button" data-toggle="modal" data-target="#confirmModal">
+                    {% if is_granted("ROLE_ADMIN") %}
+                        <i class="far fa-paper-plane ml-1 mr-2"></i> Mettre en ligne
+                    {% else %}
+                        <i class="far fa-paper-plane ml-1 mr-2"></i> Envoyer à valider
                     {% endif %}
+                    </button>
                 
                 </div>
             </div>
@@ -130,25 +132,7 @@
         <div class="col-xl-2 text-center action-container bg-white px-4">
             <div style="width: 200px;" class="mx-auto">
                 
-                {# <div class="card my-card my-box no-border mt-3 mb-4">
-                    <div class="card-body px-2 pt-1 pb-0">
-
-
-                        <div class="card-title mt-0 mb-2 text-left black">
-                            Sous-catégorie
-                        </div>
-
-                        <table class="table my-table">
-                            <tr>
-
-                                <td class="marine bolder no-border p-0">{{ form_widget(form.subCategory) }}</td>
-                            </tr>
-                        </table>
-
-
-                    </div>
-                </div> #}
-                <div class="text-left mt-4">
+                <div class="text-left mt-4 w-75">
                     <h5>Sous-catégorie</h5>
                     {{ form_widget(form.subCategory) }}
                 </div>
@@ -164,7 +148,7 @@
                         <i class="fas fa-paperclip mr-2"></i>
                         Pièce jointe
                     </button>
-                    <button type="button" class="btn btn-my-light marine my-tooltip p-0 float-right mt-2 mr-2" data-toggle="tooltip" data-placement="right" title="<br> Importez des <strong>pièces jointes</strong> depuis votre ordinateur qui seront visibles uniquement dans cette fiche. <br><br>">
+                    <button type="button" class="btn btn-my-light marine my-tooltip p-0 float-right mt-2 mr-3" data-toggle="tooltip" data-placement="right" title="<br> Importez des <strong>pièces jointes</strong> depuis votre ordinateur qui seront visibles uniquement dans cette fiche. <br><br>">
                         <i class="uil uil-question-circle"></i>
                     </button>
 
@@ -175,7 +159,7 @@
                         <i class="fas fa-quote-right mr-2"></i>
                         Introduction
                     </button>
-                    <button type="button" class="btn btn-my-light marine my-tooltip p-0 float-right mt-2 mr-2" data-toggle="tooltip" data-placement="right" title="<br> Rédigez ici votre <strong>introduction</strong> (ou votre définition). <br><br> Vous pouvez également y mettre votre contenu lorsque la fiche ne nécessite pas la création de sections.<br><br>">
+                    <button type="button" class="btn btn-my-light marine my-tooltip p-0 float-right mt-2 mr-3" data-toggle="tooltip" data-placement="right" title="<br> Rédigez ici votre <strong>introduction</strong> (ou votre définition). <br><br> Vous pouvez également y mettre votre contenu lorsque la fiche ne nécessite pas la création de sections.<br><br>">
                         <i class="uil uil-question-circle"></i>
                     </button>
                 </div>
@@ -186,7 +170,7 @@
                         <i class="fas fa-table mr-2"></i>
                         Entête
                     </button>
-                    <button type="button" class="btn btn-my-light marine my-tooltip p-0 float-right mt-2 mr-2" data-toggle="tooltip" data-placement="right" title="<br> Une <strong>entête</strong> est un tableau à <br><strong>2 colonnes</strong> permettant de mettre en avant certaines informations. <br><br> Par exemple: Dates, Lieux, Accès Bus...<br><br>">
+                    <button type="button" class="btn btn-my-light marine my-tooltip p-0 float-right mt-2 mr-3" data-toggle="tooltip" data-placement="right" title="<br> Une <strong>entête</strong> est un tableau à <br><strong>2 colonnes</strong> permettant de mettre en avant certaines informations. <br><br> Par exemple: Dates, Lieux, Accès Bus...<br><br>">
                         <i class="uil uil-question-circle"></i>
                     </button>
                 </div>
@@ -197,7 +181,7 @@
                         <i class="fas fa-align-left mr-2"></i>
                         Section
                     </button>
-                    <button type="button" class="btn btn-my-light marine my-tooltip p-0 float-right mt-2 mr-2" data-toggle="tooltip" data-placement="right" title="<br>Le contenu de votre fiche est réparti dans les différentes sections. <br><br>Une <strong>section</strong> est une partie de votre contenu. Chaque section correspond à une thématique. <br><br> Vous pouvez ajouter autant de sections que vous le souhaitez. <br><br>">
+                    <button type="button" class="btn btn-my-light marine my-tooltip p-0 float-right mt-2 mr-3" data-toggle="tooltip" data-placement="right" title="<br>Le contenu de votre fiche est réparti dans les différentes sections. <br><br>Une <strong>section</strong> est une partie de votre contenu. Chaque section correspond à une thématique. <br><br> Vous pouvez ajouter autant de sections que vous le souhaitez. <br><br>">
                         <i class="uil uil-question-circle"></i>
                     </button>
                 </div>
