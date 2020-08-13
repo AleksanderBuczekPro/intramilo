@@ -186,6 +186,7 @@
 
 .tooltip.bs-tooltip-right .arrow:before {
     border-right-color: var(--purple-color) !important;
+    
 }
 
 .tooltip.bs-tooltip-left .arrow:before {
@@ -244,13 +245,6 @@
     font-size: 14px;
 
 }
-
-
-
-
-
-
-
 
 .my-width{
 
