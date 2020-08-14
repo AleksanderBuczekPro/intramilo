@@ -288,7 +288,7 @@ $("#sheet_headers").on('click', '.section-move', function () {
     var next_title = $("#" + id.split("_")[0] + "_" + id.split("_")[1] + "_" + header_id + "_" + id.split("_")[3] + "_" + counter + '_title');
     var next_content = $("#" + id.split("_")[0] + "_" + id.split("_")[1] + "_" + header_id + "_" + id.split("_")[3] + "_" + counter + '_content');
 
-     // Relacement
+     // Replacement
     var temp = next_title.val();
 
     next_title.val(current_title.val());
@@ -298,7 +298,7 @@ $("#sheet_headers").on('click', '.section-move', function () {
     var temp_content = next_content.val();
 
     next_content.val(current_content.val());
-    current_content.val(temp);
+    current_content.val(temp_content);
 
 
    
