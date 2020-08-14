@@ -58,11 +58,12 @@
                                    {% include '_picture.html.twig' with {'user': user, 'class': 'medium'} %}
 
                                 </td>
-                                <td class="w-100">
+                                <td class="w-50">
                                     <div class="contact-title m-0">{{ user.lastName }} {{ user.firstName }}</div>
                                     <div class="contact-secondary">
                                         
                                        {{ user.phoneNumber }}
+                                       <span class="badge small secondary">{{ user.directNumber }}</span> 
                                         
                                     </div>
                                     <div class="contact-secondary">
@@ -72,7 +73,7 @@
                                     </div>
                                 </td>
                                 <td>
-                                     <span class="badge secondary">{{ user.directNumber }}</span> 
+                                    <a href="{{ path('user_show', {'slug': user.slug })}}" class="btn btn-my-secondary small float-right">Profil</a>
                                 </td>
                                 {# <td class="w-50p contact-secondary pl-4">
                                     <i class="uil uil-user"></i>
@@ -114,11 +115,11 @@
                                 <div class="card my-card no-border contact-infos contact my-box no-br mt-0 p-4 d-none" data-contact="{{ user.id }}">
                                     {# <div class="contact-map" id="map_{{ antenne.id }}"></div> #}
                                     <div class="card-body">
-
+                                        <a href="{{ path('user_show', {'slug': user.slug })}}" class="btn btn-my-secondary float-right"><i class="fas fa-eye mr-2"></i>Voir profil</a>
                                         {% include '_picture.html.twig' with {'user': user, 'class': 'large'} %}
                                         
                                         <div class="contact-title mt-3">
-                                            {{ user }}
+                                            {{ user }} 
                                         </div>
                                         <div class="my-secondary">{{ user.poste }}</div>
                                         <hr>

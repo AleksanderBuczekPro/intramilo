@@ -13,52 +13,178 @@
 
 {{ form_start(form) }}
 
-<div class="container-fluid sheet-form m-0 px-4 mb-4">
+<div class="sheet-nav">
+    <div class="container-fluid m-0 p-0 h-100">
+        <div class="row h-100">
+            <div class="col-xl-4 text-center action-container px-4 my-auto">
+                    <div class="text my-secondary ml-4">
+                            
+                        {% if app.request.attributes.get('_route') starts with 'sheet_create' %}
+
+                            <table class="my-table no-border">
+                                    <tr>
+                                        <td class="pr-3 align-top pt-1">
+                                            <div id="change-circle" class="success">
+                                                <i class="fas fa-check-circle op-70"></i>
+                                            </div>
+                                            <div id="change-circle" class="danger d-none">
+                                                <i class="fas fa-exclamation-circle op-70"></i>
+                                            </div>
+                                        </td>
+                                        <td><strong id="change-text">Sans titre</strong></td>
+                                    </tr>
+                                </table>
+
+                        {% else %}
+
+                            {% if sheet.status == "DRAFT" %}
+
+                                <table class="my-table no-border">
+                                    <tr>
+                                        <td rowspan="2" class="pr-3 align-top pt-1">
+                                            <div id="change-circle" class="success">
+                                                <i class="fas fa-check-circle op-70"></i>
+                                            </div>
+                                            <div id="change-circle" class="danger d-none">
+                                                <i class="fas fa-exclamation-circle op-70"></i>
+                                            </div>
+                                        </td>
+                                        <td><strong id="change-text">{{ sheet.title }}</strong></td>
+                                    </tr>
+                                    <tr>
+                                        
+                                        <td>
+                                            <div class="text my-secondary">
+                                                {{ sheet.updatedAt|localizeddate('none', 'none', 'fr', null, 'd MMMM YYYY') }} à {{ sheet.updatedAt|localizeddate('none', 'none', 'fr', null, 'HH:mm') }}
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </table>
+                            
+                                
+                               
+                            {% endif %}
+
+                        {% endif %}
+
+                    </div>
+                    
+
+            </div>
+            <div class="col-xl-5 col-lg-9 col-md-8 form-container bg-white px-0 my-auto pr-4">
+
+                <div class="btn-group {{dnone}} float-right">
+                        
+                    {{ form_widget(form.saveDraft) }}
+                    {# {{ form_widget(form.saveDraft, {'label': '<i class="fa fa-search" aria-hidden="true"></i> Enregistrer en brouillon', 'attr': {'class': 'btn btn-my-dark dark w-100 px-4', 'data-toggle': 'modal', 'data-target': '#draftModal'}}) }} #}
+                    {# <button type="submit" id="sheet_saveDraft" name="sheet[saveDraft]" class="btn btn-my-dark dark w-100 pl-3 pr-4 btn" data-toggle="modal" data-target="#draftModal" aria-hidden="true"><i class="fas fa-save  ml-1 mr-2"></i> Enregistrer en brouillon</button> #}
+                    <button type="button" class="btn btn-my-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span class="sr-only">Toggle Dropdown</span>
+                    </button>
+                    
+                    <div class="dropdown-menu dropdown-menu-right p-0">
+                        {{ form_widget(form.saveDraftExit) }}
+                    </div>
+                    
+                </div>
+                
+                    {% if (draft is defined and draft) %}
+                    <a class="btn btn-my-dark dark px-4 float-right" target="_blank" href="{{ path('sheet_show', {'id': draft.id }) }}">Voir le brouillon existant</a>
+                {% endif %}
+
+                
+                
+                
+
+                {% if app.request.attributes.get('_route') starts with 'sheet_create' %}
+
+                {% else %}
+
+                    {% if sheet.status == "DRAFT" %}
+                    
+                        <a class="op-70 btn float-right mr-3" target="_blank" href="{{ path('sheet_show', {'id': sheet.id }) }}"><i class="fas fa-eye mr-2"></i>Aperçu</a>
+                        
+                    {% endif %}
+
+                {% endif %}
+
+            </div>
+            <div class="col-xl-2 col-lg-3 col-md-4 form-header pl-1 my-auto">
+                <div style="width: 300px;" class="pr-1 pl-0 align-middle">
+
+                    <button id="confirm-btn" class="btn btn-my-primary float-right white pl-3 pr-4 w-100" type="button" data-toggle="modal" data-target="#confirmModal">
+                    {% if is_granted("ROLE_ADMIN") %}
+                        <i class="far fa-paper-plane ml-1 mr-2"></i> Mettre en ligne
+                    {% else %}
+                        <i class="far fa-paper-plane ml-1 mr-2"></i> Envoyer à valider
+                    {% endif %}
+                    </button>
+                
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid sheet-form mx-0 px-4 mb-4">
     <div class="row">
 
-        <div class="col-xl-2 text-center action-container px-4">
-            <div style="width: 200px;" class="sticky float-right">
-
-                <div class="">
+        <div class="col-xl-2 text-center action-container bg-white px-4">
+            <div style="width: 200px;" class="mx-auto">
+                
+                <div class="text-left mt-4 w-75">
+                    <h5>Sous-catégorie</h5>
+                    {{ form_widget(form.subCategory) }}
+                </div>
+            </div>
+            <div style="width: 200px;" class="mx-auto sticky">
+                <div class="text-left mt-4">
+                    <h5 class="">Eléments</h5>
+                    <p class="text normal mb-4">Cliquez sur un élément pour l'ajouter à votre fiche</p>
+                </div>
+                <div class="mb-4 text-left">
                     <button type="button" id="add-attachment" class="btn btn-my-marine text-left no-focus w-75 mb-2">
                         {# <i class="uil uil-plus mr-2"></i> #}
+                        <i class="fas fa-paperclip mr-2"></i>
                         Pièce jointe
                     </button>
-                    <button type="button" class="btn btn-my-light marine my-tooltip p-0 float-right mt-2" data-toggle="tooltip" data-placement="right" title="<br> Importez des <strong>pièces jointes</strong> depuis votre ordinateur qui seront visibles uniquement dans cette fiche. <br><br>">
+                    <button type="button" class="btn btn-my-light marine my-tooltip p-0 float-right mt-2 mr-3" data-toggle="tooltip" data-placement="right" title="<br> Importez des <strong>pièces jointes</strong> depuis votre ordinateur qui seront visibles uniquement dans cette fiche. <br><br>">
                         <i class="uil uil-question-circle"></i>
                     </button>
 
                 </div>
-                <div>
+                <div class="text-left">
                     <button type="button" id="add-introduction" class="btn btn-my-marine text-left no-focus w-75 mb-2">
                         {# <i class="uil uil-plus mr-2"></i> #}
+                        <i class="fas fa-quote-right mr-2"></i>
                         Introduction
                     </button>
-                    <button type="button" class="btn btn-my-light marine my-tooltip p-0 float-right mt-2" data-toggle="tooltip" data-placement="right" title="<br> Rédigez ici votre <strong>introduction</strong> (ou votre définition). <br><br> Vous pouvez également y mettre votre contenu lorsque la fiche ne nécessite pas la création de sections.<br><br>">
+                    <button type="button" class="btn btn-my-light marine my-tooltip p-0 float-right mt-2 mr-3" data-toggle="tooltip" data-placement="right" title="<br> Rédigez ici votre <strong>introduction</strong> (ou votre définition). <br><br> Vous pouvez également y mettre votre contenu lorsque la fiche ne nécessite pas la création de sections.<br><br>">
                         <i class="uil uil-question-circle"></i>
                     </button>
                 </div>
 
-                <div>
+                <div class="text-left">
                     <button type="button" id="add-header" class="btn btn-my-marine text-left no-focus w-75 mb-2">
                         {# <i class="uil uil-plus mr-2"></i> #}
+                        <i class="fas fa-table mr-2"></i>
                         Entête
                     </button>
-                    <button type="button" class="btn btn-my-light marine my-tooltip p-0 float-right mt-2" data-toggle="tooltip" data-placement="right" title="<br> Une <strong>entête</strong> est un tableau à <br><strong>2 colonnes</strong> permettant de mettre en avant certaines informations. <br><br> Par exemple: Dates, Lieux, Accès Bus...<br><br>">
+                    <button type="button" class="btn btn-my-light marine my-tooltip p-0 float-right mt-2 mr-3" data-toggle="tooltip" data-placement="right" title="<br> Une <strong>entête</strong> est un tableau à <br><strong>2 colonnes</strong> permettant de mettre en avant certaines informations. <br><br> Par exemple: Dates, Lieux, Accès Bus...<br><br>">
                         <i class="uil uil-question-circle"></i>
                     </button>
                 </div>
 
-                <div>
+                <div class="text-left">
                     <button type="button" id="add-paragraph" class="btn btn-my-marine text-left no-focus w-75 mb-2">
                         {# <i class="uil uil-plus mr-2"></i> #}
+                        <i class="fas fa-align-left mr-2"></i>
                         Section
                     </button>
-                    <button type="button" class="btn btn-my-light marine my-tooltip p-0 float-right mt-2" data-toggle="tooltip" data-placement="right" title="<br>Le contenu de votre fiche est réparti dans les différentes sections. <br><br>Une <strong>section</strong> est une partie de votre contenu. Chaque section correspond à une thématique. <br><br> Vous pouvez ajouter autant de sections que vous le souhaitez. <br><br>">
+                    <button type="button" class="btn btn-my-light marine my-tooltip p-0 float-right mt-2 mr-3" data-toggle="tooltip" data-placement="right" title="<br>Le contenu de votre fiche est réparti dans les différentes sections. <br><br>Une <strong>section</strong> est une partie de votre contenu. Chaque section correspond à une thématique. <br><br> Vous pouvez ajouter autant de sections que vous le souhaitez. <br><br>">
                         <i class="uil uil-question-circle"></i>
                     </button>
                 </div>
-
             </div>
         </div>
 
@@ -72,30 +198,14 @@
 
 
 
-        <div class="col-xl-7 col-lg-9 col-md-8 form-container bg-white px-0">
+        <div class="col-xl-7 col-lg-9 col-md-8 form-container bg-white px-4">
             <div class="card my-card no-border m-0 no-br p-0">
                 <div class="card-body p-0">
 
                     {# Title / Subtitle #}
                     <div class="card my-card m-0 m-0 no-border pt-4 px-4 pb-0">
                         <div class="card-body px-4 py-0">
-                            <div class="text my-secondary mt-3">
                             
-                            {% if app.request.attributes.get('_route') starts with 'sheet_create' %}
-
-                                Non enregistré
-
-                            {% else %}
-
-                                {% if sheet.status == "DRAFT" %}
-                                
-                                    Brouillon enregistré le {{ sheet.updatedAt|localizeddate('none', 'none', 'fr', null, 'd MMMM YYYY') }} à {{ sheet.updatedAt|localizeddate('none', 'none', 'fr', null, 'HH:mm') }}
-                                    <a class="violet p-0 ml-2" target="_blank" href="{{ path('sheet_show', {'id': sheet.id }) }}">Aperçu</a>
-                                {% endif %}
-
-                            {% endif %}
-
-                            </div>
                             
 
                             
@@ -183,101 +293,90 @@
         <div class="col-xl-2 col-lg-3 col-md-4 form-header">
             <div style="width: 300px;" class="">
 
-                <div class="row mt-4 mx-0">
-                   
-                    <div class="col-12 px-1 mb-2">
+                 <div class="card my-card header-card my-box no-border mt-4 mb-0">
 
-                        <button id="confirm-btn" class="btn btn-my-primary white w-100 px-2" type="button" data-toggle="modal" data-target="#confirmModal">Envoyer à valider</button>
-                    </div>
+                        {% if (sheet.pictureFilename is defined) and sheet.pictureFilename is not null %}
 
-
-                    <div class="col-12 px-1 {{ dnone }}">
-                        
-                        <div class="btn-group w-100">
-                            {{ form_widget(form.saveDraft) }}
-                            <button type="button" class="btn btn-my-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="sr-only">Toggle Dropdown</span>
-                            </button>
-                        <div class="dropdown-menu dropdown-menu-right p-0">
-                            {{ form_widget(form.saveDraftExit) }}
-                        </div>
-                        </div>
-                    </div>
-
-                     {% if (draft is defined and draft) %}
-                     <div class="col-12 px-1">
-                        <a class="btn btn-my-dark dark w-100 px-2" target="_blank" href="{{ path('sheet_show', {'id': draft.id }) }}">Voir le brouillon existant</a>
-                     </div>
-                    {% endif %}
-                </div>
-                <div class="card my-card my-box no-border">
-                    <div class="card-body px-3 py-2">
-                        <div class="">
-                    
-                            <div class="card my-card no-border no-br p-0 mt-0">
-                                <div class="card-body p-0 pb-2">
-                                    <div class="card-title mt-0 mb-2">
-                                        Informations
-                                    </div>
-
-                                    <table class="table my-table">
-                                        <tr>
-
-                                            <td class="marine bolder no-border p-0">{{ form_widget(form.subCategory) }}</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="marine bolder no-border p-0">{{ form_widget(form.pic) }}</td>
-                                            
-                                        </tr>
-                                        
-                                        <tr>
-                                            <td class="marine bolder no-border p-0">
-                                                <div class="form-check mt-3 float-right">
-                                                    <input class="form-check-input" type="checkbox" name="default_pic" value="" id="defaultCheck1">
-                                                    <label class="form-check-label" for="defaultCheck1">
-                                                        Image par défault
-                                                    </label>
-                                                </div>
-                                            </td>
-                                            
-                                        </tr>
-                                        
-                                        {% if not is_granted("ROLE_ADMIN") %}
-                                        {# <tr>
-                                            <td class="marine pl-0 op-70 no-border">Responsable de validation</td>
-                                            <td class="marine bolder no-border">{{ app.user.groupe.responsable }}</td>
-                                        </tr> #}
-                                        {% endif %}
-                                    </table>
-                                </div>
+                            <div class="background" style="background-image: url({{ asset('files/pictures/' ~ sheet.pictureFilename) }});">
                             </div>
 
-                            <div class="card my-card no-border p-0">
-                                <div class="card-body p-0">
-                                    <div class="card-title mt-0 mb-4">
-                                        Organisme et Interlocuteurs
+                        {% else %}
 
-                                        <button type="button" class="btn btn-my-light marine my-tooltip p-0" data-toggle="tooltip" data-placement="right" title="<br> <i>Organisme obligatoire</i> <br> <br> Liste des <strong>organismes</strong> et des <strong>interlocuteurs</strong> enregistrés dans l'annuaire. <br><br> Pour voir l'annuaire, cliquez <a href='{{ path('organizations_index') }}' target='_blank'><u class='white'>ici</u></a>. <br><br>">
-                                            <i class="uil uil-question-circle"></i>
-                                        </button>
+                            <div class="background" style="background-image: url({{ asset('files/pictures/' ~ sheet.subCategory.category.pole.pictureFilename) }});">
+                            </div>
 
-                                        {# <button type="button" id="add-organization"  data-toggle="modal" data-target="#exampleModal" class="btn btn-my-marine py-2 px-2 mt-0 float-right no-focus">
-                                            <i class="uil uil-plus"></i>
-                                        </button> #}
-                                    </div>
+                        {% endif %}
+                </div>
+
+                <div class="card my-card my-box no-border image-card">
+                    <div class="card-body px-3 pt-2 pb-3">
+
+
+                        <div class="card-title mt-0 mb-2 violet">
+                            Image de fond
+                            <span class="form-check float-right">
+                                <input class="form-check-input" type="checkbox" name="default_pic" value="" id="defaultCheck1" class="mt-1">
+                                <label class="form-check-label" for="defaultCheck1">
+                                    Par défault
+                                </label>
+                            </span>
+                        </div>
+
+                        <table class="table my-table">
+                            <tr>
+                                <td class="marine bolder no-border p-0">
+                                    {{ form_errors(form.pic) }}
+                                    {{ form_widget(form.pic) }}
+                                </td>
+                                
+                            </tr>
+                            
+                            <tr>
+                                <td class="marine bolder no-border p-0">
                                     
-                                    {{ form_widget(form.organization) }}
-                                    
-                                    <div id="interlocutors-message" class="mb-0">
-                                        <p class="text mb-0">Sélectionnez un organisme pour voir la liste des interlocuteurs disponibles.
-                                        </p>
-                                    </div>
+                                </td>
+                                
+                            </tr>
+                            
+                            {% if not is_granted("ROLE_ADMIN") %}
+                            {# <tr>
+                                <td class="marine pl-0 op-70 no-border">Responsable de validation</td>
+                                <td class="marine bolder no-border">{{ app.user.groupe.responsable }}</td>
+                            </tr> #}
+                            {% endif %}
+                        </table>
 
-                                    <div class="row" id="interlocutors">
-                                    
-                                    </div>
 
-                                </div>
+                    </div>
+                </diV>
+
+                <div class="card my-card my-box mt-3 no-border">
+                    <div class="card-body px-3 py-2">
+                        <div class="">                           
+
+                            <div class="card-title mt-0 mb-3">
+                                Organisme et Interlocuteurs
+
+                                <button type="button" class="btn btn-my-light marine my-tooltip p-0" data-toggle="tooltip" data-placement="right" title="<br> <i>Organisme obligatoire</i> <br> <br> Liste des <strong>organismes</strong> et des <strong>interlocuteurs</strong> enregistrés dans l'annuaire. <br><br> Pour voir l'annuaire, cliquez <a href='{{ path('organizations_index') }}' target='_blank'><u class='white'>ici</u></a>. <br><br>">
+                                    <i class="uil uil-question-circle"></i>
+                                </button>
+
+                                {# <button type="button" id="add-organization"  data-toggle="modal" data-target="#exampleModal" class="btn btn-my-marine py-2 px-2 mt-0 float-right no-focus">
+                                    <i class="uil uil-plus"></i>
+                                </button> #}
+                            </div>
+                            
+                            {{ form_widget(form.organization) }}
+                            
+                            <div id="interlocutors-message" class="mb-0">
+
+                                {# <p class="text mb-0">Sélectionnez un organisme pour voir la liste des interlocuteurs disponibles.
+                                </p> #}
+                            </div>
+                                
+
+                            <div class="row" id="interlocutors">
+                            
                             </div>
 
 
@@ -306,8 +405,14 @@
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
+
         
       </div>
+        {% if not is_granted("ROLE_ADMIN") %}
+            <div class="mt-2 px-3">
+                <p class="text normal black op-70">Responsable de validation : {{ app.user.groupe.responsable }}</p>
+            </div>
+        {% endif %}
 
       <div class="modal-body">
 

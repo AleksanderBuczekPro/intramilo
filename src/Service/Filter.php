@@ -419,7 +419,7 @@ class Filter{
                 // A corriger
                 if($status == "TO_CORRECT"){
 
-                    $sheetsToValidate[] = $sheet;
+                    $sheetsToCorrect[] = $sheet;
 
                 }
 
@@ -448,6 +448,11 @@ class Filter{
             }
 
         }
+
+        usort($sheetsToValidate, function($a, $b){ 
+            // return strcasecmp($a->getTitle(), $b->getTitle());
+            return strtotime($b->getUpdatedAt()->format('Y-m-d H:i:s')) - strtotime($a->getUpdatedAt()->format('Y-m-d H:i:s'));
+        });
   
         return array(
             'filesToValidate' => $sheetsToValidate,

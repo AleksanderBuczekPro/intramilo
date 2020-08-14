@@ -62,9 +62,12 @@
                             
                             {% endif %}
 
-                            {% if sheet.status != 'DRAFT' %}
-                            <a class="dropdown-item pl-3" href="{{ path('sheet_create_model', {'id_model': sheet.id }) }}"><span class="rounded"><i class="far fa-copy my-rounded"></i></span> Dupliquer</a>
-                            {% endif %}
+                            
+                            <a class="dropdown-item pl-3" href="{{ path('sheet_create_model', {'id_model': sheet.id }) }}">
+                                <span class="rounded"><i class="far fa-copy my-rounded"></i></span>
+                                Dupliquer
+                            </a>
+                            
 
 
                             {% if is_granted("ROLE_ADMIN") and sheet.status != 'DRAFT' %}
@@ -88,6 +91,17 @@
                         {% endif %}
                         </a>
                     {% endif %}
+
+                    {# {% if sheet.organization and sheet.status == "DRAFT" %}
+
+                        <a href="{{ path('sheet_front', {'id': sheet.id }) }}" class="btn btn-my-primary small {% if sheet.front %}active{% endif %} float-right">
+                        {% if is_granted("ROLE_ADMIN") %}
+                            <i class="far fa-paper-plane mr-1"></i> Mettre en ligne
+                        {% else %}
+                            <i class="far fa-paper-plane mr-1"></i> Envoyer à valider
+                        {% endif %}
+                        </a>
+                    {% endif %} #}
 
                 </div>
 
@@ -179,7 +193,7 @@
                             </button>
 
                             <div id="collapse-h-{{ loop.index }}" class="collapse show" aria-labelledby="heading-h-{{ loop.index }}" data-parent="#accordion-h">
-                            <div class="card-body paragraph-body px-4 pt-0 pb-4">
+                            <div class="card-body px-4 pt-0 pb-4">
                                 <table class="table my-table mx-1 bg-transparent">
                                     {% for section in h.sections %}
                                         <tr>
@@ -282,7 +296,7 @@
 
                         <div class="organization-title black">{% if sheet.organization %} {{ sheet.organization }} {% else %} <p class="text mb-0"> Organisme non renseigné</p>{% endif %}  </div>
                         {% if sheet.organization %}
-                            <div class="organization-address small my-secondary black op-70 mt-1">{% if sheet.organization.address %} {{ sheet.organization.address }} {% endif %}</div>
+                            <div class="organization-address small my-secondary black op-70 mt-1">{% if sheet.organization.address %} {{ sheet.organization.address }} <br> {{ sheet.organization.postCode }} {{ sheet.organization.city }}{% endif %}</div>
                             <div class="organization-phone small my-secondary black  op-70 mt-2 ">
                                 {% if sheet.organization.phoneNumber %} <i class="uil uil-phone-alt"></i> {{ sheet.organization.phoneNumber }} {% endif %}
                             </div>
@@ -371,7 +385,15 @@
         $("#validation").click(function() {    
 
             // Permet d'enlever les span (couleur) du contenu
-            $("div.sheet-content .paragraph-card span").contents().unwrap();
+            $("div.paragraph-body span").contents().unwrap();
+
+            var paragraphs = [];
+            $( "div.paragraph-body" ).each(function() {
+                //console.log($(this).html());
+                paragraphs.push($(this).html());
+            });
+
+            console.log(paragraphs);
 
             // Récupération des données
             var id = $("#sheetId").text();
@@ -386,14 +408,15 @@
 
                 type: 'POST',
                 url: path,
-                data: { id: id, content: content},
+                data: { id: id, paragraphs: paragraphs},
                 success: function(data) {
 
                     location.reload();
                     
                 },
                 error: function(data) {
-                    alert("Error !")
+                    /*console.log(data);
+                    alert("Error !")*/
                 }
 
             });

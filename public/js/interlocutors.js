@@ -74,7 +74,7 @@ function loadInterlocutors() {
                 }
 
                 $("#interlocutors").html(cards);
-                $("#interlocutors-message").html("<p class='text'>Sélectionnez les interlocuteurs que vous souhaitez joindre à votre fiche.</p>");
+                $("#interlocutors-message").html("<div class='alert alert-info mt-0 mb-2' role='alert'><i class='fas fa-info-circle mr-2'></i>Sélectionnez les <strong>interlocuteurs</strong> que vous souhaitez joindre à votre fiche (optionnel).</div>");
 
                 $(".interlocutor").click(function() {
                     if($(this).hasClass('active'))
@@ -86,6 +86,8 @@ function loadInterlocutors() {
                         $(this).addClass('active');
                         $(this).find('.my-checkbox').attr('checked', true);
                     }
+
+                    changeUpdate();
                 });
 
                 $('#confirm-btn, #sheet_saveDraft, #sheet_saveDraftExit').prop( "disabled", false );
@@ -105,7 +107,7 @@ function loadInterlocutors() {
     // Si aucun organisme sélectionné
     }else{
         
-        $("#interlocutors-message").html("<p class='text'>Aucun organisme sélectionné. Sélectionnez un organisme pour voir la liste des interlocuteurs disponibles. </p>");
+        $("#interlocutors-message").html("<div class='alert alert-info my-0' role='alert'><i class='fas fa-info-circle mr-2'></i>Sélectionnez un <strong>organisme</strong> pour afficher les interlocuteurs.</div>");
         $("#interlocutors").html("");
 
         $('#confirm-btn, #sheet_saveDraft, #sheet_saveDraftExit').prop( "disabled", false );

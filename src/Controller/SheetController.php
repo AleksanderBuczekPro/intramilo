@@ -49,7 +49,7 @@ class SheetController extends AbstractController
         $id = $request->request->get('id');
         $sheet = $repo->findOneById($id);
 
-        dump($request->request->get('content'));
+        dump($request->request->get('paragraphs'));
 
         // On remplace le texte par le texte formaté (sans couleurs)
         // $sheet->setContent($request->request->get('content'));
@@ -101,14 +101,16 @@ class SheetController extends AbstractController
         // On duplique toutes les relations
         
         // Paragraphs
-        $place = 1;
-        foreach($sheet->getParagraphs() as $p){
+        // $place = 1;
+        foreach($sheet->getParagraphs() as $paragraph){
 
-            $p->setPlace($place);
+            $p = clone $paragraph;
+
+            // $p->setPlace($place);
             $p->setSheet($sheetDuplicated);
             $manager->persist($p);
 
-            $place = $place + 1;
+            // $place = $place + 1;
             
         }
 
@@ -116,13 +118,17 @@ class SheetController extends AbstractController
         // Entêtes
         foreach($sheetDuplicated->getHeaders() as $header){
 
-            $header->setSheet($sheetDuplicated);
-            $manager->persist($header);
+            $h = clone $header;
+
+            $h->setSheet($sheetDuplicated);
+            $manager->persist($h);
 
             foreach($header->getSections() as $section){
 
-                $section->setHeader($header);
-                $manager->persist($section);
+                $s = clone $section;
+
+                $s->setHeader($h);
+                $manager->persist($s);
 
             }
             
@@ -131,8 +137,10 @@ class SheetController extends AbstractController
         // Attachments
         foreach($sheetDuplicated->getAttachments() as $attachment){
 
-            $attachment->setSheet($sheetDuplicated);
-            $manager->persist($attachment);
+            $a = clone $attachment;
+
+            $a->setSheet($sheetDuplicated);
+            $manager->persist($a);
             
         }
 
@@ -305,6 +313,7 @@ class SheetController extends AbstractController
             // Init
             $sheet->setFront('0');
             $sheet->setViews(0);
+            $sheet->setOrigin(null);
             $sheet->setAuthor($this->getUser());
 
             $sheet->setUpdatedAt(new \DateTime(null, new DateTimeZone('Europe/Paris')));

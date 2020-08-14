@@ -98,8 +98,10 @@ a.intramilo{
 
 .btn.btn-my-outline{
 
-    color: var(--marine);
+    color: var(--grey-50-color)!important;
     background-color: transparent;
+
+    border: 1px solid var(--grey-40-color);
 
     border-radius: 5px;
 
@@ -107,8 +109,8 @@ a.intramilo{
 
 .btn.btn-my-outline:hover{
 
-    color: var(--red-color);
-    opacity: 1!important;
+    color: black!important;
+    border-color: black;
 
 }
 
@@ -125,6 +127,13 @@ a.intramilo{
 
     color: white!important;
     background-color: var(--purple-color)!important;
+
+}
+
+
+.btn.btn-my-marine:hover i{
+
+    color: white!important;
 
 }
 

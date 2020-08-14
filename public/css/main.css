@@ -186,6 +186,7 @@
 
 .tooltip.bs-tooltip-right .arrow:before {
     border-right-color: var(--purple-color) !important;
+    
 }
 
 .tooltip.bs-tooltip-left .arrow:before {
@@ -245,13 +246,6 @@
 
 }
 
-
-
-
-
-
-
-
 .my-width{
 
     width: 35%;
@@ -289,16 +283,7 @@ body{
     /* min-height:110vh; */
     padding:0; margin:0; position:relative;
 
-    /* padding-bottom: 100px; */
-
-
-    /* margin-bottom: 80px; */
-
-
-    padding-bottom: 200px;
-
-    min-height: 150vh;
-    
+    margin-top: 70px;
 
 }
 
@@ -355,7 +340,10 @@ p{
     font-size: 15px !important;
     color: black;
     line-height: 20px !important;
+<<<<<<< HEAD
 
+=======
+>>>>>>> 30a9d1406c93d59abd3015708eca631b73854181
 }
 
 .my-dropdown .my-rounded{
@@ -680,6 +668,12 @@ p.text{
 
 }
 
+p.text.normal{
+
+    font-style: normal;
+
+}
+
 
 
 .home-content{
@@ -723,6 +717,13 @@ p.text{
     position: -webkit-sticky;
     position: sticky!important;
     top: 122px!important;
+
+}
+
+.sheet-form .sticky{
+    position: -webkit-sticky;
+    position: sticky!important;
+    top: 162px!important;
 
 }
 
@@ -1932,7 +1933,7 @@ div.alert.alert-danger {
 
 }
 
-#form-notifications .alert {
+.alert {
 
 	font-family: "Roboto", "sans serif";
 	border-radius: 6px;
@@ -1942,7 +1943,7 @@ div.alert.alert-danger {
 
 
 
-#form-notifications .alert.alert-success {
+.alert.alert-success {
 
 	color: var(--green-color);
 	background-color: var(--green-background-color);
@@ -1950,7 +1951,7 @@ div.alert.alert-danger {
 
 }
 
-#form-notifications .alert.alert-warning {
+.alert.alert-warning {
 
 	color: var(--orange-color);
 	background-color: var(--orange-background-color);
@@ -1958,13 +1959,22 @@ div.alert.alert-danger {
 
 }
 
-#form-notifications .alert.alert-danger {
+.alert.alert-danger {
 
-	color: var(--red-color);
-	background-color: var(--red-background-color);
-	border: 1px solid var(--red-color);
+	color: var(--red-color)!important;
+	background-color: var(--red-background-color)!important;
+	border: 1px solid var(--red-color)!important;
 
 }
+
+.alert.alert-info {
+
+	color: var(--purple-color);
+	background-color: var(--purple-background-color);
+	border: 1px solid var(--purple-color);
+
+}
+
 
 .my-title.weather-title{
 
@@ -2474,7 +2484,8 @@ div.card.my-card.stat-card table td{
 .sheet-form-anchor{
 
     position: relative;
-    top:-400px;
+    /* top: -800px; */
+    top: -500px!important;
 
 }
 
@@ -2487,5 +2498,49 @@ div.card.my-card.stat-card table td{
 #nav-favorites-tab.active, #nav-popular-tab.active , #nav-favorites-tab:hover, #nav-popular-tab:hover{
 
     color: black;
+
+}
+
+.sheet-nav{
+
+    position: fixed;
+    top: 70px;
+    height: 70px;
+    width: 100%;
+
+    background-color: white;
+
+    border-bottom: 1px solid var(--grey-15-color);
+
+    z-index: 3;
+    vertical-align: middle;
+}
+
+#change-circle {
+	height: 40px;
+	width: 40px;
+	text-align: center;
+	line-height: 40px;
+	border-radius: 25px;
+}
+
+#change-circle.success{
+    
+    background-color: var(--green-background-color);
+    color: var(--green-color)!important;
+
+}
+
+#change-circle.danger{
+    
+    background-color: var(--orange-background-color);
+    color: var(--orange-color)!important;
+
+}
+
+.form-header .card.my-card .card-title{
+
+    color: black!important;
+    opacity: 1;
 
 }

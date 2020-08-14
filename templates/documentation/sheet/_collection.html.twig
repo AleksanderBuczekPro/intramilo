@@ -199,7 +199,7 @@
 
 {# Pour chaque Paragraph ajouté #}
 {% block _sheet_paragraphs_entry_widget %}
-
+    <div id="anchor_paragraph_{{id}}" class="sheet-form-anchor"></div>
     <div class="form-group my-paragraph mb-0" id="block_paragraph_{{id}}">
 
         {# <div class="card my-card no-border bg-marine no-br p-4 m-0">
@@ -444,20 +444,20 @@ Pour chaque Attachment ajouté
             </div>
         </div>
 
-    <div class="modal fade" id="deleteAttachmentModal_{{id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="false">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-            <div class="modal-body text-center">
-                <p class="px-4 pt-4 pb-0"> Voulez-vous vraiment supprimer cette pièce jointe ? </p>
-            </div>
-            <div class="modal-footer no-border">
-                    <button id="delete-attachment" data-action="delete" data-target="#block_attachment_{{id}}" type="button" class="w-50 btn btn-danger" data-action="delete" data-target="#block_{{id}}" data-dismiss="modal">Oui</button>
-                    <button type="button" class="w-50 btn btn-secondary" data-dismiss="modal">Non</button>
+        <div class="modal fade" id="deleteAttachmentModal_{{id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="false">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                <div class="modal-body text-center">
+                    <p class="px-4 pt-4 pb-0"> Voulez-vous vraiment supprimer cette pièce jointe ? </p>
+                </div>
+                <div class="modal-footer no-border">
+                        <button id="delete-attachment" data-action="delete" data-target="#block_attachment_{{id}}" type="button" class="w-50 btn btn-danger" data-action="delete" data-target="#block_{{id}}" data-dismiss="modal">Oui</button>
+                        <button type="button" class="w-50 btn btn-secondary" data-dismiss="modal">Non</button>
 
-            </div>
+                </div>
+                </div>
             </div>
         </div>
-    </div>
 
     {# </div> #}
 {% endblock %}

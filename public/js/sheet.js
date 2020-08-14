@@ -38,6 +38,7 @@ function formatSizeUnits(bytes)
 // Fonction permettant de charger l'input de chargement d'une pièce jointe
 $('#add-attachment').click(function(){
 
+    changeUpdate();
 
     // Je récupère le numéro des futurs champs que je vais créer
     const index = +$('#widgets-attachment-counter').val(); // + transforme la chaine de caractère en nombre
@@ -69,6 +70,8 @@ $('#add-attachment').click(function(){
         console.log("Name => " + name);
         console.log("Size => " + size);
         console.log("Mime => " + mime);
+
+        changeUpdate();
 
         
 
@@ -141,14 +144,26 @@ $('#add-attachment').click(function(){
 
 $('#add-paragraph').click(function(){
 
+    changeUpdate();
+
     // Je récupère le numéro des futurs champs que je vais créer
     const index = +$('#widgets-paragraph-counter').val(); // + transforme la chaine de caractère en nombre
 
     // Je récupère le prototype des entrées
     const tmpl = $('#sheet_paragraphs').data('prototype').replace(/__p__/g, index); // g = "pour chaque"
 
+    
+    console.log(index);
+
     // J'injecte ce code au sein de la div
     $('#sheet_paragraphs').append(tmpl);
+
+    var editor = CKEDITOR.instances["sheet_paragraphs_" + index + "_content"];
+
+    editor.on('change', function() { 
+            changeUpdate();
+
+    });
 
     $('#widgets-paragraph-counter').val(index + 1);
 
@@ -305,6 +320,8 @@ $('#add-introduction').click(function(){
 
     scroll_to('#anchor_introduction');
 
+    changeUpdate();
+
 
 });
 
@@ -324,6 +341,8 @@ $('#delete-introduction-confirm').click(function(){
     //$('#add-introduction').removeClass("d-none");
     $('#add-introduction').prop('disabled', false);
 
+    changeUpdate();
+
 
 });
 
@@ -331,6 +350,8 @@ $('#delete-introduction-confirm').click(function(){
 
 
 $('#add-header').click(function(){
+
+    changeUpdate();
 
     // Je récupère le numéro des futurs champs que je vais créer
     const index = +$('#widgets-counter').val(); // + transforme la chaine de caractère en nombre
@@ -361,16 +382,39 @@ function handleDeleteButtons(){
 
 }
 
+function changeUpdate(){
+
+    if($('#change-circle').hasClass('success')){
+
+        $('#change-circle').removeClass('success');
+        $('#change-circle').addClass('danger');
+
+        $('#change-circle').html('<i class="fas fa-exclamation-circle"></i>');
+        // $('#change-text').html('Modifications non sauvegardées');
+
+    }
+
+}
+
 function updateCounter(){
     const count = +$('#sheet_headers div.form-group.header').length;
     const count_p = +$('#sheet_paragraphs div.form-group.my-paragraph').length;
-    const count_a = +$('#sheet_attachments div.form-group.attachment').length;
+    const count_a = +$('#sheet_attachments div.file-card').length;
 
     /* Attachments */
     $('#widgets-attachment-counter').val(count_a);
 
     /* Paragraphs */
     $('#widgets-paragraph-counter').val(count_p);
+
+    for (i = 0; i < count_p; i++) {
+
+        CKEDITOR.instances["sheet_paragraphs_" + i + "_content"].on('change', function() { 
+            changeUpdate();
+        });
+    } 
+    
+
 
     /* Headers */
     $('#widgets-counter').val(count);
@@ -387,9 +431,12 @@ function updateCounter(){
 
 
 
+
 }
 
-$(document).on('click', '.add-section', function(event){ 
+$(document).on('click', '.add-section', function(event){
+
+    changeUpdate();
 
     // Je récupère l'id du header pour savoir dans lequel faut ajouter une ligne
     var id = $(this).attr('id'); // sheet_headers_0_sections
@@ -418,11 +465,11 @@ $(document).on('click', '.add-section', function(event){
 
     // Je gère le bouton supprimer
     handleDeleteButtons();
+   
     
     
 });
 
-    
 
 $('form[name="organization"]').submit(function(e) {
 
@@ -455,5 +502,40 @@ $(document).ready(function() {
 
 
 
-
 });
+
+    // Changes
+    $('#sheet_subtitle , #sheet_title').keyup(function() {
+        
+        changeUpdate();
+
+    });
+
+    $('#sheet_title').keyup(function() {
+
+        $('#change-text').html($(this).val());
+
+    });
+
+
+    $("input, textarea").keyup(function(){
+
+        changeUpdate();
+
+    });
+
+    $('input.custom-file-input, select').on('change',function(){
+        changeUpdate();
+    });
+
+    CKEDITOR.instances["sheet_introduction"].on('change', function() { 
+        changeUpdate();
+    });
+
+
+    $('#delete-attachment, #delete-header, #delete-paragraph, button.delete-section, button.section-move, button.paragraph-move').on('click',function(){
+        changeUpdate();
+    });
+
+
+

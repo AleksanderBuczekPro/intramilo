@@ -427,6 +427,10 @@ ul.sheet-menu a:hover {
     font-family: "Roboto";
 }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 30a9d1406c93d59abd3015708eca631b73854181
 div.sheet-content{
 
     font-family: 'Poppins', sans-serif;
@@ -557,7 +561,7 @@ div.sheet-introduction, div.sheet-introduction p, div.sheet-introduction li{
 
 }
 
-#block_introduction{
+#block_introduction, #sheet_paragraphs{
 
     z-index: 0;
 
@@ -565,9 +569,13 @@ div.sheet-introduction, div.sheet-introduction p, div.sheet-introduction li{
 
 .modal-dialog{
 
-    z-index: 50;
+    z-index: 1000!important;
 
 }
+
+.modal.fade {
+    z-index: 10000000 !important;
+  }
 
 /* div.sheet-content li:before {
     color: var(--blue-color);
@@ -661,6 +669,14 @@ div.card.header-card .organization{
     font-size: 15px;
     margin-top: 5px;
     opacity: 0.7;
+}
+
+div.card.my-card.image-card{
+
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+    margin-top: 0px;
+
 }
 
 
@@ -1017,7 +1033,7 @@ div.card.my-card.notification.light i{
 .sheet-form{
 
     height: 90vh;
-    margin-top: 60px;
+    margin-top: 140px!important;
 
 
 }
@@ -1151,7 +1167,9 @@ label.custom-file-label[for="sheet_pic"]{
 
 .sheet-form .action-container{
 
-    margin-top: 230px;
+    padding-top: 8px;
+
+    border-right: 1px solid var(--grey-20-color);
 
 }
 

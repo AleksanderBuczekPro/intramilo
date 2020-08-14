@@ -19,7 +19,7 @@
                         <div class="row">
 
                             {# Logo / Name #}
-                            <div class="col-md-4">
+                            <div class="col-md-4 mb-2">
                                 {{ form_row(form.logo, { 'attr': {'autocomplete': 'new-password'} }) }}
                             </div>
                             <div class="col-md-8"></div>
@@ -29,10 +29,9 @@
                             </div>
 
                             {# Adresse #}
-                            <div class="col-lg-4 col-md-6 mt-4">
+                            <div class="col-md-12 mt-4">
                                 {{ form_row(form.address, { 'attr': {'autocomplete': 'new-password'} }) }}
                             </div>
-                            <div class="col-lg-8 col-md-6"></div>
 
                             {# PostCode #}
                             <div class="col-lg-4 col-md-6">
@@ -77,5 +76,21 @@
         </div>
         {{ form_end(form) }}
     </div>
+
+{% endblock %}
+
+{% block javascripts %}
+
+<script>
+
+$('#organization_logo').next().html('<i class="fas fa-upload mr-3"></i> Aucun logo importé');
+$('input#organization_logo').on('change',function(){
+
+    $(this,'#organization_logo').next().html('<i class="fas fa-check-circle success mr-3"></i> Logo chargé');
+
+});
+
+</script>
+
 
 {% endblock %}
