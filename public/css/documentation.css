@@ -1374,6 +1374,7 @@ button:focus {
 
 .form-group.my-paragraph:first-child .paragraph-move.up,
 .form-group.my-paragraph:last-child .paragraph-move.down,
+
 .form-group.my-section:first-child .section-move.up,
 .form-group.my-section:last-child .section-move.down{
     
