@@ -181,6 +181,9 @@ class SheetController extends AbstractController
         // Si c'est depuis un modèle
         if($sheetFromModel){
             
+            $subCategory = $sheetFromModel->getSubCategory();
+            $sheet->setSubCategory($subCategory);
+
             // On duplique les RELATIONS
             // Paragraphs
             foreach($sheetFromModel->getParagraphs() as $p){
