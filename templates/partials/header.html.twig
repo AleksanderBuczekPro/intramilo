@@ -137,7 +137,10 @@
                         </a>
                         <div class="dropdown-menu dropdown-menu-right box no-border" id="my-dropdown" aria-labelledby="accountDropdownLink">
                             <h6 class="dropdown-header black pl-3">Notifications</h6>
-                            <table class="table my-table">
+                            <div class="notif-title mb-2 pl-3 op-50">
+                                En attente de validation
+                            </div>
+                            <table class="table my-table" id="table-to-validate">
                                 <tr class="notifications">
                                     {# <td class="w-25 text-center notif-icon pl-4">
                                         <span class="icon"><i class="uil uil-book-alt"></i></span>
@@ -147,6 +150,35 @@
                                         La fiche <strong>Fiche</strong> est obsolète. <br>
                                         <span class="date">19 avril 2020</span>
                                     </td> #}
+                                </tr>
+                            
+                            </table>
+
+                            <div class="notif-title mb-2 pl-3 op-50">
+                                A corriger
+                            </div>
+                            <table class="table my-table" id="table-to-correct">
+                                <tr class="notifications">
+
+                                </tr>
+                            
+                            </table>
+
+                            <div class="notif-title mb-2 pl-3 op-50">
+                                Obsolètes
+                            </div>
+                            <table class="table my-table" id="table-obsolete">
+                                <tr class="notifications">
+
+                                </tr>
+                            
+                            </table>
+                            <div class="notif-title mb-2 pl-3 op-50">
+                                Bientôt obsolètes
+                            </div>
+                            <table class="table my-table" id="table-well-obsolete">
+                                <tr class="notifications">
+
                                 </tr>
                             
                             </table>

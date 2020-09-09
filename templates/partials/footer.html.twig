@@ -21,6 +21,56 @@
 </footer> #}
 
 <script>
+
+    function appendHtmlNotification(notifications, target) {
+
+        if(notifications.length > 0){
+
+
+        
+
+            for (var item in notifications) {
+
+                if(notifications[item]['today'])
+                {
+                    var date = "aujourd'hui";
+
+                }else{
+                    
+                    var date = notifications[item]['date']; 
+
+                }
+
+                var html =  "<tr class='my-hover py-1' data-href='/documentation/sheet/" + notifications[item]['id'] + "'>" +
+                            "<td class='w-25p text-center notif-icon pl-3 pr-2'>" + 
+                                //"<span class='icon'><i class='uil uil-book-alt'></i></span>" +
+                                notifications[item]['icon'] + 
+                            "</td>" + 
+                            "<td class='w-100 notif-content pl-1 text-left'>" + 
+                                notifications[item]['text'] +
+                                "<br><span class='date " + notifications[item]['today'] + "'>" + date + " à " + notifications[item]['hour'] + "</span>" +
+                            "</td>" +
+                        "</tr>";
+
+                $(target).append(html);        
+                        
+            
+            }
+        }
+        else{
+            
+            $(target).append("<tr><td class='py-0 pl-3 op-70'>Tout est à jour</td><tr>");
+
+
+        }
+
+        
+        
+        
+
+
+    }
+
     // Fonction permettant de charger les notifications
     function loadNotifications() {
 
@@ -29,37 +79,41 @@
                 type: 'POST',
                 url: path,
                 success: function(data) {
-
-                    var notifications = data['notifications']['notifications'];
-                    var counter = data['counter'];
                     
+                    // Counter
+                    var counter = data['counter'];
+
                     if(counter > 0){
-                        $( "#notification-counter" ).html("<span id='notification-circle'><span id='counter'>" + counter  + "</span></span>");
-
-                        for (var item in notifications) {
-
-                            var html =  "<tr class='my-hover' data-href='/documentation/sheet/" + notifications[item]['id'] + "'><td class='w-25 text-center notif-icon pl-4'>" + 
-                                        "<span class='icon'><i class='uil uil-book-alt'></i></span>" +
-                                        "<span class='state-icon bg-" + notifications[item]['color'] + "'>" + notifications[item]['icon'] + "</span>" + 
-                                        "</td>" + 
-                                        "<td class='w-75 notif-content pl-1 text-left'>" + 
-                                            notifications[item]['text'] +
-                                            "<br><span class='date'>" + notifications[item]['date'] + "</span>" +
-                                        "</td></tr>";
-
-                            $('#my-dropdown .my-table').append(html);
-                        
-                        }
-
-                        $('tr[data-href]').on("click", function() {
-                            document.location = $(this).data('href');
-                        });
-
+                     
+                        $("#notification-counter" ).html("<span id='notification-circle'><span id='counter'>" + counter  + "</span></span>");
+                    
                     }else{
-                        $( "#notification-counter" ).html("");
+                    
+                        $("#notification-counter" ).html("");
                         $('#my-dropdown .my-table').append("<tr><td class='text-center'>Aucune notification</td><tr>");
+                    
                     }
 
+                    // TO VALIDATE
+                    appendHtmlNotification(data['notifications']['notificationsToValidate'], '#table-to-validate');
+
+                    // OBSOLETE
+                    appendHtmlNotification(data['notifications']['notificationsObsolete'], '#table-obsolete');
+
+                    // WELL OBSOLETE
+                    appendHtmlNotification(data['notifications']['notificationsWellObsolete'], '#table-well-obsolete');
+
+                    // TO CORRECT
+                    //appendHtmlNotification(data['notifications']['notificationsToCorrect'], '#table-to-correct');
+                    
+                    
+                    
+
+                    $('tr[data-href]').on("click", function() {
+                        document.location = $(this).data('href');
+                    });
+
+                   
                     
                     
                 },

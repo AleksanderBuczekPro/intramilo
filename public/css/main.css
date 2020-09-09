@@ -157,6 +157,18 @@
 
 }
 
+.w-25p{
+
+    width: 25px!important;
+
+}
+
+.w-20p{
+
+    width: 25px!important;
+
+}
+
 .b-marine{
 
     border-top: 1px solid var(--marine-color);
@@ -1837,6 +1849,10 @@ span#notification-circle #counter{
 #my-dropdown{
 
     width: 300px;
+    max-height: calc(100vh - 80px);
+    overflow-y: auto;
+    scrollbar-color: var(--grey-15-color) var(--grey-10-color);
+    scrollbar-width: thin;
 
 }
 
@@ -1846,7 +1862,22 @@ span#notification-circle #counter{
     vertical-align: top;
 
     line-height: 23px;
+    
 
+}
+
+h6.dropdown-header {
+
+	font-size: 20px;
+    
+}
+
+#my-dropdown .notif-title {
+	font-size: 17px;
+	font-weight: 600;
+	height: 30px;
+	line-height: 30px;
+	color: black;
 }
 
 #my-dropdown td.notif-icon span.icon{
@@ -1889,21 +1920,17 @@ span#notification-circle #counter{
 }
 
 
-#my-dropdown td.notif-icon span.state-icon i{
+#my-dropdown td.notif-icon i{
 
-    position: relative;
-    top: -4px;
-    left: -6px;
-    font-size: 21px;
-    color: white;
-
+    font-size: 17px;
+    line-height: 23px;
 
 }
 
 
 #my-dropdown td.notif-content{
 
-    font-size: 14px;
+    font-size: 15px;
     color: var(--grey-50-color);
 
 }
@@ -1917,7 +1944,7 @@ span#notification-circle #counter{
 
 #my-dropdown td.notif-content span.date{
 
-    font-size: 12px;
+    font-size: 14px;
 
 }
 
