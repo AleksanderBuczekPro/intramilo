@@ -24,10 +24,9 @@
 
     function appendHtmlNotification(notifications, target) {
 
+        console.log(notifications.length);
+
         if(notifications.length > 0){
-
-
-        
 
             for (var item in notifications) {
 
@@ -61,7 +60,6 @@
             
             $(target).append("<tr><td class='py-0 pl-3 op-70'>Tout est à jour</td><tr>");
 
-
         }
 
         
@@ -73,6 +71,8 @@
 
     // Fonction permettant de charger les notifications
     function loadNotifications() {
+
+        
 
         var path = "{{ path('notifications_load') }}";
             $.ajax({
@@ -90,7 +90,7 @@
                     }else{
                     
                         $("#notification-counter" ).html("");
-                        $('#my-dropdown .my-table').append("<tr><td class='text-center'>Aucune notification</td><tr>");
+                        //$('#my-dropdown .my-table').append("<tr><td class='text-center'>Aucune notification</td><tr>");
                     
                     }
 
@@ -104,7 +104,7 @@
                     appendHtmlNotification(data['notifications']['notificationsWellObsolete'], '#table-well-obsolete');
 
                     // TO CORRECT
-                    //appendHtmlNotification(data['notifications']['notificationsToCorrect'], '#table-to-correct');
+                    appendHtmlNotification(data['notifications']['notificationsToCorrect'], '#table-to-correct');
                     
                     
                     

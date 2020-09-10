@@ -701,6 +701,8 @@ class AccountController extends AbstractController
     public function notifications(Filter $filter, UserRepository $userRepo, SheetRepository $sheetRepo)
     {
         // $files = $filter->getFiles($this->getUser());
+
+        // Recherche des GROUPES dont l'utilisateur est responsable
         if($this->isGranted('ROLE_ADMIN')){
 
             $notifications = $filter->getAdminNotifications($this->getUser(), $userRepo, $sheetRepo);

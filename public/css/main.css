@@ -31,6 +31,8 @@
     --red-background-color: rgba(226,6,19,0.1);
     --blue-shadow-color: rgba(58, 134, 255, 0.01);
 
+    --grey-90-color: #3e3d40;
+    --grey-80-color: #58585a;
     --grey-70-color: #575756;
     --grey-50-color: #868686;
     --grey-40-color: #9c9b9b;
@@ -370,10 +372,6 @@ p{
     font-size: 15px !important;
     color: black;
     line-height: 20px !important;
-<<<<<<< HEAD
-
-=======
->>>>>>> 30a9d1406c93d59abd3015708eca631b73854181
 }
 
 .my-dropdown .my-rounded{
@@ -1874,7 +1872,7 @@ h6.dropdown-header {
 
 #my-dropdown .notif-title {
 	font-size: 17px;
-	font-weight: 600;
+	font-weight: 700;
 	height: 30px;
 	line-height: 30px;
 	color: black;
