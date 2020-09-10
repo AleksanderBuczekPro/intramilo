@@ -51,7 +51,7 @@
                                     <td class="text-left pl-0 w-100 py-2">
 
                                         <span class="my-secondary">
-                                            <a href="{{ path('doc_show', {'slug': category.slug, 'sub_slug': sub.slug }) }}">
+                                            <a href="{{ path('doc_show', {'slug': category.slug, 'sub_slug': sub.slug, 'sub_id': sub.id}) }}">
                                                 {{ sub.title }}
                                             </a>
                                             {% if sub.sheets|length + sub.documents|length == 0 %}
