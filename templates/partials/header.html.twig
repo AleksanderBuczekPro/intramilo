@@ -80,7 +80,7 @@
                                 <h6 class="dropdown-header black pl-3">Mes sous-catégories</h6>
                                 {% for sub in app.user.subCategories %}
 
-                                    <a class="dropdown-item pl-3" href="{{ path('doc_show', {'slug': sub.category.slug, 'sub_slug': sub.slug }) }}"><span class="rounded"><i class="fas fa-folder my-rounded"></i></span> {{ sub }}</a>
+                                    <a class="dropdown-item pl-3" href="{{ path('doc_show', {'slug': sub.category.slug, 'sub_slug': sub.slug, 'sub_id': sub.id }) }}"><span class="rounded"><i class="fas fa-folder my-rounded"></i></span> {{ sub }}</a>
 
                                 {% endfor %}
 

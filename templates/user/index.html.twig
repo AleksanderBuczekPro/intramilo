@@ -261,7 +261,7 @@
                                             
                                             {% for sub in user.subCategories %}
 
-                                                    <a href="{{ path('doc_show', { 'slug': sub.category.slug, 'sub_slug': sub.slug }) }}" class="black"><span class="violet">{{ sub }}</span></a>
+                                                    <a href="{{ path('doc_show', { 'slug': sub.category.slug, 'sub_slug': sub.slug, 'sub_id': sub.id }) }}" class="black"><span class="violet">{{ sub }}</span></a>
                                                     {% if not loop.last %}
                                                     ,
                                                     {% endif %}

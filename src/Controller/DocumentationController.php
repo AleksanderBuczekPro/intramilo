@@ -80,9 +80,9 @@ class DocumentationController extends AbstractController
     /**
      * Permet d'afficher le contenu d'une sous-catégorie (fiches et documents)
      * 
-     * @Route("/documentation/category/{slug}/{sub_slug}", name="doc_show")
+     * @Route("/documentation/category/{slug}/{sub_slug}/{sub_id}", name="doc_show")
      * 
-     * @ParamConverter("subCategory", options={"mapping": {"sub_slug": "slug"}})
+     * @ParamConverter("subCategory", options={"mapping": {"sub_id": "id"}})
      * 
      * @return Response
      */
@@ -91,7 +91,7 @@ class DocumentationController extends AbstractController
         $sheets = $sheetRepo->findBySubCategory($subCategory);
         $documents = $docRepo->findBySubCategory($subCategory);
 
-        dump($sheets);
+        dump($subCategory);
 
         $waitingStatus = ["TO_VALIDATE", "TO_CORRECT", "DRAFT"]; 
 

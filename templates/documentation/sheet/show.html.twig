@@ -36,7 +36,7 @@
                         <span class="">></span>
                         <span class="mx-1 doc-secondary">{{ category }}</span>
                         <span class="">></span>
-                        <a href="{{ path('doc_show', { 'slug': category.slug, 'sub_slug': subCategory.slug }) }}" class="black"><span class="mx-1 doc-secondary">{{ subCategory }}</span></a>
+                        <a href="{{ path('doc_show', { 'slug': category.slug, 'sub_slug': subCategory.slug, 'sub_id': subCategory.id  }) }}" class="black"><span class="mx-1 doc-secondary">{{ subCategory }}</span></a>
                     </p>
                 </div>
                 <div class="col-xl-5 col-lg-6 float-right">
