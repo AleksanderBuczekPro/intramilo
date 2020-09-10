@@ -654,9 +654,6 @@ class Filter{
 
         }
 
-        usort($sheetsToValidate, function($a, $b){ 
-            return strtotime($b->getUpdatedAt()->format('Y-m-d H:i:s')) - strtotime($a->getUpdatedAt()->format('Y-m-d H:i:s'));
-        });
   
         return array(
             
