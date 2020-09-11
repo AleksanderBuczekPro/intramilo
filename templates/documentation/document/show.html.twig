@@ -122,7 +122,7 @@
                                 <a href="{{ vich_uploader_asset(document, 'genericFile')}}" target="_blank" id="opendoc" class="btn btn-success">Télécharger</a>
                                 <a href="{{ path('document_edit', {'id': document.id }) }}" class="btn btn-primary">Modifier</a>
                                 <a href="{{ path('document_delete', {'id': document.id }) }}" class="btn btn-danger">Supprimer</a>
-                                <a href="{{ path('doc_show', {'slug': document.subCategory.category.slug, 'sub_slug': document.subCategory.slug }) }}" class="btn btn-light">Retour</a>
+                                <a href="{{ path('doc_show', {'slug': document.subCategory.category.slug, 'sub_slug': document.subCategory.slug, 'sub_id': document.subCategory.id }) }}" class="btn btn-light">Retour</a>
                             
 
 

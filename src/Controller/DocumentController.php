@@ -56,7 +56,7 @@ class DocumentController extends AbstractController
             $slug = $document->getSubCategory()->getCategory()->getSlug();
             $subSlug = $document->getSubCategory()->getSlug();
 
-            return $this->redirectToRoute('doc_show', ['slug' => $slug, 'sub_slug' => $subSlug]);
+            return $this->redirectToRoute('doc_show', ['slug' => $slug, 'sub_slug' => $subSlug, 'sub_id' => $document->getSubCategory()->getId()]);
         
         }
 
