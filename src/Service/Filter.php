@@ -662,6 +662,7 @@ class Filter{
 
         }
 
+
   
         return array(
             
@@ -732,7 +733,7 @@ class Filter{
                     $title = $sheet->getTitle();
 
                     $result = $date->format('Y-m-d H:i:s');
-                    
+
                     setlocale(LC_TIME, "fr_FR", "French");
                     $formated_date = strftime("%d %B %G", strtotime($result));
                     $formated_date = utf8_encode($formated_date);

@@ -171,6 +171,16 @@ class User implements UserInterface
      */
     private $favorites;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Organization", mappedBy="lastAuthor")
+     */
+    private $organizations;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Interlocutor", mappedBy="lastAuthor")
+     */
+    private $interlocutors;
+
 
     public function getFullName() {
 
@@ -230,6 +240,8 @@ class User implements UserInterface
         $this->documents = new ArrayCollection();
         $this->attachments = new ArrayCollection();
         $this->favorites = new ArrayCollection();
+        $this->organizations = new ArrayCollection();
+        $this->interlocutors = new ArrayCollection();
     }
 
     public function __toString()
@@ -705,6 +717,68 @@ class User implements UserInterface
     {
         if ($this->favorites->contains($favorite)) {
             $this->favorites->removeElement($favorite);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Organization[]
+     */
+    public function getOrganizations(): Collection
+    {
+        return $this->organizations;
+    }
+
+    public function addOrganization(Organization $organization): self
+    {
+        if (!$this->organizations->contains($organization)) {
+            $this->organizations[] = $organization;
+            $organization->setLastAuthor($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOrganization(Organization $organization): self
+    {
+        if ($this->organizations->contains($organization)) {
+            $this->organizations->removeElement($organization);
+            // set the owning side to null (unless already changed)
+            if ($organization->getLastAuthor() === $this) {
+                $organization->setLastAuthor(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Interlocutor[]
+     */
+    public function getInterlocutors(): Collection
+    {
+        return $this->interlocutors;
+    }
+
+    public function addInterlocutor(Interlocutor $interlocutor): self
+    {
+        if (!$this->interlocutors->contains($interlocutor)) {
+            $this->interlocutors[] = $interlocutor;
+            $interlocutor->setLastAuthor($this);
+        }
+
+        return $this;
+    }
+
+    public function removeInterlocutor(Interlocutor $interlocutor): self
+    {
+        if ($this->interlocutors->contains($interlocutor)) {
+            $this->interlocutors->removeElement($interlocutor);
+            // set the owning side to null (unless already changed)
+            if ($interlocutor->getLastAuthor() === $this) {
+                $interlocutor->setLastAuthor(null);
+            }
         }
 
         return $this;

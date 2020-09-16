@@ -1227,6 +1227,18 @@ label.custom-file-label[for="sheet_pic"]{
 
 }
 
+.textarea{
+
+    white-space: pre-wrap;
+
+}
+
+.my-table.notification td.file-content .comment{
+
+    white-space: pre-line;
+
+}
+
 
 #sheet_headers .section textarea{
 

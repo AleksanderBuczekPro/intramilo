@@ -559,56 +559,7 @@ class AccountController extends AbstractController
 
     }
 
-    /**
-     * Permet d'afficher le profil de l'utilisateur connecté
-     *
-     * @Route("/account", name="account_index")
-     * @Route("/account/{id}", name="account_index_filter")
-     * @IsGranted("ROLE_USER")
-     * 
-     * @ParamConverter("Groupe", options={"mapping": {"id": "id"}})
-     * 
-     * @return Response
-     */
-    public function myAccount(Request $request, SheetRepository $sheetRepo, UserRepository $userRepo, GroupeRepository $groupeRepo, Filter $filter, Groupe $groupe = null) {
-
-        $files = $filter->getFiles($this->getUser(), $userRepo, $sheetRepo);
-
-        // Filter
-        // $groupe = $groupeRepo->findById($request->request->get('id'));
-
-        dump($groupe);
-
-        $adminFiles = $filter->getAdminFiles($this->getUser(), $userRepo, $sheetRepo, $groupe);
-
-        dump($adminFiles);
-
-        $drafts = $filter->getDrafts($this->getUser());
-
-        $groupes = $groupeRepo->findBy(array(), array('title' => 'ASC'));
-
     
-        return $this->render('user/index.html.twig', [
-
-            'filesToValidate' => $files['filesToValidate'],
-            'filesToCorrect' => $files['filesToCorrect'],
-            'filesUpToDate' => $files['filesUpToDate'],
-            'filesWellObsolete' => $files['filesWellObsolete'],
-            'filesObsolete' => $files['filesObsolete'],
-
-            'adminFilesToValidate' => $adminFiles['filesToValidate'],
-            'adminFilesToCorrect' => $adminFiles['filesToCorrect'],
-            'adminFilesUpToDate' => $adminFiles['filesUpToDate'],
-            'adminFilesWellObsolete' => $adminFiles['filesWellObsolete'],
-            'adminFilesObsolete' => $adminFiles['filesObsolete'],
-            'drafts' => $drafts,
-            'groupe' => $groupe,
-            'groupes' => $groupes,
-            'user' => $this->getUser()
-
-        ]);
-
-    }
 
     /**
      * Undocumented function
@@ -742,6 +693,7 @@ class AccountController extends AbstractController
 
         }
 
+
         // Enregistrement dans le Session
         $session = new Session();
 
@@ -755,6 +707,50 @@ class AccountController extends AbstractController
                 'counter' => $counter,
                 'notifications' => $notifications
             ]);
+    }
+
+    /**
+     * Permet d'afficher le profil de l'utilisateur connecté
+     *
+     * @Route("/account", name="account_index")
+     * @Route("/account/{id}", name="account_index_filter")
+     * @IsGranted("ROLE_USER")
+     * 
+     * @ParamConverter("Groupe", options={"mapping": {"id": "id"}})
+     * 
+     * @return Response
+     */
+    public function myAccount(Request $request, SheetRepository $sheetRepo, UserRepository $userRepo, GroupeRepository $groupeRepo, Filter $filter, Groupe $groupe = null) {
+
+        $files = $filter->getFiles($this->getUser(), $userRepo, $sheetRepo);
+
+        $adminFiles = $filter->getAdminFiles($this->getUser(), $userRepo, $sheetRepo, $groupe);
+
+        $drafts = $filter->getDrafts($this->getUser());
+
+        $groupes = $groupeRepo->findBy(array(), array('title' => 'ASC'));
+
+    
+        return $this->render('user/index.html.twig', [
+
+            'filesToValidate' => $files['filesToValidate'],
+            'filesToCorrect' => $files['filesToCorrect'],
+            'filesUpToDate' => $files['filesUpToDate'],
+            'filesWellObsolete' => $files['filesWellObsolete'],
+            'filesObsolete' => $files['filesObsolete'],
+
+            'adminFilesToValidate' => $adminFiles['filesToValidate'],
+            'adminFilesToCorrect' => $adminFiles['filesToCorrect'],
+            'adminFilesUpToDate' => $adminFiles['filesUpToDate'],
+            'adminFilesWellObsolete' => $adminFiles['filesWellObsolete'],
+            'adminFilesObsolete' => $adminFiles['filesObsolete'],
+            'drafts' => $drafts,
+            'groupe' => $groupe,
+            'groupes' => $groupes,
+            'user' => $this->getUser()
+
+        ]);
+
     }
 
 

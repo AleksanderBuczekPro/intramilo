@@ -66,6 +66,16 @@ class Interlocutor
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $proNumber;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="interlocutors")
+     */
+    private $lastAuthor;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $updatedAt;
     
 
     public function __construct()
@@ -196,6 +206,30 @@ class Interlocutor
     public function setProNumber(?string $proNumber): self
     {
         $this->proNumber = $proNumber;
+
+        return $this;
+    }
+
+    public function getLastAuthor(): ?User
+    {
+        return $this->lastAuthor;
+    }
+
+    public function setLastAuthor(?User $lastAuthor): self
+    {
+        $this->lastAuthor = $lastAuthor;
+
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeInterface
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
+    {
+        $this->updatedAt = $updatedAt;
 
         return $this;
     }

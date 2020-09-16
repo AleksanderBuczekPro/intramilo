@@ -78,6 +78,16 @@ class Organization
      */
     private $logoFilename;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="organizations")
+     */
+    private $lastAuthor;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $updatedAt;
+
     public function __construct()
     {
         $this->sheets = new ArrayCollection();
@@ -323,6 +333,30 @@ class Organization
     public function setLogoFilename(?string $logoFilename): self
     {
         $this->logoFilename = $logoFilename;
+
+        return $this;
+    }
+
+    public function getLastAuthor(): ?User
+    {
+        return $this->lastAuthor;
+    }
+
+    public function setLastAuthor(?User $lastAuthor): self
+    {
+        $this->lastAuthor = $lastAuthor;
+
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeInterface
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
+    {
+        $this->updatedAt = $updatedAt;
 
         return $this;
     }

@@ -15,18 +15,19 @@ class SearchController extends AbstractController
      * 
      * @Route("/search", name="search_index")
      */
-    public function index(EntityManagerInterface $manager, Request $request, Search $search)
+    public function index(Request $request, Search $search)
     {
 
+        // Gestion de la recherche
         $query = $request->query->get('q');
 
         $files = $search->getResults($query);
-        
-        dump($files);
+
 
         return $this->render('documentation/search.html.twig', [
             'query' => $query,
             'files' => $files
-        ]);
+        ]);            
+
     }
 }

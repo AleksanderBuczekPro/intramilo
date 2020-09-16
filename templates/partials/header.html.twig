@@ -40,23 +40,28 @@
                         </a>
                     </li>
 
-                     {# Search #}
-                        <form class="search-form inline w-100">
-                            <div class="input-group inline">
+                    {# Search #}
+                    <form class="search-form inline w-100">
+                        <div class="input-group inline">
 
-                                <span class="">
-                                    {# <div class="nav-btn inline float-left"><i class="uil uil-search"></i></div> #}
-                                    {# <div class="input-group-prepend float-left">
-                                        <span class="input-group-text bg-white px-2" id="basic-addon1"><i class="uil uil-search"></i></span>
-                                    </div> #}
-                                    <form action="{{ path('search_index') }}" method="get" class="inline-block">
-                                        <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="Recherche" name="q" required
-                                        value="{% if query is defined %}{{ query }}{% endif %}">
-                                    </form>
-                                </span>
+                            <span class="">
+                                {# <div class="nav-btn inline float-left"><i class="uil uil-search"></i></div> #}
+                                {# <div class="input-group-prepend float-left">
+                                    <span class="input-group-text bg-white px-2" id="basic-addon1"><i class="uil uil-search"></i></span>
+                                </div> #}
+                                {# <form action="/search" method="post" class="inline-block">
+                                    <input type="text" class="form-control" placeholder="Recherche" name="q" required
+                                    value="{% if query is defined %}{{ query }}{% endif %}">
+                                </form> #}
 
-                            </div>
-                        </form>
+                                <form action="{{ path('search_index') }}" method="post" class="inline-block" onsubmit="return redirect()">
+                                    <input type="text" class="form-control" name="q" value="{% if query is defined %}{{ query }}{% endif %}" placeholder="Recherche 2">
+                                </form>
+                                
+                            </span>
+
+                        </div>
+                    </form>
                     
                 </ul>   
                 <ul class="navbar-nav ml-auto">

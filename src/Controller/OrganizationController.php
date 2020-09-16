@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use DateTimeZone;
 use App\Entity\Organization;
 use App\Form\OrganizationType;
 use Doctrine\ORM\EntityManagerInterface;
@@ -88,6 +89,10 @@ class OrganizationController extends AbstractController
                 
             }
 
+            $organization->setLastAuthor($this->getUser());
+            $organization->setUpdatedAt(new \DateTime(null, new DateTimeZone('Europe/Paris')));
+            
+
             $manager->persist($organization);
             $manager->flush();
 
@@ -163,6 +168,9 @@ class OrganizationController extends AbstractController
                 $organization->setLogoFilename($newFilename);
                 
             }
+
+            $organization->setLastAuthor($this->getUser());
+            $organization->setUpdatedAt(new \DateTime(null, new DateTimeZone('Europe/Paris')));
 
             $manager->persist($organization);
             $manager->flush();

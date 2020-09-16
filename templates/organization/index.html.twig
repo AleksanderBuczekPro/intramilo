@@ -123,10 +123,16 @@
 
                                         <a href="{{ path('organization_delete', { 'id': organization.id }) }}" class="btn rouge float-right small">Supprimer</a>
                                         <a href="{{ path('organization_edit', { 'id': organization.id }) }}" class="btn btn-my-secondary float-right small">Modifier</a>
+                                        
 
                                         
                                         <div class="contact-title mt-3">
                                             {{ organization.name }}
+                                            <p class="text float-right">
+                                                
+                                                Dernière modif. par {% if organization.lastAuthor %}{{ organization.lastAuthor }}{% else %}[Auteur inconnu]{% endif %} le {% if organization.updatedAt %}{{organization.updatedAt|localizeddate('none', 'none', 'fr', null, 'd/MM/YY à HH:mm')}}{% else %}[Date inconnue]{% endif %}
+                                                
+                                            </p>
                                         </div>
                                         <hr>
                                         
@@ -192,6 +198,7 @@
 
                                                 {% endif %}
                                             </div>
+                                            
                                         
                                         
 
@@ -224,6 +231,9 @@
                                                                     <td class="w-75">
                                                                         <div class="black main small">{{ interlocutor }}</div>
                                                                         <div class="my-secondary small">{{ interlocutor.function }}</div>
+
+                                                                        
+                                                                        
                                                                     </td>
                                                                     <td class="w-25 text-right align-top">
 
@@ -269,6 +279,12 @@
 
                                                                 {% endif %}
                                                             </div>
+                                                            <p class="text my-secondary small op-70 mt-2">
+                                                
+                                                par {% if interlocutor.lastAuthor %}{{ interlocutor.lastAuthor }}{% else %}[Auteur inconnu]{% endif %}
+                                                le {% if interlocutor.updatedAt %}{{interlocutor.updatedAt|localizeddate('none', 'none', 'fr', null, 'd/MM/YY à HH:mm')}}{% else %}[Date inconnue]{% endif %}
+                                                
+                                            </p>
 
                                                         </div>
                                                     </div>

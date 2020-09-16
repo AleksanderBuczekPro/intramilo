@@ -51,6 +51,8 @@ function loadInterlocutors() {
                     }
                 }
 
+                if(!email){ address = "-" };
+                if(!phoneNumber){ phoneNumber = "-" };
 
                 // cards += " <div class='col-12'><div class='card'><div class='card-body'><div class='form-group'><label class='interlocutor_label'><input name='interlocutor-" + interlocutors[item]['id'] + "' type='checkbox' value='" + interlocutors[item]['id'] + "' class='interlocutor_checkbox'><span> Non sélectionné </span></label> <br>" + interlocutors[item]['function'] + "</div><div class='mt-2'><strong>" + interlocutors[item]['firstName'] + " "+ interlocutors[item]['lastName'] + "</strong></div>" + interlocutors[item]['phoneNumber'] + " <br>" + interlocutors[item]['email'] + " <br> </div></div></div>";
                 cards += "<div class='col-12'>" +
@@ -64,6 +66,8 @@ function loadInterlocutors() {
                                                     "<input type='checkbox' name='interlocutor-" + id + "' value=" + id + " class='my-checkbox d-none' " + checked +">" +
                                                     "<div class='text my-secondary main'>" + fullName +  "</div>" +
                                                     "<div class='text my-secondary'>" + fonction + "</div>" +
+                                                    "<div class='text my-secondary'><i class='uil uil-envelope-alt'></i>" + email + "</div>" +
+                                                    "<div class='text my-secondary'><i class='uil uil-phone-alt'></i>" + phoneNumber + "</div>" +
                                                 "</td>" +
                                             "</tr>" +
                                         "</tbody>" +
@@ -107,21 +111,21 @@ function loadInterlocutors() {
 
                 
                 var organization_data = "<div class='card my-card my-3 no-br'>" +
-                    "<div class='card-body'>" +
-                            "<div class='main'>Détails de l'organisme</div>" +
-                            "<a href='/organization/" + organization_id + "/edit' class='violet' target='_blank'>Modifier</a>" +
-                            "<div class='organization-address small my-secondary black op-70 mt-1'>" + address + "</div>" +
-                            "<div class='organization-phone small my-secondary black  op-70 mt-2'>" +
-                                "<i class='uil uil-phone-alt'></i>" + phone +
-                            "</div>" +
-                            "<div class='organization-email small my-secondary black'>" +
-                                "<a class='mail-link' href='mailto:" + email + "'><i class='uil uil-envelope-alt'></i>" + email + "</a>" +
-                            "</div>" +
-                            "<div class='organization-email small my-secondary'>" + website_text + "</div>" + 
-                            
-                    
-                    "</div>" +
-                "</div>";
+                                            "<div class='card-body'>" +
+                                                    "<div class='main'>Détails de l'organisme</div>" +
+                                                    "<a href='/organization/" + organization_id + "/edit' class='violet' target='_blank'>Modifier</a>" +
+                                                    "<div class='organization-address small my-secondary black op-70 mt-1'>" + address + "</div>" +
+                                                    "<div class='organization-phone small my-secondary black  op-70 mt-2'>" +
+                                                        "<i class='uil uil-phone-alt'></i>" + phone +
+                                                    "</div>" +
+                                                    "<div class='organization-email small my-secondary black'>" +
+                                                        "<a class='mail-link' href='mailto:" + email + "'><i class='uil uil-envelope-alt'></i>" + email + "</a>" +
+                                                    "</div>" +
+                                                    "<div class='organization-email small my-secondary'>" + website_text + "</div>" + 
+                                                    
+                                            
+                                            "</div>" +
+                                        "</div>";
 
                 $("#organization-message").html(organization_data);
 

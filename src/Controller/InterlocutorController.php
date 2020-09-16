@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use DateTimeZone;
 use App\Entity\Interlocutor;
 use App\Entity\Organization;
 use App\Form\InterlocutorType;
@@ -44,6 +45,9 @@ class InterlocutorController extends AbstractController
 
         if($form->isSubmitted() && $form->isValid()){
 
+            $interlocutor->setLastAuthor($this->getUser());
+            $interlocutor->setUpdatedAt(new \DateTime(null, new DateTimeZone('Europe/Paris')));
+
             $manager->persist($interlocutor);
             $manager->flush();
 
@@ -79,6 +83,9 @@ class InterlocutorController extends AbstractController
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
+
+            $interlocutor->setLastAuthor($this->getUser());
+            $interlocutor->setUpdatedAt(new \DateTime(null, new DateTimeZone('Europe/Paris')));
 
             $manager->persist($interlocutor);
             $manager->flush();
