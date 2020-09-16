@@ -5,7 +5,8 @@ function loadInterlocutors() {
     $("#interlocutors-message").html("<p class='text'>Chargement des interlocuteurs en cours... </p>");
 
     // Si un organisme est selectionné
-    var organization_id = $("select#sheet_organization").find("option:selected").val();
+    var organization = $("select#sheet_organization").find("option:selected");
+    var organization_id = organization.val();
 
     if(organization_id){
 
@@ -90,6 +91,43 @@ function loadInterlocutors() {
                     changeUpdate();
                 });
 
+                // Data Organization Show
+                var address = organization.data('address');
+                var phone = organization.data('phone');
+                var email = organization.data('email');
+                var website = organization.data('website');
+
+                if(!address){ address = "-" };
+                if(!phone){ phone = "-" };
+                if(!email){ email = "-" };
+
+                var website_text = "<a class='violet' href='" + website + "' target='_blank'><i class='uil uil-external-link-alt'></i> Voir le site web</a>";
+                if(!website){ website_text = "<i class='uil uil-external-link-alt violet'></i> -" };
+
+
+                
+                var organization_data = "<div class='card my-card my-3 no-br'>" +
+                    "<div class='card-body'>" +
+                            "<div class='main'>Détails de l'organisme</div>" +
+                            "<a href='/organization/" + organization_id + "/edit' class='violet' target='_blank'>Modifier</a>" +
+                            "<div class='organization-address small my-secondary black op-70 mt-1'>" + address + "</div>" +
+                            "<div class='organization-phone small my-secondary black  op-70 mt-2'>" +
+                                "<i class='uil uil-phone-alt'></i>" + phone +
+                            "</div>" +
+                            "<div class='organization-email small my-secondary black'>" +
+                                "<a class='mail-link' href='mailto:" + email + "'><i class='uil uil-envelope-alt'></i>" + email + "</a>" +
+                            "</div>" +
+                            "<div class='organization-email small my-secondary'>" + website_text + "</div>" + 
+                            
+                    
+                    "</div>" +
+                "</div>";
+
+                $("#organization-message").html(organization_data);
+
+
+
+
                 $('#confirm-btn, #sheet_saveDraft, #sheet_saveDraftExit').prop( "disabled", false );
 
                 
@@ -109,6 +147,7 @@ function loadInterlocutors() {
         
         $("#interlocutors-message").html("<div class='alert alert-info my-0' role='alert'><i class='fas fa-info-circle mr-2'></i>Sélectionnez un <strong>organisme</strong> pour afficher les interlocuteurs.</div>");
         $("#interlocutors").html("");
+        $("#organization-message").html("");
 
         $('#confirm-btn, #sheet_saveDraft, #sheet_saveDraftExit').prop( "disabled", false );
     }

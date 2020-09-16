@@ -60,7 +60,17 @@ class SheetType extends ApplicationType
                 'query_builder' => function (OrganizationRepository $or) {
                     return $or->createQueryBuilder('o')
                         ->orderBy('o.name', 'ASC');
+                },
+                'choice_attr' => function($organization){
+                    return [
+                        'data-address' => $organization->getFullAddress(),
+                        'data-phone' => $organization->getPhoneNumber(),
+                        'data-email' => $organization->getEmail(),
+                        'data-website' => $organization->getWebsite()
+                    ];
                 }
+
+                
             ])
             // ->add('content', CKEditorType::class, $this->getConfiguration("Texte", "Ici le contenu de la fiche"))
 
