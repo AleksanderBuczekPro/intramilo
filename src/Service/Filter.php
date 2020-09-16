@@ -171,8 +171,6 @@ class Filter{
 
         $sheets= $sheetRepo->findByAuthor($user, array('updatedAt' => 'DESC'));
 
-        dump($sheets);
-
         // Tri des fiches selon la date
         $sheetsUpToDate = [];
         $sheetsToValidate = [];
@@ -360,18 +358,30 @@ class Filter{
 
     }
 
-    public function getAdminFiles($responsable, $userRepo, $sheetRepo){
+    public function getAdminFiles($responsable, $userRepo, $sheetRepo, $groupe){
 
+        dump($groupe);
 
-        // Recherche des GROUPES dont l'utilisateur est responsable
-        $groupes = $responsable->getAdminGroupes();
+        // Filtre
+        if($groupe){
 
-        // Recherche des UTILISATEURS qui font partie de ce groupe
-        $users = [];
-        foreach ($groupes as $groupe) {
-            $user = $userRepo->findByGroupe($groupe);
-            $users = array_merge_recursive($users, $user);
+            $users = $userRepo->findByGroupe($groupe);
+
+        }else{
+
+            // Recherche des GROUPES dont l'utilisateur est responsable
+            $groupes = $responsable->getAdminGroupes();
+
+            // Recherche des UTILISATEURS qui font partie de ce groupe
+            $users = [];
+            foreach ($groupes as $groupe) {
+                $user = $userRepo->findByGroupe($groupe);
+                $users = array_merge_recursive($users, $user);
+            }
+
         }
+        
+        
 
         // Recherche des FICHES des utilisateurs
         $sheets = [];
@@ -381,8 +391,6 @@ class Filter{
             $sheets = array_merge_recursive($sheets, $s);
 
         }
-
-        dump($sheets);
 
         // Tri des fiches selon la date
         $sheetsUpToDate = [];

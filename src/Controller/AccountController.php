@@ -5,16 +5,18 @@ namespace App\Controller;
 use DateTime;
 use Swift_Mailer;
 use App\Entity\User;
+use App\Entity\Groupe;
 use App\Service\Filter;
+use App\Form\AccountType;
 use App\Form\PictureType;
 use App\Form\EmailResetType;
 use App\Entity\PasswordUpdate;
-use App\Form\AccountType;
 use App\Form\AdminAccountType;
 use App\Form\RegistrationType;
 use App\Form\PasswordUpdateType;
 use App\Repository\UserRepository;
 use App\Repository\SheetRepository;
+use App\Repository\GroupeRepository;
 use Symfony\Component\Form\FormError;
 use App\Repository\DocumentRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -27,15 +29,16 @@ use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\Serializer\Normalizer\PropertyNormalizer;
+
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoder;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-
 use Symfony\Component\Serializer\Mapping\Loader\AnnotationLoader;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\Serializer\Mapping\Factory\ClassMetadataFactory;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -560,19 +563,30 @@ class AccountController extends AbstractController
      * Permet d'afficher le profil de l'utilisateur connecté
      *
      * @Route("/account", name="account_index")
+     * @Route("/account/{id}", name="account_index_filter")
      * @IsGranted("ROLE_USER")
+     * 
+     * @ParamConverter("Groupe", options={"mapping": {"id": "id"}})
      * 
      * @return Response
      */
-    public function myAccount(SheetRepository $sheetRepo, UserRepository $userRepo, Filter $filter) {
+    public function myAccount(Request $request, SheetRepository $sheetRepo, UserRepository $userRepo, GroupeRepository $groupeRepo, Filter $filter, Groupe $groupe = null) {
 
         $files = $filter->getFiles($this->getUser(), $userRepo, $sheetRepo);
 
-        $adminFiles = $filter->getAdminFiles($this->getUser(), $userRepo, $sheetRepo);
+        // Filter
+        // $groupe = $groupeRepo->findById($request->request->get('id'));
+
+        dump($groupe);
+
+        $adminFiles = $filter->getAdminFiles($this->getUser(), $userRepo, $sheetRepo, $groupe);
+
+        dump($adminFiles);
 
         $drafts = $filter->getDrafts($this->getUser());
 
-        dump($drafts);
+        $groupes = $groupeRepo->findBy(array(), array('title' => 'ASC'));
+
     
         return $this->render('user/index.html.twig', [
 
@@ -588,6 +602,8 @@ class AccountController extends AbstractController
             'adminFilesWellObsolete' => $adminFiles['filesWellObsolete'],
             'adminFilesObsolete' => $adminFiles['filesObsolete'],
             'drafts' => $drafts,
+            'groupe' => $groupe,
+            'groupes' => $groupes,
             'user' => $this->getUser()
 
         ]);

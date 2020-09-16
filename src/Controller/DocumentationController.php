@@ -34,12 +34,14 @@ class DocumentationController extends AbstractController
     public function index(PoleRepository $repo, CategoryRepository $catRepo, UserRepository $userRepo, Request $request, Stats $stats)
     {
         
-        // Gestion de la recherche
+        // // Gestion de la recherche
         $query = $request->query->get('q');
 
         if(isset($query)){
             return $this->redirectToRoute('search_index', ['q' => $query]);
         }
+
+        dump($query);
         
                 
         // Gestion des catégories

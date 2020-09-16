@@ -144,7 +144,7 @@
                             <a class="nav-item nav-link btn no-br mt-1" id="nav-groupe-tab" data-toggle="tab" href="#nav-groupe" role="tab" aria-controls="nav-groupe" aria-selected="false">Groupe</a>
                             <a class="nav-item nav-link btn no-br mt-1" id="nav-event-tab" data-toggle="tab" href="#nav-event" role="tab" aria-controls="nav-event" aria-selected="false">Evenements</a>
 
-                            {% if user.adminGroupes|length > 0 and user == app.user %}
+                            {% if is_granted("ROLE_ADMIN") and user == app.user %}
 
                                 <a class="nav-item nav-link btn no-br mt-1" id="nav-admin-tab" data-toggle="tab" href="#nav-admin" role="tab" aria-controls="nav-admin" aria-selected="false">Suivi de la documentation</a>
 
@@ -544,11 +544,23 @@
                             <div class="card-body py-0">
                                 
                                 <div class="row">
-                                    <div class="col-12">
+                                    <div class="col-6">
                                         <h5 class="pt-4">Suivi de la documentation</h5>
-                                    </div>
+                                        
                                 
-                                    
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="form-group">
+                                            <select class="form-control mt-3" id="groupe-select">
+                                                <option data-path="{{ path('account_index')}}" autocomplete="off" value="" {% if groupe is null %} selected {% endif %}>-- Aucun filtre</option>
+
+                                                {% for g in groupes %}
+                                                    <option value="{{ g.id }}" data-path="{{ path('account_index_filter', {'id': g.id })}}" autocomplete="off" {% if groupe == g %} selected="selected" {% endif %}>{{ g.title }}</option>
+                                                {% endfor %}
+
+                                            </select>
+                                        </div>                                    
+                                    </div>
                                     <div class="col-12 pr-2 account-nav">
                                         <hr class="mb-0 mt-1">
 
@@ -750,7 +762,40 @@ $(window).on("popstate", function() {
     $("a[href='" + anchor + "']").tab("show");
 });
 
+$( "#groupe-select" ).change(function() {
+
+    {# var groupe = $( "#groupe-select option:selected" ).val(); #}
+
+
+    var path = $( "#groupe-select option:selected" ).data('path');
+
+    window.location.replace(path + '#nav-admin');
+
+    /*var path = "{{ path('account_index') }}";
+
+
+            $.ajax({
+
+                type: 'POST',
+                url: path,
+                data: { id: groupe},
+                success: function(data) {
+
+                    // location.reload();
+                    
+                },
+                error: function(data) {
+                    /*console.log(data);
+                    alert("Error !")
+                }
+
+            });*/
+
+});
+
+
 </script>
+
 
 
 
