@@ -16,6 +16,7 @@
     --blue-transparent-color: rgba(58,134,255,0.2);
     /* --marine-transparent: rgba(37,56,88,0.2); */
     --purple-transparent-color:rgba(78,61,234,0.07);
+    --purple-print-color:rgba(78,61,234,0.15);
     --pink-transparent-color:rgba(255,0,110,0.2);
     --orange-transparent-color: rgba(251,86,7,0.2);
     --yellow-transparent-color: rgba(255,190,11,0.1);
@@ -85,6 +86,10 @@
 .bg-blue-transparent{ background-color: var(--blue-background-color)!important; }
 .bg-purple-transparent{ background-color: var(--purple-background-color)!important; }
 
+* {
+    -webkit-print-color-adjust: exact !important;   /* Chrome, Safari */
+    color-adjust: exact !important;                 /*Firefox*/
+}
 
 .o-visible{
 
@@ -580,6 +585,13 @@ div.container.backoffice-container{
 
 }
 
+.modal-content label {
+	font-weight: 400;
+	font-size: 15px !important;
+	font-family: "Roboto";
+	vertical-align: middle;
+}
+
 .form-check-label{
 
     text-transform: none;
@@ -592,6 +604,7 @@ div.container.backoffice-container{
 .form-check-label:hover{
 
     color: var(--purple-color);
+    cursor: pointer;
 }
 
 

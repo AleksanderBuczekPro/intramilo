@@ -23,14 +23,36 @@
 
         </div>
 
+        <div class="col-12 d-none d-print-block">
+            <div class="row">
+                <div class="col-3">
+                    <img src="/images/logo_mission_locale.png" class="px-4" style="height: 100px;" alt="Logo Mission Locale de l'arrondissment de Dijon">
+                </div>
+                <div class="col-6 text-center">
+                    <p class="fil-ariane mt-2 mb-0 black d-none d-print-block text-center black">
+                        {# <span href="" class="my-badge mt-1 bg-{{ category.pole.labelColor }} white px-2 py-1">{{ category.pole |slice(0, 1) }}</span> #}
+                        <a href="{{ path('doc_pole', { 'id': category.pole.id }) }}" class="black"><span class="mx-1 doc-secondary">{{ category.pole }}</span></a>
+                        <span class="">></span>
+                        <span class="mx-1 doc-secondary">{{ category }}</span>
+                        <span class="">></span>
+                        <a href="{{ path('doc_show', { 'slug': category.slug, 'sub_slug': subCategory.slug, 'sub_id': subCategory.id  }) }}" class="black"><span class="mx-1 doc-secondary">{{ subCategory }}</span></a>
+                    </p>
+                </div>
+            </div>
+            
+            
+        </div>
+
         {# Content #}
         <div class="col-xl-7 col-lg-8 col-md-8 content bg-white">
 
             <div class="row">
 
+                
+
                 <div class="col-xl-7 col-lg-6">
                     {# Titre et infos #}
-                    <p class="fil-ariane mt-2 mb-0 black op-70">
+                    <p class="fil-ariane mt-2 mb-0 black op-70 d-print-none">
                         {# <span href="" class="my-badge mt-1 bg-{{ category.pole.labelColor }} white px-2 py-1">{{ category.pole |slice(0, 1) }}</span> #}
                         <a href="{{ path('doc_pole', { 'id': category.pole.id }) }}" class="black"><span class="mx-1 doc-secondary">{{ category.pole }}</span></a>
                         <span class="">></span>
@@ -42,7 +64,7 @@
                 <div class="col-xl-5 col-lg-6 float-right">
                     
 
-                    <div class="dropdown float-right ml-2">
+                    <div class="dropdown float-right ml-2 d-print-none">
                         <button class="btn btn-my-secondary small" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="uil uil-ellipsis-v"></i>
                         </button>
@@ -67,6 +89,11 @@
                                 <span class="rounded"><i class="far fa-copy my-rounded"></i></span>
                                 Dupliquer
                             </a>
+
+                            <a class="dropdown-item pl-3" data-toggle="modal" data-target="#printModal">
+                                <span class="rounded"><i class="fas fa-print my-rounded"></i></span>
+                                Imprimer
+                            </a>
                             
 
 
@@ -83,7 +110,7 @@
                     
                     {% if is_granted("ROLE_ADMIN") and sheet.status is null %}
 
-                        <a href="{{ path('sheet_front', {'id': sheet.id }) }}" class="btn btn-my-primary small {% if sheet.front %}active{% endif %} float-right">
+                        <a href="{{ path('sheet_front', {'id': sheet.id }) }}" class="btn btn-my-primary small {% if sheet.front %}active{% endif %} float-right d-print-none">
                         {% if sheet.front and (sheet.publishedAt is not null and date(sheet.publishedAt) > date('-2weeks', 'Europe/Paris')) %}
                             <i class="uil uil-fire"></i> Enlever de la Une
                         {% else %}
@@ -128,10 +155,10 @@
             <div class="sheet-subtitle op-70">{{ sheet.subtitle }}</div>
 
             {% if  sheet.front and date(sheet.publishedAt) > date('-2weeks', 'Europe/Paris') and is_granted("ROLE_ADMIN") %}
-                <p class="mt-1 text">Publié à la Une le {{ sheet.publishedAt|localizeddate('none', 'none', 'fr', null, 'd MMMM') }}, à {{ sheet.publishedAt|localizeddate('none', 'none', 'fr', null, 'H:mm') }}</p>
+                <p class="mt-1 text d-print-none">Publié à la Une le {{ sheet.publishedAt|localizeddate('none', 'none', 'fr', null, 'd MMMM') }}, à {{ sheet.publishedAt|localizeddate('none', 'none', 'fr', null, 'H:mm') }}</p>
             {% endif %}
 
-            <div class="row">
+            <div class="row d-print-none">
                 <div class="col-12 sheet-author">
 
                     {% include 'documentation/_user_file.html.twig' with {'user': sheet.author, 'file': sheet} %}
@@ -139,7 +166,7 @@
             </div>
 
             {# Notification #}
-            <div class="row">
+            <div class="row d-print-none">
                 <div class="col-12">
                     {% if (sheet.author == app.user or admin) and ((sheet.status is not null) or (date(sheet.updatedAt) < date('-5months', 'Europe/Paris'))) %}
                         {% include 'documentation/_sheet_notification.html.twig' with {'file': sheet} %}
@@ -151,7 +178,7 @@
             {# Pièces jointes #}
             {% if sheet.attachments|length > 0 %}
             
-                <div class="mt-4">
+                <div class="mt-4 d-print-none">
                     {% for file in sheet.attachments %}
 
                         <span class="inline-block pr-1">
@@ -209,7 +236,7 @@
                     
                     {% endfor %}
 
-                    <div class="row mt-4">
+                    <div class="row mt-4 d-print-none">
                         <div class="col-12">
                             <button id="toggle-c" class="btn btn-my-secondary small bg-marine marine float-right mb-2 {% if sheet.paragraphs|length < 1 %} d-none {% endif %}">Tout déplier <i class="uil uil-angle-down"></i></button>
                             {# <button id="hide-c" class="btn btn-my-secondary small bg-marine marine float-right mr-2 mb-2 px-3 py-2">Tout replier <i class="uil uil-angle-up"></i></button> #}
@@ -222,7 +249,7 @@
                             <button class="btn btn-paragraph marine text-left no-focus pt-4 pb-4 px-4" data-toggle="collapse" data-target="#collapse-{{ loop.index }}" aria-expanded="true" aria-controls="collapse-{{ loop.index }}">
                                 <div class="card-header pl-0 py-0" id="heading-{{ loop.index }}">
                                     <h5 class="my-0 marine">
-                                            {{ p.title }} <i class="uil uil-angle-down float-right"></i>
+                                            {{ p.title }} <i class="uil uil-angle-down float-right d-print-none"></i>
                                     </h5>
                                 </div>
                             </button>
@@ -315,7 +342,7 @@
                 </div>
 
                 {% if sheet.interlocutors|length > 0 %}
-                    <div class="interlocutors-container">
+                    <div class="interlocutors-container d-print-none">
                         {% for interlocutor in sheet.interlocutors %}
 
                             {% include 'documentation/_user_interlocutor.html.twig' with {'user': interlocutor} %}
@@ -334,6 +361,74 @@
         </div>
     </div>
 
+</div>
+
+<div class="modal fade bd-example-modal-lg" id="printModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content p-3">
+        <div class="modal-header no-border pb-0">
+            <h4 class="modal-title m-0" id="exampleModalLabel">Impression<span class="font-weight-light"> - Options</span></h4>
+            
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+            
+        </div>
+
+        <div class="modal-body px-4">
+
+            
+
+            {# Contacts #}
+            <h5 class="my-3">Contacts</h5>
+            <div class="form-check">
+                <input type="checkbox" id="author-check" class="form-check-input" checked>
+                <label class="form-check-label" for="sub_category_authors_19">L'auteur de la fiche</label>
+            </div>
+
+            <div class="form-check">
+                <input type="checkbox" id="interlocutors-check" class="form-check-input" checked>
+                <label class="form-check-label" for="interlocutors-check">Interlocuteurs</label>
+            </div>
+
+            {# Entete #}
+            {% if sheet.headers|length > 0 %}
+
+                <h5 class="my-3">Entête</h5>
+
+                {% for head in sheet.headers %}
+
+                    <div class="form-check">
+                        <input type="checkbox" id="header-check-{{head.id}}" class="form-check-input" checked>
+                        <label class="form-check-label" for="header-check-{{head.id}}">{{ head.title }}</label>
+                    </div>
+
+                {% endfor %}
+
+            {% endif %}
+
+            {# Paragraphs #}
+            <h5 class="my-3">Sections</h5>
+            {% for para in sheet.paragraphs %}
+
+                <div class="form-check">
+                    <input type="checkbox" id="paragraph-check-{{para.id}}" class="form-check-input" checked>
+                    <label class="form-check-label" for="paragraph-check-{{para.id}}">{{ para.title }}</label>
+                </div>
+
+            {% endfor %}
+
+        
+
+
+        </div>
+        <div class="modal-footer no-border">
+        
+            <button type="button" class="btn rouge" data-dismiss="modal">Annuler</button>
+            <a type="button" href="" class="btn btn-my-primary" id="print"><i class="fas fa-print mr-2"></i>Imprimer</a>
+        </div>
+    </div>
+  </div>
 </div>
 
 {% endblock %}
@@ -423,6 +518,12 @@
     
             //location.reload();
         
+        });
+
+        $("#print").click(function() {    
+
+            window.print();
+        
         }); 
 
 
@@ -457,7 +558,7 @@ $('#toggle-c').on('click', function(e) {
 
         $('.btn-paragraph').addClass('show');
 
-        $(this).html('Tout replier <i class="uil uil-angle-up"></i>');
+        $(this).html('Tout replier <i class="uil uil-angle-up d-print-none"></i>');
         $(this).addClass('show');
 
     }else{
@@ -473,7 +574,7 @@ $('#toggle-c').on('click', function(e) {
 
 
         
-        $(this).html('Tout déplier <i class="uil uil-angle-down"></i>');
+        $(this).html('Tout déplier <i class="uil uil-angle-down d-print-none"></i>');
         $(this).removeClass('show');
 
     }

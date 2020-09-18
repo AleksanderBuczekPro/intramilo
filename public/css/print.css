@@ -1,0 +1,79 @@
+/* Impression de la fiche */
+
+body{
+
+    margin-top: 0px!important;
+
+}
+
+.sheet-container div.content {
+    padding: 0px 20px 0px 40px!important;
+}
+
+.sheet-subtitle {
+    font-size: 25px;
+    font-weight: 400;
+    margin-top: 5px;
+
+    color: black;
+    opacity: 1!important;
+}
+
+.sheet-title {
+
+    margin-top: 20px;
+
+}
+
+div.sheet-introduction{
+
+    margin-top: 0!important;
+
+}
+
+div.sheet-introduction, div.sheet-introduction p, div.sheet-introduction li {
+    font-size: 18px;
+    line-height: 28px;
+}
+
+.sheet-container div.header {
+    padding: 20px 20px 70px 0px;
+}
+
+.organization-logo {
+    top: 200px;
+
+}
+
+div.sheet-content table th, div.sheet-content table td {
+
+    font-size: 16px!important;
+    background-color: transparent!important;
+}
+
+#accordion-h table th {
+    width: 50%;
+}
+
+.paragraph-card.header{
+
+    background-color: var(--purple-print-color)!important;
+
+}
+
+div.sheet-content .paragraph-body p, div.sheet-content .paragraph-body li {
+
+    font-size: 17px;
+
+}
+
+.sheet-container h5, .btn-paragraph h5 {
+
+    font-size: 21px;
+    font-weight: 400;
+
+}
+
+.my-secondary.small {
+    font-size: 16px!important;
+}

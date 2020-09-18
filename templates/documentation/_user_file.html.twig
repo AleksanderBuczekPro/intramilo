@@ -39,7 +39,7 @@
                             </div>
                             {% endif %}
                         </div>">{{ user.fullName }}</a>
-                        <div class="black op-70">{{ file.updatedAt|localizeddate('none', 'none', 'fr', null, 'd MMMM Y') }} à {{ sheet.updatedAt|localizeddate('none', 'none', 'fr', null, 'HH:mm') }} • {{ file.views }} vue{% if file.views > 1 %}s{% endif %}</div>
+                        <div class="black op-70">{{ file.updatedAt|localizeddate('none', 'none', 'fr', null, 'd MMMM Y') }} <span class="d-print-none">à {{ sheet.updatedAt|localizeddate('none', 'none', 'fr', null, 'HH:mm') }} • {{ file.views }} vue{% if file.views > 1 %}s{% endif %}</span></div>
                     </td>
                     
                 </tr>
