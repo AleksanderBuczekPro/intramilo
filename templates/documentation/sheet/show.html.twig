@@ -90,10 +90,10 @@
                                 Dupliquer
                             </a>
 
-                            <a class="dropdown-item pl-3" data-toggle="modal" data-target="#printModal">
+                            {# <a class="dropdown-item pl-3" data-toggle="modal" data-target="#printModal">
                                 <span class="rounded"><i class="fas fa-print my-rounded"></i></span>
                                 Imprimer
-                            </a>
+                            </a> #}
                             
 
 
@@ -107,7 +107,11 @@
                             {% endif %}
                         </div>
                     </div>
-                    
+
+                    <a class="btn btn-my-outline small float-right ml-2" data-toggle="modal" data-target="#printModal">
+                        <i class="fas fa-print"></i>
+                    </a>
+
                     {% if is_granted("ROLE_ADMIN") and sheet.status is null %}
 
                         <a href="{{ path('sheet_front', {'id': sheet.id }) }}" class="btn btn-my-primary small {% if sheet.front %}active{% endif %} float-right d-print-none">
@@ -118,6 +122,9 @@
                         {% endif %}
                         </a>
                     {% endif %}
+
+
+                    
 
                     {# {% if sheet.organization and sheet.status == "DRAFT" %}
 
@@ -380,7 +387,7 @@
             
 
             {# Contacts #}
-            <h5 class="my-3">Contacts</h5>
+            <h5 class="my-3">Contact(s)</h5>
             <div class="form-check">
                 <input type="checkbox" id="author-check" class="form-check-input" checked>
                 <label class="form-check-label" for="author-check">L'auteur de la fiche</label>
@@ -396,7 +403,7 @@
             {# Entete #}
             {% if sheet.headers|length > 0 %}
 
-                <h5 class="my-3">Entête</h5>
+                <h5 class="my-3">Entête(s)</h5>
 
                 {% for head in sheet.headers %}
 
@@ -410,11 +417,11 @@
             {% endif %}
 
             {# Paragraphs #}
-            <h5 class="my-3">Sections</h5>
+            <h5 class="my-3">Section(s)</h5>
             {% for para in sheet.paragraphs %}
 
                 <div class="form-check" id="paragraph-check-{{para.id}}">
-                    <input type="checkbox" id="p-check-{{para.id}}" data-id="{{para.id}}" class="form-check-input" checked>
+                    <input type="checkbox" id="p-check-{{para.id}}" data-id="{{para.id}}" class="form-check-input paragraph-check" checked>
                     <label class="form-check-label" for="p-check-{{para.id}}">{{ para.title }}</label>
                 </div>
 
@@ -615,6 +622,7 @@ $("#print").click(function() {
     });
 
     $(".paragraph-check").each(function() {
+        
         var paragraph_id = $(this).data('id');
         
         if(!$(this).is(':checked')) {
@@ -624,6 +632,8 @@ $("#print").click(function() {
         }
 
     });
+
+    $('.collapse').addClass('show');
 
 
 
