@@ -654,6 +654,25 @@ ul li a.my-pill.active{
 }
 
 @media (max-width: 1300px) {
+
+    #home-sidebar{
+
+        width: 60px!important;
+
+    }
+
+    .home-content{
+
+        padding-left: 15px;
+
+    }
+
+    .app-name{
+
+        display: none;
+
+    }
+
     #user-name{
 
         display: none;
