@@ -633,7 +633,7 @@ ul li a.my-pill.active{
 
 	background-color: var(--grey-15-color);
 	margin-top: 17px;
-	padding: 5px 15px 5px 5px;
+	padding: 5px;
 	font-size: 14px;
 	font-weight: 500;
 	border-radius: 25px;
@@ -653,7 +653,41 @@ ul li a.my-pill.active{
 
 }
 
+@media (max-width: 1300px) {
+    #user-name{
 
+        display: none;
+
+    }
+
+    #search-bar{
+
+        width: 100px;
+
+    }
+
+
+    img.logo.large{
+
+        display: none;
+
+    }
+
+    img.logo.small{
+
+        display: inline!important;
+
+    }
+
+    a.navbar-brand{
+
+        padding-right: 5px!important;
+
+    }
+
+
+
+  }
 
 
 
