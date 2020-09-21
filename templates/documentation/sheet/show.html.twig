@@ -158,7 +158,7 @@
                 <p class="mt-1 text d-print-none">Publié à la Une le {{ sheet.publishedAt|localizeddate('none', 'none', 'fr', null, 'd MMMM') }}, à {{ sheet.publishedAt|localizeddate('none', 'none', 'fr', null, 'H:mm') }}</p>
             {% endif %}
 
-            <div class="row d-print-none">
+            <div class="row" id="print-author">
                 <div class="col-12 sheet-author">
 
                     {% include 'documentation/_user_file.html.twig' with {'user': sheet.author, 'file': sheet} %}
@@ -206,7 +206,7 @@
 
                     {% for h in sheet.headers %}
                     <div id="accordion-h">
-                        <div class="card my-card paragraph-card header bg-purple no-border mt-4 pt-2 px-0 pb-1">
+                        <div class="card my-card paragraph-card header bg-purple no-border mt-4 pt-2 px-0 pb-1" id="print-header-{{h.id}}">
                             <button class="btn btn-paragraph purple text-left no-focus show"
                             {# data-toggle="collapse" data-target="#collapse-h-{{ loop.index }}" aria-expanded="true" aria-controls="collapse-{{ loop.index }}" #}
                             >
@@ -245,7 +245,7 @@
 
                     {% for p in sheet.paragraphs %}
                     <div id="accordion">
-                        <div class="card my-card paragraph-card mt-2 p-0">
+                        <div class="card my-card paragraph-card mt-2 p-0" id="print-paragraph-{{p.id}}">
                             <button class="btn btn-paragraph marine text-left no-focus pt-4 pb-4 px-4" data-toggle="collapse" data-target="#collapse-{{ loop.index }}" aria-expanded="true" aria-controls="collapse-{{ loop.index }}">
                                 <div class="card-header pl-0 py-0" id="heading-{{ loop.index }}">
                                     <h5 class="my-0 marine">
@@ -342,7 +342,7 @@
                 </div>
 
                 {% if sheet.interlocutors|length > 0 %}
-                    <div class="interlocutors-container d-print-none">
+                    <div class="interlocutors-container" id="print-interlocutors">
                         {% for interlocutor in sheet.interlocutors %}
 
                             {% include 'documentation/_user_interlocutor.html.twig' with {'user': interlocutor} %}
@@ -383,13 +383,15 @@
             <h5 class="my-3">Contacts</h5>
             <div class="form-check">
                 <input type="checkbox" id="author-check" class="form-check-input" checked>
-                <label class="form-check-label" for="sub_category_authors_19">L'auteur de la fiche</label>
+                <label class="form-check-label" for="author-check">L'auteur de la fiche</label>
             </div>
 
+            {% if sheet.interlocutors|length > 0 %}
             <div class="form-check">
                 <input type="checkbox" id="interlocutors-check" class="form-check-input" checked>
                 <label class="form-check-label" for="interlocutors-check">Interlocuteurs</label>
             </div>
+            {% endif %}
 
             {# Entete #}
             {% if sheet.headers|length > 0 %}
@@ -398,9 +400,9 @@
 
                 {% for head in sheet.headers %}
 
-                    <div class="form-check">
-                        <input type="checkbox" id="header-check-{{head.id}}" class="form-check-input" checked>
-                        <label class="form-check-label" for="header-check-{{head.id}}">{{ head.title }}</label>
+                    <div class="form-check" id="header-check-{{head.id}}">
+                        <input type="checkbox" id="h-check-{{head.id}}" data-id="{{head.id}}" class="form-check-input header-check" checked>
+                        <label class="form-check-label" for="h-check-{{head.id}}">{{ head.title }}</label>
                     </div>
 
                 {% endfor %}
@@ -411,9 +413,9 @@
             <h5 class="my-3">Sections</h5>
             {% for para in sheet.paragraphs %}
 
-                <div class="form-check">
-                    <input type="checkbox" id="paragraph-check-{{para.id}}" class="form-check-input" checked>
-                    <label class="form-check-label" for="paragraph-check-{{para.id}}">{{ para.title }}</label>
+                <div class="form-check" id="paragraph-check-{{para.id}}">
+                    <input type="checkbox" id="p-check-{{para.id}}" data-id="{{para.id}}" class="form-check-input" checked>
+                    <label class="form-check-label" for="p-check-{{para.id}}">{{ para.title }}</label>
                 </div>
 
             {% endfor %}
@@ -520,12 +522,7 @@
         
         });
 
-        $("#print").click(function() {    
-
-            window.print();
         
-        }); 
-
 
 $(".btn-paragraph").click(function() { 
 
@@ -581,6 +578,100 @@ $('#toggle-c').on('click', function(e) {
 
 
 })
+
+// Impression
+$("#print").click(function() {   
+
+    $('#printModal').modal('toggle');
+    $(".modal-backdrop").remove();
+
+    if(!$('#author-check').is(':checked')) {
+        $('#print-author').addClass("d-print-none");
+    }else{
+        $('#print-author').removeClass("d-print-none");
+    }
+
+    if(!$('#interlocutors-check').is(':checked')) {
+        $('#print-interlocutors').addClass("d-print-none");
+    }else{
+        $('#print-interlocutors').removeClass("d-print-none");
+    }
+
+    if(!$('#header-check').is(':checked')) {
+        $('#print-interlocutors').addClass("d-print-none");
+    }else{
+        $('#print-interlocutors').removeClass("d-print-none");
+    }
+
+    $(".header-check").each(function() {
+        var header_id = $(this).data('id');
+        
+        if(!$(this).is(':checked')) {
+            $('#print-header-' + header_id).addClass("d-print-none");
+        }else{
+            $('#print-header-' + header_id).removeClass("d-print-none");
+        }
+
+    });
+
+    $(".paragraph-check").each(function() {
+        var paragraph_id = $(this).data('id');
+        
+        if(!$(this).is(':checked')) {
+            $('#print-paragraph-' + paragraph_id).addClass("d-print-none");
+        }else{
+            $('#print-paragraph-' + paragraph_id).removeClass("d-print-none");
+        }
+
+    });
+
+
+
+     /*{# Contacts #}
+     
+            <h5 class="my-3">Contacts</h5>
+            <div class="form-check">
+                <input type="checkbox" id="author-check" class="form-check-input" checked>
+                <label class="form-check-label" for="author-check">L'auteur de la fiche</label>
+            </div>
+
+            <div class="form-check">
+                <input type="checkbox" id="interlocutors-check" class="form-check-input" checked>
+                <label class="form-check-label" for="interlocutors-check">Interlocuteurs</label>
+            </div>
+
+            {# Entete #}
+            {% if sheet.headers|length > 0 %}
+
+                <h5 class="my-3">Entête</h5>
+
+                {% for head in sheet.headers %}
+
+                    <div class="form-check">
+                        <input type="checkbox" id="header-check-{{head.id}}" data-id="{{head.id}}" class="form-check-input header-check" checked>
+                        <label class="form-check-label" for="header-check-{{head.id}}">{{ head.title }}</label>
+                    </div>
+
+                {% endfor %}
+
+            {% endif %}
+
+            {# Paragraphs #}
+            <h5 class="my-3">Sections</h5>
+            {% for para in sheet.paragraphs %}
+
+                <div class="form-check">
+                    <input type="checkbox" id="paragraph-check-{{para.id}}" class="form-check-input" checked>
+                    <label class="form-check-label" for="paragraph-check-{{para.id}}">{{ para.title }}</label>
+                </div>
+
+            {% endfor %}/*/
+     
+
+    window.print();
+
+}); 
+
 
     
     
