@@ -176,6 +176,7 @@ class SheetController extends AbstractController
      */
     public function create(SubCategory $subCategory = null, Sheet $sheetFromModel = null, Request $request, EntityManagerInterface $manager, SubCategoryRepository $subRepo, InterlocutorRepository $repo) {
         
+        
         $sheet = new Sheet();
 
         // Si c'est depuis un modèle
@@ -252,7 +253,7 @@ class SheetController extends AbstractController
 
         $form = $this->createForm(SheetType::class, $sheet, array('user' => $this->getUser()));
 
-        $form->handleRequest($request);
+        $form->handleRequest($request);        
 
         if($form->isSubmitted() && $form->isValid()){
 
@@ -320,8 +321,9 @@ class SheetController extends AbstractController
             $sheet->setAuthor($this->getUser());
 
             $sheet->setUpdatedAt(new \DateTime(null, new DateTimeZone('Europe/Paris')));
-
-            // Enregistrement en tant que brouillon
+            
+            
+            // // Enregistrement en tant que brouillon
             if($form->get('saveDraft')->isClicked() || $form->get('saveDraftExit')->isClicked()){
                 
                 $sheet->setStatus("DRAFT");
@@ -332,6 +334,7 @@ class SheetController extends AbstractController
                 if(!$this->isGranted("ROLE_ADMIN")){
 
                     $sheet->setStatus("TO_VALIDATE");
+                    
                 
                 }else{ // admin
 
@@ -341,7 +344,6 @@ class SheetController extends AbstractController
 
             }
             
-
 
             $pictureFile = $form->get('pic')->getData();
 
@@ -427,7 +429,7 @@ class SheetController extends AbstractController
      */
     public function edit(Sheet $sheet, EntityManagerInterface $manager, Request $request, InterlocutorRepository $repo, SheetRepository $sheetRepo){
 
-        $form = $this->createForm(SheetType::class, $sheet, array('user' => $this->getUser()));       
+        $form = $this->createForm(SheetType::class, $sheet, array('user' => $this->getUser()));
 
         $form->handleRequest($request);
 
@@ -584,7 +586,16 @@ class SheetController extends AbstractController
 
             }else{
 
-                $action = 'to_validate';
+                if($form->get('sendToCorrect')->isClicked()){
+                    
+                    $action = 'to_correct';
+
+
+                }else{
+
+                    $action = 'to_validate';
+
+                }
 
             }
 
@@ -633,36 +644,8 @@ class SheetController extends AbstractController
 
             }
 
-            // EN ATTENTE DE VALIDATION / A VALIDER
-            if($sheet->getStatus() == "TO_VALIDATE"){
-
-                // Brouillon (bouton désactivé)
-                if($action == "draft"){
-
-                    $sheet->setStatus('DRAFT');
-
-                }else{
-                // Envoyer à valider
-                    // Admin
-                    if($this->isGranted("ROLE_ADMIN")){
-                        
-                        // On valide la fiche
-                        $sheet->setStatus(null);
-
-
-                    // User
-                    }else{
-                        
-                        // On garde le status TO_VALIDATE
-
-                    }
-
-                }
-
-            }
-
-            // A CORRIGER
-            if($sheet->getStatus() == "TO_CORRECT"){
+             // A CORRIGER
+             if($sheet->getStatus() == "TO_CORRECT"){
 
                 // Brouillon (bouton désactivé)
                 if($action == "draft"){
@@ -689,6 +672,48 @@ class SheetController extends AbstractController
 
             }
 
+
+            // EN ATTENTE DE VALIDATION / A VALIDER
+            if($sheet->getStatus() == "TO_VALIDATE"){
+
+                // Brouillon (bouton désactivé)
+                if($action == "draft"){
+
+                    $sheet->setStatus('DRAFT');
+
+                }else{
+                             
+                    // Admin
+                    if($this->isGranted("ROLE_ADMIN")){
+                        
+                        // A corriger
+                        if($action == "to_correct"){
+
+                            $sheet->setStatus("TO_CORRECT");
+
+                        }else{
+
+                            // Envoyer à valider
+                            // On valide la fiche
+                            
+                            $sheet->setStatus(null);
+
+                        }
+                       
+
+                        
+                    // User
+                    }else{
+                        
+                        // On garde le status TO_VALIDATE
+
+                    }
+
+                }
+
+            }
+
+           
             // BROUILLON
             if($sheet->getStatus() == "DRAFT"){
 
@@ -738,22 +763,6 @@ class SheetController extends AbstractController
 
             $manager->persist($sheet);
             $manager->flush();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
             // // Si c'est une fiche "En cours de validation" que l'on modifie
@@ -916,7 +925,7 @@ class SheetController extends AbstractController
         // Si la fiche est "En cours de validation"
         if($sheet->getStatus() == "TO_VALIDATE"){
 
-            $form = $this->createForm(CommentType::class, $sheet);        
+            $form = $this->createForm(CommentType::class, $sheet);
 
             $form->handleRequest($request);
 

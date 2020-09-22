@@ -48,6 +48,9 @@ class SheetType extends ApplicationType
             ->add('subtitle', TextType::class, $this->getConfiguration("Sous-titre", "Sans complément de titre", [
                 'required' => false
             ]))
+            ->add('comment', TextareaType::class, $this->getConfiguration("Commentaire", "Renseignez les éléments à corriger", [
+                'required' => false
+            ]))
             ->add('introduction',  CKEditorType::class, $this->getConfiguration("Introduction", "Introduction de la fiche"))
             ->add('organization', EntityType::class, [
                 'required' => false,
@@ -224,6 +227,12 @@ class SheetType extends ApplicationType
                         'class' => 'btn dark w-100 px-4',
                         'data-toggle' => 'modal',
                         'data-target' => '#draftModal'                  
+                        ]
+                ])
+                ->add('sendToCorrect', SubmitType::class, [
+                    'label' => 'Envoyer à corriger',
+                    'attr' => [
+                        'class' => 'btn btn-my-danger small px-3 mr-2 float-right'             
                         ]
                 ])
             ;
