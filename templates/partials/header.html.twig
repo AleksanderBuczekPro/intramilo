@@ -306,11 +306,20 @@
       {# <p class="px-3 op-70">Voici les sous-catégories où vous êtes autorisés à ajouter une nouvelle fiche</p> #}
       <div class="modal-body">
 
-            {% for sub in app.user.subCategories|sort((a, b) => a.category.title <=> b.category.title) %}
+            {% set prev_pole = "" %}
+            {% for sub in app.user.subCategories|sort((a, b) => a.category.pole.title <=> b.category.pole.title) %}
+
+                {% set pole = sub.category.pole %}
+
+                {% if pole != prev_pole %}
+                    <h5 class="mt-3 mb-2">{{ pole }}</h5>
+                {% endif %}
 
                     <div class="select-sub" data-href="{{ path('sheet_create_sub', {'id': sub.id}) }}">
                         {{ sub.category }} - {{ sub }}
                     </div>
+
+                {% set prev_pole = pole %}
 
             {% endfor %}
 
@@ -339,13 +348,20 @@
       {# <p class="px-3 op-70">Voici les sous-catégories où vous êtes autorisés à ajouter une nouvelle fiche</p> #}
       <div class="modal-body">
 
-            {% for sub in app.user.subCategories %}
+            {% set prev_pole = "" %}
+            {% for sub in app.user.subCategories|sort((a, b) => a.category.pole.title <=> b.category.pole.title) %}
 
-                
+                {% set pole = sub.category.pole %}
+
+                {% if pole != prev_pole %}
+                    <h5 class="mt-3 mb-2">{{ pole }}</h5>
+                {% endif %}
 
                     <div class="select-sub" data-href="{{ path('document_create_sub', {'id': sub.id}) }}">
                         {{ sub.category.pole }} - {{ sub.category }} - {{ sub }}
                     </div>
+
+                {% set prev_pole = pole %}
 
             {% endfor %}
 
