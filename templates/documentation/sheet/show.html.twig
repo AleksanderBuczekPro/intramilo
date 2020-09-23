@@ -103,7 +103,7 @@
 
                             {% if app.user == sheet.author %}
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item pl-3" href="{{ path('sheet_delete', {'id': sheet.id}) }}"><span class="rounded"><i class="fas fa-times my-rounded"></i></span> Supprimer</a>
+                                <a class="dropdown-item pl-3" data-toggle="modal" data-target="#deleteModal"><span class="rounded"><i class="fas fa-times my-rounded"></i></span> Supprimer</a>
                             {% endif %}
                         </div>
                     </div>
@@ -440,6 +440,20 @@
   </div>
 </div>
 
+{# Delete Modal #}
+<div class="modal fade bd-example-modal-lg" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content p-3">
+      <div class="modal-header no-border pb-0">
+        <h4 class="modal-title m-0 text-center" id="exampleModalLabel">Suppression de la fiche<span class="font-weight-light"> - Êtes-vous sûr ?</span></h4>
+      </div>
+      <div class="modal-footer no-border">
+        <button type="button" class="btn" data-dismiss="modal">Non</button>
+        <a type="button" href="{{ path('sheet_delete', {'id': sheet.id}) }}" class="btn btn-my-danger">Oui, je supprime</a>
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}
 
 {% block javascripts %}
