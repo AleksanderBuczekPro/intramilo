@@ -1,6 +1,6 @@
 
 {# Affichage conditionnel #}
-{% if (draft is defined and draft) or ( is_granted('ROLE_ADMIN') and (sheet.status == "TO_VALIDATE" or sheet.status == "TO_CORRECT")) %}
+{% if (draft is defined and draft) or ( is_granted('ROLE_ADMIN') and (sheet.status == "TO_VALIDATE") or  (sheet.status == "TO_CORRECT")) %}
 
     {% set dnone = 'd-none' %}
 

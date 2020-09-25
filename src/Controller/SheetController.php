@@ -82,37 +82,192 @@ class SheetController extends AbstractController
         $slug = $sheet->getSubCategory()->getCategory()->getSlug();
         $subSlug = $sheet->getSubCategory()->getSlug();
 
-        return $this->redirectToRoute('doc_show', ['slug' => $category->getSlug(), 'sub_slug' => $subCategory->getSlug()]);
+        return $this->redirectToRoute('doc_show', ['slug' => $category->getSlug(), 'sub_slug' => $subCategory->getSlug(), 'sub_id' => $subCategory->getId()]);
 
     }
 
     /**
      * Fonction permettant de dupliquer une fiche (Brouillon et Envoyer à valider)
      */
-    public function duplicate($sheet, $manager, $status){
+    public function duplicate($sheet, $manager, $status, $post, $repo, $form){
 
         // On duplique la fiche
         $sheetDuplicated = clone $sheet;
+        
+
+        // Image de fond
+        $pictureFile = $form->get('pic')->getData();
+
+        if ($pictureFile) {
+
+            $originalFilename = pathinfo($pictureFile->getClientOriginalName(), PATHINFO_FILENAME);
+            // this is needed to safely include the file name as part of the URL
+            $safeFilename = transliterator_transliterate('Any-Latin; Latin-ASCII; [^A-Za-z0-9_] remove; Lower()', $originalFilename);
+            $newFilename = $safeFilename.'-'.uniqid().'.'.$pictureFile->guessExtension();
+
+            // Move the file to the directory where pictures are stored
+            try {
+                $pictureFile->move(
+                    $this->getParameter('pictures_directory'),
+                    $newFilename
+                );
+            } catch (FileException $e) {
+                // ... handle exception if something happens during file upload
+            }
+
+            // Si une photo de profil existe déjà, on la supprime
+            $oldFilename = $sheetDuplicated->getPictureFilename();
+            if($oldFilename){
+                
+                $path = $this->getParameter('pictures_directory').'/'.$oldFilename;
+
+                $filesystem = new Filesystem();
+                $filesystem->remove($path);                    
+
+            }
+
+            $sheetDuplicated->setPictureFilename($newFilename);
+            
+        }
+
+        // Image de fond par défaut
+        $default = false;
+        foreach($post as $key => $val) {
+
+            // Si la clé contient 'interlocutor'
+            if (strpos($key, 'default_pic') !== false) {
+                
+                $default = true;
+
+            }
+
+        }
+
+        if($default){
+
+            $oldFilename = $sheetDuplicated->getPictureFilename();
+            if($oldFilename){
+                
+                $path = $this->getParameter('pictures_directory').'/'.$oldFilename;
+
+                $filesystem = new Filesystem();
+                $filesystem->remove($path);                    
+
+            }
+
+            $sheetDuplicated->setPictureFilename(null);
+
+        }
+
+        // Interlocutors
+            // Pour chaque variable POST
+            foreach($post as $key => $val) {
+
+                // Si la clé contient 'interlocutor'
+                if (strpos($key, 'interlocutor') !== false) {
+                    
+                    // On ajoute l'interlocuteur
+                    $sheet->addInterlocutor($repo->findOneById($val));
+
+                }
+
+            }           
+            
         
         // Init
         $sheetDuplicated->setOrigin($sheet);
         $sheetDuplicated->setStatus($status);
 
         // On duplique toutes les relations
+
         
-        // Paragraphs
-        // $place = 1;
-        foreach($sheet->getParagraphs() as $paragraph){
+        
+        $oldAttachments = $sheet->getAttachments();
+        $newAttachments = $sheetDuplicated->getAttachments();
 
-            $p = clone $paragraph;
+        
+        dump($sheet);
+        dump($sheetDuplicated);
 
-            // $p->setPlace($place);
-            $p->setSheet($sheetDuplicated);
-            $manager->persist($p);
+        dump($oldAttachments);
+        dump($newAttachments);
 
-            // $place = $place + 1;
+        die();
+
+        // New attachments
+        foreach($newAttachments as $attachment){
+
+            // Si la pièce jointe EXISTE DEJA (pièce jointe non chargée)
+            if($attachment->getFile() != null){
+
+                // On clone la pièce jointe pour la séparer de l'original
+                $a = clone $attachment;
+                
+                // On lui attribue un nouveau nom
+                $oldFilename = $attachment->getFile();
+
+                $name = explode(".", $oldFilename)[0];
+                $tmp = explode("-", $oldFilename);
+                $name = end($tmp);
+                
+                $extension = explode(".", $oldFilename)[1];
+
+                $newFilename = $name.'-'.uniqid().'.'.$extension;
+
+                // Source (fichier à copier) et Destination (où le fichier va être copié)
+                $source = $this->getParameter('documentation_directory') . '/' . $oldFilename;
+                $destination = $this->getParameter('documentation_directory') . '/' . $newFilename;
+
+                // On duplique le fichier
+                copy($source, $destination);
+
+                // On attribue le fichier dupliqué à la nouvelle pièce jointe
+                $a->setFile($newFilename);
+
+                // On finit en lui attribuant les autres paramètres
+                $a->setSheet($sheetDuplicated);
+                $a->setAuthor($this->getUser());
+                $a->setSubCategory($sheet->getSubCategory());
+
+                // On sauvegarde
+                $manager->persist($a);
+
+            
+            
+            }else{
+
+                // NOUVELLE PIECE JOINTE
+                
+                // On finit en lui attribuant les autres paramètres
+                $attachment->setSheet($sheetDuplicated);
+                $attachment->setAuthor($this->getUser());
+                $attachment->setSubCategory($sheet->getSubCategory());
+
+                // On sauvegarde
+                $manager->persist($attachment);
+
+
+
+            }
+            // Sinon si la pièce jointe n'EXISTE PAS (getFile == null), elle va être ajoutée normalement
+
+
+
+            
+
+            // Duplication des pièces jointes (fichiers)
+            // $this->getParameter('pictures_directory');
+
+            // $originalFilename = pathinfo($pictureFile->getClientOriginalName(), PATHINFO_FILENAME);
+            // // this is needed to safely include the file name as part of the URL
+            // $safeFilename = transliterator_transliterate('Any-Latin; Latin-ASCII; [^A-Za-z0-9_] remove; Lower()', $originalFilename);
+            // $newFilename = $safeFilename.'-'.uniqid().'.'.$pictureFile->guessExtension();
+
+            
+
             
         }
+
 
         // A VERIFIER
         // Entêtes
@@ -134,27 +289,179 @@ class SheetController extends AbstractController
             
         }
 
-        // Attachments
-        foreach($sheetDuplicated->getAttachments() as $attachment){
+        
+        // Paragraphs
+        // $place = 1;
+        foreach($sheet->getParagraphs() as $paragraph){
 
-            $a = clone $attachment;
+            $p = clone $paragraph;
 
-            $a->setSheet($sheetDuplicated);
-            $manager->persist($a);
+            // $p->setPlace($place);
+            $p->setSheet($sheetDuplicated);
+            $manager->persist($p);
+
+            // $place = $place + 1;
             
         }
 
+       
 
-
-
-        $manager->refresh($sheet);
+        
+        
 
         $sheetDuplicated->setUpdatedAt(new \DateTime(null, new DateTimeZone('Europe/Paris')));
-  
+        
+        $manager->refresh($sheet);
+        
         $manager->persist($sheetDuplicated);
         $manager->flush();
 
-        return $sheetDuplicated->getId();
+        return $sheetDuplicated;
+
+
+    }
+
+    /**
+     * Fonction permettant de mettre à jour (from Edit) une fiche
+     */
+    public function update($sheet, $manager, $status, $post, $repo, $form){
+
+            // Image de fond
+            $pictureFile = $form->get('pic')->getData();
+
+            if ($pictureFile) {
+
+                $originalFilename = pathinfo($pictureFile->getClientOriginalName(), PATHINFO_FILENAME);
+                // this is needed to safely include the file name as part of the URL
+                $safeFilename = transliterator_transliterate('Any-Latin; Latin-ASCII; [^A-Za-z0-9_] remove; Lower()', $originalFilename);
+                $newFilename = $safeFilename.'-'.uniqid().'.'.$pictureFile->guessExtension();
+
+                // Move the file to the directory where pictures are stored
+                try {
+                    $pictureFile->move(
+                        $this->getParameter('pictures_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+
+                // Si une photo de profil existe déjà, on la supprime
+                $oldFilename = $sheet->getPictureFilename();
+                if($oldFilename){
+                    
+                    $path = $this->getParameter('pictures_directory').'/'.$oldFilename;
+
+                    $filesystem = new Filesystem();
+                    $filesystem->remove($path);                    
+
+                }
+
+                $sheet->setPictureFilename($newFilename);
+                
+            }
+
+            // Image de fond par défaut
+            $default = false;
+            foreach($post as $key => $val) {
+
+                // Si la clé contient 'interlocutor'
+                if (strpos($key, 'default_pic') !== false) {
+                    
+                    $default = true;
+
+                }
+
+            }
+
+            if($default){
+
+                $oldFilename = $sheet->getPictureFilename();
+                if($oldFilename){
+                    
+                    $path = $this->getParameter('pictures_directory').'/'.$oldFilename;
+
+                    $filesystem = new Filesystem();
+                    $filesystem->remove($path);                    
+
+                }
+
+                $sheet->setPictureFilename(null);
+
+            }
+
+
+            // Initialisation des interlocuteurs
+            foreach($sheet->getInterlocutors() as $interlocutor){
+
+                $sheet->removeInterlocutor($interlocutor);
+            
+            }
+
+            // Interlocutors
+            // Pour chaque variable POST
+            foreach($post as $key => $val) {
+
+                // Si la clé contient 'interlocutor'
+                if (strpos($key, 'interlocutor') !== false) {
+                    
+                    // On ajoute l'interlocuteur
+                    $sheet->addInterlocutor($repo->findOneById($val));
+
+                }
+
+            }           
+            
+             // Attachments
+             foreach($sheet->getAttachments() as $attachment){
+
+
+
+                $attachment->setSheet($sheet);
+                $attachment->setAuthor($this->getUser());
+                $attachment->setSubCategory($sheet->getSubCategory());
+
+                $manager->persist($attachment);
+                
+            }
+
+             // Headers & Sections
+             foreach($sheet->getHeaders() as $header){
+
+
+                $header->setSheet($sheet);
+                $manager->persist($header);
+
+                foreach($header->getSections() as $section){
+
+                    $section->setHeader($header);
+                    $manager->persist($section);
+
+                }
+                
+            }
+
+            // Paragraphs
+            $place = 1;
+            foreach($sheet->getParagraphs() as $p){
+
+                $p->setPlace($place);
+                $p->setSheet($sheet);
+                $manager->persist($p);
+
+                $place = $place + 1;
+                
+            }           
+
+            // Datetime
+            $sheet->setUpdatedAt(new \DateTime(null, new DateTimeZone('Europe/Paris')));
+            $sheet->setStatus($status);
+
+            $manager->persist($sheet);
+            $manager->flush();
+
+            return $sheet;
+
 
 
     }
@@ -429,154 +736,17 @@ class SheetController extends AbstractController
      */
     public function edit(Sheet $sheet, EntityManagerInterface $manager, Request $request, InterlocutorRepository $repo, SheetRepository $sheetRepo){
 
+        // Récupération de toutes les variables POST
+        $post = $request->request->all();
+
         $form = $this->createForm(SheetType::class, $sheet, array('user' => $this->getUser()));
 
         $form->handleRequest($request);
 
+
         if($form->isSubmitted() && $form->isValid()){
 
-            // Récupération de toutes les variables POST
-            $data = $request->request->all();
-        
-
-            $default = false;
-            foreach($data as $key => $val) {
-
-                // Si la clé contient 'interlocutor'
-                if (strpos($key, 'default_pic') !== false) {
-                    
-                    $default = true;
-
-                }
-
-            }
-
-            $pictureFile = $form->get('pic')->getData();
-
-            // this condition is needed because the 'brochure' field is not required
-            // so the PDF file must be processed only when a file is uploaded
-            if ($pictureFile) {
-
-                $originalFilename = pathinfo($pictureFile->getClientOriginalName(), PATHINFO_FILENAME);
-                // this is needed to safely include the file name as part of the URL
-                $safeFilename = transliterator_transliterate('Any-Latin; Latin-ASCII; [^A-Za-z0-9_] remove; Lower()', $originalFilename);
-                $newFilename = $safeFilename.'-'.uniqid().'.'.$pictureFile->guessExtension();
-
-                // Move the file to the directory where brochures are stored
-                try {
-                    $pictureFile->move(
-                        $this->getParameter('pictures_directory'),
-                        $newFilename
-                    );
-                } catch (FileException $e) {
-                    // ... handle exception if something happens during file upload
-                }
-
-                // updates the 'brochureFilename' property to store the PDF file name
-                // instead of its contents
-
-                // Si une photo de profil existe déjà, on la supprime
-                $oldFilename = $sheet->getPictureFilename();
-                if($oldFilename){
-                    
-                    $path = $this->getParameter('pictures_directory').'/'.$oldFilename;
-
-                    $filesystem = new Filesystem();
-                    $filesystem->remove($path);                    
-
-                }
-
-                $sheet->setPictureFilename($newFilename);
-                
-            }
-
-            // Image de fond par défaut
-            if($default){
-
-                $oldFilename = $sheet->getPictureFilename();
-                if($oldFilename){
-                    
-                    $path = $this->getParameter('pictures_directory').'/'.$oldFilename;
-
-                    $filesystem = new Filesystem();
-                    $filesystem->remove($path);                    
-
-                }
-
-                $sheet->setPictureFilename(null);
-
-            }
-
-            // Paragraphs
-            $place = 1;
-            foreach($sheet->getParagraphs() as $p){
-
-                $p->setPlace($place);
-                $p->setSheet($sheet);
-                $manager->persist($p);
-
-                $place = $place + 1;
-                
-            }
-
-            dump($sheet);
-            // Attachments
-            foreach($sheet->getAttachments() as $attachment){
-
-
-
-                $attachment->setSheet($sheet);
-                $attachment->setAuthor($this->getUser());
-                $attachment->setSubCategory($sheet->getSubCategory());
-
-                $manager->persist($attachment);
-                
-            }
-    
-
-            // Headers & Sections
-            foreach($sheet->getHeaders() as $header){
-
-
-                $header->setSheet($sheet);
-                $manager->persist($header);
-
-                foreach($header->getSections() as $section){
-
-                    $section->setHeader($header);
-                    $manager->persist($section);
-
-                }
-                
-            }
-
-            // Datetime
-            $sheet->setUpdatedAt(new \DateTime(null, new DateTimeZone('Europe/Paris')));
-
-            // Initialisation des interlocuteurs
-            foreach($sheet->getInterlocutors() as $interlocutor){
-
-                $sheet->removeInterlocutor($interlocutor);
             
-            }
-
-                // Interlocutors
-                // Récupération de toutes les variables POST
-                $data = $request->request->all();
-
-                dump($data);
-                // Pour chaque variable POST
-                foreach($data as $key => $val) {
-
-                    // Si la clé contient 'interlocutor'
-                    if (strpos($key, 'interlocutor') !== false) {
-                        
-                        // On ajoute l'interlocuteur
-                        $sheet->addInterlocutor($repo->findOneById($val));
-
-                    }
-
-                }
 
             // CONDITIONS
             // Quelle action ?
@@ -598,33 +768,43 @@ class SheetController extends AbstractController
                 }
 
             }
-
+    
             // EN LIGNE
             if($sheet->getStatus() == null){
                 
                 // Brouillon
                 if($action == "draft"){
 
-                    
-
                     // DUPLICATA
-                    $duplicate = $this->duplicate($sheet, $manager, 'DRAFT');
-                    return $this->redirectToRoute('sheet_edit', ['id' => $duplicate]);
+                    $draft = $this->duplicate($sheet, $manager, 'DRAFT', $post, $repo, $form);
 
+                    if($form->get('saveDraft')->isClicked()){
+                        // Enregistrer en brouillon
+                        return $this->redirectToRoute('sheet_edit', ['id' => $draft->getId()]);
+                    }else{
+                        // Enregistrer en brouillon et Quitter
+                        return $this->redirectToRoute('sheet_show', ['id' => $draft->getId()]);                   
+                    }
 
                 }else{
                 // Envoyer à valider
+
                     // Admin
                     if($this->isGranted("ROLE_ADMIN")){
+
+                        $update = $this->update($sheet, $manager, null, $post, $repo, $form);
+                        return $this->redirectToRoute('sheet_show', ['id' => $update->getId()]);
                         
 
                     // User
                     }else{
 
-                        // S'il y a déjà un brouillon enregistré
-                        $draft = $sheetRepo->findOneByOrigin($sheet->getId());
+                        dump($sheet);
 
-                        dump($draft);
+                        // S'il y a un brouillon enregistré pour la fiche qu'on envoie à valider
+                        $draft = $sheetRepo->findOneByOrigin($sheet->getId());
+                        
+                        // On supprime le brouillon
                         if($draft){
                             
                             $draft->setOrigin(null);
@@ -633,9 +813,10 @@ class SheetController extends AbstractController
 
                         }
 
+                        
                         // DUPLICATA
-                        $duplicate = $this->duplicate($sheet, $manager, 'TO_VALIDATE');
-                        return $this->redirectToRoute('sheet_show', ['id' => $duplicate]);
+                        $duplicate = $this->duplicate($sheet, $manager, 'TO_VALIDATE', $post, $repo, $form);
+                        return $this->redirectToRoute('sheet_show', ['id' => $duplicate->getId()]);
 
 
                     }
@@ -650,23 +831,26 @@ class SheetController extends AbstractController
                 // Brouillon (bouton désactivé)
                 if($action == "draft"){
 
-                    $sheet->setStatus('DRAFT');
-
 
                 }else{
-                // Envoyer à valider
-                    // Admin
-                    if($this->isGranted("ROLE_ADMIN")){
-                        
-                        // On valide la fiche
-                        $sheet->setStatus(null);
+                
 
-                    // User
-                    }else{
+                    // // Admin
+                    // if($this->isGranted("ROLE_ADMIN")){
                         
-                        // On garde le status TO_VALIDATE
-                        $sheet->setStatus("TO_VALIDATE");
-                    }
+                    //     $update = $this->update($sheet, $manager, '');
+                    //     return $this->redirectToRoute('sheet_edit', ['id' => $update]);
+
+                    // // User
+                    // }else{
+                        
+                    //     // On garde le status TO_VALIDATE
+                    //     $sheet->setStatus("TO_VALIDATE");
+                    // }
+
+                    // Envoyer à valider (uniquement l'User)
+                    $update = $this->update($sheet, $manager, 'TO_VALIDATE', $post, $repo, $form);
+                    return $this->redirectToRoute('sheet_show', ['id' => $update->getId()]);
 
                 }
 
@@ -676,10 +860,18 @@ class SheetController extends AbstractController
             // EN ATTENTE DE VALIDATION / A VALIDER
             if($sheet->getStatus() == "TO_VALIDATE"){
 
-                // Brouillon (bouton désactivé)
+                // Brouillon
                 if($action == "draft"){
 
-                    $sheet->setStatus('DRAFT');
+                    // User
+                    $draft = $this->update($sheet, $manager, 'DRAFT', $post, $repo, $form);
+                    if($form->get('saveDraft')->isClicked()){
+                        // Enregistrer en brouillon
+                        return $this->redirectToRoute('sheet_edit', ['id' => $draft->getId()]);
+                    }else{
+                        // Enregistrer en brouillon et Quitter
+                        return $this->redirectToRoute('sheet_show', ['id' => $draft->getId()]);                   
+                    }
 
                 }else{
                              
@@ -689,14 +881,16 @@ class SheetController extends AbstractController
                         // A corriger
                         if($action == "to_correct"){
 
-                            $sheet->setStatus("TO_CORRECT");
+                            $update = $this->update($sheet, $manager, 'TO_CORRECT', $post, $repo, $form);
+                            return $this->redirectToRoute('sheet_show', ['id' => $update->getId()]);
 
                         }else{
 
                             // Envoyer à valider
                             // On valide la fiche
                             
-                            $sheet->setStatus(null);
+                            $update = $this->update($sheet, $manager, null, $post, $repo, $form);
+                            return $this->redirectToRoute('sheet_show', ['id' => $update->getId()]);
 
                         }
                        
@@ -706,6 +900,8 @@ class SheetController extends AbstractController
                     }else{
                         
                         // On garde le status TO_VALIDATE
+                        $update = $this->update($sheet, $manager, 'TO_VALIDATE', $post, $repo, $form);
+                        return $this->redirectToRoute('sheet_show', ['id' => $update->getId()]);
 
                     }
 
@@ -721,18 +917,24 @@ class SheetController extends AbstractController
                 if($action == "draft"){
 
                     // On garde le status DRAFT
+                    $draft = $this->update($sheet, $manager, 'DRAFT', $post, $repo, $form);
+                    
+                    if($form->get('saveDraft')->isClicked()){
+                        // Enregistrer en brouillon
+                        return $this->redirectToRoute('sheet_edit', ['id' => $draft->getId()]);
+                    }else{
+                        // Enregistrer en brouillon et Quitter
+                        return $this->redirectToRoute('sheet_show', ['id' => $draft->getId()]);                   
+                    }
 
                 }else{
                 // Envoyer à valider
                     // Admin
                     if($this->isGranted("ROLE_ADMIN")){
                         
-
-
                         // On supprime l'ancienne fiche
                         $oldSheet = $sheetRepo->findOneById($sheet->getOrigin());
 
-                        dump($oldSheet);
                         if($oldSheet){
                             
                             $oldSheet->setOrigin(null);
@@ -742,17 +944,22 @@ class SheetController extends AbstractController
                         }
 
                         // On valide la fiche
-                        $sheet->setStatus(null);
                         $sheet->setOrigin(null);
-
                         $manager->flush();
+                        
+                        // On valide
+                        $update = $this->update($sheet, $manager, null, $post, $repo, $form);
+                        return $this->redirectToRoute('sheet_show', ['id' => $update->getId()]);
+
+                        
 
 
                     // User
                     }else{
                         
                         // On garde le status TO_VALIDATE
-                        $sheet->setStatus("TO_VALIDATE");
+                        $update = $this->update($sheet, $manager, 'TO_VALIDATE', $post, $repo, $form);
+                        return $this->redirectToRoute('sheet_show', ['id' => $update->getId()]);
 
                     }
 
@@ -760,9 +967,8 @@ class SheetController extends AbstractController
 
             }
 
-
-            $manager->persist($sheet);
-            $manager->flush();
+            // $manager->persist($sheet);
+            // $manager->flush();
 
 
             // // Si c'est une fiche "En cours de validation" que l'on modifie
@@ -838,24 +1044,25 @@ class SheetController extends AbstractController
 
              // Redirection conditionnelle
             //  if($action != 'draft'){
-            if(!$form->get('saveDraft')->isClicked()){
-                $this->addFlash(
-                    'success',
-                    "La fiche <strong>{$sheet->getTitle()}</strong> a bien été modifiée !"
+
+            // if(!$form->get('saveDraft')->isClicked()){
+            //     $this->addFlash(
+            //         'success',
+            //         "La fiche <strong>{$sheet->getTitle()}</strong> a bien été modifiée !"
     
-                );
+            //     );
             
-                // Gestion des nouveaux slugs
-                return $this->redirectToRoute('sheet_show', ['id' => $sheet->getId()]);
+            //     // Gestion des nouveaux slugs
+            //     return $this->redirectToRoute('sheet_show', ['id' => $sheet->getId()]);
 
-            }else{
+            // }else{
                 
-                $id = $sheet->getId();
+            //     $id = $sheet->getId();
 
-                // Gestion des nouveaux slugs
-                return $this->redirectToRoute('sheet_edit', ['id' => $id]);
+            //     // Gestion des nouveaux slugs
+            //     return $this->redirectToRoute('sheet_edit', ['id' => $id]);
 
-            }
+            // }
 
         }
 

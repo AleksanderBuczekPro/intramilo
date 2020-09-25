@@ -132,17 +132,17 @@ class SheetType extends ApplicationType
  
                 ])
 
-                ->add(
-                    'attachments',
-                    CollectionType::class,[
-                     'label' => "Pièces jointes",
-                     'attr' => ['class' => "row"],
-                     'entry_type' => AttachmentType::class,
-                     'allow_add' => true,
-                     'allow_delete' => true,
-    
-                     'prototype_name' => "__a__"
-                    ])
+            ->add(
+                'attachments',
+                CollectionType::class,[
+                    'label' => "Pièces jointes",
+                    'attr' => ['class' => "row"],
+                    'entry_type' => AttachmentType::class,
+                    'allow_add' => true,
+                    'allow_delete' => false,
+
+                    'prototype_name' => "__a__"
+                ])
             
                 // ->add('tool', EntityType::class, [
                 //     "label" => "Fiches existantes",
