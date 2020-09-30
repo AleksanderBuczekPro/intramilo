@@ -1,6 +1,6 @@
 
 {# Affichage conditionnel #}
-{% if (draft is defined and draft) or ( is_granted('ROLE_ADMIN') and (sheet.status == "TO_VALIDATE") or  (sheet.status == "TO_CORRECT")) %}
+{% if (draft is defined and draft) or ( is_granted('ROLE_ADMIN') and (sheet.status == "TO_VALIDATE") or ((is_granted('ROLE_ADMIN')) and (app.user != sheet.author) and (app.request.attributes.get('_route') starts with 'sheet_edit'))) %}
 
     {% set dnone = 'd-none' %}
 
@@ -34,7 +34,6 @@
                                         <td><strong id="change-text">Sans titre</strong></td>
                                     </tr>
                                 </table>
-
                         {% else %}
 
                             {% if sheet.status == "DRAFT" %}
@@ -49,7 +48,7 @@
                                                 <i class="fas fa-exclamation-circle op-70"></i>
                                             </div>
                                         </td>
-                                        <td><strong id="change-text">{{ sheet.title }}</strong></td>
+                                        <td><strong id="change-text">{{ sheet.title }}</strong> <span class="orange">[Brouillon]</span></td>
                                     </tr>
                                     <tr>
                                         
@@ -74,8 +73,12 @@
             <div class="col-xl-5 col-lg-9 col-md-8 form-container bg-white px-0 my-auto pr-4">
 
                 <div class="btn-group {{dnone}} float-right">
-                        
-                    {{ form_widget(form.saveDraft) }}
+                    
+                    {% if sheet.status == "TO_CORRECT" %}
+                        {{ form_widget(form.saveDraft, { label: "Enregistrer les modifications"}) }}
+                    {% else %}
+                        {{ form_widget(form.saveDraft) }}               
+                    {% endif %}
                     {# {{ form_widget(form.saveDraft, {'label': '<i class="fa fa-search" aria-hidden="true"></i> Enregistrer en brouillon', 'attr': {'class': 'btn btn-my-dark dark w-100 px-4', 'data-toggle': 'modal', 'data-target': '#draftModal'}}) }} #}
                     {# <button type="submit" id="sheet_saveDraft" name="sheet[saveDraft]" class="btn btn-my-dark dark w-100 pl-3 pr-4 btn" data-toggle="modal" data-target="#draftModal" aria-hidden="true"><i class="fas fa-save  ml-1 mr-2"></i> Enregistrer en brouillon</button> #}
                     <button type="button" class="btn btn-my-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -88,7 +91,7 @@
                     
                 </div>
                 
-                    {% if (draft is defined and draft) %}
+                {% if (draft is defined and draft) %}
                     <a class="btn btn-my-dark dark px-4 float-right" target="_blank" href="{{ path('sheet_show', {'id': draft.id }) }}">Voir le brouillon existant</a>
                 {% endif %}
 
@@ -101,8 +104,11 @@
                 {% else %}
 
                     {% if sheet.status == "DRAFT" %}
-                    
-                        <a class="op-70 btn float-right mr-3" target="_blank" href="{{ path('sheet_show', {'id': sheet.id }) }}"><i class="fas fa-eye mr-2"></i>Aperçu</a>
+
+                        <a class="rouge btn float-right mr-4" data-toggle="modal" data-target="#deleteModal">Supprimer</a>
+                        <a class="op-70 btn float-right" target="_blank" href="{{ path('sheet_show', {'id': sheet.id }) }}"><i class="fas fa-eye mr-2"></i>Aperçu</a>
+
+                        
                         
                     {% endif %}
 
@@ -566,6 +572,25 @@
       <div class="modal-footer no-border">
             <button id="delete-introduction-confirm" type="button" class="w-50 btn btn-danger" data-dismiss="modal">Oui</button>
             <button type="button" class="w-50 btn btn-secondary" data-dismiss="modal">Non</button>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+{# Delete Modal #}
+<div class="modal fade bd-example-modal-lg" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content p-3">
+      <div class="modal-header no-border pb-0">
+        <h4 class="modal-title m-0 text-center" id="exampleModalLabel">Suppression de la fiche<span class="font-weight-light"> - Êtes-vous sûr ?</span></h4>
+      </div>
+      <div class="modal-footer no-border">
+        <button type="button" class="btn" data-dismiss="modal">Non</button>
+        
+            {% if app.request.attributes.get('_route') starts with 'sheet_edit' %}
+                <a type="button" href="{{ path('sheet_delete', {'id': sheet.id}) }}" class="btn btn-my-danger">Oui, je supprime</a>
+            {% endif %}
 
       </div>
     </div>

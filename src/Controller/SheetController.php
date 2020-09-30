@@ -44,20 +44,19 @@ class SheetController extends AbstractController
      */
     public function validate(EntityManagerInterface $manager, Request $request, SheetRepository $repo){
 
-        dump($request);
 
+        // Récupération de l'ID de la nouvelle fiche
         $id = $request->request->get('id');
         $sheet = $repo->findOneById($id);
+        
 
-        dump($request->request->get('paragraphs'));
+        //dump($request->request->get('paragraphs'));
 
         // On remplace le texte par le texte formaté (sans couleurs)
         // $sheet->setContent($request->request->get('content'));
 
         // On récupère l'ancienne fiche
         $oldSheet = $sheet->getOrigin();
-
-        dump($oldSheet);
 
         // On supprime l'ancienne fiche
         if($oldSheet != null){
@@ -93,7 +92,8 @@ class SheetController extends AbstractController
 
         // On duplique la fiche
         $sheetDuplicated = clone $sheet;
-        
+
+        $manager->refresh($sheet);        
 
         // Image de fond
         $pictureFile = $form->get('pic')->getData();
@@ -186,13 +186,11 @@ class SheetController extends AbstractController
         $newAttachments = $sheetDuplicated->getAttachments();
 
         
-        dump($sheet);
-        dump($sheetDuplicated);
+        // dump($sheet);
+        // dump($sheetDuplicated);
 
-        dump($oldAttachments);
-        dump($newAttachments);
-
-        die();
+        // dump($oldAttachments);
+        // dump($newAttachments);
 
         // New attachments
         foreach($newAttachments as $attachment){
@@ -202,13 +200,17 @@ class SheetController extends AbstractController
 
                 // On clone la pièce jointe pour la séparer de l'original
                 $a = clone $attachment;
+
+                
                 
                 // On lui attribue un nouveau nom
                 $oldFilename = $attachment->getFile();
 
                 $name = explode(".", $oldFilename)[0];
                 $tmp = explode("-", $oldFilename);
-                $name = end($tmp);
+                $name = $tmp[0];
+
+                
                 
                 $extension = explode(".", $oldFilename)[1];
 
@@ -226,12 +228,12 @@ class SheetController extends AbstractController
 
                 // On finit en lui attribuant les autres paramètres
                 $a->setSheet($sheetDuplicated);
+
                 $a->setAuthor($this->getUser());
                 $a->setSubCategory($sheet->getSubCategory());
 
                 // On sauvegarde
                 $manager->persist($a);
-
             
             
             }else{
@@ -240,11 +242,13 @@ class SheetController extends AbstractController
                 
                 // On finit en lui attribuant les autres paramètres
                 $attachment->setSheet($sheetDuplicated);
+
                 $attachment->setAuthor($this->getUser());
                 $attachment->setSubCategory($sheet->getSubCategory());
 
                 // On sauvegarde
                 $manager->persist($attachment);
+
 
 
 
@@ -302,16 +306,9 @@ class SheetController extends AbstractController
 
             // $place = $place + 1;
             
-        }
-
-       
-
-        
-        
+        }        
 
         $sheetDuplicated->setUpdatedAt(new \DateTime(null, new DateTimeZone('Europe/Paris')));
-        
-        $manager->refresh($sheet);
         
         $manager->persist($sheetDuplicated);
         $manager->flush();
@@ -324,7 +321,7 @@ class SheetController extends AbstractController
     /**
      * Fonction permettant de mettre à jour (from Edit) une fiche
      */
-    public function update($sheet, $manager, $status, $post, $repo, $form){
+    public function update($sheet, $manager, $status, $post, $repo, $form, $sheetRepo){
 
             // Image de fond
             $pictureFile = $form->get('pic')->getData();
@@ -412,10 +409,11 @@ class SheetController extends AbstractController
 
             }           
             
+            dump($sheet);
+            dump('ok');
+
              // Attachments
              foreach($sheet->getAttachments() as $attachment){
-
-
 
                 $attachment->setSheet($sheet);
                 $attachment->setAuthor($this->getUser());
@@ -456,6 +454,31 @@ class SheetController extends AbstractController
             // Datetime
             $sheet->setUpdatedAt(new \DateTime(null, new DateTimeZone('Europe/Paris')));
             $sheet->setStatus($status);
+
+            // Validation (par l'admin)
+            if($status == null){
+
+                // Si c'est la fiche en attente de validation qu'on valide
+                if($sheet->getOrigin()){
+
+                    $oldSheet = $sheetRepo->findOneByOrigin($sheet->getOrigin());
+
+                    // On supprime l'ancienne
+                    $sheet->setViews($oldSheet->getViews());
+                    $manager->remove($oldSheet);
+
+                    // On initilaise les paramètres
+                    $sheet->setOrigin(null);
+
+                }else{
+
+                    // Si c'est la fiche qui était initialement en ligne qu'on valide
+                    // On modifie celle-ci, mais on laisse en attente de validation l'autre
+
+                }
+
+
+            }
 
             $manager->persist($sheet);
             $manager->flush();
@@ -743,6 +766,23 @@ class SheetController extends AbstractController
 
         $form->handleRequest($request);
 
+        // DUPLICATA       
+        if(($sheet->getStatus()) == null && ($sheet->getAuthor() == $this->getUser())){
+
+            // S'il n'y a pas déjà un brouillon d'enregistré
+            $already_created = $sheetRepo->findOneByOrigin($sheet);
+
+            if(!$already_created){
+                $sheet = $this->duplicate($sheet, $manager, 'DRAFT', $post, $repo, $form);
+            }else{
+
+                $sheet = $already_created;
+
+            }
+            
+        }
+        
+        dump($sheet);
 
         if($form->isSubmitted() && $form->isValid()){
 
@@ -792,17 +832,18 @@ class SheetController extends AbstractController
                     // Admin
                     if($this->isGranted("ROLE_ADMIN")){
 
-                        $update = $this->update($sheet, $manager, null, $post, $repo, $form);
+                        $update = $this->update($sheet, $manager, null, $post, $repo, $form, $sheetRepo);
                         return $this->redirectToRoute('sheet_show', ['id' => $update->getId()]);
                         
 
                     // User
                     }else{
 
-                        dump($sheet);
 
                         // S'il y a un brouillon enregistré pour la fiche qu'on envoie à valider
-                        $draft = $sheetRepo->findOneByOrigin($sheet->getId());
+                        $draft = $sheetRepo->findOneByOrigin($sheet);
+
+                        
                         
                         // On supprime le brouillon
                         if($draft){
@@ -831,6 +872,8 @@ class SheetController extends AbstractController
                 // Brouillon (bouton désactivé)
                 if($action == "draft"){
 
+                    $update = $this->update($sheet, $manager, 'TO_CORRECT', $post, $repo, $form, $sheetRepo);
+                    return $this->redirectToRoute('sheet_edit', ['id' => $update->getId()]);
 
                 }else{
                 
@@ -849,7 +892,7 @@ class SheetController extends AbstractController
                     // }
 
                     // Envoyer à valider (uniquement l'User)
-                    $update = $this->update($sheet, $manager, 'TO_VALIDATE', $post, $repo, $form);
+                    $update = $this->update($sheet, $manager, 'TO_VALIDATE', $post, $repo, $form, $sheetRepo);
                     return $this->redirectToRoute('sheet_show', ['id' => $update->getId()]);
 
                 }
@@ -864,7 +907,7 @@ class SheetController extends AbstractController
                 if($action == "draft"){
 
                     // User
-                    $draft = $this->update($sheet, $manager, 'DRAFT', $post, $repo, $form);
+                    $draft = $this->update($sheet, $manager, 'DRAFT', $post, $repo, $form, $sheetRepo);
                     if($form->get('saveDraft')->isClicked()){
                         // Enregistrer en brouillon
                         return $this->redirectToRoute('sheet_edit', ['id' => $draft->getId()]);
@@ -881,7 +924,7 @@ class SheetController extends AbstractController
                         // A corriger
                         if($action == "to_correct"){
 
-                            $update = $this->update($sheet, $manager, 'TO_CORRECT', $post, $repo, $form);
+                            $update = $this->update($sheet, $manager, 'TO_CORRECT', $post, $repo, $form, $sheetRepo);
                             return $this->redirectToRoute('sheet_show', ['id' => $update->getId()]);
 
                         }else{
@@ -889,7 +932,7 @@ class SheetController extends AbstractController
                             // Envoyer à valider
                             // On valide la fiche
                             
-                            $update = $this->update($sheet, $manager, null, $post, $repo, $form);
+                            $update = $this->update($sheet, $manager, null, $post, $repo, $form, $sheetRepo);
                             return $this->redirectToRoute('sheet_show', ['id' => $update->getId()]);
 
                         }
@@ -900,7 +943,7 @@ class SheetController extends AbstractController
                     }else{
                         
                         // On garde le status TO_VALIDATE
-                        $update = $this->update($sheet, $manager, 'TO_VALIDATE', $post, $repo, $form);
+                        $update = $this->update($sheet, $manager, 'TO_VALIDATE', $post, $repo, $form, $sheetRepo);
                         return $this->redirectToRoute('sheet_show', ['id' => $update->getId()]);
 
                     }
@@ -917,7 +960,7 @@ class SheetController extends AbstractController
                 if($action == "draft"){
 
                     // On garde le status DRAFT
-                    $draft = $this->update($sheet, $manager, 'DRAFT', $post, $repo, $form);
+                    $draft = $this->update($sheet, $manager, 'DRAFT', $post, $repo, $form, $sheetRepo);
                     
                     if($form->get('saveDraft')->isClicked()){
                         // Enregistrer en brouillon
@@ -939,6 +982,8 @@ class SheetController extends AbstractController
                             
                             $oldSheet->setOrigin(null);
                             $manager->remove($oldSheet);
+                            $manager->flush();
+                            
 
 
                         }
@@ -948,7 +993,7 @@ class SheetController extends AbstractController
                         $manager->flush();
                         
                         // On valide
-                        $update = $this->update($sheet, $manager, null, $post, $repo, $form);
+                        $update = $this->update($sheet, $manager, null, $post, $repo, $form, $sheetRepo);
                         return $this->redirectToRoute('sheet_show', ['id' => $update->getId()]);
 
                         
@@ -958,7 +1003,7 @@ class SheetController extends AbstractController
                     }else{
                         
                         // On garde le status TO_VALIDATE
-                        $update = $this->update($sheet, $manager, 'TO_VALIDATE', $post, $repo, $form);
+                        $update = $this->update($sheet, $manager, 'TO_VALIDATE', $post, $repo, $form, $sheetRepo);
                         return $this->redirectToRoute('sheet_show', ['id' => $update->getId()]);
 
                     }

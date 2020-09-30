@@ -139,7 +139,7 @@ class SheetType extends ApplicationType
                     'attr' => ['class' => "row"],
                     'entry_type' => AttachmentType::class,
                     'allow_add' => true,
-                    'allow_delete' => false,
+                    'allow_delete' => true,
 
                     'prototype_name' => "__a__"
                 ])
@@ -218,7 +218,7 @@ class SheetType extends ApplicationType
                     'attr' => [
                         'class' => 'btn btn-my-dark dark pl-4',
                         'data-toggle' => 'modal',
-                        'data-target' => '#draftModal'                                     
+                        'data-target' => '#draftModal'                     
                         ]
                 ])
                 ->add('saveDraftExit', SubmitType::class, [

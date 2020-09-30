@@ -231,8 +231,9 @@ class DocumentController extends AbstractController
     // Gestion des nouveaux slugs
     $slug = $document->getSubCategory()->getCategory()->getSlug();
     $subSlug = $document->getSubCategory()->getSlug();
+    $subId = $document->getSubCategory()->getId();
 
-    return $this->redirectToRoute('doc_show', ['slug' => $slug, 'sub_slug' => $subSlug]);
+    return $this->redirectToRoute('account_index');
 
 
     }

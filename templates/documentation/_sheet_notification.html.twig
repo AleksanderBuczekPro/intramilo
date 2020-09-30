@@ -91,14 +91,14 @@
 
             <div class="row text-right">
                 <div class="col-12 px-1">
-                    <button type="submit" id="correction" class="btn btn-my-danger small px-3 mr-2">
+                    <button type="submit" id="correction" class="btn btn-my-danger small px-3 mr-2" data-toggle="modal" data-target="#tocorrectModal">
                         {# <i class="uil uil-message danger"></i> #}
-                        A corriger
+                        Envoyer à corriger
                     </button>
 
                     {{ form_end(form) }}
 
-                    <button id="validation" class="btn btn-my-primary small px-3 mr-3">
+                    <button id="validation" class="btn btn-my-primary small px-3 mr-3" data-toggle="modal" data-target="#validationModal">
                     {# <i class="uil uil-check-circle white"></i>  #}
                     Valider</button>
                 </div>

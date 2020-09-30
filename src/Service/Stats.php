@@ -68,6 +68,7 @@ class Stats{
         return $this->manager->createQuery(
             'SELECT s
             FROM App\Entity\Sheet s
+            WHERE s.status IS NULL
             ORDER BY s.views DESC'
         )
         ->setMaxResults(8)

@@ -78,7 +78,7 @@ class Docs{
 
         $sheets = $this->manager->createQuery(
             "SELECT s FROM App\Entity\Sheet s
-            WHERE s.front = 1 AND s.publishedAt > :end_date
+            WHERE s.status IS NULL AND s.front = 1 AND s.publishedAt > :end_date
             "
         )
         ->setParameters($parameters)
@@ -86,7 +86,7 @@ class Docs{
 
         $documents = $this->manager->createQuery(
             'SELECT d FROM App\Entity\Document d
-            WHERE d.front = 1 AND d.publishedAt > :end_date
+            WHERE d.status IS NULL AND d.front = 1 AND d.publishedAt > :end_date
             '
         )
         ->setParameters($parameters)

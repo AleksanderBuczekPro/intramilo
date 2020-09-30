@@ -454,6 +454,53 @@
     </div>
   </div>
 </div>
+
+
+{# Modal validation #}
+<div class="modal fade bd-example-modal-lg" id="validationModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-keyboard="false">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+
+    {# Loading #}
+    <div class="modal-content loading ok">
+
+        {# <p class="px-3 op-70">Voici les sous-catégories où vous êtes autorisés à ajouter une nouvelle fiche</p> #}
+        <div class="modal-body">
+            <div class="content">
+                <div>
+                    <i class="fas fa-spinner fa-spin fa-lg mb-4 violet"></i><br>
+                    <span class="">Validation en cours...</span><br>      
+                </div>
+            
+            </div>
+        </div>
+
+    </div>
+  </div>
+</div>
+
+{# Modal envoi à corriger #}
+<div class="modal fade bd-example-modal-lg" id="tocorrectModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-keyboard="false">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+
+    {# Loading #}
+    <div class="modal-content loading ok">
+
+        {# <p class="px-3 op-70">Voici les sous-catégories où vous êtes autorisés à ajouter une nouvelle fiche</p> #}
+        <div class="modal-body">
+            <div class="content">
+                <div>
+                    <i class="fas fa-spinner fa-spin fa-lg mb-4 rouge"></i><br>
+                    <span class="">Envoi pour correction en cours...</span><br>      
+                </div>
+            
+            </div>
+        </div>
+
+    </div>
+  </div>
+</div>
+
+
 {% endblock %}
 
 {% block javascripts %}
@@ -511,6 +558,8 @@
                 paragraphs.push($(this).html());
             });
 
+            
+
             console.log(paragraphs);
 
             // Récupération des données
@@ -521,20 +570,21 @@
 
             var path = "{{ path('sheet_validate') }}";
 
-
+            
             $.ajax({
 
                 type: 'POST',
                 url: path,
-                data: { id: id, paragraphs: paragraphs},
+                // data: { id: id, paragraphs: paragraphs},
+                data: { id: id },
                 success: function(data) {
-
+                    
                     location.reload();
                     
                 },
                 error: function(data) {
-                    /*console.log(data);
-                    alert("Error !")*/
+                    console.log(data);
+                    alert("Error !")
                 }
 
             });

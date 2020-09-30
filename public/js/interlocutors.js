@@ -113,7 +113,7 @@ function loadInterlocutors() {
                 var organization_data = "<div class='card my-card my-3 no-br'>" +
                                             "<div class='card-body'>" +
                                                     "<div class='main'>Détails de l'organisme</div>" +
-                                                    "<a href='/organization/" + organization_id + "/edit' class='violet' target='_blank'>Modifier</a>" +
+                                                    "<a href='/organization/" + organization_id + "/edit' class='violet' target='_blank'>Ouvrir dans l'Annuaire</a>" +
                                                     "<div class='organization-address small my-secondary black op-70 mt-1'>" + address + "</div>" +
                                                     "<div class='organization-phone small my-secondary black  op-70 mt-2'>" +
                                                         "<i class='uil uil-phone-alt'></i>" + phone +
