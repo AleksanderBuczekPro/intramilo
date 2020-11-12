@@ -206,7 +206,7 @@ class Filter{
                 // A corriger
                 if($status == "TO_CORRECT"){
 
-                    $sheetsToValidate[] = $sheet;
+                    $sheetsToCorrect[] = $sheet;
 
                 }
 

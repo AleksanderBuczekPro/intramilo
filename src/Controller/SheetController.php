@@ -766,28 +766,27 @@ class SheetController extends AbstractController
 
         $form->handleRequest($request);
 
-        // DUPLICATA       
-        if(($sheet->getStatus()) == null && ($sheet->getAuthor() == $this->getUser())){
+        // DUPLICATA si une fiche est en ligne et qu'elle appartient à l'utilisateur connecté.
+        // if(($sheet->getStatus()) == null && ($sheet->getAuthor() == $this->getUser())){
 
-            // S'il n'y a pas déjà un brouillon d'enregistré
-            $already_created = $sheetRepo->findOneByOrigin($sheet);
+        //     // S'il n'y a pas déjà un brouillon d'enregistré
+        //     $already_created = $sheetRepo->findOneByOrigin($sheet);
 
-            if(!$already_created){
-                $sheet = $this->duplicate($sheet, $manager, 'DRAFT', $post, $repo, $form);
-            }else{
+        //     if(!$already_created){
+        //         $sheet = $this->duplicate($sheet, $manager, 'DRAFT', $post, $repo, $form);
+        //     }else{
 
-                $sheet = $already_created;
+        //         $sheet = $already_created;
 
-            }
+        //     }
             
-        }
-        
-        dump($sheet);
+        // }
+
+        // dump($sheet);
+        // die();
 
         if($form->isSubmitted() && $form->isValid()){
-
             
-
             // CONDITIONS
             // Quelle action ?
             if($form->get('saveDraft')->isClicked() || $form->get('saveDraftExit')->isClicked()){
@@ -808,7 +807,7 @@ class SheetController extends AbstractController
                 }
 
             }
-    
+
             // EN LIGNE
             if($sheet->getStatus() == null){
                 
@@ -878,22 +877,22 @@ class SheetController extends AbstractController
                 }else{
                 
 
-                    // // Admin
-                    // if($this->isGranted("ROLE_ADMIN")){
+                    // Admin
+                    if($this->isGranted("ROLE_ADMIN")){
                         
-                    //     $update = $this->update($sheet, $manager, '');
-                    //     return $this->redirectToRoute('sheet_edit', ['id' => $update]);
+                        // Envoyer à valider (uniquement l'User)
+                        $update = $this->update($sheet, $manager, null, $post, $repo, $form, $sheetRepo);
+                        return $this->redirectToRoute('sheet_show', ['id' => $update->getId()]);
 
-                    // // User
-                    // }else{
+                    // User
+                    }else{
                         
-                    //     // On garde le status TO_VALIDATE
-                    //     $sheet->setStatus("TO_VALIDATE");
-                    // }
+                        // Envoyer à valider (uniquement l'User)
+                        $update = $this->update($sheet, $manager, 'TO_VALIDATE', $post, $repo, $form, $sheetRepo);
+                        return $this->redirectToRoute('sheet_show', ['id' => $update->getId()]);
+                    }
 
-                    // Envoyer à valider (uniquement l'User)
-                    $update = $this->update($sheet, $manager, 'TO_VALIDATE', $post, $repo, $form, $sheetRepo);
-                    return $this->redirectToRoute('sheet_show', ['id' => $update->getId()]);
+                    
 
                 }
 
@@ -978,9 +977,12 @@ class SheetController extends AbstractController
                         // On supprime l'ancienne fiche
                         $oldSheet = $sheetRepo->findOneById($sheet->getOrigin());
 
+                        dump($oldSheet);
+
+
                         if($oldSheet){
                             
-                            $oldSheet->setOrigin(null);
+                            $sheet->setOrigin(null);
                             $manager->remove($oldSheet);
                             $manager->flush();
                             
@@ -988,9 +990,8 @@ class SheetController extends AbstractController
 
                         }
 
-                        // On valide la fiche
-                        $sheet->setOrigin(null);
-                        $manager->flush();
+                        
+                        // $manager->flush();
                         
                         // On valide
                         $update = $this->update($sheet, $manager, null, $post, $repo, $form, $sheetRepo);

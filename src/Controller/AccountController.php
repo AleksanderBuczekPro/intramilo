@@ -730,6 +730,8 @@ class AccountController extends AbstractController
 
         $groupes = $groupeRepo->findBy(array(), array('title' => 'ASC'));
 
+        dump($files);
+
     
         return $this->render('user/index.html.twig', [
 
