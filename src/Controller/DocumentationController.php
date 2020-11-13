@@ -88,8 +88,9 @@ class DocumentationController extends AbstractController
      * 
      * @return Response
      */
-    public function show(Category $category, SubCategory $subCategory, SheetRepository $sheetRepo, DocumentRepository $docRepo, Docs $docs)
+    public function show(SubCategory $subCategory, SheetRepository $sheetRepo, DocumentRepository $docRepo, Docs $docs)
     {
+
         $sheets = $sheetRepo->findBySubCategory($subCategory);
         $documents = $docRepo->findBySubCategory($subCategory);
 
@@ -153,7 +154,7 @@ class DocumentationController extends AbstractController
         });
 
         return $this->render('documentation/show.html.twig', [
-            'category' => $category,
+            'category' => $subCategory->getCategory(),
             'subCategory' => $subCategory,
             'filesOnline' => $filesOnline,
             'filesWaiting' => $filesWaiting
