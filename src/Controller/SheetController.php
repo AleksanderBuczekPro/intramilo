@@ -200,9 +200,7 @@ class SheetController extends AbstractController
 
                 // On clone la pièce jointe pour la séparer de l'original
                 $a = clone $attachment;
-
-                
-                
+                             
                 // On lui attribue un nouveau nom
                 $oldFilename = $attachment->getFile();
 
@@ -219,9 +217,12 @@ class SheetController extends AbstractController
                 // Source (fichier à copier) et Destination (où le fichier va être copié)
                 $source = $this->getParameter('documentation_directory') . '/' . $oldFilename;
                 $destination = $this->getParameter('documentation_directory') . '/' . $newFilename;
+                
+                if(file_exists($source)){
+                    // On duplique le fichier
+                    copy($source, $destination);
+                }
 
-                // On duplique le fichier
-                copy($source, $destination);
 
                 // On attribue le fichier dupliqué à la nouvelle pièce jointe
                 $a->setFile($newFilename);
