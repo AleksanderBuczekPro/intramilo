@@ -38,3 +38,22 @@
     </div>
 
 {% endblock %}
+
+{% block javascripts %}
+
+    <script>
+
+        $('#document_genericFile_file').next().html('<span class="op-40"><i class="fas fa-upload mr-3"></i> Mettre à jour </span>');
+
+        $('input#document_genericFile_file').on('change',function(){
+
+            var name = (this.files[0].name).split('.', 1);
+            $(this,'#document_genericFile_file').next().html('<i class="fas fa-check-circle success mr-3"></i>' + name + '');
+
+
+        });
+
+    </script>
+
+
+{% endblock %}
