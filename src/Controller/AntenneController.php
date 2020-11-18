@@ -73,8 +73,6 @@ class AntenneController extends AbstractController
      */
     public function edit(Request $request, EntityManagerInterface $manager, Antenne $antenne) {
 
-        dump($antenne);
-
         $form = $this->createForm(AntenneType::class, $antenne);
 
         $form->handleRequest($request);

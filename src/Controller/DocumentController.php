@@ -81,8 +81,6 @@ class DocumentController extends AbstractController
 
         // }
 
-        dump($document);
-
 
         return $this->render('documentation/document/show.html.twig', [
             'document' => $document
@@ -120,8 +118,6 @@ class DocumentController extends AbstractController
         $manager->persist($document);
         $manager->flush();
 
-        dump($document);
-
         return $this->render('documentation/document/show.html.twig', [
             'document' => $document
         ]);
@@ -142,8 +138,6 @@ class DocumentController extends AbstractController
         $form = $this->createForm(DocumentType::class, $document, array('user' => $this->getUser()));
 
         $form->handleRequest($request);
-
-        dump($document);
 
         if($form->isSubmitted() && $form->isValid()){
             

@@ -418,8 +418,6 @@ class AccountController extends AbstractController
         $email = $request->request->get('email');
 
         $user = $userRepo->findOneByEmail($email);
-
-        dump($email);
         
         // Si le mail existe
         if ($user !== null) {
@@ -506,8 +504,6 @@ class AccountController extends AbstractController
 
             $user = $userRepo->findOneByToken($token);
 
-            dump($user);
-
                 // Si l'utilisateur existe
                 if ($user !== null) {
 
@@ -518,9 +514,6 @@ class AccountController extends AbstractController
 
                     $daySeconds = 60 * 60 * 24; // 24h
                     $expired = $interval > $daySeconds ? true : $expired = false;
-
-                    dump($passwordRequestedAt);
-                    dump($expired);
 
 
                     // Si le lien a expiré
@@ -604,11 +597,6 @@ class AccountController extends AbstractController
         $files = $filter->getFiles($this->getUser(), $userRepo, $sheetRepo);
 
         $counter = count($files['filesToValidate']) + count($files['filesToCorrect']) + count($files['filesWellObsolete']) + count($files['filesObsolete']);
-
-        dump($counter);
-
-
-        dump($files);
 
         return $this->render('account/dashboard.html.twig', [
 
@@ -730,7 +718,6 @@ class AccountController extends AbstractController
 
         $groupes = $groupeRepo->findBy(array(), array('title' => 'ASC'));
 
-        dump($files);
 
     
         return $this->render('user/index.html.twig', [

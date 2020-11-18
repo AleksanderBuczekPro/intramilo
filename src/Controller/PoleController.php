@@ -210,11 +210,7 @@ class PoleController extends AbstractController
         // Récupération de toutes les variables POST
         $test = $request->request->get('test');
 
-        dump($test);
 
-        if($request->request->get('test')){
-            dump("ok");
-        }
         // Pour chaque variable POST
         // foreach($data as $key => $val) {
 

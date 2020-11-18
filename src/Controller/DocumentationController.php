@@ -40,9 +40,7 @@ class DocumentationController extends AbstractController
         if(isset($query)){
             return $this->redirectToRoute('search_index', ['q' => $query]);
         }
-
-        dump($query);
-        
+     
                 
         // Gestion des catégories
         $poles = $repo->findBy(array(), array('place' => 'ASC'));
@@ -93,8 +91,6 @@ class DocumentationController extends AbstractController
 
         $sheets = $sheetRepo->findBySubCategory($subCategory);
         $documents = $docRepo->findBySubCategory($subCategory);
-
-        dump($subCategory);
 
         $waitingStatus = ["TO_VALIDATE", "TO_CORRECT", "DRAFT"]; 
 

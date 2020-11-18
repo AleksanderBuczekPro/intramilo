@@ -61,8 +61,6 @@ class Docs{
             return strtotime($b->getUpdatedAt()->format('Y-m-d H:i:s')) - strtotime($a->getUpdatedAt()->format('Y-m-d H:i:s'));
         });
 
-        dump($files);
-
         return $files;
 
     }
