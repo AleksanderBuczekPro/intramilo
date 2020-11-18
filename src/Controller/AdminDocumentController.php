@@ -79,8 +79,6 @@ class AdminDocumentController extends AbstractController
  
          }
 
-        dump($subCategories);
-
         return $this->render('admin/documentation/folders.html.twig', [
 
             'subCategories' => $subCategories

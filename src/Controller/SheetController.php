@@ -48,9 +48,7 @@ class SheetController extends AbstractController
         // Récupération de l'ID de la nouvelle fiche
         $id = $request->request->get('id');
         $sheet = $repo->findOneById($id);
-        
-
-        //dump($request->request->get('paragraphs'));
+    
 
         // On remplace le texte par le texte formaté (sans couleurs)
         // $sheet->setContent($request->request->get('content'));
@@ -185,13 +183,6 @@ class SheetController extends AbstractController
         $oldAttachments = $sheet->getAttachments();
         $newAttachments = $sheetDuplicated->getAttachments();
 
-        
-        // dump($sheet);
-        // dump($sheetDuplicated);
-
-        // dump($oldAttachments);
-        // dump($newAttachments);
-
         // New attachments
         foreach($newAttachments as $attachment){
 
@@ -200,7 +191,7 @@ class SheetController extends AbstractController
 
                 // On clone la pièce jointe pour la séparer de l'original
                 $a = clone $attachment;
-                             
+                
                 // On lui attribue un nouveau nom
                 $oldFilename = $attachment->getFile();
 
@@ -217,12 +208,9 @@ class SheetController extends AbstractController
                 // Source (fichier à copier) et Destination (où le fichier va être copié)
                 $source = $this->getParameter('documentation_directory') . '/' . $oldFilename;
                 $destination = $this->getParameter('documentation_directory') . '/' . $newFilename;
-                
-                if(file_exists($source)){
-                    // On duplique le fichier
-                    copy($source, $destination);
-                }
 
+                // On duplique le fichier
+                copy($source, $destination);
 
                 // On attribue le fichier dupliqué à la nouvelle pièce jointe
                 $a->setFile($newFilename);
@@ -410,8 +398,6 @@ class SheetController extends AbstractController
 
             }           
             
-            dump($sheet);
-            dump('ok');
 
              // Attachments
              foreach($sheet->getAttachments() as $attachment){
@@ -783,7 +769,7 @@ class SheetController extends AbstractController
             
         // }
 
-        // dump($sheet);
+
         // die();
 
         if($form->isSubmitted() && $form->isValid()){
@@ -978,8 +964,6 @@ class SheetController extends AbstractController
                         // On supprime l'ancienne fiche
                         $oldSheet = $sheetRepo->findOneById($sheet->getOrigin());
 
-                        dump($oldSheet);
-
 
                         if($oldSheet){
                             
@@ -1068,7 +1052,6 @@ class SheetController extends AbstractController
 
             //         }else{
 
-            //             dump($sheet->getStatus());
                         
             //             // DUPLICATION
             //             if($sheet->getStatus() != 'DRAFT'){
@@ -1086,8 +1069,6 @@ class SheetController extends AbstractController
                
 
             // }
-
-            // dump($sheet->getStatus());
 
              // Redirection conditionnelle
             //  if($action != 'draft'){

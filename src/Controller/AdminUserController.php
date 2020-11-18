@@ -209,8 +209,6 @@ class AdminUserController extends AbstractController
     {
         $size = sizeof($user->getSheets()) + sizeof($user->getDocuments());
 
-        dump($size);
-
         if($size == 0){
 
             $manager->remove($user);

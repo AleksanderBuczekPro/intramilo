@@ -68,7 +68,6 @@ class UserController extends AbstractController
         
         $users = $repo->findBy(array(), array('lastName' => 'ASC'));
 
-        dump($users);
 
         return $this->render('user/show.html.twig', [
             'users' => $users,

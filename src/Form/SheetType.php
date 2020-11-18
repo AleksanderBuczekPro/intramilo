@@ -94,7 +94,6 @@ class SheetType extends ApplicationType
                 'class' => SubCategory::class,
                 'query_builder' => function (SubCategoryRepository $sr) use($user) {
 
-                    // dump($options['roles']);
 
                     
                 if (in_array('ROLE_ADMIN', $user->getRoles())) {

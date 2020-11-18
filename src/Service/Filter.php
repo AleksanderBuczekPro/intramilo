@@ -157,8 +157,7 @@ class Filter{
         //     )
         //     ->setParameters($parameters)
         //     ->getResult();
-   
-        // dump($sheetsUpToDate);
+
 
 
         // return array(
@@ -360,7 +359,6 @@ class Filter{
 
     public function getAdminFiles($responsable, $userRepo, $sheetRepo, $groupe){
 
-        dump($groupe);
 
         // Filtre
         if($groupe){

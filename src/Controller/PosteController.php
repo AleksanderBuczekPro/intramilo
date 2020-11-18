@@ -21,9 +21,7 @@ class PosteController extends AbstractController
     public function index(PosteRepository $repo)
     {
         $postes = $repo->findAll();
-
-        dump($postes);
-
+        
         return $this->render('admin/poste/index.html.twig', [
             'postes' => $postes
         ]);
