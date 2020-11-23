@@ -1,21 +1,23 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-    Vous n'avez pas le droit d'accéder à cette ressource
+    Accès refusé
 {% endblock %}
 
 
 {% block body %}
 
-<div class="container">
-    <h1>Alors ? Vous essayez de bousiller le site ?!</h1>
-    <div class="alert alert-danger">
-        <p>Vous n'avez pas le droit d'accéder à cette ressource !</p>
-        <p>{{ exception.message }}</p>
+<div class="container my-container text-center">
+    <div class="error-container">
+
+        <p class="error-status">403</p>
+        <p class="error-message">Accès refusé</p>
+        <p class="error-content">Désolé, mais vous n'êtes pas autorisé à accéder à cette page ou ressource</p>
+
+        <a href="{{ path('homepage')}}" class="btn btn-my-outline mt-2">Retour à l'accueil</a>
+        <a href="{{ path('doc_index')}}" class="btn btn-my-primary mt-2 ml-2">Documentation</a>
+    
     </div>
-
-    <a href="{{ path('homepage')}}" class="btn btn-primary">Retour à l'accueil</a>
-
 </div>
 
 {% endblock %}

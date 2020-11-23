@@ -61,11 +61,15 @@
             
         {% endblock %}
     </head>
-    <body>
-    
 
-   {% include 'partials/header.html.twig'  %}
+    {# Couleur de fond pour une page Erreur #}
+    <body class="{% if app.request.attributes.get('_route') is null  %} bg-white {% endif %}">
+
+    {% if app.request.attributes.get('_route') is not null  %}
+        
+        {% include 'partials/header.html.twig'  %}
     
+    {% endif %}
     {% block body %}{% endblock %}
 
     {% include 'partials/footer.html.twig'  %}

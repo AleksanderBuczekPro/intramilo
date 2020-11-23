@@ -1,18 +1,23 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-    Page non trouvée
+    Page introuvable
 {% endblock %}
 
 
 {% block body %}
 
-<div class="container">
-    <h1>Oups ! La page que vous cherchez n'existe pas ! </h1>
-    <p>On a sûrement dû mal vous renseigner !  Aucun soucis vous pouvez retourner à l'accueil ou voir nos dernières annonces !</p>
+<div class="container my-container text-center">
+    <div class="error-container">
 
-    <a href="{{ path('homepage')}}" class="btn btn-primary">Retour à l'accueil</a>
-    <a href="{{ path('ads_index')}}" class="btn btn-primary">Nos annonces</a>
+        <p class="error-status">404</p>
+        <p class="error-message">Page introuvable </p>
+        <p class="error-content">La page que vous demandez n'existe pas ou plus. Veuillez contacter un administrateur si besoin.</p>
+
+        <a href="{{ path('homepage')}}" class="btn btn-my-outline mt-2">Retour à l'accueil</a>
+        <a href="{{ path('doc_index')}}" class="btn btn-my-primary mt-2 ml-2">Documentation</a>
+    
+    </div>
 </div>
 
 {% endblock %}

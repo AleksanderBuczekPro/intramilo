@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Erreur
+{% endblock %}
+
+
+{% block body %}
+
+<div class="container my-container text-center">
+    <div class="error-container">
+
+        <p class="error-status">500</p>
+        <p class="error-message">Erreur</p>
+        <p class="error-content">Un problème est survenu lors de l'envoi de votre requête. Veuillez contacter un administrateur.</p>
+
+        <a class="btn btn-my-outline white mt-2" onclick="history.back(-1)">Retour</a>
+
+    
+    </div>
+</div>
+
+{% endblock %}
