@@ -690,22 +690,79 @@
         {# <p class="px-3 op-70">Voici les sous-catégories où vous êtes autorisés à ajouter une nouvelle fiche</p> #}
         <div class="modal-body">
 
-                {% set prev_pole = "" %}
-                {% for sub in app.user.subCategories|sort((a, b) => a.category.pole.title <=> b.category.pole.title) %}
+                {% if is_granted('ROLE_ADMIN') %}
+        
+            <ul class="nav nav-tabs mt-0" id="myTab" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" id="my-subs-tab" data-toggle="tab" href="#my-subs" role="tab" aria-controls="my-subs" aria-selected="true">Mes sous-catégories</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="all-subs-tab" data-toggle="tab" href="#all-subs" role="tab" aria-controls="all-subs" aria-selected="false">Toutes les sous-catégories</a>
+                </li>
+            </ul>
+            <div class="tab-content" id="myTabContent">
+                <div class="tab-pane fade show active" id="my-subs" role="tabpanel" aria-labelledby="my-subs-tab">
 
-                    {% set pole = sub.category.pole %}
+                    {% set prev_pole = "" %}
+                    {% for sub in app.user.subCategories|sort((a, b) => a.category.pole.title <=> b.category.pole.title) %}
 
-                    {% if pole != prev_pole %}
+                        {% set pole = sub.category.pole %}
+
+                        {% if pole != prev_pole %}
+                            <h5 class="mt-3 mb-2">{{ pole }}</h5>
+                        {% endif %}
+
+                            <div class="select-sub" data-href="{{ path('sheet_create_sub', {'id': sub.id}) }}">
+                                {{ sub.category }} - {{ sub }}
+                            </div>
+
+                        {% set prev_pole = pole %}
+
+                    {% endfor %}
+                
+                </div>
+                <div class="tab-pane fade" id="all-subs" role="tabpanel" aria-labelledby="all-subs-tab">
+
+                    {% for pole in allsubs.poles %}
+
                         <h5 class="mt-3 mb-2">{{ pole }}</h5>
-                    {% endif %}
 
-                        <div class="select-sub" data-href="{{ path('sheet_create_sub', {'id': sub.id}) }}">
-                            {{ sub.category }} - {{ sub }}
-                        </div>
+                        {% for cat in pole.category %}
 
-                    {% set prev_pole = pole %}
+                            {% for sub in cat.subcategories %}
+                                <div class="select-sub" data-href="{{ path('sheet_create_sub', {'id': sub.id}) }}">
+                                    {{ cat }} - {{ sub }}
+                                </div>
+                            {% endfor %}
 
-                {% endfor %}
+                        {% endfor %}
+
+
+                    {% endfor %}
+                
+                </div>
+
+            </div>
+        {% else %}
+
+            {% set prev_pole = "" %}
+            {% for sub in app.user.subCategories|sort((a, b) => a.category.pole.title <=> b.category.pole.title) %}
+
+                {% set pole = sub.category.pole %}
+
+                {% if pole != prev_pole %}
+                    <h5 class="mt-3 mb-2">{{ pole }}</h5>
+                {% endif %}
+
+                    <div class="select-sub" data-href="{{ path('sheet_create_sub', {'id': sub.id}) }}">
+                        {{ sub.category }} - {{ sub }}
+                    </div>
+
+                {% set prev_pole = pole %}
+
+            {% endfor %}
+
+        {% endif %}
 
 
         </div>
@@ -732,24 +789,81 @@
         {# <p class="px-3 op-70">Voici les sous-catégories où vous êtes autorisés à ajouter une nouvelle fiche</p> #}
         <div class="modal-body">
 
-                {% set prev_pole = "" %}
-                {% for sub in app.user.subCategories|sort((a, b) => a.category.pole.title <=> b.category.pole.title) %}
+            {% if is_granted('ROLE_ADMIN') %}
+        
+            <ul class="nav nav-tabs mt-0" id="myTab" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" id="my-subs-tab-2" data-toggle="tab" href="#my-subs" role="tab" aria-controls="my-subs-2" aria-selected="true">Mes sous-catégories</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="all-subs-tab-2" data-toggle="tab" href="#all-subs-2" role="tab" aria-controls="all-subs-2" aria-selected="false">Toutes les sous-catégories</a>
+                </li>
+            </ul>
+            <div class="tab-content" id="myTabContent">
+                <div class="tab-pane fade show active" id="my-subs-2" role="tabpanel" aria-labelledby="my-subs-tab">
 
-                    {% set pole = sub.category.pole %}
+                    {% set prev_pole = "" %}
+                    {% for sub in app.user.subCategories|sort((a, b) => a.category.pole.title <=> b.category.pole.title) %}
 
-                    {% if pole != prev_pole %}
+                        {% set pole = sub.category.pole %}
+
+                        {% if pole != prev_pole %}
+                            <h5 class="mt-3 mb-2">{{ pole }}</h5>
+                        {% endif %}
+
+                            <div class="select-sub" data-href="{{ path('sheet_create_sub', {'id': sub.id}) }}">
+                                {{ sub.category }} - {{ sub }}
+                            </div>
+
+                        {% set prev_pole = pole %}
+
+                    {% endfor %}
+                
+                </div>
+                <div class="tab-pane fade" id="all-subs-2" role="tabpanel" aria-labelledby="all-subs-tab">
+
+                    {% for pole in allsubs.poles %}
+
                         <h5 class="mt-3 mb-2">{{ pole }}</h5>
-                    {% endif %}
 
-                        <div class="select-sub" data-href="{{ path('document_create_sub', {'id': sub.id}) }}">
-                            {{ sub.category.pole }} - {{ sub.category }} - {{ sub }}
-                        </div>
+                        {% for cat in pole.category %}
 
-                    {% set prev_pole = pole %}
+                            {% for sub in cat.subcategories %}
+                                <div class="select-sub" data-href="{{ path('sheet_create_sub', {'id': sub.id}) }}">
+                                    {{ cat }} - {{ sub }}
+                                </div>
+                            {% endfor %}
 
-                {% endfor %}
+                        {% endfor %}
 
-        </div>
+
+                    {% endfor %}
+                
+                </div>
+
+            </div>
+        {% else %}
+
+            {% set prev_pole = "" %}
+            {% for sub in app.user.subCategories|sort((a, b) => a.category.pole.title <=> b.category.pole.title) %}
+
+                {% set pole = sub.category.pole %}
+
+                {% if pole != prev_pole %}
+                    <h5 class="mt-3 mb-2">{{ pole }}</h5>
+                {% endif %}
+
+                    <div class="select-sub" data-href="{{ path('sheet_create_sub', {'id': sub.id}) }}">
+                        {{ sub.category }} - {{ sub }}
+                    </div>
+
+                {% set prev_pole = pole %}
+
+            {% endfor %}
+
+        {% endif %}
+
+      </div>
         <div class="modal-footer no-border">
             <button type="button" class="btn rouge" data-dismiss="modal">Annuler</button>
             <a type="button" href="" class="btn btn-my-primary add disabled">C'est parti !</a>

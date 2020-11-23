@@ -153,6 +153,27 @@ class Docs{
     }
 
 
+    public function getPoles(){
+
+        // return $this->manager->createQuery(
+        //     'SELECT s FROM App\Entity\SubCategory s
+        //         INNER JOIN App\Entity\Category c ON c.id = s.category_id
+        //         INNER JOIN App\Entity\Pole p ON p.id = s.pole_id
+        //     ORDER BY p.title ASC, c.title ASC, s.title ASC
+        //     '
+        // )
+        // ->getResult();
+
+        return $this->manager->createQuery(
+            'SELECT p FROM App\Entity\Pole p
+            ORDER BY p.title ASC
+            '
+        )
+        ->getResult();
+
+    
+    }
+
     // public function getSubCategories($author){
 
     //     return $this->manager->createQuery(
