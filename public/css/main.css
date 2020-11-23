@@ -513,11 +513,60 @@ div.container.login .no-account{
 } */
 
 footer.my-foot {
-    background-color: #58585a;
+    background-color: var(--purple-color);
     /* margin-top: 100px;
     z-index: 4; */
 
     margin: 0!important;
+}
+
+footer.my-foot .footer-col{
+
+    padding: 25px 50px;
+
+}
+
+footer.my-foot .footer-title{
+
+    color: white;
+    text-transform: uppercase;
+    font-weight: 700;
+    font-size: 13px;
+    text-align: left;
+
+}
+
+footer.my-foot a.footer-link{
+
+    color: white;
+    font-weight: 600;
+    font-size: 13px;
+    display: block;
+    text-align: left;
+    margin-top: 15px;
+
+}
+
+footer.my-foot i{
+
+    font-size: 29px;
+
+}
+
+.copyrights{
+
+    border-top: 1px solid var(--grey-30-color);
+    font-family: 'Roboto', 'sans-serif';
+    font-size: 15px;
+    color: var(--marine-color);
+    
+}
+
+.copyrights i{
+
+    font-size: 23px;
+    position: relative;
+    top: -5px;
 }
 
 .my-container{
@@ -540,6 +589,7 @@ div.container.backoffice-container{
 
 }
 
+/* Tabs */
 .backoffice-container ul.nav-tabs{
 
     border: none;
@@ -565,7 +615,8 @@ div.container.backoffice-container{
 
 }
 
-.backoffice-container ul.nav-tabs li a.active, .backoffice-container ul.nav-tabs li a.active:hover{
+.backoffice-container ul.nav-tabs li a.active,
+.backoffice-container ul.nav-tabs li a.active:hover{
 
     background-color: var(--purple-color);
     color: white;
@@ -582,6 +633,47 @@ div.container.backoffice-container{
 .backoffice-container table tr td{
 
     vertical-align: middle;
+
+}
+
+/* Modal Tabs */
+.modal-body ul.nav-tabs{
+
+    border: none;
+
+    margin-top: 40px;
+    margin-bottom: 20px;
+
+}
+
+.modal-body ul.nav-tabs li a{
+
+    font-family: "Roboto", sans-serif;
+
+    border: none;
+
+    background-color: transparent;
+    color: var(--grey-50-color);
+    font-weight: 500;
+    font-size: 14px;
+    padding: 0;
+    margin-right: 17px;
+    border-radius: 4px;
+
+}
+
+.modal-body ul.nav-tabs li a.active,
+.modal-body ul.nav-tabs li a.active:hover{
+
+    background-color: transparent;
+    color: var(--purple-color);
+
+}
+
+.modal-body ul.nav-tabs li a:hover{
+
+    background-color: transparent;
+    color: black;
 
 }
 
@@ -2598,5 +2690,33 @@ div.card.my-card.stat-card table td{
 
     color: black!important;
     opacity: 1;
+
+}
+
+.error-container{
+    margin-top: 27vh;
+}
+
+.error-container .error-status {
+	font-family: 'Roboto', sans-serif;
+	font-weight: 300;
+    font-size: 170px;
+    line-height: 154px;
+    
+    color: var(--purple-color);
+}
+
+.error-container .error-message {
+	font-family: 'Roboto', sans-serif;
+	font-weight: 300;
+	font-size: 34px;
+    margin-bottom: 20px;
+    color: black;
+}
+
+.error-container .error-content {
+	font-family: 'Roboto', sans-serif;
+	font-weight: 400;
+	font-size: 15px;
 
 }
