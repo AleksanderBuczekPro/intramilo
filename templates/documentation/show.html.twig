@@ -35,7 +35,35 @@
                     <div class="mt-4">
                         {% for author in subCategory.authors %}
 
-                            {% include '_picture.html.twig' with {'user': author, 'class': 'medium'} %}
+                            {# {% include '_picture.html.twig' with {'user': author, 'class': 'medium'} %} #}
+
+                            <a href="{{ path('user_show', {'slug': author.slug })}}" data-toggle="user-tooltip" data-placement="bottom" data-type="info"
+                        title="
+                        <div class='p-3 text-left'>
+                            <h5 class='mt-2 mb-0'>{{ author.fullName }}</h5>
+                            <div class='violet'>
+                                <strong>{{ author.poste }}</strong>
+                            </div>
+                            <div class='my-secondary mt-2 black'>
+                                <i class='uil uil-envelope-alt mr-2'></i><a class='black' href='mailto:{{author.email}}'>{{ author.email }}</a>
+                            </div>
+                            {% if author.phoneNumber %}
+                            <div class='my-secondary black mt-1'>
+                                <i class='uil uil-phone-alt mr-2'></i>{{ author.phoneNumber }}
+                            </div>
+                            {% endif %}
+                            
+                            {% if author.directNumber %}
+                            <div class='my-secondary black mt-1'>
+                                <i class='uil uil-phone-alt mr-2'></i>{{ user.directNumber }}
+                            </div>
+                            {% endif %}
+                            {% if author.proNumber %}
+                            <div class='my-secondary black mt-1'>
+                                <i class='uil uil-phone-alt mr-2'></i>{{ author.proNumber }} <span class='op-70'>(pro)</span>
+                            </div>
+                            {% endif %}
+                        </div>">{% include '_picture.html.twig' with {'user': author, 'class': 'medium'} %}</a>
 
                         {% endfor %}
                     </div>
