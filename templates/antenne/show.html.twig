@@ -89,11 +89,193 @@
                                         <div class="contact-info mt-1">
                                             <i class="uil uil-phone"></i> {{ antenne.phoneNumber }}
                                         </div>
-                                        {% if antenne.hours %}
+
                                         <div class="contact-info mt-1">
-                                            <i class="uil uil-clock-five"></i> {{ antenne.hours }}
+                                            <table class="my-table hours-table no-border">
+                                                <tr class="{% if "now"|date('w') == 1 %}today{% endif %}">
+                                                    <td><i class="uil uil-clock-five"></i></td>
+                                                    <td class="pr-4">lundi</td>
+                                                    <td class="pr-3">
+                                                    {% if antenne.MondayAmOpen is null and antenne.MondayAmClose is null and antenne.MondayPmOpen is null and antenne.MondayPmClose is null %}
+
+                                                        Fermé
+
+                                                    {% else %}
+                                                        
+                                                        {# Matin #}
+                                                        {% if antenne.MondayAmOpen is not null and antenne.MondayAmClose is not null %}
+                                                            {{ antenne.MondayAmOpen|localizeddate('none', 'none', 'fr', null, 'HH:mm') }}–{{ antenne.MondayAmClose|localizeddate('none', 'none', 'fr', null, 'HH:mm')}}
+                                                        {% endif %}
+
+                                                                                                         
+                                                    
+                                                    {% endif %}
+                                                    </td>
+                                                    <td>
+                                                        {# Après-midi #}
+                                                        {% if antenne.MondayPmOpen is not null and antenne.MondayPmClose is not null %}
+                                                            {{ antenne.MondayPmOpen|localizeddate('none', 'none', 'fr', null, 'HH:mm') }}–{{ antenne.MondayPmClose|localizeddate('none', 'none', 'fr', null, 'HH:mm') }}
+                                                        {% endif %}
+                                                    </td>
+                                                </tr>
+                                                <tr class="{% if "now"|date('w') == 2 %}today{% endif %}">
+                                                    <td></td>
+                                                    <td class="pr-4">mardi</td>
+                                                    <td class="pr-3">
+                                                    {% if antenne.TuesdayAmOpen is null and antenne.TuesdayAmClose is null and antenne.TuesdayPmOpen is null and antenne.TuesdayPmClose is null %}
+
+                                                        Fermé
+
+                                                    {% else %}
+                                                        
+                                                        {# Matin #}
+                                                        {% if antenne.TuesdayAmOpen is not null and antenne.TuesdayAmClose is not null %}
+                                                            {{ antenne.TuesdayAmOpen|localizeddate('none', 'none', 'fr', null, 'HH:mm') }}–{{ antenne.TuesdayAmClose|localizeddate('none', 'none', 'fr', null, 'HH:mm')}}
+                                                        {% endif %}
+
+                                                                                                         
+                                                    
+                                                    {% endif %}
+                                                    </td>
+                                                    <td>
+                                                        {# Après-midi #}
+                                                        {% if antenne.TuesdayPmOpen is not null and antenne.TuesdayPmClose is not null %}
+                                                            {{ antenne.TuesdayPmOpen|localizeddate('none', 'none', 'fr', null, 'HH:mm') }}–{{ antenne.TuesdayPmClose|localizeddate('none', 'none', 'fr', null, 'HH:mm') }}
+                                                        {% endif %}
+                                                    </td>
+                                                </tr>
+                                                <tr class="{% if "now"|date('w') == 3 %}today{% endif %}">
+                                                    <td></td>
+                                                    <td class="pr-4">mercredi</td>
+                                                    <td class="pr-3">
+                                                    {% if antenne.WednesdayAmOpen is null and antenne.WednesdayAmClose is null and antenne.WednesdayPmOpen is null and antenne.WednesdayPmClose is null %}
+
+                                                        Fermé
+
+                                                    {% else %}
+                                                        
+                                                        {# Matin #}
+                                                        {% if antenne.WednesdayAmOpen is not null and antenne.WednesdayAmClose is not null %}
+                                                            {{ antenne.WednesdayAmOpen|localizeddate('none', 'none', 'fr', null, 'HH:mm') }}–{{ antenne.WednesdayAmClose|localizeddate('none', 'none', 'fr', null, 'HH:mm')}}
+                                                        {% endif %}
+
+                                                                                                         
+                                                    
+                                                    {% endif %}
+                                                    </td>
+                                                    <td>
+                                                        {# Après-midi #}
+                                                        {% if antenne.WednesdayPmOpen is not null and antenne.WednesdayPmClose is not null %}
+                                                            {{ antenne.WednesdayPmOpen|localizeddate('none', 'none', 'fr', null, 'HH:mm') }}–{{ antenne.WednesdayPmClose|localizeddate('none', 'none', 'fr', null, 'HH:mm') }}
+                                                        {% endif %}
+                                                    </td>
+                                                </tr>
+                                                <tr class="{% if "now"|date('w') == 4 %}today{% endif %}">
+                                                    <td></td>
+                                                    <td class="pr-4">jeudi</td>
+                                                    <td class="pr-3">
+                                                    {% if antenne.ThursdayAmOpen is null and antenne.ThursdayAmClose is null and antenne.ThursdayPmOpen is null and antenne.ThursdayPmClose is null %}
+
+                                                        Fermé
+
+                                                    {% else %}
+                                                        
+                                                        {# Matin #}
+                                                        {% if antenne.ThursdayAmOpen is not null and antenne.ThursdayAmClose is not null %}
+                                                            {{ antenne.ThursdayAmOpen|localizeddate('none', 'none', 'fr', null, 'HH:mm') }}–{{ antenne.ThursdayAmClose|localizeddate('none', 'none', 'fr', null, 'HH:mm')}}
+                                                        {% endif %}
+
+                                                                                                         
+                                                    
+                                                    {% endif %}
+                                                    </td>
+                                                    <td>
+                                                        {# Après-midi #}
+                                                        {% if antenne.ThursdayPmOpen is not null and antenne.ThursdayPmClose is not null %}
+                                                            {{ antenne.ThursdayPmOpen|localizeddate('none', 'none', 'fr', null, 'HH:mm') }}–{{ antenne.ThursdayPmClose|localizeddate('none', 'none', 'fr', null, 'HH:mm') }}
+                                                        {% endif %}
+                                                    </td>
+                                                </tr>
+                                                <tr class="{% if "now"|date('w') == 5 %}today{% endif %}">
+                                                    <td></td>
+                                                    <td class="pr-4">vendredi</td>
+                                                    <td class="pr-3">
+                                                    {% if antenne.FridayAmOpen is null and antenne.FridayAmClose is null and antenne.FridayPmOpen is null and antenne.FridayPmClose is null %}
+
+                                                        Fermé
+
+                                                    {% else %}
+                                                        
+                                                        {# Matin #}
+                                                        {% if antenne.FridayAmOpen is not null and antenne.FridayAmClose is not null %}
+                                                            {{ antenne.FridayAmOpen|localizeddate('none', 'none', 'fr', null, 'HH:mm') }}–{{ antenne.FridayAmClose|localizeddate('none', 'none', 'fr', null, 'HH:mm')}}
+                                                        {% endif %}
+
+                                                                                                         
+                                                    
+                                                    {% endif %}
+                                                    </td>
+                                                    <td>
+                                                        {# Après-midi #}
+                                                        {% if antenne.FridayPmOpen is not null and antenne.FridayPmClose is not null %}
+                                                            {{ antenne.FridayPmOpen|localizeddate('none', 'none', 'fr', null, 'HH:mm') }}–{{ antenne.FridayPmClose|localizeddate('none', 'none', 'fr', null, 'HH:mm') }}
+                                                        {% endif %}
+                                                    </td>
+                                                </tr>
+                                                <tr class="{% if "now"|date('w') == 6 %}today{% endif %}">
+                                                    <td></td>
+                                                    <td class="pr-4">samedi</td>
+                                                    <td class="pr-3">
+                                                    {% if antenne.SaturdayAmOpen is null and antenne.SaturdayAmClose is null and antenne.SaturdayPmOpen is null and antenne.SaturdayPmClose is null %}
+
+                                                        Fermé
+
+                                                    {% else %}
+                                                        
+                                                        {# Matin #}
+                                                        {% if antenne.SaturdayAmOpen is not null and antenne.SaturdayAmClose is not null %}
+                                                            {{ antenne.SaturdayAmOpen|localizeddate('none', 'none', 'fr', null, 'HH:mm') }}–{{ antenne.SaturdayAmClose|localizeddate('none', 'none', 'fr', null, 'HH:mm')}}
+                                                        {% endif %}
+
+                                                                                                         
+                                                    
+                                                    {% endif %}
+                                                    </td>
+                                                    <td>
+                                                        {# Après-midi #}
+                                                        {% if antenne.SaturdayPmOpen is not null and antenne.SaturdayPmClose is not null %}
+                                                            {{ antenne.SaturdayPmOpen|localizeddate('none', 'none', 'fr', null, 'HH:mm') }}–{{ antenne.SaturdayPmClose|localizeddate('none', 'none', 'fr', null, 'HH:mm') }}
+                                                        {% endif %}
+                                                    </td>
+                                                </tr>
+                                                <tr class="{% if "now"|date('w') == 0 %}today{% endif %}">
+                                                    <td></td>
+                                                    <td class="pr-4">dimanche</td>
+                                                    <td class="pr-3">
+                                                    {% if antenne.SundayAmOpen is null and antenne.SundayAmClose is null and antenne.SundayPmOpen is null and antenne.SundayPmClose is null %}
+
+                                                        Fermé
+
+                                                    {% else %}
+                                                        
+                                                        {# Matin #}
+                                                        {% if antenne.SundayAmOpen is not null and antenne.SundayAmClose is not null %}
+                                                            {{ antenne.SundayAmOpen|localizeddate('none', 'none', 'fr', null, 'HH:mm') }}–{{ antenne.SundayAmClose|localizeddate('none', 'none', 'fr', null, 'HH:mm')}}
+                                                        {% endif %}
+
+                                                                                                         
+                                                    
+                                                    {% endif %}
+                                                    </td>
+                                                    <td>
+                                                        {# Après-midi #}
+                                                        {% if antenne.SundayPmOpen is not null and antenne.SundayPmClose is not null %}
+                                                            {{ antenne.SundayPmOpen|localizeddate('none', 'none', 'fr', null, 'HH:mm') }}–{{ antenne.SundayPmClose|localizeddate('none', 'none', 'fr', null, 'HH:mm') }}
+                                                        {% endif %}
+                                                    </td>
+                                                </tr>
+                                            </table>
                                         </div>
-                                        {% endif %}
                                         <hr>
                                         <div class="row px-3 pt-3">
                                         {% for user in antenne.users %}

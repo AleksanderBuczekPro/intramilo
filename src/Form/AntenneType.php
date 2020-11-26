@@ -8,6 +8,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TelType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\TimeType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 
 class AntenneType extends ApplicationType
@@ -26,9 +27,98 @@ class AntenneType extends ApplicationType
                 'scale' => 6
             ]))
             ->add('phoneNumber', TelType::class, $this->getConfiguration("Téléphone", "Entrez le numéro de téléphone de l'antenne"))
-            ->add('hours', TextType::class, $this->getConfiguration("Horaires", "8h15 - 12h15 / 13h00 - 17h00", [
+
+            ->add('MondayAmOpen', TimeType::class, $this->getConfiguration(false, "", [
                 "required" => false
             ]))
+            ->add('MondayAmClose', TimeType::class, $this->getConfiguration(false, "", [
+                "required" => false
+            ]))
+            ->add('MondayPmOpen', TimeType::class, $this->getConfiguration(false, "", [
+                "required" => false
+            ]))
+            ->add('MondayPmClose', TimeType::class, $this->getConfiguration(false, "", [
+                "required" => false
+            ]))
+
+            ->add('TuesdayAmOpen', TimeType::class, $this->getConfiguration(false, "", [
+                "required" => false
+            ]))
+            ->add('TuesdayAmClose', TimeType::class, $this->getConfiguration(false, "", [
+                "required" => false
+            ]))
+            ->add('TuesdayPmOpen', TimeType::class, $this->getConfiguration(false, "", [
+                "required" => false
+            ]))
+            ->add('TuesdayPmClose', TimeType::class, $this->getConfiguration(false, "", [
+                "required" => false
+            ]))
+
+            ->add('WednesdayAmOpen', TimeType::class, $this->getConfiguration(false, "", [
+                "required" => false
+            ]))
+            ->add('WednesdayAmClose', TimeType::class, $this->getConfiguration(false, "", [
+                "required" => false
+            ]))
+            ->add('WednesdayPmOpen', TimeType::class, $this->getConfiguration(false, "", [
+                "required" => false
+            ]))
+            ->add('WednesdayPmClose', TimeType::class, $this->getConfiguration(false, "", [
+                "required" => false
+            ]))
+
+            ->add('ThursdayAmOpen', TimeType::class, $this->getConfiguration(false, "", [
+                "required" => false
+            ]))
+            ->add('ThursdayAmClose', TimeType::class, $this->getConfiguration(false, "", [
+                "required" => false
+            ]))
+            ->add('ThursdayPmOpen', TimeType::class, $this->getConfiguration(false, "", [
+                "required" => false
+            ]))
+            ->add('ThursdayPmClose', TimeType::class, $this->getConfiguration(false, "", [
+                "required" => false
+            ]))
+
+            ->add('FridayAmOpen', TimeType::class, $this->getConfiguration(false, "", [
+                "required" => false
+            ]))
+            ->add('FridayAmClose', TimeType::class, $this->getConfiguration(false, "", [
+                "required" => false
+            ]))
+            ->add('FridayPmOpen', TimeType::class, $this->getConfiguration(false, "", [
+                "required" => false
+            ]))
+            ->add('FridayPmClose', TimeType::class, $this->getConfiguration(false, "", [
+                "required" => false
+            ]))
+
+            ->add('SaturdayAmOpen', TimeType::class, $this->getConfiguration(false, "", [
+                "required" => false
+            ]))
+            ->add('SaturdayAmClose', TimeType::class, $this->getConfiguration(false, "", [
+                "required" => false
+            ]))
+            ->add('SaturdayPmOpen', TimeType::class, $this->getConfiguration(false, "", [
+                "required" => false
+            ]))
+            ->add('SaturdayPmClose', TimeType::class, $this->getConfiguration(false, "", [
+                "required" => false
+            ]))
+
+            ->add('SundayAmOpen', TimeType::class, $this->getConfiguration(false, "", [
+                "required" => false
+            ]))
+            ->add('SundayAmClose', TimeType::class, $this->getConfiguration(false, "", [
+                "required" => false
+            ]))
+            ->add('SundayPmOpen', TimeType::class, $this->getConfiguration(false, "", [
+                "required" => false
+            ]))
+            ->add('SundayPmClose', TimeType::class, $this->getConfiguration(false, "", [
+                "required" => false
+            ]))
+
         ;
     }
 

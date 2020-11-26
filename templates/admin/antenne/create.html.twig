@@ -16,55 +16,148 @@
 
                 <div class="row">
 
-                    {# Title #}
-                    <div class="col-lg-4 col-md-6">
+                    <div class="col-lg-5">
+                    
                         {{ form_row(form.title, { 'attr': {'autocomplete': 'new-password'} }) }}
-                    </div>
-                    <div class="col-lg-8 col-md-6"></div>
-
-                    {# Adresse #}
-                    <div class="col-lg-4 col-md-6">
                         {{ form_row(form.address, { 'attr': {'autocomplete': 'new-password'} }) }}
-                    </div>
-                    <div class="col-lg-8 col-md-6"></div>
-
-                    {# Code postal #}
-                    <div class="col-lg-4 col-md-6">
                         {{ form_row(form.postcode, { 'attr': {'autocomplete': 'new-password'} }) }}
-                    </div>
-                    <div class="col-lg-8 col-md-6"></div>
-
-                    {# Ville #}
-                    <div class="col-lg-4 col-md-6">
                         {{ form_row(form.city, { 'attr': {'autocomplete': 'new-password'} }) }}
-                    </div>
-                    <div class="col-lg-8 col-md-6"></div>
-
-                    {# Latitude #}
-                    <div class="col-lg-4 col-md-6">
                         {{ form_row(form.latitude, { 'attr': {'autocomplete': 'new-password'} }) }}
-                    </div>
-                    <div class="col-lg-8 col-md-6"></div>
-
-                    {# Longitude #}
-                    <div class="col-lg-4 col-md-6">
                         {{ form_row(form.longitude, { 'attr': {'autocomplete': 'new-password'} }) }}
-                    </div>
-                    <div class="col-lg-8 col-md-6"></div>
-
-                    {# Numéro de téléphone #}
-                    <div class="col-lg-4 col-md-6">
                         {{ form_row(form.phoneNumber, { 'attr': {'autocomplete': 'new-password'} }) }}
                     </div>
-                    <div class="col-lg-8 col-md-6"></div>
 
-                    {# Horaires #}
-                    <div class="col-lg-4 col-md-6">
-                        {{ form_row(form.hours, { 'attr': {'autocomplete': 'new-password'} }) }}
+                    <div class="col-lg-7">
+ 
                     </div>
-                    <div class="col-lg-8 col-md-6"></div>
 
                 </div>
+
+                <label for="">Horaires d'ouverture</label>
+
+                <table class="table my-table no-border hours-table">
+                    <tr>
+                        <th></th>
+                        <th>Ouverture (matin)</th>
+                        <th>Fermeture (matin)</th>
+                        <th>Ouverture (après-midi)</th>
+                        <th>Fermeture (après-midi)</th>
+                    </tr>
+                    <tr>
+                        <td>Lundi</td>
+                        <td>
+                            {{ form_row(form.MondayAmOpen, { 'attr': {'autocomplete': 'new-password'} }) }}
+                        </td>
+                        <td>
+                            {{ form_row(form.MondayAmClose, { 'attr': {'autocomplete': 'new-password'} }) }}
+                        </td>
+                        <td>
+                            {{ form_row(form.MondayPmOpen, { 'attr': {'autocomplete': 'new-password'} }) }}
+                        </td>
+                        <td>
+                            {{ form_row(form.MondayPmClose, { 'attr': {'autocomplete': 'new-password'} }) }}    
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Mardi</td>
+                        <td>
+                            {{ form_row(form.TuesdayAmOpen, { 'attr': {'autocomplete': 'new-password'} }) }}
+                        </td>
+                        <td>
+                            {{ form_row(form.TuesdayAmClose, { 'attr': {'autocomplete': 'new-password'} }) }}
+                        </td>
+                        <td>
+                            {{ form_row(form.TuesdayPmOpen, { 'attr': {'autocomplete': 'new-password'} }) }}
+                        </td>
+                        <td>
+                            {{ form_row(form.TuesdayPmClose, { 'attr': {'autocomplete': 'new-password'} }) }}    
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Mercredi</td>
+                        <td>
+                            {{ form_row(form.WednesdayAmOpen, { 'attr': {'autocomplete': 'new-password'} }) }}
+                        </td>
+                        <td>
+                            {{ form_row(form.WednesdayAmClose, { 'attr': {'autocomplete': 'new-password'} }) }}
+                        </td>
+                        <td>
+                            {{ form_row(form.WednesdayPmOpen, { 'attr': {'autocomplete': 'new-password'} }) }}
+                        </td>
+                        <td>
+                            {{ form_row(form.WednesdayPmClose, { 'attr': {'autocomplete': 'new-password'} }) }}    
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Jeudi</td>
+                        <td>
+                            {{ form_row(form.ThursdayAmOpen, { 'attr': {'autocomplete': 'new-password'} }) }}
+                        </td>
+                        <td>
+                            {{ form_row(form.ThursdayAmClose, { 'attr': {'autocomplete': 'new-password'} }) }}
+                        </td>
+                        <td>
+                            {{ form_row(form.ThursdayPmOpen, { 'attr': {'autocomplete': 'new-password'} }) }}
+                        </td>
+                        <td>
+                            {{ form_row(form.ThursdayPmClose, { 'attr': {'autocomplete': 'new-password'} }) }}    
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Vendredi</td>
+                        <td>
+                            {{ form_row(form.FridayAmOpen, { 'attr': {'autocomplete': 'new-password'} }) }}
+                        </td>
+                        <td>
+                            {{ form_row(form.FridayAmClose, { 'attr': {'autocomplete': 'new-password'} }) }}
+                        </td>
+                        <td>
+                            {{ form_row(form.FridayPmOpen, { 'attr': {'autocomplete': 'new-password'} }) }}
+                        </td>
+                        <td>
+                            {{ form_row(form.FridayPmClose, { 'attr': {'autocomplete': 'new-password'} }) }}    
+                        </td>
+                    </tr>
+                    
+                    <tr>
+                        <td>Samedi</td>
+                        <td>
+                            {{ form_row(form.SaturdayAmOpen, { 'attr': {'autocomplete': 'new-password'} }) }}
+                        </td>
+                        <td>
+                            {{ form_row(form.SaturdayAmClose, { 'attr': {'autocomplete': 'new-password'} }) }}
+                        </td>
+                        <td>
+                            {{ form_row(form.SaturdayPmOpen, { 'attr': {'autocomplete': 'new-password'} }) }}
+                        </td>
+                        <td>
+                            {{ form_row(form.SaturdayPmClose, { 'attr': {'autocomplete': 'new-password'} }) }}    
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Dimanche</td>
+                        <td>
+                            {{ form_row(form.SundayAmOpen, { 'attr': {'autocomplete': 'new-password'} }) }}
+                        </td>
+                        <td>
+                            {{ form_row(form.SundayAmClose, { 'attr': {'autocomplete': 'new-password'} }) }}
+                        </td>
+                        <td>
+                            {{ form_row(form.SundayPmOpen, { 'attr': {'autocomplete': 'new-password'} }) }}
+                        </td>
+                        <td>
+                            {{ form_row(form.SundayPmClose, { 'attr': {'autocomplete': 'new-password'} }) }}    
+                        </td>
+                    </tr>
+
+                </table>
+
+                
+                        
+                        
+
+
+                
 
 
                 
