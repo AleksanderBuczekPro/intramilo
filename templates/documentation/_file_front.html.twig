@@ -1,19 +1,19 @@
 {# Définition des variables #}
-{% set type = constant('TYPE', file) %}
-{% set icon = constant('ICON', file) %}
+{# {% set type = constant('TYPE', file) %}
+{% set icon = constant('ICON', file) %} #}
 
 {# Lien pour une fiche  #}
-{% if type == 'sheet' %}
+{# {% if type == 'sheet' %}
     {% set path = path('sheet_show', {'id': file.id,}) %}
-{% endif %}
+{% endif %} #}
 
 {# Lien pour un document ou une pièce jointe #}
-{% if type == 'document' or type == 'attachment' %}
+{# {% if type == 'document' or type == 'attachment' %}
     {% set path = path('document_show', {'id': file.subCategory.category.slug, 'sub_slug': file.subCategory.slug, 'id': file.id }) %}
-{% endif %}
+{% endif %} #}
 
 {# Icône d'Etat #}
-{% if type == 'document' and file.status == "TO_VALIDATE" %}
+{# {% if type == 'document' and file.status == "TO_VALIDATE" %}
 
         {% set state = "En cours de validation" %}
         {% set icon = "pause" %}
@@ -47,7 +47,9 @@
 
         {% endif %}
 
-    {% endif %}
+    {% endif %} #}
+
+
 
 
 
@@ -102,15 +104,94 @@
                                 <span class="badge pole"> {{ file.subcategory.category.pole|upper }}</span>
                             </div>
                             <a href="{{ path }}">
-                                <div class="file-title pr-3">
-                                    {% if file.title|length > 60 %}
+                                <div class="file-title pr-3 mb-0 {% if file.attachments is defined and file.attachments|length == 0 %}mt-2{% endif %}" title="{{ file.title }}">
+                                    {# {% if file.title|length > 60 %}
                                         {{ file.title|slice(0, 60) }}...
                                     {% else %}
                                         {{ file.title }}
-                                    {% endif %}
+                                    {% endif %} #}
                                     {# <i class="fas fa-{{icon}}-circle {{state_class}} fa-xs"></i> #}
+                                    {{ file.title }}
                                 </div>
                             </a>
+                            <div class="w-100">
+                                {% if file.attachments is defined %}
+                                    {% for attachment in file.attachments|slice(0,3) %}
+                                        
+                                        {% set mime = attachment.mimeType %}
+
+                                            {% set type = "?" %}
+                                            {% set color = "black" %}
+
+                                        {# JPEG #}
+                                        {% if mime == "image/jpeg" %}
+
+                                            {% set type = "jpg" %}
+                                            {% set color = "violet" %}
+
+                                        {% endif %}
+
+                                        {# PNG #}
+                                        {% if mime == "image/png" %}
+
+                                            {% set type = "png" %}
+                                            {% set color = "violet" %}
+
+                                        {% endif %}
+
+                                        {# WORD #}
+                                        {% if mime == "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                                        or mime == "application/msword"
+                                        or mime == "application/vnd.openxmlformats-officedocument.wordprocessingml.documentapplication/vnd.openxmlformats-officedocument.wordprocessingml.document" %}
+
+                                            {% set type = "w" %}
+                                            {% set color = "bleu" %}
+
+                                        {% endif %}
+
+                                        {# ODT #}
+                                        {% if mime == "application/vnd.oasis.opendocument.text" %}
+
+                                            {% set type = "odt" %}
+                                            {% set color = "bleu" %}
+
+                                        {% endif %}
+
+                                        {# EXCEL #}
+                                        {% if mime == "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                                        or mime == "application/vnd.ms-excel"%}
+
+                                            {% set type = "x" %}
+                                            {% set color = "vert" %}
+
+                                        {% endif %}
+
+                                        {# PDF #}
+                                        {% if mime == "application/pdf"%}
+
+                                            {% set type = "pdf" %}
+                                            {% set color = "rouge" %}
+
+                                        {% endif %}
+
+                                        {# POWERPOINT #}
+                                        {% if mime == "application/vnd.openxmlformats-officedocument.presentationml.presentation"
+                                        or mime == "application/vnd.ms-powerpoint" %}
+
+                                            {% set type = "ppt" %}
+                                            {% set color = "orange" %}
+
+                                        {% endif %}
+
+                                    <a href="{{ vich_uploader_asset(attachment, 'genericFile')}}" target="_blank" title="{{ attachment.title }}">
+                                        <span class="attachment-preview">
+                                            <span class="type-preview {{ color }}">{{ type|upper }}</span>
+                                            {{ attachment.title }}
+                                        </span>
+                                    </a>
+                                    {% endfor %}
+                                {% endif %}
+                            </div>
                             <div class="w-100">
                                 <span class="my-secondary marine date">
                                     {# {{ file.updatedAt|localizeddate('none', 'none', 'fr', null, 'd MMMM Y') }} • {{ file.views }} vue{% if file.views > 1 %}s{% endif %} #}

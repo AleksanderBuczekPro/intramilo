@@ -3,31 +3,63 @@
     {% set type = "?" %}
     {% set color = "black" %}
 
+{# JPEG #}
 {% if mime == "image/jpeg" %}
 
     {% set type = "jpg" %}
     {% set color = "violet" %}
 
 {% endif %}
- 
-{% if mime == "application/vnd.openxmlformats-officedocument.wordprocessingml.document" or mime == "application/msword" or mime == "application/vnd.openxmlformats-officedocument.wordprocessingml.documentapplication/vnd.openxmlformats-officedocument.wordprocessingml.document" %}
+
+{# PNG #}
+{% if mime == "image/png" %}
+
+    {% set type = "png" %}
+    {% set color = "violet" %}
+
+{% endif %}
+
+{# WORD #}
+{% if mime == "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+   or mime == "application/msword"
+   or mime == "application/vnd.openxmlformats-officedocument.wordprocessingml.documentapplication/vnd.openxmlformats-officedocument.wordprocessingml.document" %}
 
     {% set type = "w" %}
     {% set color = "bleu" %}
 
 {% endif %}
 
-{% if mime == "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" or mime == "application/vnd.ms-excel"%}
+{# ODT #}
+{% if mime == "application/vnd.oasis.opendocument.text" %}
+
+    {% set type = "odt" %}
+    {% set color = "bleu" %}
+
+{% endif %}
+
+{# EXCEL #}
+{% if mime == "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+   or mime == "application/vnd.ms-excel"%}
 
     {% set type = "x" %}
     {% set color = "vert" %}
 
 {% endif %}
 
+{# PDF #}
 {% if mime == "application/pdf"%}
 
     {% set type = "pdf" %}
     {% set color = "rouge" %}
+
+{% endif %}
+
+{# POWERPOINT #}
+{% if mime == "application/vnd.openxmlformats-officedocument.presentationml.presentation"
+   or mime == "application/vnd.ms-powerpoint" %}
+
+    {% set type = "ppt" %}
+    {% set color = "orange" %}
 
 {% endif %}
 

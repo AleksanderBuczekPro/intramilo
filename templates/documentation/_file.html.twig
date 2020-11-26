@@ -57,38 +57,24 @@
 {% endif %}
 
 
+{% set limit = 3 %}
+{% set char_limit = '' %}
 
+{% if app.request.attributes.get('_route') starts with 'doc_index' %}
+    {% set limit = 2 %}
+    {% set char_limit =  "small-title" %}
+{% endif %}
+
+{% set homepage = false %}
+{% if app.request.attributes.get('_route') starts with 'homepage' %}
+    {% set homepage = true %}
+{% endif %}
 
 <a href="{{ path }}">
 
     <div class="card my-card mt-0 mb-4 file-card no-border my-box">
         <div class="card-body p-0">
 
-        {# <div class="file-organization">
-            <span class="mr-1">
-                {% include '_organization_logo.html.twig' with {'organization': file.organization, 'class': 'small'} %}
-            </span>
-            {{ file.organization }}
-
-            {% if type == 'document' %}
-                <span class="marine op-70"> • {{ file.mimeType|upper }}</span>
-            {% endif %}
-
-
-        </div>
-
-        <div class="file-title my-1">
-            {{ file.title }} <i class="fas fa-{{icon}} {{state_class}} fa-xs"></i>
-        </div>
-        <div class="w-100">
-            <span class="my-secondary marine">
-                {{ file.updatedAt|localizeddate('none', 'none', 'fr', null, 'd MMMM Y') }} • {{ file.views }} vue{% if file.views > 1 %}s{% endif %}
-            </span>
-            <span class="file-author float-right">
-                {% include '_picture.html.twig' with {'user': file.author, 'class': 'small'} %}
-            </span>
-        </div> #}
-        
         <table class="table my-table no-border">
             <tr>
                 <td class="w-25 py-0 pl-0 pr-3">
@@ -135,30 +121,127 @@
                         <span class="badge pole"> {{ file.subcategory.category.pole|upper }}</span>
 
                     </div>
+
                     <a href="{{ path }}">
-                        <div class="file-title pr-3">
-                            {% if file.title|length > 60 %}
-                                {{ file.title|slice(0, 60) }}...
-                            {% else %}
-                                {{ file.title }}
-                            {% endif %}
-                            {# <i class="fas fa-{{icon}} {{state_class}} fa-xs"></i> #}
+                        <div class="file-title pr-3 mb-0 {{ char_limit }} {% if file.attachments is defined and file.attachments|length == 0 %}mt-2{% endif %}" title="{{ file.title }}">
+
+                            {{ file.title }}
+
                         </div>
                     </a>
+                    <div class="w-100">
+                            {% if file.attachments is defined %}
+                                {% for attachment in file.attachments|slice(0,limit) %}
+                                    
+                                        {% set mime = attachment.mimeType %}
+
+                                            {% set type = "?" %}
+                                            {% set color = "black" %}
+
+                                        {# JPEG #}
+                                        {% if mime == "image/jpeg" %}
+
+                                            {% set type = "jpg" %}
+                                            {% set color = "violet" %}
+
+                                        {% endif %}
+
+                                        {# PNG #}
+                                        {% if mime == "image/png" %}
+
+                                            {% set type = "png" %}
+                                            {% set color = "violet" %}
+
+                                        {% endif %}
+
+                                        {# WORD #}
+                                        {% if mime == "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                                        or mime == "application/msword"
+                                        or mime == "application/vnd.openxmlformats-officedocument.wordprocessingml.documentapplication/vnd.openxmlformats-officedocument.wordprocessingml.document" %}
+
+                                            {% set type = "w" %}
+                                            {% set color = "bleu" %}
+
+                                        {% endif %}
+
+                                        {# ODT #}
+                                        {% if mime == "application/vnd.oasis.opendocument.text" %}
+
+                                            {% set type = "odt" %}
+                                            {% set color = "bleu" %}
+
+                                        {% endif %}
+
+                                        {# EXCEL #}
+                                        {% if mime == "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                                        or mime == "application/vnd.ms-excel"%}
+
+                                            {% set type = "x" %}
+                                            {% set color = "vert" %}
+
+                                        {% endif %}
+
+                                        {# PDF #}
+                                        {% if mime == "application/pdf"%}
+
+                                            {% set type = "pdf" %}
+                                            {% set color = "rouge" %}
+
+                                        {% endif %}
+
+                                        {# POWERPOINT #}
+                                        {% if mime == "application/vnd.openxmlformats-officedocument.presentationml.presentation"
+                                        or mime == "application/vnd.ms-powerpoint" %}
+
+                                            {% set type = "ppt" %}
+                                            {% set color = "orange" %}
+
+                                        {% endif %}
+
+                                    <a href="{{ vich_uploader_asset(attachment, 'genericFile')}}" target="_blank" title="{{ attachment.title }}">
+                                        <span class="attachment-preview">
+                                            <span class="type-preview {{ color }}">{{ type|upper }}</span>
+                                            {{ attachment.title }}
+                                        </span>
+                                    </a>
+
+                                {% endfor %}
+                            {% endif %}
+                            </div>
                     <div class="w-100">
                         <span class="date">
                             {# {{ file.updatedAt|localizeddate('none', 'none', 'fr', null, 'd MMMM Y') }} • {{ file.views }} vue{% if file.views > 1 %}s{% endif %} #}
 
-                            <i class="fas fa-{{icon}} {{state_class}}"></i> <span class="ml-1">{{ file.updatedAt|localizeddate('none', 'none', 'fr', null, 'd MMMM Y') }}  • {{ file.views }} vue{% if file.views > 1 %}s{% endif %}</span>
+                            {% if not homepage %}
+                            <i class="fas fa-{{icon}} {{state_class}}"></i>
+                            {% endif %}
+
+
+                            {# Date #}
+                            {% if homepage %}
+                                {% set date = file.publishedAt %}
+                            {% else %}
+                                {% set date = file.updatedAt %}
+                            {% endif %}
+                            
+                            <span class="ml-1">
+                                {# <a class="black" href="{{ path('user_show', {'slug': file.author.slug })}}">{{file.author}}</a>  •  #}
+                                {{ date|localizeddate('none', 'none', 'fr', null, 'd MMMM Y') }}
+                                {# à {{ date|localizeddate('none', 'none', 'fr', null, 'H:mm') }} #}
+                                
+                            
+
+                            {% if homepage %}
+                                
+                            {% else %}
+                                • {{ file.views }} vue{% if file.views > 1 %}s{% endif %}</span>
+                            {% endif %}
                             {# {{ file.organization }} #}
                                 {# • {{ file.views }} vue{% if file.views > 1 %}s{% endif %} #}
                             {# {% if type == 'document' %}
                                 <span class="mime ml-2">{{ file.mimeType|upper }}</span>
                             {% endif %} #}
                         </span>
-                        {# <span class="file-author float-right">
-                            {% include '_picture.html.twig' with {'user': file.author, 'class': 'small'} %}
-                        </span> #}
                     </div>
                 </td>
             </tr>
@@ -167,42 +250,4 @@
     </div>
 </div>
 
-
-    {# <div class="card my-card file">
-        <div class="card-body">   
-
-            <table class="my-table">
-                <tbody>
-                    <tr>
-                        <td class="w-20 file-icon">
-                            <div class="my-circle">
-                                <span class="icon">
-
-                                    {{ icon|raw }}
-
-                                </span>
-                            </div>
-                        </td>
-                        <td class="w-60 text-left file-content">
-
-                            <span class="file-title">{{ file.title }} {% include 'documentation/_file_icon.html.twig' with {'file': file} %}</span>
-                            <div class="my-secondary file-organization">{{ file.organization }}</div>
-
-                            <div class="w-20 my-secondary file-data mt-3">
-                                {% if not file.front %}
-                                    <i class="far fa-star mr-2"></i>
-                                {% else %}
-                                    <i class="fas fa-star mr-2"></i>
-                                {% endif %}
-                                {{ file.updatedAt|localizeddate('none', 'none', 'fr', null, 'd MMMM Y') }} • {{ file.views }} vue{% if file.views > 1 %}s{% endif %}
-                            
-                            </div>
-                        </td>
-                        <td class="w-20 file-author">{% include '_picture.html.twig' with {'user': file.author, 'class': 'small'} %}</td>
-                    </tr>
-                </tbody>
-            </table>
-
-        </div>
-    </div> #}
 </a>

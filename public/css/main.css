@@ -945,9 +945,23 @@ div.card.my-card .file-title{
     font-size: 21px;
     line-height: 31px;
     margin: 0px;
-    margin-top: 10px;
+    margin-top: 5px;
     margin-bottom: 10px;
     color: black;
+
+    clear: both;
+    display: inline-block;
+    overflow: hidden;
+    white-space: nowrap;
+
+    max-width: 490px;
+    text-overflow: ellipsis;
+}
+
+div.card.my-card .file-title.small-title{
+
+    max-width: 340px;
+
 }
 
  div.card.my-card .category-front{
@@ -959,7 +973,7 @@ div.card.my-card .file-title{
 
 div.card.my-card .date {
 	position: absolute;
-	bottom: 25px;
+	bottom: 20px;
 
 	font-size: 13px;
 	color: var(--grey-70-color);
@@ -1373,7 +1387,13 @@ td.interlocutor .init-circle{
 
 }
 
+div.center-cropped{
 
+    background-size:     cover;
+    background-repeat:   no-repeat;
+    background-position: center center;  
+
+}
 
 .init-circle.large, div.center-cropped.large{
 
@@ -1506,6 +1526,63 @@ form select.form-control{
 
 }
 
+form .antenne-hours select.form-control{
+
+    padding: 4px 8px;
+    height: 20px;
+
+}
+
+table.table.my-table.hours-table th{
+
+    text-align: center;
+    background-color: var(--grey-10-color);
+    color: var(--grey-40-color);
+    font-weight: 500;
+    font-size: 12px;
+
+
+}
+
+table.table.my-table.hours-table td{
+
+    border: none;
+    vertical-align: middle;
+    padding-bottom: 0;
+}
+
+table.table.my-table.hours-table fieldset{
+
+    margin-bottom: 0;
+}
+
+table.table.my-table.hours-table fieldset div{
+
+    display: block;
+    margin: auto;
+    text-align: center;
+}
+
+table.table.my-table.hours-table fieldset select{
+
+    margin-bottom: 0;
+}
+
+.contact-infos table.my-table td{
+
+    padding: 7px 4px 0px 0px;
+    font-weight: 400;
+
+}
+
+.contact-infos table.my-table tr.today td{
+
+    font-weight: 600;
+
+}
+
+
+
 #comment_comment{
 
     /* color: red; */
@@ -1536,6 +1613,55 @@ form select.form-control{
     background-color: var(--grey-10-color);
     border: 1px solid var(--grey-10-color);
     cursor: pointer;
+
+}
+
+.attachment-preview {
+	border: 1px solid var(--grey-15-color);
+	border-radius: 4px;
+	margin: 0px 8px 0px 0px;
+	overflow-wrap: break-word;
+	display: inline-block;
+	padding: 3px 8px 3px 0px;
+	font-family: "Roboto", sans-serif;
+    font-size: 13px;
+    
+    clear: both;
+    display: inline-block;
+    overflow: hidden;
+    white-space: nowrap;
+    max-width: 150px;
+    text-overflow: ellipsis;
+
+}
+
+.attachment-preview.active, .attachment-preview.active:hover {
+
+    background-color: var(--purple-transparent-color);
+    border: 1px solid transparent;
+    color: var(--purple-color);
+
+}
+
+.attachment-preview:hover {
+
+    background-color: var(--grey-10-color);
+    border: 1px solid var(--grey-10-color);
+    cursor: pointer;
+
+}
+
+.type-preview{
+
+    height: 10px;
+    width: 40px;
+    line-height: 22px;
+    text-align: center;
+    border-radius: 5px;
+    /* background-color: var(--grey-10-color) !important; */
+    padding: 9px 7px;
+    font-size: 11px;
+    font-weight: 600;
 
 }
 
