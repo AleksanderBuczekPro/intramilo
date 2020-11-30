@@ -99,9 +99,14 @@
                         {% if app.user.favorites|length > 0 %}
                             {% for file in app.user.favorites %}
 
-                                <div class="col-6 front white">
-                                    {% include 'documentation/_file.html.twig' %}
-                                </div>
+                                {# Sheet Archived ? #}
+                                {% if file.archivedAt is defined and file.archivedAt is not null  %}
+
+                                {% else %}
+                                    <div class="col-6 front white">
+                                        {% include 'documentation/_file.html.twig' %}
+                                    </div>
+                                {% endif %}
 
                             {% endfor %}
                         {% else %}

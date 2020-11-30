@@ -306,7 +306,7 @@
                 {# Home #}
                 <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
 
-                    <div class="card my-card no-border my-box mt-0 mb-4 pb-0">
+                    <div class="card my-card no-border my-box mt-0 mb-4 pb-0 o-visible">
                         <div class="card-body py-0">
                             
                             <div class="row">
@@ -334,7 +334,7 @@
 
                                 </div>
                                 
-                                <div class="col-12 pr-2 account-nav">
+                                <div class="col-12 px-2 account-nav">
                                     <hr class="mb-0 mt-1">
 
                                     {# <nav>
@@ -358,6 +358,16 @@
                                                 {# {% endif %} #}
                                                 
                                                 <a class="nav-item nav-link no-br px-4 btn" id="nav-draft-tab" data-toggle="tab" href="#nav-draft" role="tab" aria-controls="nav-draft" aria-selected="false">Brouillons ({{ drafts|length }})</a>
+                                                
+                                                <div class="dropdown float-right">
+                                                    <button class="btn btn-my-secondary small px-2 py-2" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        <i class="uil uil-ellipsis-v"></i>
+                                                    </button>
+                                                    <div class="dropdown-menu dropdown-menu-right my-dropdown " aria-labelledby="dropdownMenuButton">
+                                                        <a class="dropdown-item pl-3" id="nav-archived-tab" data-toggle="tab" href="#nav-archived" role="tab" aria-controls="nav-archived" aria-selected="false">Archives ({{ filesArchived|length }})</a>
+                                                    </div>
+                                                </div>
+                                            
                                             {% endif %}
                                         </div>
                                     </nav>
@@ -449,6 +459,24 @@
                                 {% for file in drafts %}
                                     {% include 'documentation/_file.html.twig' %}
                                 {% endfor %}
+                            
+                            </div>
+
+                             {# Archives #}
+                            <div class="tab-pane fade" id="nav-archived" role="tabpanel" aria-labelledby="nav-archived-tab">
+                            
+                                {% if filesArchived|length > 0 %}
+                            
+                                    {# En attente de validation #}
+                                    {% for file in filesArchived %}
+                                        {% include 'documentation/_file.html.twig' %}
+                                    {% endfor %}
+
+                                {% else %}
+
+                                    <p class="text text-center">Aucune fiche archivée</p>
+
+                                {% endif %}
                             
                             </div>
                         {% endif %}

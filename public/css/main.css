@@ -182,6 +182,18 @@
 
 }
 
+.p-absolute{
+
+    position: absolute;
+
+}
+
+.p-relative{
+
+    position: relative;
+
+}
+
 .my-italic{
 
     font-style: italic!important;
@@ -2194,6 +2206,36 @@ span.mime{
 
 }
 
+.dropdown-item:hover{
+
+    background-color: var(--marine-10-color);
+
+}
+
+
+.dropdown-item.danger{
+
+    color: var(--red-color);
+
+}
+
+.dropdown-item.danger i{
+
+    background-color: var(--red-background-color);
+    color: var(--red-color);
+
+}
+
+.dropdown-item.danger:hover{
+
+    background-color: var(--red-transparent-color);
+
+}
+
+
+
+
+
 
 div.alert.alert-danger {
 
@@ -2627,7 +2669,7 @@ div.card.my-card.stat-card table td{
     border-bottom: 3px solid white;
 }
 
-.account-nav .btn.active, .account-nav .btn.active:hover {
+.account-nav .btn.active, .account-nav .btn.active:hover, .account-nav .dropdown-item.active{
 
     color: var(--purple-color);
     border-bottom: 3px solid var(--purple-color);
@@ -2637,6 +2679,17 @@ div.card.my-card.stat-card table td{
     font-weight: 500;
     
 }
+
+.account-nav .dropdown-item.active{
+
+    color: var(--purple-color);
+
+    background-color: transparent;
+
+    font-weight: 500;
+    
+}
+
 
 .account-nav span a{
 

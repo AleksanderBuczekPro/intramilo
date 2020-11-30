@@ -14,6 +14,13 @@
     {% set admin = true %}
 {% endif %}
 
+{# Sheet Archived ? #}
+{% set archived = false %}
+
+{% if sheet.archivedAt is defined and sheet.archivedAt is not null  %}
+    {% set archived = true %}
+{% endif %}
+
 <div class="container-fluid sheet-container bg-white">
     <div class="row">
 
@@ -62,65 +69,96 @@
                     </p>
                 </div>
                 <div class="col-xl-5 col-lg-6 float-right">
-                    
 
-                    <div class="dropdown float-right ml-2 d-print-none">
-                        <button class="btn btn-my-secondary small" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="uil uil-ellipsis-v"></i>
-                        </button>
-                        <div class="dropdown-menu dropdown-menu-right my-dropdown " aria-labelledby="dropdownMenuButton">
+                    {% if not archived %}
 
-                            {% if app.user == sheet.author or is_granted("ROLE_ADMIN") %}
-                                
-                                <a class="dropdown-item pl-3" href="{{ path('sheet_edit', {'id': sheet.id }) }}"><span class="rounded"><i class="fas fa-pen fa-xs my-rounded"></i></span> Modifier</a>
-                            {% endif %}
+                        <div class="dropdown float-right ml-2 d-print-none">
+                            <button class="btn btn-my-secondary small" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="uil uil-ellipsis-v"></i>
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-right my-dropdown " aria-labelledby="dropdownMenuButton">
 
-                            {% if sheet.status is null %}
-                                {% if app.user.favorites.contains(sheet) %}
-                                    <a class="dropdown-item pl-3" href="{{ path('favorites_remove', {'id': sheet.id }) }}"><span class="rounded"><i class="fas fa-star my-rounded"></i></span> Enlever le favori</a>
-                                {% else %}
-                                    <a class="dropdown-item pl-3" href="{{ path('favorites_add', {'id': sheet.id }) }}"><span class="rounded"><i class="far fa-star my-rounded"></i></span> Ajouter en favori</a>
+                                {% if app.user == sheet.author or is_granted("ROLE_ADMIN") %}
+                                    
+                                    <a class="dropdown-item pl-3" href="{{ path('sheet_edit', {'id': sheet.id }) }}"><span class="rounded"><i class="fas fa-pen fa-xs my-rounded"></i></span> Modifier</a>
+                                    <div class="dropdown-divider"></div>
                                 {% endif %}
-                            
-                            {% endif %}
 
-                            
-                            <a class="dropdown-item pl-3" href="{{ path('sheet_create_model', {'id_model': sheet.id }) }}">
-                                <span class="rounded"><i class="far fa-copy my-rounded"></i></span>
-                                Dupliquer
+                                {% if sheet.status is null %}
+                                    {% if app.user.favorites.contains(sheet) %}
+                                        <a class="dropdown-item pl-3" href="{{ path('favorites_remove', {'id': sheet.id }) }}"><span class="rounded"><i class="fas fa-star my-rounded"></i></span> Enlever le favori</a>
+                                    {% else %}
+                                        <a class="dropdown-item pl-3" href="{{ path('favorites_add', {'id': sheet.id }) }}"><span class="rounded"><i class="far fa-star my-rounded"></i></span> Ajouter en favori</a>
+                                    {% endif %}
+                                
+                                {% endif %}
+
+                                
+                                <a class="dropdown-item pl-3" href="{{ path('sheet_create_model', {'id_model': sheet.id }) }}">
+                                    <span class="rounded"><i class="far fa-copy my-rounded"></i></span>
+                                    Dupliquer
+                                </a>
+
+                                {# <a class="dropdown-item pl-3" data-toggle="modal" data-target="#printModal">
+                                    <span class="rounded"><i class="fas fa-print my-rounded"></i></span>
+                                    Imprimer
+                                </a> #}
+                                
+
+
+                                {% if is_granted("ROLE_ADMIN") and sheet.status != 'DRAFT' %}
+                                    <a class="dropdown-item pl-3" href="{{ path('sheet_change_author', {'id': sheet.id }) }}"><span class="rounded"><i class="far fa-user my-rounded"></i></span> Changer d'auteur</a>
+                                {% endif %}
+
+                                {% if app.user == sheet.author %}
+
+                                    {# <a href="" class="btn btn-my-danger w-100 ">Archiver</a> #}
+                                    {# <a class="dropdown-item px-0 mx-1 btn btn-my-danger bg-rouge white" data-toggle="modal" data-target="#deleteModal">
+                                        <span class="rounded"><i class="fas fa-times my-rounded white"></i></span>
+                                        Archiver
+                                    </a>  #}
+
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item pl-3 danger" data-toggle="modal" data-target="#archiveModal">
+                                        <span class="rounded"><i class="fas fa-times my-rounded"></i></span>
+                                        Archiver
+                                    </a>
+
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <a class="btn btn-my-outline small float-right ml-2 d-print-none" data-toggle="modal" data-target="#printModal">
+                            <i class="fas fa-print"></i>
+                        </a>
+
+
+                        {% if is_granted("ROLE_ADMIN") and sheet.status is null %}
+
+                            <a href="{{ path('sheet_front', {'id': sheet.id }) }}" class="btn btn-my-primary small {% if sheet.front %}active{% endif %} float-right d-print-none">
+                            {% if sheet.front and (sheet.publishedAt is not null and date(sheet.publishedAt) > date('-2weeks', 'Europe/Paris')) %}
+                                <i class="uil uil-fire"></i> Enlever de la Une
+                            {% else %}
+                                <i class="uil uil-fire"></i> Mettre à la Une
+                            {% endif %}
+                            </a>
+                        {% endif %}
+
+                    {% else %}
+
+                        {% if app.user == sheet.author %}
+                                    
+                            <a href="{{ path('sheet_restaure', {'id': sheet.id}) }}" class="btn btn-my-secondary small float-right">
+                                <i class="uil uil-arrow-circle-up"></i> Restaurer
                             </a>
 
-                            {# <a class="dropdown-item pl-3" data-toggle="modal" data-target="#printModal">
-                                <span class="rounded"><i class="fas fa-print my-rounded"></i></span>
-                                Imprimer
-                            </a> #}
-                            
+                            <a href="" class="btn bg-rouge white  small float-right mr-2 pl-2 pr-3" data-toggle="modal" data-target="#deleteModal">
+                                <i class="uil uil-times"></i> Supprimer définitivement
+                            </a>
 
-
-                            {% if is_granted("ROLE_ADMIN") and sheet.status != 'DRAFT' %}
-                                <a class="dropdown-item pl-3" href="{{ path('sheet_change_author', {'id': sheet.id }) }}"><span class="rounded"><i class="far fa-user my-rounded"></i></span> Changer d'auteur</a>
-                            {% endif %}
-
-                            {% if app.user == sheet.author %}
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item pl-3" data-toggle="modal" data-target="#deleteModal"><span class="rounded"><i class="fas fa-times my-rounded"></i></span> Supprimer</a>
-                            {% endif %}
-                        </div>
-                    </div>
-
-                    <a class="btn btn-my-outline small float-right ml-2 d-print-none" data-toggle="modal" data-target="#printModal">
-                        <i class="fas fa-print"></i>
-                    </a>
-
-                    {% if is_granted("ROLE_ADMIN") and sheet.status is null %}
-
-                        <a href="{{ path('sheet_front', {'id': sheet.id }) }}" class="btn btn-my-primary small {% if sheet.front %}active{% endif %} float-right d-print-none">
-                        {% if sheet.front and (sheet.publishedAt is not null and date(sheet.publishedAt) > date('-2weeks', 'Europe/Paris')) %}
-                            <i class="uil uil-fire"></i> Enlever de la Une
-                        {% else %}
-                            <i class="uil uil-fire"></i> Mettre à la Une
                         {% endif %}
-                        </a>
+
+
                     {% endif %}
 
 
@@ -163,6 +201,10 @@
 
             {% if  sheet.front and date(sheet.publishedAt) > date('-2weeks', 'Europe/Paris') and is_granted("ROLE_ADMIN") %}
                 <p class="mt-1 text d-print-none">Publié à la Une le {{ sheet.publishedAt|localizeddate('none', 'none', 'fr', null, 'd MMMM') }}, à {{ sheet.publishedAt|localizeddate('none', 'none', 'fr', null, 'H:mm') }}</p>
+            {% endif %}
+
+            {% if archived %}
+                <p class="mt-1 text rouge">Archivé le {{ sheet.archivedAt|localizeddate('none', 'none', 'fr', null, 'd MMMM YYYY') }}, à {{ sheet.archivedAt|localizeddate('none', 'none', 'fr', null, 'H:mm') }}</p>
             {% endif %}
 
             <div class="row" id="print-author">
@@ -440,16 +482,31 @@
   </div>
 </div>
 
+{# Archive Modal #}
+<div class="modal fade bd-example-modal-lg" id="archiveModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content p-3">
+      <div class="modal-header no-border pb-0">
+        <h4 class="modal-title m-0 text-center" id="exampleModalLabel">Archiver la fiche<span class="font-weight-light"> - Êtes-vous sûr ?</span></h4>
+      </div>
+      <div class="modal-footer no-border">
+        <button type="button" class="btn" data-dismiss="modal">Non</button>
+        <a type="button" href="{{ path('sheet_archive', {'id': sheet.id}) }}" class="btn btn-my-danger">Oui, j'archive</a>
+      </div>
+    </div>
+  </div>
+</div>
+
 {# Delete Modal #}
 <div class="modal fade bd-example-modal-lg" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
     <div class="modal-content p-3">
       <div class="modal-header no-border pb-0">
-        <h4 class="modal-title m-0 text-center" id="exampleModalLabel">Suppression de la fiche<span class="font-weight-light"> - Êtes-vous sûr ?</span></h4>
+        <h4 class="modal-title m-0 text-center" id="exampleModalLabel">Supprimer définitivement la fiche<span class="font-weight-light"> - Êtes-vous sûr ?</span></h4>
       </div>
       <div class="modal-footer no-border">
         <button type="button" class="btn" data-dismiss="modal">Non</button>
-        <a type="button" href="{{ path('sheet_delete', {'id': sheet.id}) }}" class="btn btn-my-danger">Oui, je supprime</a>
+        <a type="button" href="{{ path('sheet_delete', {'id': sheet.id}) }}" class="btn btn-my-danger">Oui, je supprime définitivement</a>
       </div>
     </div>
   </div>

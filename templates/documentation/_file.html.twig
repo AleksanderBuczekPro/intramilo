@@ -4,7 +4,7 @@
 
 {# Lien pour une fiche  #}
 {% if type == 'sheet' %}
-    {% set path = path('sheet_show', {'id': file.id,}) %}
+    {% set path = path('sheet_show', {'id': file.id}) %}
 {% endif %}
 
 {# Lien pour un document ou une pièce jointe #}
@@ -213,7 +213,14 @@
                             {# {{ file.updatedAt|localizeddate('none', 'none', 'fr', null, 'd MMMM Y') }} • {{ file.views }} vue{% if file.views > 1 %}s{% endif %} #}
 
                             {% if not homepage %}
-                            <i class="fas fa-{{icon}} {{state_class}}"></i>
+
+                                {# Archive #}
+                                {% if file.archivedAt is defined and file.archivedAt is not null %}
+                                    <span class="my-badge badge-danger">Archivé</span>
+                                {% else %}
+                                <i class="fas fa-{{icon}} {{state_class}}"></i>
+                                {% endif %}
+                            
                             {% endif %}
 
 

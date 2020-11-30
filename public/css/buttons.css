@@ -426,6 +426,12 @@ span.my-badge{
 
 }
 
+.badge-danger{
+
+    background-color: var(--red-color);
+
+}
+
 
 /* div.card.my-card .my-badge.light{
 
@@ -444,7 +450,7 @@ span.my-badge{
 
 .my-card span.my-badge{
 
-    font-size: 0.65em;
+    font-size: 11px;
     padding: 7px 10px;
 
 }

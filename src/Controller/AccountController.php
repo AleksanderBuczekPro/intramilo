@@ -727,6 +727,7 @@ class AccountController extends AbstractController
             'filesUpToDate' => $files['filesUpToDate'],
             'filesWellObsolete' => $files['filesWellObsolete'],
             'filesObsolete' => $files['filesObsolete'],
+            'filesArchived' => $files['filesArchived'],
 
             'adminFilesToValidate' => $adminFiles['filesToValidate'],
             'adminFilesToCorrect' => $adminFiles['filesToCorrect'],

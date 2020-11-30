@@ -110,8 +110,11 @@ class DocumentationController extends AbstractController
             }
             // En ligne
             else
-            { 
-                $sheetsOnline[] = $sheet;
+            {
+                if(!$sheet->getArchivedAt()){
+                    $sheetsOnline[] = $sheet;
+                }
+                
             } 
         }
 

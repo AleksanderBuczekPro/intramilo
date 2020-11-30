@@ -417,6 +417,13 @@ ul.sheet-menu a:hover {
 
 }
 
+.sheet-title .my-badge {
+	padding: 7px 14px;
+	font-size: 12px;
+	vertical-align: middle;
+	margin-left: 5px;
+}
+
 .sheet-subtitle{
 
     font-size: 21px;
@@ -427,10 +434,7 @@ ul.sheet-menu a:hover {
     font-family: "Roboto";
 }
 
-<<<<<<< HEAD
-=======
 
->>>>>>> 30a9d1406c93d59abd3015708eca631b73854181
 div.sheet-content{
 
     font-family: 'Poppins', sans-serif;

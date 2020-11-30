@@ -161,6 +161,11 @@ class Sheet
      */
     private $pictureFilename;
 
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $archivedAt;
+
 
     /** Icône d'état de la fiche */
     // private $icon;
@@ -669,6 +674,18 @@ class Sheet
     public function setPictureFilename(?string $pictureFilename): self
     {
         $this->pictureFilename = $pictureFilename;
+
+        return $this;
+    }
+
+    public function getArchivedAt(): ?\DateTimeInterface
+    {
+        return $this->archivedAt;
+    }
+
+    public function setArchivedAt(?\DateTimeInterface $archivedAt): self
+    {
+        $this->archivedAt = $archivedAt;
 
         return $this;
     }

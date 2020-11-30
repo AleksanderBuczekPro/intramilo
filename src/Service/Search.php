@@ -46,6 +46,7 @@ class Search{
             ->innerJoin('App\Entity\Organization', 'o', 'WITH', 'o.id = s.organization')
             ->where('s.status IS NULL')
             ->andWhere('s.title LIKE :title_query')
+            ->andWhere('s.archivedAt IS NULL')
             ->orWhere('o.name LIKE :organization_query')
             // ->orWhere('s.content LIKE :content_query')
             

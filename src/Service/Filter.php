@@ -23,6 +23,7 @@ class Filter{
         $filesUpToDate = array_merge_recursive($sheets['sheetsUpToDate'], $documents['documentsUpToDate']);
         $filesWellObsolete = array_merge_recursive($sheets['sheetsWellObsolete'], $documents['documentsWellObsolete']);
         $filesObsolete = array_merge_recursive($sheets['sheetsObsolete'], $documents['documentsObsolete']);
+        $filesArchived = $sheets['sheetsArchived'];
 
         usort($filesUpToDate, function($a, $b){ 
             return strcasecmp($a->getTitle(), $b->getTitle());
@@ -45,7 +46,8 @@ class Filter{
             'filesToCorrect' => $sheets['sheetsToCorrect'],
             'filesUpToDate' => $filesUpToDate,
             'filesWellObsolete' => $filesWellObsolete,
-            'filesObsolete' => $filesObsolete
+            'filesObsolete' => $filesObsolete,
+            'filesArchived' => $filesArchived
         );
 
     }
@@ -176,6 +178,7 @@ class Filter{
         $sheetsToCorrect = [];
         $sheetsObsolete = [];
         $sheetsWellObsolete = [];
+        $sheetsArchived = [];
 
 
         // Bientôt obsolète
@@ -190,47 +193,57 @@ class Filter{
         // TRI
         foreach($sheets as $sheet){
 
-        $status = $sheet->getStatus();
+        $archived = $sheet->getArchivedAt();
+            
+        // Archive
+            if($archived){
 
-            // En attente de validation / A corriger
-            if($status){
-
-                // En attente de validation
-                if($status == "TO_VALIDATE"){
-
-                    $sheetsToValidate[] = $sheet;
-
-                }
-
-                // A corriger
-                if($status == "TO_CORRECT"){
-
-                    $sheetsToCorrect[] = $sheet;
-
-                }
+                $sheetsArchived[] = $sheet;
 
             }else{
 
-                $updatedAt = $sheet->getUpdatedAt();
+                $status = $sheet->getStatus();
 
-                // Obsolete
-                // Supérieur à 6 mois
-                if($updatedAt <  $wellObsolete_end){
+                // En attente de validation / A corriger
+                if($status){
 
-                    $sheetsObsolete[] = $sheet;
+                    // En attente de validation
+                    if($status == "TO_VALIDATE"){
 
+                        $sheetsToValidate[] = $sheet;
 
-                // Entre 5 et 6 mois
-                }elseif($updatedAt <  $wellObsolete_start){
+                    }
 
-                    $sheetsWellObsolete[] = $sheet;
+                    // A corriger
+                    if($status == "TO_CORRECT"){
+
+                        $sheetsToCorrect[] = $sheet;
+
+                    }
 
                 }else{
 
-                    $sheetsUpToDate[] = $sheet;
+                    $updatedAt = $sheet->getUpdatedAt();
+
+                    // Obsolete
+                    // Supérieur à 6 mois
+                    if($updatedAt <  $wellObsolete_end){
+
+                        $sheetsObsolete[] = $sheet;
+
+
+                    // Entre 5 et 6 mois
+                    }elseif($updatedAt <  $wellObsolete_start){
+
+                        $sheetsWellObsolete[] = $sheet;
+
+                    }else{
+
+                        $sheetsUpToDate[] = $sheet;
+
+                    }
 
                 }
-
             }
 
         }
@@ -240,7 +253,8 @@ class Filter{
             'sheetsToCorrect' => $sheetsToCorrect,
             'sheetsUpToDate' => $sheetsUpToDate,
             'sheetsWellObsolete' => $sheetsWellObsolete,
-            'sheetsObsolete' => $sheetsObsolete
+            'sheetsObsolete' => $sheetsObsolete,
+            'sheetsArchived' => $sheetsArchived
         );
 
     }
@@ -410,44 +424,51 @@ class Filter{
         // TRI
         foreach($sheets as $sheet){
 
-        $status = $sheet->getStatus();
+        $archived = $sheet->getArchivedAt();
+            
+            // Archive
+            if(!$archived){
+        
+                $status = $sheet->getStatus();
 
-            // En attente de validation / A corriger
-            if($status){
+                // En attente de validation / A corriger
+                if($status){
 
-                // En attente de validation
-                if($status == "TO_VALIDATE"){
+                    // En attente de validation
+                    if($status == "TO_VALIDATE"){
 
-                    $sheetsToValidate[] = $sheet;
+                        $sheetsToValidate[] = $sheet;
 
-                }
+                    }
 
-                // A corriger
-                if($status == "TO_CORRECT"){
+                    // A corriger
+                    if($status == "TO_CORRECT"){
 
-                    $sheetsToCorrect[] = $sheet;
+                        $sheetsToCorrect[] = $sheet;
 
-                }
-
-            }else{
-
-                $updatedAt = $sheet->getUpdatedAt();
-
-                // Obsolete
-                // Supérieur à 6 mois
-                if($updatedAt <  $wellObsolete_end){
-
-                    $sheetsObsolete[] = $sheet;
-
-
-                // Entre 5 et 6 mois
-                }elseif($updatedAt <  $wellObsolete_start){
-
-                    $sheetsWellObsolete[] = $sheet;
+                    }
 
                 }else{
 
-                    $sheetsUpToDate[] = $sheet;
+                    $updatedAt = $sheet->getUpdatedAt();
+
+                    // Obsolete
+                    // Supérieur à 6 mois
+                    if($updatedAt <  $wellObsolete_end){
+
+                        $sheetsObsolete[] = $sheet;
+
+
+                    // Entre 5 et 6 mois
+                    }elseif($updatedAt <  $wellObsolete_start){
+
+                        $sheetsWellObsolete[] = $sheet;
+
+                    }else{
+
+                        $sheetsUpToDate[] = $sheet;
+
+                    }
 
                 }
 
@@ -530,130 +551,138 @@ class Filter{
 
             foreach($sheets as $sheet){
 
-                $updatedAt = $sheet->getUpdatedAt();
-                $status = $sheet->getStatus();
-                $date = $sheet->getUpdatedAt();
-
-                $today = "";
-                $now = new DateTime();
-                if($date->format("Y-m-d") == $now->format("Y-m-d")){
-                    
-                    $today = "violet";
-
-                }else{
-
-
-
-                }
-
-                if($updatedAt < $wellObsolete_start || $status == "TO_VALIDATE" || $status == "TO_CORRECT"){
-
-                    // if($counter < $limit){
-
-                        // Format text
-                        $title = $sheet->getTitle();
-
-                        $result = $date->format('Y-m-d H:i:s');
-                        
-                        setlocale(LC_TIME, "fr_FR", "French");
-                        $formated_date = strftime("%d %B %G", strtotime($result));
-                        $formated_date = utf8_encode($formated_date);
-
-                        $hour = strftime("%H:%M", strtotime($result));
-
-
-                            // En attente de validation // à corriger
-                            if($status == "TO_VALIDATE" || $status == "TO_CORRECT"){
-
-                                if($status == "TO_VALIDATE"){
-                                    
-                                    $icon = "<i class='fas fa-pause-circle op-70'></i>";
-                                    $text = "<strong>". $title ." </strong>";
-                                    $color = "light";
-
-                                    $notificationsToValidate[] = array(
-                                        'id' => $sheet->getId(),
-                                        'icon' => $icon,
-                                        'text' => $text,
-                                        'date' => $formated_date,
-                                        'hour' => $hour,
-                                        'color' => $color,
-                                        'today' => $today
+                $archived = $sheet->getArchivedAt();
         
-                                    );   
+                // Archive
+                if(!$archived){
+        
 
-                                    
+                    $updatedAt = $sheet->getUpdatedAt();
+                    $status = $sheet->getStatus();
+                    $date = $sheet->getUpdatedAt();
+
+                    $today = "";
+                    $now = new DateTime();
+                    if($date->format("Y-m-d") == $now->format("Y-m-d")){
+                        
+                        $today = "violet";
+
+                    }else{
+
+
+
+                    }
+
+                    if($updatedAt < $wellObsolete_start || $status == "TO_VALIDATE" || $status == "TO_CORRECT"){
+
+                        // if($counter < $limit){
+
+                            // Format text
+                            $title = $sheet->getTitle();
+
+                            $result = $date->format('Y-m-d H:i:s');
+                            
+                            setlocale(LC_TIME, "fr_FR", "French");
+                            $formated_date = strftime("%d %B %G", strtotime($result));
+                            $formated_date = utf8_encode($formated_date);
+
+                            $hour = strftime("%H:%M", strtotime($result));
+
+
+                                // En attente de validation // à corriger
+                                if($status == "TO_VALIDATE" || $status == "TO_CORRECT"){
+
+                                    if($status == "TO_VALIDATE"){
+                                        
+                                        $icon = "<i class='fas fa-pause-circle op-70'></i>";
+                                        $text = "<strong>". $title ." </strong>";
+                                        $color = "light";
+
+                                        $notificationsToValidate[] = array(
+                                            'id' => $sheet->getId(),
+                                            'icon' => $icon,
+                                            'text' => $text,
+                                            'date' => $formated_date,
+                                            'hour' => $hour,
+                                            'color' => $color,
+                                            'today' => $today
+            
+                                        );   
+
+                                        
+                                    }else{
+                                        
+                                        $icon = "<i class='fas fa-exclamation-circle'></i>";
+                                        $text = "<strong>". $title ." </strong>";
+                                        $color = "rouge";
+
+                                        $notificationsToCorrect[] = array(
+                                            'id' => $sheet->getId(),
+                                            'icon' => $icon,
+                                            'text' => $text,
+                                            'date' => $formated_date,
+                                            'hour' => $hour,
+                                            'color' => $color,
+                                            'today' => $today
+            
+                                        );   
+                                        
+
+                                    }
+            
+
                                 }else{
-                                    
-                                    $icon = "<i class='fas fa-exclamation-circle'></i>";
-                                    $text = "<strong>". $title ." </strong>";
-                                    $color = "rouge";
 
-                                    $notificationsToCorrect[] = array(
-                                        'id' => $sheet->getId(),
-                                        'icon' => $icon,
-                                        'text' => $text,
-                                        'date' => $formated_date,
-                                        'hour' => $hour,
-                                        'color' => $color,
-                                        'today' => $today
-        
-                                    );   
-                                    
+                                    // Obsolete
+                                    // Supérieur à 6 mois
+                                    if($updatedAt <  $wellObsolete_end){
 
-                                }
-          
+                                        $icon = "<i class='fas fa-times-circle rouge'></i>";
+                                        $text = "<strong>". $title ." </strong>";
+                                        $color = "rouge";
+                                        $date->modify('+6 months');
 
-                            }else{
-
-                                // Obsolete
-                                // Supérieur à 6 mois
-                                if($updatedAt <  $wellObsolete_end){
-
-                                    $icon = "<i class='fas fa-times-circle rouge'></i>";
-                                    $text = "<strong>". $title ." </strong>";
-                                    $color = "rouge";
-                                    $date->modify('+6 months');
-
-                                    $notificationsObsolete[] = array(
-                                        'id' => $sheet->getId(),
-                                        'icon' => $icon,
-                                        'text' => $text,
-                                        'date' => $formated_date,
-                                        'hour' => $hour,
-                                        'color' => $color,
-                                        'today' => $today
-        
-                                    );
+                                        $notificationsObsolete[] = array(
+                                            'id' => $sheet->getId(),
+                                            'icon' => $icon,
+                                            'text' => $text,
+                                            'date' => $formated_date,
+                                            'hour' => $hour,
+                                            'color' => $color,
+                                            'today' => $today
+            
+                                        );
 
 
-                                // Entre 5 et 6 mois
-                                }elseif($updatedAt <  $wellObsolete_start){
+                                    // Entre 5 et 6 mois
+                                    }elseif($updatedAt <  $wellObsolete_start){
 
 
-                                    $icon = "<i class='fas fa-minus-circle orange'></i>";
-                                    $text = "<strong>". $title ." </strong>";
-                                    $color = "orange";
-                                    $date->modify('+5 months');
+                                        $icon = "<i class='fas fa-minus-circle orange'></i>";
+                                        $text = "<strong>". $title ." </strong>";
+                                        $color = "orange";
+                                        $date->modify('+5 months');
 
-                                    $notificationsWellObsolete[] = array(
-                                        'id' => $sheet->getId(),
-                                        'icon' => $icon,
-                                        'text' => $text,
-                                        'date' => $formated_date,
-                                        'hour' => $hour,
-                                        'color' => $color,
-                                        'today' => $today
-        
-                                    );
+                                        $notificationsWellObsolete[] = array(
+                                            'id' => $sheet->getId(),
+                                            'icon' => $icon,
+                                            'text' => $text,
+                                            'date' => $formated_date,
+                                            'hour' => $hour,
+                                            'color' => $color,
+                                            'today' => $today
+            
+                                        );
+
+                                    }
 
                                 }
+                            
 
-                            }
-                        
+                        // }
+                        $counter = $counter + 1;
 
-                    // }
-                    $counter = $counter + 1;
+                    }
 
                 }
             }
@@ -711,126 +740,133 @@ class Filter{
     
         foreach($sheets as $sheet){
 
-            $updatedAt = $sheet->getUpdatedAt();
-            $status = $sheet->getStatus();
-            $date = $sheet->getUpdatedAt();
-
-            $today = "";
-            $now = new DateTime();
-            if($date->format("Y-m-d") == $now->format("Y-m-d")){
-                
-                $today = "violet";
-
-            }
-
-            if($updatedAt < $wellObsolete_start || $status == "TO_VALIDATE" || $status == "TO_CORRECT"){
-
-                // if($counter < $limit){
-
-                    // Format text
-                    $title = $sheet->getTitle();
-
-                    $result = $date->format('Y-m-d H:i:s');
-
-                    setlocale(LC_TIME, "fr_FR", "French");
-                    $formated_date = strftime("%d %B %G", strtotime($result));
-                    $formated_date = utf8_encode($formated_date);
-
-                    $hour = strftime("%H:%M", strtotime($result));
-
-
-                        // En attente de validation // à corriger
-                        if($status == "TO_VALIDATE" || $status == "TO_CORRECT"){
-
-                            if($status == "TO_VALIDATE"){
-                                
-                                $icon = "<i class='fas fa-pause-circle op-70'></i>";
-                                $text = "<strong>". $title ." </strong>";
-                                $color = "light";
-
-                                $notificationsToValidate[] = array(
-                                    'id' => $sheet->getId(),
-                                    'icon' => $icon,
-                                    'text' => $text,
-                                    'date' => $formated_date,
-                                    'hour' => $hour,
-                                    'color' => $color,
-                                    'today' => $today
+            $archived = $sheet->getArchivedAt();
+            
+            // Archive
+            if(!$archived){
     
-                                );   
 
-                                
+                $updatedAt = $sheet->getUpdatedAt();
+                $status = $sheet->getStatus();
+                $date = $sheet->getUpdatedAt();
+
+                $today = "";
+                $now = new DateTime();
+                if($date->format("Y-m-d") == $now->format("Y-m-d")){
+                    
+                    $today = "violet";
+
+                }
+
+                if($updatedAt < $wellObsolete_start || $status == "TO_VALIDATE" || $status == "TO_CORRECT"){
+
+                    // if($counter < $limit){
+
+                        // Format text
+                        $title = $sheet->getTitle();
+
+                        $result = $date->format('Y-m-d H:i:s');
+
+                        setlocale(LC_TIME, "fr_FR", "French");
+                        $formated_date = strftime("%d %B %G", strtotime($result));
+                        $formated_date = utf8_encode($formated_date);
+
+                        $hour = strftime("%H:%M", strtotime($result));
+
+
+                            // En attente de validation // à corriger
+                            if($status == "TO_VALIDATE" || $status == "TO_CORRECT"){
+
+                                if($status == "TO_VALIDATE"){
+                                    
+                                    $icon = "<i class='fas fa-pause-circle op-70'></i>";
+                                    $text = "<strong>". $title ." </strong>";
+                                    $color = "light";
+
+                                    $notificationsToValidate[] = array(
+                                        'id' => $sheet->getId(),
+                                        'icon' => $icon,
+                                        'text' => $text,
+                                        'date' => $formated_date,
+                                        'hour' => $hour,
+                                        'color' => $color,
+                                        'today' => $today
+        
+                                    );   
+
+                                    
+                                }else{
+                                    
+                                    $icon = "<i class='fas fa-exclamation-circle rouge'></i>";
+                                    $text = "<strong>". $title ." </strong>";
+                                    $color = "rouge";
+
+                                    $notificationsToCorrect[] = array(
+                                        'id' => $sheet->getId(),
+                                        'icon' => $icon,
+                                        'text' => $text,
+                                        'date' => $formated_date,
+                                        'hour' => $hour,
+                                        'color' => $color,
+                                        'today' => $today
+        
+                                    );   
+                                    
+
+                                }   
+
                             }else{
-                                
-                                $icon = "<i class='fas fa-exclamation-circle rouge'></i>";
-                                $text = "<strong>". $title ." </strong>";
-                                $color = "rouge";
 
-                                $notificationsToCorrect[] = array(
-                                    'id' => $sheet->getId(),
-                                    'icon' => $icon,
-                                    'text' => $text,
-                                    'date' => $formated_date,
-                                    'hour' => $hour,
-                                    'color' => $color,
-                                    'today' => $today
-    
-                                );   
-                                
+                                // Obsolete
+                                // Supérieur à 6 mois
+                                if($updatedAt <  $wellObsolete_end){
 
-                            }   
+                                    $icon = "<i class='fas fa-times-circle rouge'></i>";
+                                    $text = "<strong>". $title ." </strong>";
+                                    $color = "rouge";
+                                    $date->modify('+6 months');
 
-                        }else{
-
-                            // Obsolete
-                            // Supérieur à 6 mois
-                            if($updatedAt <  $wellObsolete_end){
-
-                                $icon = "<i class='fas fa-times-circle rouge'></i>";
-                                $text = "<strong>". $title ." </strong>";
-                                $color = "rouge";
-                                $date->modify('+6 months');
-
-                                $notificationsObsolete[] = array(
-                                    'id' => $sheet->getId(),
-                                    'icon' => $icon,
-                                    'text' => $text,
-                                    'date' => $formated_date,
-                                    'hour' => $hour,
-                                    'color' => $color,
-                                    'today' => $today
-    
-                                );
+                                    $notificationsObsolete[] = array(
+                                        'id' => $sheet->getId(),
+                                        'icon' => $icon,
+                                        'text' => $text,
+                                        'date' => $formated_date,
+                                        'hour' => $hour,
+                                        'color' => $color,
+                                        'today' => $today
+        
+                                    );
 
 
-                            // Entre 5 et 6 mois
-                            }elseif($updatedAt <  $wellObsolete_start){
+                                // Entre 5 et 6 mois
+                                }elseif($updatedAt <  $wellObsolete_start){
 
 
-                                $icon = "<i class='fas fa-minus-circle orange'></i>";
-                                $text = "<strong>". $title ." </strong>";
-                                $color = "orange";
-                                $date->modify('+5 months');
+                                    $icon = "<i class='fas fa-minus-circle orange'></i>";
+                                    $text = "<strong>". $title ." </strong>";
+                                    $color = "orange";
+                                    $date->modify('+5 months');
 
-                                $notificationsWellObsolete[] = array(
-                                    'id' => $sheet->getId(),
-                                    'icon' => $icon,
-                                    'text' => $text,
-                                    'date' => $formated_date,
-                                    'hour' => $hour,
-                                    'color' => $color,
-                                    'today' => $today
-    
-                                );
+                                    $notificationsWellObsolete[] = array(
+                                        'id' => $sheet->getId(),
+                                        'icon' => $icon,
+                                        'text' => $text,
+                                        'date' => $formated_date,
+                                        'hour' => $hour,
+                                        'color' => $color,
+                                        'today' => $today
+        
+                                    );
+
+                                }
 
                             }
+                        
 
-                        }
-                    
+                    // }
+                    $counter = $counter + 1;
 
-                // }
-                $counter = $counter + 1;
-
+                }
             }
         }
 

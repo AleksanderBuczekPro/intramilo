@@ -1206,6 +1206,66 @@ class SheetController extends AbstractController
     }
 
     /**
+     * Permet d'archiver une fiche
+     *
+     * @Route("/documentation/sheet/{id}/archive", name="sheet_archive")
+     * 
+     * @IsGranted("ROLE_USER")
+     * 
+     */
+    public function archive(Sheet $sheet, EntityManagerInterface $manager, SheetRepository $sheetRepo)
+    {
+        
+        if($sheet->getOrigin()){
+
+            $sheet->setOrigin(null);
+
+        }
+
+        // Date de la mise en archive
+        $sheet->setArchivedAt(new \DateTime(null, new DateTimeZone('Europe/Paris')));
+        
+        $manager->persist($sheet);
+        $manager->flush();
+
+        $this->addFlash(
+            'success',
+            "La fiche <strong>{$sheet->getTitle()}</strong> a bien été archivée !"
+
+        );
+
+        return $this->redirectToRoute('account_index');
+
+    }
+
+    /**
+     * Permet de restaurer une fiche supprimée
+     *
+     * @Route("/documentation/sheet/{id}/restaure", name="sheet_restaure")
+     * 
+     * @IsGranted("ROLE_USER")
+     * 
+     */
+    public function restaure(Sheet $sheet, EntityManagerInterface $manager, SheetRepository $sheetRepo)
+    {
+        
+        // Date de la mise en archive
+        $sheet->setArchivedAt(null);
+        
+        $manager->persist($sheet);
+        $manager->flush();
+
+        $this->addFlash(
+            'success',
+            "La fiche <strong>{$sheet->getTitle()}</strong> a bien été restaurée !"
+
+        );
+
+        return $this->redirectToRoute('sheet_show', ['id' => $sheet->getId()]);
+
+    }
+
+    /**
      * Permet d'afficher une seule annonce
      *
      * @Route("/documentation/sheet/{id}/delete", name="sheet_delete")

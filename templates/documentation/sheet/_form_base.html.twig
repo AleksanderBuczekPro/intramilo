@@ -105,7 +105,7 @@
 
                     {% if sheet.status == "DRAFT" %}
 
-                        <a class="rouge btn float-right mr-4" data-toggle="modal" data-target="#deleteModal">Supprimer</a>
+                        <a class="rouge btn float-right mr-4" data-toggle="modal" data-target="#archiveModal">Archiver</a>
                         <a class="op-70 btn float-right" target="_blank" href="{{ path('sheet_show', {'id': sheet.id }) }}"><i class="fas fa-eye mr-2"></i>Aperçu</a>
 
                         
@@ -579,17 +579,17 @@
 </div>
 
 {# Delete Modal #}
-<div class="modal fade bd-example-modal-lg" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade bd-example-modal-lg" id="archiveModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
     <div class="modal-content p-3">
       <div class="modal-header no-border pb-0">
-        <h4 class="modal-title m-0 text-center" id="exampleModalLabel">Suppression de la fiche<span class="font-weight-light"> - Êtes-vous sûr ?</span></h4>
+        <h4 class="modal-title m-0 text-center" id="exampleModalLabel">Archiver la fiche<span class="font-weight-light"> - Êtes-vous sûr ?</span></h4>
       </div>
       <div class="modal-footer no-border">
         <button type="button" class="btn" data-dismiss="modal">Non</button>
         
             {% if app.request.attributes.get('_route') starts with 'sheet_edit' %}
-                <a type="button" href="{{ path('sheet_delete', {'id': sheet.id}) }}" class="btn btn-my-danger">Oui, je supprime</a>
+                <a type="button" href="{{ path('sheet_archive', {'id': sheet.id}) }}" class="btn btn-my-danger">Oui, j'archive</a>
             {% endif %}
 
       </div>

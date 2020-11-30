@@ -45,4 +45,8 @@
 
 {% endif %}
 
-<i class="fas fa-{{icon}} {{state_class}}"></i>
+{% if sheet.archivedAt is defined and sheet.archivedAt is not null %}
+    <span class="my-badge badge-danger">Archivé</span>
+{% else %}
+    <i class="fas fa-{{icon}} {{state_class}}"></i>
+{% endif %}
