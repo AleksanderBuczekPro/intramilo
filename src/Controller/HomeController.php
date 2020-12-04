@@ -2,9 +2,10 @@
 
 namespace App\Controller;
 
-use App\Repository\CategoryRepository;
 use App\Service\Docs;
 use App\Repository\UserRepository;
+use App\Repository\CategoryRepository;
+use App\Repository\ParametersRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -41,7 +42,9 @@ class HomeController extends Controller{
      * @Route("/", name="homepage")
      *
      */
-    public function home(UserRepository $userRepo, Docs $docs, Request $request, CategoryRepository $catRepo){
+    public function home(UserRepository $userRepo, Docs $docs, Request $request, CategoryRepository $catRepo, ParametersRepository $paramRepo){
+
+        $parameters = $paramRepo->find(1);
 
         $fronts = $docs->getFrontDocs();
         $files = $docs->getLastDocs();
@@ -58,7 +61,8 @@ class HomeController extends Controller{
             [ 
                 'fronts' => $fronts,
                 'files' => $files,
-                'websites' => $this->getUser()->getWebsites()
+                'websites' => $this->getUser()->getWebsites(),
+                'parameters' => $parameters
             
             ]
 

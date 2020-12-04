@@ -1070,7 +1070,8 @@ div.card.my-card.notification.light i{
     
 }
 
-.sheet-form label.custom-file-label, .custom-file-label{
+.sheet-form label.custom-file-label,
+.custom-file-label{
 
 	font-size: 13px;
 	opacity: 1;
@@ -1089,7 +1090,8 @@ label.custom-file-label[for="sheet_pic"]{
     margin-top: 3px;
 }
 
-.sheet-form label.custom-file-label::after, label.custom-file-label::after{
+.sheet-form label.custom-file-label::after,
+label.custom-file-label::after{
 
     display: none;
 

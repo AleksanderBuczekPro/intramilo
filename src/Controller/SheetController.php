@@ -22,6 +22,7 @@ use App\Repository\SheetRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\SubCategoryRepository;
 use App\Repository\InterlocutorRepository;
+use App\Repository\ParametersRepository;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -1155,8 +1156,11 @@ class SheetController extends AbstractController
      * 
      * @return Response
      */
-    public function show(Sheet $sheet, Request $request, EntityManagerInterface $manager, Menu $menu)
+    public function show(Sheet $sheet, Request $request, EntityManagerInterface $manager, Menu $menu, ParametersRepository  $paramRepo)
     {
+
+        $parameters = $paramRepo->find(1);
+
         // Si la fiche est "En cours de validation"
         if($sheet->getStatus() == "TO_VALIDATE"){
 
@@ -1201,7 +1205,8 @@ class SheetController extends AbstractController
         return $this->render('documentation/sheet/show.html.twig', [
             'category' => $sheet->getSubCategory()->getCategory(),
             'subCategory' => $sheet->getSubCategory(),
-            'sheet' => $sheet
+            'sheet' => $sheet,
+            'parameters' => $parameters
         ]);
     }
 

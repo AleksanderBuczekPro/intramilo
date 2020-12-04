@@ -207,6 +207,29 @@
 
 }
 
+.parameters-link{
+
+    position: relative;
+}
+
+.parameters-link.map{
+
+    top: 6px;
+}
+.parameters-link.logo{
+
+    top: 10px;
+}
+
+
+
+
+
+
+
+
+
+
 .tooltip-inner{
 
     position: relative;

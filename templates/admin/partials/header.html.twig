@@ -32,7 +32,9 @@
                         <a class="nav-link {% if app.request.attributes.get('_route') starts with 'admin_documentation'  %}active{% endif %}" href="{{ path('admin_documentation_index') }}">
                         {# <i class="uil uil-book-alt"></i> #}
                         Documentation</a>
-                    </li>   
+                    </li>
+
+                    
                                    
                     {# <li class="nav-item">
                         <a class="nav-link" href="{{ path('admin_poles_index') }}">
@@ -48,9 +50,16 @@
                     </li> #}
                     
                     
-                </ul>   
+                </ul>
+
+                
                 <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
+                    <li class="nav-item float-right">
+                        <a class="nav-link mt-2 {% if app.request.attributes.get('_route') starts with 'admin_parameters'  %}active{% endif %}" href="{{ path('admin_parameters_index') }}">
+                        {# <i class="uil uil-book-alt"></i> #}
+                        Autres paramètres</a>
+                    </li>
+                <li class="nav-item mt-1">
                     <a href="{{ path('homepage') }}" class="btn btn-my-light intramilo">
                         <i class="uil uil-arrow-up-right"></i> Retour Intramilo</a>
                 </li>

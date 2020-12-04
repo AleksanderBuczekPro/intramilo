@@ -33,7 +33,9 @@
         <div class="col-12 d-none d-print-block">
             <div class="row">
                 <div class="col-3">
-                    <img src="/images/logo_mission_locale.png" class="px-4" style="height: 100px;" alt="Logo Mission Locale de l'arrondissment de Dijon">
+                    {# <img src="/images/logo_mission_locale.png" class="px-4" style="height: 100px;" alt="Logo Mission Locale de l'arrondissment de Dijon"> #}
+                    <img src="{{ asset('files/pictures/' ~ parameters.logoFilename) }}" class="px-4" style="max-height: 100px; max-width: 250px; margin-bottom: 25px;" alt="Logo Mission Locale de l'arrondissment de Dijon">
+                    
                 </div>
                 <div class="col-6 text-center">
                     <p class="fil-ariane mt-2 mb-0 black d-none d-print-block text-center black">

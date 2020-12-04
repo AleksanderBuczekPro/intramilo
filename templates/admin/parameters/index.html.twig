@@ -1,0 +1,89 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Autres parametres{% endblock %}
+
+{% block body %}
+
+<div class="container backoffice-container bg-white my-box">
+
+        
+            <h1 class="my-h1">
+                {# <a href="{{ path('admin_users_index') }}" class="btn btn-my-secondary small"><i class="uil uil-arrow-left"></i></a> #}
+                Autres paramètres
+            </h1>
+
+            {% for label, messages in app.flashes %}
+                <div class="container px-0 mt-0">
+                    <div class="alert alert-{{ label }} mt-0">
+                        {% for message in messages %}
+                        <p class="mb-0">{{ message | raw}}</p>    
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endfor %}
+
+            {{ form_start(form) }}
+
+                <div class="row parameters-form">
+
+                    {# Url #}
+                    <div class="col-lg-6 col-md-8">
+                        {{ form_row(form.mapUrl, { 'attr': {'autocomplete': 'new-password'} }) }}
+                    </div>
+                     <div class="col-lg-6 col-md-4 my-auto">
+                        <a class="my-secondary hover-purple parameters-link map" href="{{ parameters.mapUrl }}" target="_blank"><i class="uil uil-arrow-up-right"></i> Voir le lien actuel</a>
+                    </div>
+
+                    {# Logo #}
+                    <div class="col-lg-4 col-md-6">
+
+                        {# <div class="col-12 parameters-logo">
+                            {% if parameters.logoFilename %}
+                                <img src="{{ asset('files/pictures/' ~ parameters.logoFilename) }}" alt="Logo de la Mission Locale de l'arrondissement de Dijon">  
+                            {% endif %}
+                        </div> #}
+                        {{ form_row(form.logo, { 'attr': {'autocomplete': 'new-password'} }) }}
+
+                    </div>
+                    <div class="col-lg-8 col-md-6 my-auto">
+                        <a class="my-secondary hover-purple parameters-link logo" href="{{ asset('files/pictures/' ~ parameters.logoFilename) }}" target="_blank"><i class="uil uil-arrow-up-right"></i> Voir le logo actuel</a>
+                    </div>
+
+                </div>
+
+
+                
+
+                <div class="row mt-2">
+                    <div class="col-12">
+                        <button type="submit" class="btn btn-my-primary mr-2 mt-4">Mettre à jour les paramètres</button>
+                        {# <a href="{{ path('admin_parameters_index') }}" class="btn mt-4 rouge">Annuler</a>   #}
+                    </div>
+
+                
+                </div>
+
+            {{ form_end(form) }}
+
+
+</div>
+
+
+
+{% endblock %}
+
+{% block javascripts %}
+
+<script>
+    $('#parameters_logo').next().html('<span class="op-40"><i class="fas fa-upload mr-2"></i> Mettre à jour </span>');
+
+    $('input.custom-file-input').on('change',function(){
+
+        var name = (this.files[0].name).split('.', 1);
+        $(this, '#parameters_logo').next().html('<i class="fas fa-check-circle success mr-3"></i>' + name);
+
+
+    });
+</script>
+
+{% endblock %}
