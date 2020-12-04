@@ -2,6 +2,9 @@
 {% set type = constant('TYPE', file) %}
 {% set icon = constant('ICON', file) %}
 
+{% set type = "sheet" %}
+{% set icon = "<i class='uil uil-bars'></i>" %}
+
 {# Lien pour une fiche  #}
 {% if type == 'sheet' %}
     {% set path = path('sheet_show', {'id': file.id}) %}

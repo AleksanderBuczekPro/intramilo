@@ -42,29 +42,21 @@
                         
                         </a>
                     </li>
+    
 
                     {# Search #}
-                    <form class="search-form inline w-100">
+                    {# <form class="search-form inline w-100">
                         <div class="input-group inline">
 
-                            <span class="">
-                                {# <div class="nav-btn inline float-left"><i class="uil uil-search"></i></div> #}
-                                {# <div class="input-group-prepend float-left">
-                                    <span class="input-group-text bg-white px-2" id="basic-addon1"><i class="uil uil-search"></i></span>
-                                </div> #}
-                                {# <form action="/search" method="post" class="inline-block">
-                                    <input type="text" class="form-control" placeholder="Recherche" name="q" required
-                                    value="{% if query is defined %}{{ query }}{% endif %}">
-                                </form> #}
+                                <span class="">
 
                                 <form action="{{ path('search_index') }}" method="post" class="inline-block" onsubmit="return redirect()">
                                     <input id="search-bar" type="text" class="form-control" name="q" value="{% if query is defined %}{{ query }}{% endif %}" placeholder="Recherche">
                                 </form>
-                                
                             </span>
 
                         </div>
-                    </form>
+                    </form> #}
                     
                 </ul>   
                 <ul class="navbar-nav ml-auto">
@@ -94,6 +86,7 @@
 
                             </div>
                         </div>
+
 
                         {# Ajout rapide #}
                         <div class="dropdown nav-btn float-right mx-1">
@@ -130,6 +123,15 @@
                             </a>
 
                         </span>
+
+                        {# Search #}
+                        <div class="dropdown nav-btn float-right mx-1">
+                            <a href="{{ path('search_index') }}">
+                                <button class="btn nav-hover larger" type="button">
+                                    <i class="fas fa-search"></i>
+                                </button>
+                            </a>
+                        </div>
                         
                         
                        
@@ -494,3 +496,21 @@
     </div>
   </div>
 </div>
+
+
+{# Search #}
+<script>
+
+    var search_query = "{{ app.request.query.get('q') }}";
+
+    if(search_query != null){
+
+        var search_path = "{{ path('search_index') }}";
+
+        // Redirection
+        //window.location.href = search_path;
+
+    }
+
+
+</script>

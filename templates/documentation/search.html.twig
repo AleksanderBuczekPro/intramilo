@@ -11,29 +11,137 @@
 
 {% block body %}
 
+<div class="container-fluid bg-white">
+    <div class="container search-container mt-0">
 
-        <div class="container search-container mt-0">
+        <div class="row">
+            <div class="col-12">
+                <p class="fil-ariane op-70 mb-0"><a class="black" href="{{ path('homepage') }}">Accueil</a><span class="black"></span> > Recherche</p>
+                <form action="{{ path('search_index') }}" method="get" class="search-form">
 
-            <div class="row mt-6">
-                <a href="{{ path('doc_index') }}" class="btn btn-my-return">
-                    <i class="uil uil-arrow-left"></i>Aller à la Documentation</a>
-            </div>
-            <div class="row">
-                <div class="col-3">
-                    <div class="search-sidebar my-title strong mt-1 mb-0">
-                        Recherche <span class="bleu">{{ query }}</span>
+
+                    <input id="search-bar" type="text" class="form-control no-focus" name="q" value="{% if query is defined %}{{ query }}{% endif %}" placeholder="Entrez un mot-clé ici">
+
+                    {% set sort = app.request.query.get("sort") %}
+
+                    <div class="mt-3">
+                        <input type="submit" class="btn btn-my-primary float-right inline-block" value="Rechercher">
+                        <div class="form-group inline-block float-right mr-4">
+                            <select class="form-control" id="exampleFormControlSelect1" name="sort">
+                                <option value="popular" {% if sort == "popular" or sort == "" %} selected="selected" {% endif %}>Les plus populaires</option>
+                                <option value="recent" {% if sort == "recent" %} selected="selected" {% endif %}>Les plus récentes</option>
+                                <option value="ancient" {% if sort == "ancient" %} selected="selected" {% endif %}>Les plus anciennes</option>
+                            </select>
+                        </div>
                     </div>
-                    <div class="my-secondary">{{ files|length }} résultat{% if files|length > 1 %}s{% endif %}</div>
-                </div>
-                <div class="col-9">
-                    {% for file in files %}
-                        {% include 'documentation/_file.html.twig' with {'file': file }  %}
-                    {% endfor %}
-                </div>
+
+                    
+                </form>
             </div>
-            
         </div>
 
+    
+    </div>
+</div>
+
+
+
+
+{% if query %}
+
+    <div class="container search-container pt-4">
+        
+        <div class="row">
+
+            <div class="col-3">
+                <div class="search-sidebar small mt-1 mb-0">
+                    {{ files|length + users|length + antennes|length }} résultat{% if (files|length + users|length + antennes|length) > 1 %}s{% endif %} pour "{{ query }}"
+                </div>
+            </div>
+
+            <div class="col-9">
+                
+                {# Users #}
+                <div class="mb-4">
+                    <div class="my-title mb-1">Personnes</div>
+                    {% if users|length > 0 %}
+                        {% for user in users %}
+                            <a class="select-user" href="{{ path('user_show', {'slug': user.slug })}}">
+                                {{ user.lastName }} {{ user.firstName }}
+                            </a>
+                        {% endfor %}
+                    {% else %}
+
+                        <p class="text">Aucune personne trouvée pour "{{ query }}".</p>
+
+                    {% endif %}
+
+                </div>
+
+                {# Antennes #}
+                <div class="mt-6">
+                    <div class="my-title mb-1">Antennes</div>
+
+                    {# From users #}
+                    {% set antenne_from_users = false %}
+                    {% for user in users %}
+
+                        {% if user.antenne not in antennes %}
+
+                            {% include 'documentation/_search_antenne.html.twig' with {'antenne': user.antenne }  %}
+
+                        {% endif %}
+
+                        {% set antenne_from_users = true %}
+
+                    {% endfor %}
+
+                    {# From antennes name #}
+                    {% if antennes|length > 0 %}
+                        {% for antenne in antennes %}
+
+                            {% include 'documentation/_search_antenne.html.twig' with {'antenne': antenne }  %}
+                                                  
+                        {% endfor %}
+                    {% elseif antenne_from_users == false %}
+                        
+                        <p class="text">Aucune antenne trouvée pour "{{ query }}".</p>
+
+                    {% endif %}
+
+                </div>
+                
+                <div class="mt-6">
+                    <div class="my-title mb-3">Documentation</div>
+                    {% if files|length > 0 %}
+
+                        {% for file in files %}
+                            {% include 'documentation/_file.html.twig' with {'file': file }  %}
+                        {% endfor %}
+
+                    {% else %}
+
+                        <p class="text">Aucun documentation trouvée pour "{{ query }}".</p>
+
+                    {% endif %}
+
+                </div>
+            
+
+            </div>
+        </div>
+
+    </div>
+
+{% endif %}
+
+
+
+
+</div>
+
+
+      
 
 
 {% endblock %}

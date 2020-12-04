@@ -172,42 +172,7 @@
                     
             
                 </div>
-                {# <div class="col-4">
 
-                    
-                    <div class="card my-card users mt-0 px-3">
-                        <div class="card-body">
-                            <div class="card-title mb-4">Responsable{% if subCategory.authors|length > 1 %}s{% endif %}
-                             de la mise à jour</div>
-                            <div>
-                                {% for author in subCategory.authors %}
-                                    {% include 'documentation/_user.html.twig' with {'user': author} %}
-                                {% endfor %}
-                            </div>
-                        </div>
-                    </div>
-
-
-                    {% if admin %}
-
-                        <div class="text-left mt-4">
-                            
-                            <div class="my-secondary small info mt-4 mb-3"><i class="uil uil-user-circle"></i> Ce dossier vous appartient</div>
-                            <a href="{{ path('sheet_create_sub', {'id': subCategory.id}) }}" class="btn btn-my-primary">
-                                <i class="uil uil-plus"></i> Ajouter une fiche       
-                            </a>
-                            <a href="{{ path('document_create_sub', {'id': subCategory.id}) }}" class= "btn btn-my-primary mt-2">
-                                <i class="uil uil-plus"></i> Ajouter un document            
-                            </a>
-                            
-                                                 
-                        </div>
-                    
-                    {% endif %}
-
-                    
-                </div> #}
-                    
                 
             </div>
             

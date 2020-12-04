@@ -26,7 +26,7 @@
                 {% for antenne in antennes %}
                 
                     <div class="col-12 px-0">
-                        <div class="card my-card contact-card no-border no-br mt-0 mb-1 p-3" data-id="{{ antenne.id }}" data-latitude={{ antenne.latitude }} data-longitude={{ antenne.longitude }}>
+                        <div class="card my-card contact-card no-border no-br mt-0 mb-1 p-3 {% if app.request.get('id') == antenne.id %} active {% endif %}" data-id="{{ antenne.id }}" data-latitude={{ antenne.latitude }} data-longitude={{ antenne.longitude }}>
 
                             <table class="my-table no-border w-100">
                                 <tr>
@@ -36,7 +36,7 @@
                                         </div>
                                     </td>
                                     <td class="w-100">
-                                        <div class="contact-title m-0">{{ antenne }}</div>
+                                        <div class="contact-title m-0 {% if app.request.get('id') == antenne.id %} active {% endif %}">{{ antenne }}</div>
                                         <div class="contact-secondary">
                                             
                                             {{ antenne.phoneNumber }}
@@ -68,14 +68,14 @@
 
                     <div class="col-md-12 pl-0">
 
-                            <div class="card my-card no-border contact-infos no-select no-br mt-0">
+                            <div class="card my-card no-border contact-infos no-select no-br mt-0 {% if app.request.get('id') %} d-none {% endif %}">
                                 <div class="card-body">
                                     <p class="text">Sélectionnez un contact pour afficher ses informations</p>
                                 </div>
                             </div>
 
                             {% for antenne in antennes %}
-                                <div class="card my-card no-border contact-infos contact my-box no-br mt-0 d-none" data-contact="{{ antenne.id }}">
+                                <div class="card my-card no-border contact-infos contact my-box no-br mt-0 {% if app.request.get('id') != antenne.id %} d-none {% endif %}" data-contact="{{ antenne.id }}">
                                     <div class="contact-map" id="map_{{ antenne.id }}"></div>
                                     <div class="card-body">
 
@@ -314,6 +314,10 @@
 
 {% block javascripts %}
 
+    <script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDsQWJbFJU0a-P_ELoC8RgXQsNgL-mgmEU">
+    </script>
+
 
     <script>
 
@@ -402,10 +406,6 @@
 
     </script>
 
-        <script async defer
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDsQWJbFJU0a-P_ELoC8RgXQsNgL-mgmEU">
-    </script>
-
 
     <script>
 
@@ -434,6 +434,26 @@
 
         
     });
+
+  
+
+
+    $( document ).ready(function() {
+        
+        var url = new URL(window.location.href);
+        var id = url.searchParams.get("id");
+
+        if(id){
+
+            
+            initMap();
+
+        }
+    
+    });
+        
+   
+    
 
     </script>
 

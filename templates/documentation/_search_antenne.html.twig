@@ -1,0 +1,68 @@
+ <div class="card my-card no-br mt-2">
+
+    <div class="card-body py-2">
+        <div class="row">
+            <div class="col-8">
+                <div class="antenne-title">
+                    <a href="{{ path('antennes_show', {'id': antenne.id }) }}" class="hover-purple">
+                    {{ antenne.title }}
+                    </a>
+                </div>
+                <div class="my-secondary">
+                    {{ antenne.address }} - {{ antenne.postCode }} {{ antenne.city|upper }}
+                </div>
+                <div class="my-secondary">
+                    {{ antenne.phoneNumber }}
+                </div>
+            </div>
+            <div class="col-4">
+                
+
+                {% if "now"|date('w') == 1 %}{% set Day = "Monday" %}{% endif %}
+                {% if "now"|date('w') == 2 %}{% set Day = "Tuesday" %}{% endif %}
+                {% if "now"|date('w') == 3 %}{% set Day = "Wednesday" %}{% endif %}
+                {% if "now"|date('w') == 4 %}{% set Day = "Thursday" %}{% endif %}
+                {% if "now"|date('w') == 5 %}{% set Day = "Friday" %}{% endif %}
+                {% if "now"|date('w') == 6 %}{% set Day = "Sunday" %}{% endif %}
+                {% if "now"|date('w') == 0 %}{% set Day = "Saturday" %}{% endif %}
+
+                {# {{ dump(_context[Day ~ 'AmOpen']|default ) }} #}
+
+                {# {{ dump(attribute(antenne, Day ~ 'AmOpen')) }} #}
+                
+
+                {% if attribute(antenne, Day ~ 'AmOpen') is null and attribute(antenne, Day ~ 'AmClose') is null and attribute(antenne, Day ~ 'PmOpen') is null and attribute(antenne, Day ~ 'PmClose') is null %}
+
+                    <div class="my-secondary open-close rouge">Fermé aujourd'hui</div>
+
+                {% else %}
+                    
+                    <div class="my-secondary open-close vert">Ouvert aujourd'hui</div>
+                    
+                    <div class="my-secondary">
+                        <span class="mr-2">
+                            {# Matin #}
+                            {% if attribute(antenne, Day ~ 'AmOpen') is not null and attribute(antenne, Day ~ 'AmClose') is not null %}
+                                {{ attribute(antenne, Day ~ 'AmOpen')|localizeddate('none', 'none', 'fr', null, 'HH:mm') }}–{{ attribute(antenne, Day ~ 'AmClose')|localizeddate('none', 'none', 'fr', null, 'HH:mm')}}
+                            {% endif %}
+                        </span>
+                        <span>
+                            {# Après-midi #}
+                            {% if attribute(antenne, Day ~ 'PmOpen') is not null and attribute(antenne, Day ~ 'PmClose') is not null %}
+                                {{ attribute(antenne, Day ~ 'PmOpen')|localizeddate('none', 'none', 'fr', null, 'HH:mm') }}–{{ attribute(antenne, Day ~ 'PmClose')|localizeddate('none', 'none', 'fr', null, 'HH:mm')}}
+                            {% endif %}
+                        </span>
+                    
+                    </div>
+                                                                        
+                
+                {% endif %}
+
+            </div>
+
+        </div>
+
+
+    </div>
+    
+</div>

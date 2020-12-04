@@ -35,11 +35,11 @@ class DocumentationController extends AbstractController
     {
         
         // // Gestion de la recherche
-        $query = $request->query->get('q');
+        // $query = $request->query->get('q');
 
-        if(isset($query)){
-            return $this->redirectToRoute('search_index', ['q' => $query]);
-        }
+        // if(isset($query)){
+        //     return $this->redirectToRoute('search_index', ['q' => $query]);
+        // }
      
                 
         // Gestion des catégories

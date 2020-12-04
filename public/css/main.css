@@ -201,6 +201,12 @@
 
 }
 
+.hover-purple:hover{
+
+    color: var(--purple-color)!important;
+
+}
+
 .tooltip-inner{
 
     position: relative;
@@ -347,6 +353,12 @@ body{
 p{
 
     font-family: "Roboto", sans-serif;
+
+}
+
+.bold{
+
+    font-weight: 500;
 
 }
 
@@ -1628,6 +1640,55 @@ table.table.my-table.hours-table fieldset select{
 
 }
 
+/* Search Antenne */
+.search-container .antenne-title {
+
+
+	font-family: "Roboto", sans-serif;
+    font-size: 15px;
+    color: #343a40;
+    font-weight: 500;
+
+}
+
+.search-container .open-close {
+
+    font-weight: 500;
+    font-size: 15px;
+
+}
+
+
+/* Select user */
+.select-user{
+	border-radius: 25px;
+	margin: 8px 8px 8px 0px;
+	overflow-wrap: break-word;
+	display: inline-block;
+	padding: 5px 13px;
+	font-family: "Roboto", sans-serif;
+    font-size: 15px;
+    background-color: var(--grey-15-color);
+    color: #343a40;
+    font-weight: 500;
+}
+
+.select-user.active, .select-user.active:hover {
+
+    background-color: var(--purple-transparent-color);
+    border: 1px solid transparent;
+    color: var(--purple-color);
+
+}
+
+.select-user:hover {
+
+    background-color: var(--purple-transparent-color)!important;
+    color: var(--purple-color)!important;
+    cursor: pointer;
+
+}
+
 .attachment-preview {
 	border: 1px solid var(--grey-15-color);
 	border-radius: 4px;
@@ -2480,14 +2541,55 @@ div.card.my-card.contact-user{
 }
 
 
-form.search-form input{
+div.search-container{
+
+    padding-top: 70px;
+    max-width: 1000px;
+
+}
+
+/* form.search-form input{
 
     padding: 5px 15px!important;
     margin-top: 12px;
     margin-left: 20px;
-    margin-bottom: 0px;
+    margin-bottom: 0px; */
+
+
+form.search-form input#search-bar{
+	margin-top: 18px;
+	margin-bottom: 0;
+	padding: 0;
+	height: 55px;
+	color: var(--purple-color);
+	background-color: transparent;
+	border: none;
+	font-family: 'Poppins', sans-serif;
+	font-weight: 700;
+	font-size: 42px;
+    line-height: 48px;
+    width: 100%;
+}
+
+
+form.search-form ::placeholder{
+
+    color: var(--marine-color);
+    opacity: 0.2!important;
 
 }
+
+form.search-form select{
+
+    width: 200px;
+
+}
+
+form.search-form .btn {
+	width: 200px;
+	height: 51px;
+}
+
 
 
 

@@ -63,7 +63,7 @@
     </head>
 
     {# Couleur de fond pour une page Erreur #}
-    <body class="{% if app.request.attributes.get('_route') is null  %} bg-white {% endif %}">
+    <body class="{% if app.request.attributes.get('_route') is null %} bg-white {% endif %}">
 
     {% if app.request.attributes.get('_route') is not null  %}
         
