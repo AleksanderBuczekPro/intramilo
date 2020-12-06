@@ -70,43 +70,6 @@ class HomeController extends Controller{
 
     }
 
-    /**
-     * @Security("is_granted('ROLE_USER')")
-     * 
-     * @Route("/_error404", name="error404")
-     *
-     */
-    public function error404(){
-
-        return $this->render('bundles/TwigBundle/Exception/error404.html.twig');
-
-    }
-
-    /**
-     * @Security("is_granted('ROLE_USER')")
-     * 
-     * @Route("/_error403", name="error403")
-     *
-     */
-    public function error403(){
-
-        return $this->render('bundles/TwigBundle/Exception/error403.html.twig');
-
-    }
-
-    /**
-     * @Security("is_granted('ROLE_USER')")
-     * 
-     * @Route("/_error500", name="error500")
-     *
-     */
-    public function error500(){
-
-        return $this->render('bundles/TwigBundle/Exception/error500.html.twig');
-
-    }
-
-
 
     
 }
