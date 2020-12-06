@@ -55,7 +55,7 @@
 
                                         </tr>
                                         <tr>
-                                            <td class="text-center txt">Fiches / Documents</td>
+                                            <td class="text-center txt">Fiches</td>
                                             <td class="text-center txt">Sous-catégories</td>
 
                                             {% if user.adminGroupes|length > 0 %}
@@ -317,15 +317,14 @@
                                 {% if user == app.user %}
                                     <div class="row">
                                         <div class="col-6 pr-1">
-                                            <button data-toggle="modal" data-target="#subModalSheet" data-title="Nouvelle fiche" class="btn btn-my-secondary w-100 mt-2">
-                                            {# <i class="far fa-file mr-3 violet"></i> #}
-                                            Créer une fiche
-                                            </button>
+                                            {# <button data-toggle="modal" data-target="#subModalDocument" data-title="Nouveau document" class="btn btn-my-secondary w-100 mt-2">
+                                                Importer un document
+                                            </button> #}
+                                            
                                         </div>
                                         <div class="col-6 pl-2">
-                                            <button data-toggle="modal" data-target="#subModalDocument" data-title="Nouveau document" class="btn btn-my-secondary w-100 mt-2">
-                                            {# <i class="fas fa-file-upload mr-3 violet"></i> #}
-                                            Importer un document
+                                            <button data-toggle="modal" data-target="#subModalSheet" data-title="Nouvelle fiche" class="btn btn-my-secondary w-100 mt-2">
+                                                Créer une fiche
                                             </button>
                                         </div>
                                     </div>
