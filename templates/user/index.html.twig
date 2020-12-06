@@ -506,22 +506,28 @@
 
                                                     {% if u != user %}
 
-                                                    <div class="col-6 px-1">
-                                                        <div class="card my-card contact-user mt-0">
-                                                            <table class="my-table no-border">
-                                                                <tr>
-                                                                    <td class="picture">
-                                                                        {% include '_picture.html.twig' with {'user': u, 'class': 'medium'} %}
-                                                                    </td>
-                                                                    <td>
-                                                                        <div class="main">{{ u }}</div>
-                                                                        <div class="my-secondary">{{ u.poste }}</div>
-                                                                    </td>
-                                                                </tr>
-                                                            </table>
-                                                        
+                                                       
+                                                        <div class="col-6 px-1">
+                                                            <a href="{{ path('user_show', {'slug': u.slug })}}">
+                                                                <div class="card my-card contact-user mt-0">
+                                                                    <table class="my-table no-border">
+                                                                        <tr>
+                                                                            <td class="picture">
+                                                                                {% include '_picture.html.twig' with {'user': u, 'class': 'medium'} %}
+                                                                            </td>
+                                                                            <td>
+                                                                                <div class="main">
+                                                                                    {{ u }}
+                                                                                </div>
+                                                                                <div class="my-secondary">{{ u.poste }}</div>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </table>
+                                                                
+                                                                </div>
+                                                            </a>
                                                         </div>
-                                                    </div>
+                                                        
 
                                                     {% endif %}
 
