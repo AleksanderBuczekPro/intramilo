@@ -12,7 +12,9 @@
 
         <p class="error-status">500</p>
         <p class="error-message">Erreur</p>
-        <p class="error-content">Un problème est survenu lors de l'envoi de votre requête. Veuillez contacter un administrateur.</p>
+        <p class="error-content">Un problème est survenu lors de l'envoi de votre requête. Veuillez contacter un administrateur. <br> <span class="op-40">{{status_code}} - {{status_text}} - {{exception.message}}</span></p>
+
+        <p class="my-italic op-40"></p>
 
         <a class="btn btn-my-outline white mt-2" onclick="history.back(-1)">Retour</a>
 

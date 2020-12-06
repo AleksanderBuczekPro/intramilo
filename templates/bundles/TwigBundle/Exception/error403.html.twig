@@ -12,7 +12,7 @@
 
         <p class="error-status">403</p>
         <p class="error-message">Accès refusé</p>
-        <p class="error-content">Désolé, mais vous n'êtes pas autorisé à accéder à cette page ou ressource</p>
+        <p class="error-content">Désolé, mais vous n'êtes pas autorisé à accéder à cette page ou ressource.  <br> <span class="op-40">{{status_code}} - {{status_text}} - {{exception.message}}</span></p>
 
         <a href="{{ path('homepage')}}" class="btn btn-my-outline mt-2">Retour à l'accueil</a>
         <a href="{{ path('doc_index')}}" class="btn btn-my-primary mt-2 ml-2">Documentation</a>

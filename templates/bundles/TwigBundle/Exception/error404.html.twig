@@ -12,7 +12,7 @@
 
         <p class="error-status">404</p>
         <p class="error-message">Page introuvable </p>
-        <p class="error-content">La page que vous demandez n'existe pas ou plus. Veuillez contacter un administrateur si besoin.</p>
+        <p class="error-content">La page que vous demandez n'existe pas ou plus. Veuillez contacter un administrateur si besoin. <br> <span class="op-40">{{status_code}} - {{status_text}} - {{exception.message}}</span></p>
 
         <a href="{{ path('homepage')}}" class="btn btn-my-outline mt-2">Retour à l'accueil</a>
         <a href="{{ path('doc_index')}}" class="btn btn-my-primary mt-2 ml-2">Documentation</a>
