@@ -1183,7 +1183,8 @@ class SheetController extends AbstractController
                 'category' => $sheet->getSubCategory()->getCategory(),
                 'subCategory' => $sheet->getSubCategory(),
                 'sheet' => $sheet,
-                'form' => $form->createView()
+                'form' => $form->createView(),
+                'parameters' => $parameters
 
             ]);
 
