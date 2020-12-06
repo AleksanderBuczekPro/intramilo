@@ -34,13 +34,20 @@
                         
                         </a>
                     </li>
-                    <li class="nav-item px-2">
+                    {# <li class="nav-item px-2">
                         <a class="nav-link antennes {% if app.request.attributes.get('_route') starts with 'antennes' or app.request.attributes.get('_route') starts with 'organization' or app.request.attributes.get('_route') starts with 'users' %}active{% endif %}" href="{{ path('antennes_show') }}">
                         
-                        {# <i class="uil uil-map"></i> #}
                         Annuaire
                         
                         </a>
+                    </li> #}
+                     <li class="nav-item px-2 dropdown hover-li">
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Annuaire</a>
+                            <div class="dropdown-menu py-1">
+                            <a class="dropdown-item px-3 py-2" href="{{ path('antennes_show') }}"><i class="uil uil-map-marker mr-2"></i>Antennes</a>
+                            <a class="dropdown-item px-3 py-2" href="{{ path('organizations_index') }}"><i class="uil uil-building mr-2"></i>Organismes</a>
+                            <a class="dropdown-item px-3 py-2" href="{{ path('users_show') }}"><i class="uil uil-users-alt mr-2"></i>Employés</a>
+                        </div>
                     </li>
     
 
@@ -241,12 +248,12 @@
                         </div>
                     </li>
                 {% else %}
-                    <li class="nav-item active">
+                    {# <li class="nav-item active">
                         <a class="nav-link" href="{{ path('account_register') }}">Inscription</a>
                     </li>
                     <li class="nav-item active">
                         <a class="nav-link" href="{{ path('account_login') }}">Connexion</a>
-                    </li>
+                    </li> #}
                 {% endif %}
                     
                 </ul>              

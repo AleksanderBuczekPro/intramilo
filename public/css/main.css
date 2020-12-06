@@ -221,6 +221,17 @@
     top: 10px;
 }
 
+.navbar-nav li.hover-li:hover>.dropdown-menu {
+    display: block;
+}
+
+.navbar-nav li.hover-li .nav-link::after{
+
+    position: relative;
+    top: 1px;
+    left: 2px;
+
+}
 
 
 

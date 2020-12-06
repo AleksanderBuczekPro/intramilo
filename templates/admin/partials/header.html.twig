@@ -74,7 +74,7 @@
                         <div class="dropdown-menu dropdown-menu-right account-dropdown box no-border" aria-labelledby="accountDropdownLink">
 
                             {# <h6 class="dropdown-header">Compte</h6> #}
-                            <div class="p-2 text-center">
+                            {# <div class="p-2 text-center">
                                 <div class="pr-2 mt-2 mb-2">
                                     {% include '_picture.html.twig' with {'user': app.user, 'class': 'large'} %}
                                 </div>
@@ -90,21 +90,21 @@
 
                             {% if is_granted('ROLE_ADMIN') %}
                                 <div class="dropdown-divider"></div>
-                                {# <h6 class="dropdown-header">Administration</h6> #}
+                                <h6 class="dropdown-header">Administration</h6>
                                 <a href="{{ path('homepage') }}" target="_blank" class="dropdown-item text-center">Retour Intramilo</a>
                             {% endif %}
 
-                            <div class="dropdown-divider"></div>
+                            <div class="dropdown-divider"></div> #}
                             <a href="{{ path('account_logout') }}" class="dropdown-item text-center">Se déconnecter</a>
                         </div>
                     </li>
                 {% else %}
-                    <li class="nav-item active">
+                    {# <li class="nav-item active">
                         <a class="nav-link" href="{{ path('account_register') }}">Inscription</a>
                     </li>
                     <li class="nav-item active">
                         <a class="nav-link" href="{{ path('account_login') }}">Connexion</a>
-                    </li>
+                    </li> #}
                 {% endif %}
                     
                 </ul>              
