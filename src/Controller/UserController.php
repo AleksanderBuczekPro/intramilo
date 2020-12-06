@@ -19,22 +19,10 @@ class UserController extends AbstractController
     {
         
 
-        // Init
-        $drafts = '';
-
-        $adminFiles['filesToValidate'] = '';
-        $adminFiles['filesToCorrect'] = '';
-        $adminFiles['filesUpToDate'] = '';
-        $adminFiles['filesWellObsolete'] = '';
-        $adminFiles['filesObsolete'] = '';
 
         if($user == $this->getUser()){
 
-            $adminFiles = $filter->getAdminFiles($this->getUser(), $userRepo, $sheetRepo);
-            $drafts = $filter->getDrafts($this->getUser());
-
-            $user = $this->getUser();
-
+            return $this->redirectToRoute('account_index');
 
         }
 
@@ -48,13 +36,6 @@ class UserController extends AbstractController
             'filesWellObsolete' => $files['filesWellObsolete'],
             'filesObsolete' => $files['filesObsolete'],
 
-            'adminFilesToValidate' => $adminFiles['filesToValidate'],
-            'adminFilesToCorrect' => $adminFiles['filesToCorrect'],
-            'adminFilesUpToDate' => $adminFiles['filesUpToDate'],
-            'adminFilesWellObsolete' => $adminFiles['filesWellObsolete'],
-            'adminFilesObsolete' => $adminFiles['filesObsolete'],
-
-            'drafts' => $drafts,
             'user' => $user
 
         ]);
