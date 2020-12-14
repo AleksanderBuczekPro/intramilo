@@ -358,7 +358,7 @@ class Filter{
         $drafts =  $this->manager->createQuery(
             "SELECT s
             FROM App\Entity\Sheet s
-            WHERE s.author = :author AND s.status = 'DRAFT'
+            WHERE s.author = :author AND s.status = 'DRAFT' AND s.archivedAt IS NULL
             ORDER BY s.updatedAt DESC
             "
         )
