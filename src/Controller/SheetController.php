@@ -754,24 +754,25 @@ class SheetController extends AbstractController
 
         $form->handleRequest($request);
 
+
+
         // DUPLICATA si une fiche est en ligne et qu'elle appartient à l'utilisateur connecté.
-        // if(($sheet->getStatus()) == null && ($sheet->getAuthor() == $this->getUser())){
+        if(($sheet->getStatus()) == null && ($sheet->getAuthor() == $this->getUser())){
 
-        //     // S'il n'y a pas déjà un brouillon d'enregistré
-        //     $already_created = $sheetRepo->findOneByOrigin($sheet);
+            // S'il n'y a pas déjà un brouillon d'enregistré
+            $already_created = $sheetRepo->findOneByOrigin($sheet);
 
-        //     if(!$already_created){
-        //         $sheet = $this->duplicate($sheet, $manager, 'DRAFT', $post, $repo, $form);
-        //     }else{
-
-        //         $sheet = $already_created;
-
-        //     }
+            if(!$already_created){
+                $sheet = $this->duplicate($sheet, $manager, 'DRAFT', $post, $repo, $form);
+                return $this->redirectToRoute('sheet_edit', ['id' => $sheet->getId()]);
+            }else{
+                $sheet = $already_created;
+                return $this->redirectToRoute('sheet_edit', ['id' => $sheet->getId()]);
+            }
             
-        // }
+        }
 
-
-        // die();
+        //dd($sheet);
 
         if($form->isSubmitted() && $form->isValid()){
             

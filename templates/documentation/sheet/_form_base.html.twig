@@ -36,7 +36,27 @@
                                 </table>
                         {% else %}
 
-                            {% if sheet.status == "DRAFT" %}
+                            {% set status = "-" %}
+                            {% set color = "black" %}
+
+                            {% if sheet.status != null %}
+
+                                {% if sheet.status == "DRAFT" %}
+                                    {% set status = "Brouillon" %}
+                                    {% set color = "orange" %}
+                                {% endif %}
+
+                                {% if sheet.status == "TO_VALIDATE" %}
+                                    {% set status = "En attente de validation" %}
+                                    {% set color = "black op-70" %}
+                                {% endif %}
+
+                                {% if sheet.status == "TO_CORRECT" %}
+                                    {% set status = "A corriger" %}
+                                    {% set color = "rouge" %}
+                                {% endif %}
+
+
 
                                 <table class="my-table no-border">
                                     <tr>
@@ -48,7 +68,7 @@
                                                 <i class="fas fa-exclamation-circle op-70"></i>
                                             </div>
                                         </td>
-                                        <td><strong id="change-text">{{ sheet.title }}</strong> <span class="orange">[Brouillon]</span></td>
+                                        <td><strong id="change-text">{{ sheet.title }}</strong> <span class="{{ color }}">[{{ status }}]</span></td>
                                     </tr>
                                     <tr>
                                         
