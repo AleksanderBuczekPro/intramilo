@@ -1229,6 +1229,15 @@ class SheetController extends AbstractController
 
         }
 
+        // DRAFT or TO VALIDAT or TO CORRECT
+        $sheetDuplicated = $sheetRepo->findOneByOrigin($sheet);
+
+        if($sheetDuplicated){
+
+            $sheetDuplicated->setOrigin(null);
+
+        }
+
         // Date de la mise en archive
         $sheet->setArchivedAt(new \DateTime(null, new DateTimeZone('Europe/Paris')));
         
