@@ -398,7 +398,7 @@ class SheetController extends AbstractController
                 }
 
             }           
-            
+
 
              // Attachments
              foreach($sheet->getAttachments() as $attachment){
@@ -772,7 +772,7 @@ class SheetController extends AbstractController
             
         }
 
-        //dd($sheet);
+        
 
         if($form->isSubmitted() && $form->isValid()){
             
@@ -799,6 +799,8 @@ class SheetController extends AbstractController
 
             // EN LIGNE
             if($sheet->getStatus() == null){
+
+                
                 
                 // Brouillon
                 if($action == "draft"){
@@ -819,6 +821,8 @@ class SheetController extends AbstractController
 
                     // Admin
                     if($this->isGranted("ROLE_ADMIN")){
+
+                        
 
                         $update = $this->update($sheet, $manager, null, $post, $repo, $form, $sheetRepo);
                         return $this->redirectToRoute('sheet_show', ['id' => $update->getId()]);
@@ -962,6 +966,9 @@ class SheetController extends AbstractController
                 // Envoyer à valider
                     // Admin
                     if($this->isGranted("ROLE_ADMIN")){
+
+                        // On valide
+                        $update = $this->update($sheet, $manager, null, $post, $repo, $form, $sheetRepo);
                         
                         // On supprime l'ancienne fiche
                         $oldSheet = $sheetRepo->findOneById($sheet->getOrigin());
@@ -973,15 +980,11 @@ class SheetController extends AbstractController
                             $manager->remove($oldSheet);
                             $manager->flush();
                             
-
-
                         }
 
                         
                         // $manager->flush();
                         
-                        // On valide
-                        $update = $this->update($sheet, $manager, null, $post, $repo, $form, $sheetRepo);
                         return $this->redirectToRoute('sheet_show', ['id' => $update->getId()]);
 
                         
