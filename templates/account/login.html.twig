@@ -19,6 +19,16 @@
                 de la Mission Locale de l’arrondissement de Dijon
             </div>
 
+            {% for label, messages in app.flashes %}
+                <div class="container">
+                    <div class="alert alert-{{ label }} my-box">
+                        {% for message in messages %}
+                        <p class="mb-0">{{ message | raw}}</p>    
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endfor %}
+
             <div class="login-form text-left mt-4">
                 <form action="{{ path('account_login') }}" method="post">
 

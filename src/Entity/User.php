@@ -52,6 +52,12 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
+     *  @Assert\Regex(
+     *     pattern="/^(?=.*?[#?!@$%^&*-]).{8,}$/",
+     *     match=true,
+     *     message="Le mot de passe doit faire au moins 8 caractères et contenir un caratère spécial "
+     * )
+     * 
      */
     private $hash;
 

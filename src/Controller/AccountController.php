@@ -13,6 +13,7 @@ use App\Form\EmailResetType;
 use App\Entity\PasswordUpdate;
 use App\Form\AdminAccountType;
 use App\Form\RegistrationType;
+use App\Form\PasswordResetType;
 use App\Form\PasswordUpdateType;
 use App\Repository\UserRepository;
 use App\Repository\SheetRepository;
@@ -28,13 +29,13 @@ use Doctrine\Common\Annotations\AnnotationReader;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\SerializerInterface;
-use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+
 use Symfony\Component\Serializer\Normalizer\PropertyNormalizer;
 
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoder;
-
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Serializer\Mapping\Loader\AnnotationLoader;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
@@ -495,9 +496,13 @@ class AccountController extends AbstractController
      */
     public function resetPasswordToken(UserRepository $userRepo, Request $request, UserPasswordEncoderInterface $encoder, EntityManagerInterface $manager){
 
+    
+        $password = new PasswordUpdate;
+        $form = $this->createForm(PasswordResetType::class, $password);
+        $form->handleRequest($request);
+
+
         $token = $request->query->get('token');
-
-
 
         // S'il existe un jeton
         if ($token !== null) {
@@ -522,25 +527,37 @@ class AccountController extends AbstractController
                         return $this->render('account/reset-password-email-expired.html.twig');    
                     }
 
-                    $pwd = $request->request->get('password');
-                    $pwd2 = $request->request->get('password2');
 
-                    // Et que les 2 mot de passe sont identiques
+                    if($form->isSubmitted() && $form->isValid()){
 
-                    if ($pwd == $pwd2 && $pwd != null) {
-
-                        $encoded = $encoder->encodePassword($user, $pwd);
+                        $encoded = $encoder->encodePassword($user, $password->getNewPassword());
                         $user->setHash($encoded);
 
                         $manager->persist($user);
                         $manager->flush();
 
                         //add flash
+                        
+                        $this->addFlash(
+                            'success',
+                            "Mot de passe réinitialisé avec succès ! Connectez-vous avec votre nouveau mot de passe."
+
+                        );
 
                         return $this->render('account/login.html.twig', [ 'hasError' => null, 'username' => $user->getEmail() ]);
+
                     }
 
-                    return $this->render('account/reset-password-token.html.twig', array(
+                    // $pwd = $request->request->get('password');
+                    // $pwd2 = $request->request->get('password2');
+
+                    // if ($pwd == $pwd2 && $pwd != null) {
+
+                        
+                    // }
+
+                    return $this->render('account/reset-password-token.html.twig', array( 
+                        'form' => $form->createView(),
                         'user' => $user
                     ));       
                 }
@@ -548,7 +565,7 @@ class AccountController extends AbstractController
                 return $this->render('account/reset-password-email-expired.html.twig');
 
         }
-
+        
 
     }
 

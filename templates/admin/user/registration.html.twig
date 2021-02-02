@@ -165,6 +165,7 @@
                             class="{{ form.hash.vars.required ? 'required' }}">
                             {{ form.hash.vars.label }}
                         </label>
+                        {{ form_errors(form.hash) }}
                         {{ form_widget(form.hash, { 'attr': {'autocomplete': 'new-password'} }) }}
                     </div>
 
@@ -176,6 +177,7 @@
                             class="{{ form.passwordConfirm.vars.required ? 'required' }}">
                             {{ form.passwordConfirm.vars.label }}
                         </label>
+                        {{ form_errors(form.passwordConfirm) }}
                         {{ form_widget(form.passwordConfirm, { 'attr': {'autocomplete': 'new-password'} }) }}
                     </div>
 

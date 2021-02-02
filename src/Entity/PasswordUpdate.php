@@ -11,12 +11,17 @@ class PasswordUpdate
     private $oldPassword;
 
     /**
-     * @Assert\Length(min=8, minMessage="Votre mot de passe doit faire au moins 8 caractères")
+     * @Assert\Regex(
+     *     pattern="/^(?=.*?[#?!@$%^&*-]).{8,}$/",
+     *     match=true,
+     *     message="Votre mot de passe doit faire au moins 8 caractères et contenir un caratère spécial "
+     * )
+     * 
      */
     private $newPassword;
 
     /**
-     * @Assert\EqualTo(propertyPath="newPassword", message="Vous n'avez pas correctement confirmé votre nouveau mot de passe")
+     * @Assert\EqualTo(propertyPath="newPassword", message="Les deux mots de passe ne sont pas identiques")
      */
     private $confirmPassword;
 
