@@ -60,73 +60,75 @@
             </div>
 
             <div class="col-9">
+
+            {% if files|length + users|length + antennes|length > 0 %}
                 
                 {# Users #}
-                <div class="mb-4">
-                    <div class="my-title mb-1">Personnes</div>
-                    {% if users|length > 0 %}
-                        {% for user in users %}
-                            <a class="select-user" href="{{ path('user_show', {'slug': user.slug })}}">
-                                {{ user.lastName }} {{ user.firstName }}
-                            </a>
-                        {% endfor %}
-                    {% else %}
+                {% if users|length > 0 %}
 
-                        <p class="text">Aucune personne trouvée pour "{{ query }}".</p>
+                    <div class="mb-6">
+                        <div class="my-title mb-1">Personnes</div>
+                        
+                            {% for user in users %}
+                                <a class="select-user" href="{{ path('user_show', {'slug': user.slug })}}">
+                                    {{ user.lastName }} {{ user.firstName }}
+                                </a>
+                            {% endfor %}
 
-                    {% endif %}
 
-                </div>
+                    </div>
+
+                {% endif %}
 
                 {# Antennes #}
-                <div class="mt-6">
-                    <div class="my-title mb-1">Antennes</div>
+                {% if antennes|length > 0 %}
+                    <div class="mb-6">
+                        <div class="my-title mb-1">Antennes</div>
 
-                    {# From users #}
-                    {% set antenne_from_users = false %}
-                    {% for user in users %}
+                        {# From users #}
+                        {% set antenne_from_users = false %}
+                        {% for user in users %}
 
-                        {% if user.antenne not in antennes %}
+                            {% if user.antenne not in antennes %}
 
-                            {% include 'documentation/_search_antenne.html.twig' with {'antenne': user.antenne }  %}
+                                {% include 'documentation/_search_antenne.html.twig' with {'antenne': user.antenne }  %}
 
-                        {% endif %}
+                            {% endif %}
 
-                        {% set antenne_from_users = true %}
+                            {% set antenne_from_users = true %}
 
-                    {% endfor %}
-
-                    {# From antennes name #}
-                    {% if antennes|length > 0 %}
-                        {% for antenne in antennes %}
-
-                            {% include 'documentation/_search_antenne.html.twig' with {'antenne': antenne }  %}
-                                                  
                         {% endfor %}
-                    {% elseif antenne_from_users == false %}
-                        
-                        <p class="text">Aucune antenne trouvée pour "{{ query }}".</p>
 
-                    {% endif %}
+                        {# From antennes name #}
+                            {% for antenne in antennes %}
 
-                </div>
+                                {% include 'documentation/_search_antenne.html.twig' with {'antenne': antenne }  %}
+                                                    
+                            {% endfor %}
+
+                    </div>
+                {% endif %}
                 
-                <div class="mt-6">
-                    <div class="my-title mb-3">Documentation</div>
-                    {% if files|length > 0 %}
 
-                        {% for file in files %}
-                            {% include 'documentation/_file.html.twig' with {'file': file }  %}
-                        {% endfor %}
+                {# Documentation #}
+                {% if files|length > 0 %}
+                    <div class="mb-6">
+                        <div class="my-title mb-3">Documentation</div>
 
-                    {% else %}
+                            {% for file in files %}
+                                {% include 'documentation/_file.html.twig' with {'file': file }  %}
+                            {% endfor %}
 
-                        <p class="text">Aucun documentation trouvée pour "{{ query }}".</p>
+                    </div>
+                {% endif %}
 
-                    {% endif %}
+            {# No result #}
+            {% else %}
 
-                </div>
-            
+                <p class="text mt-2">Aucun résultat trouvée pour "{{ query }}".</p>
+
+
+            {% endif %}
 
             </div>
         </div>
