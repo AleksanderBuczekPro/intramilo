@@ -120,11 +120,13 @@
                                 "></div>
                                 <div class="d-none" id="docId" >{{ document.id }}</div>
                                 <a href="{{ vich_uploader_asset(document, 'genericFile')}}" target="_blank" id="opendoc" class="btn btn-success">Télécharger</a>
+                                
                                 {% if document.author == app.user %}
-                                <a href="{{ path('document_edit', {'id': document.id }) }}" class="btn btn-primary">Modifier</a>
-                                <a href="{{ path('document_delete', {'id': document.id }) }}" class="btn btn-danger">Supprimer</a>
+                                    <a href="{{ path('document_edit', {'id': document.id }) }}" class="btn btn-primary">Modifier</a>
+                                    <a href="" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">Supprimer</a>
                                 {% endif %}
-                                <a href="{{ path('doc_show', {'slug': document.subCategory.category.slug, 'sub_slug': document.subCategory.slug, 'sub_id': document.subCategory.id }) }}" class="btn btn-light">Retour</a>
+
+                                {# <a href="{{ path('doc_show', {'slug': document.subCategory.category.slug, 'sub_slug': document.subCategory.slug, 'sub_id': document.subCategory.id }) }}" class="btn btn-light">Retour</a> #}
                             
 
 
@@ -139,6 +141,22 @@
         </div>
     
     </div>
+
+{# Delete Modal #}
+<div class="modal fade bd-example-modal-lg" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content p-3">
+      <div class="modal-header no-border pb-0">
+        <h4 class="modal-title m-0 text-center" id="exampleModalLabel">Supprimer définitivement le document<span class="font-weight-light"> - Êtes-vous sûr ?</span></h4>
+      </div>
+      <div class="modal-footer no-border">
+        <button type="button" class="btn" data-dismiss="modal">Non</button>
+        <a type="button" href="{{ path('document_delete', {'id': document.id }) }}" class="btn btn-my-danger">Oui, je supprime définitivement</a>
+      </div>
+    </div>
+  </div>
+</div>
+
 
 {% endblock %}
 
@@ -162,17 +180,17 @@ $("#opendoc").click(function() {
             var path = "{{ path('document_views') }}";
             
         }
-       
 
         $.ajax({
             type: 'POST',
             url: path,
             data: { type: type, id: id },
             success: function(data) {
+                // console.log(data);
                 
             },
             error: function(data) {
-                /* alert("Error !")*/
+                // console.log(data);
             }
 
 

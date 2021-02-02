@@ -103,7 +103,7 @@
                             <div class="dropdown-menu dropdown-menu-right my-dropdown no-border box" aria-labelledby="dropdownMenuButton">
                                 <h6 class="dropdown-header black pl-3">Ajout rapide</h6>
                                 <button class="dropdown-item pl-3" data-toggle="modal" data-target="#subModalSheet" data-title="Nouvelle fiche"><span class="rounded"><i class="far fa-file my-rounded"></i></span> Créer une fiche</button>
-                                {# <button class="dropdown-item pl-3" data-toggle="modal" data-target="#subModalDocument" data-title="Nouveau document"><span class="rounded"><i class="fas fa-file-upload my-rounded"></i></span> Importer un document</button> #}
+                                <button class="dropdown-item pl-3" data-toggle="modal" data-target="#subModalDocument" data-title="Nouveau document"><span class="rounded"><i class="fas fa-file-upload my-rounded"></i></span> Importer un document</button>
                                 {# <a class="dropdown-item pl-3" href="{{ path('sheet_create') }}"><span class="rounded"><i class="far fa-file my-rounded"></i></span> Créer une fiche</a> #}
                                 {# <a class="dropdown-item pl-3" href="{{ path('document_create') }}"><span class="rounded"><i class="fas fa-file-upload my-rounded"></i></span> Importer un document</a> #}
                             </div>
@@ -425,7 +425,7 @@
         
             <ul class="nav nav-tabs mt-0" id="myTab" role="tablist">
                 <li class="nav-item">
-                    <a class="nav-link active" id="my-subs-tab-2" data-toggle="tab" href="#my-subs" role="tab" aria-controls="my-subs-2" aria-selected="true">Mes sous-catégories</a>
+                    <a class="nav-link active" id="my-subs-tab-2" data-toggle="tab" href="#my-subs-2" role="tab" aria-controls="my-subs-2" aria-selected="true">Mes sous-catégories</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" id="all-subs-tab-2" data-toggle="tab" href="#all-subs-2" role="tab" aria-controls="all-subs-2" aria-selected="false">Toutes les sous-catégories</a>
@@ -443,7 +443,7 @@
                             <h5 class="mt-3 mb-2">{{ pole }}</h5>
                         {% endif %}
 
-                            <div class="select-sub" data-href="{{ path('sheet_create_sub', {'id': sub.id}) }}">
+                            <div class="select-sub" data-href="{{ path('document_create_sub', {'id': sub.id}) }}">
                                 {{ sub.category }} - {{ sub }}
                             </div>
 
@@ -461,7 +461,7 @@
                         {% for cat in pole.category %}
 
                             {% for sub in cat.subcategories %}
-                                <div class="select-sub" data-href="{{ path('sheet_create_sub', {'id': sub.id}) }}">
+                                <div class="select-sub" data-href="{{ path('document_create_sub', {'id': sub.id}) }}">
                                     {{ cat }} - {{ sub }}
                                 </div>
                             {% endfor %}

@@ -36,7 +36,7 @@ class Docs{
         $limit = 20;
         
 
-        $files = $this->manager->createQuery(
+        $sheets = $this->manager->createQuery(
             'SELECT s FROM App\Entity\Sheet s
             WHERE s.status IS NULL AND s.archivedAt IS NULL
             ORDER BY s.updatedAt DESC
@@ -45,16 +45,16 @@ class Docs{
         ->setMaxResults($limit)
         ->getResult();
 
-        // $documents = $this->manager->createQuery(
-        //     'SELECT d FROM App\Entity\Document d
-        //     WHERE d.status IS NULL
-        //     ORDER BY d.updatedAt DESC
-        //     '
-        // )
-        // ->setMaxResults($limit)
-        // ->getResult();
+        $documents = $this->manager->createQuery(
+            'SELECT d FROM App\Entity\Document d
+            WHERE d.status IS NULL
+            ORDER BY d.updatedAt DESC
+            '
+        )
+        ->setMaxResults($limit)
+        ->getResult();
 
-        // $files = array_merge_recursive($sheets, $documents);
+        $files = array_merge_recursive($sheets, $documents);
 
         usort($files, function($a, $b){ 
             // return strcasecmp($a->getTitle(), $b->getTitle());
@@ -74,7 +74,7 @@ class Docs{
             'end_date'=> $end_date
         );
 
-        $files = $this->manager->createQuery(
+        $sheets = $this->manager->createQuery(
             "SELECT s FROM App\Entity\Sheet s
             WHERE s.status IS NULL AND s.front = 1 AND s.publishedAt > :end_date AND s.archivedAt IS NULL
             "
@@ -82,15 +82,15 @@ class Docs{
         ->setParameters($parameters)
         ->getResult();
 
-        // $documents = $this->manager->createQuery(
-        //     'SELECT d FROM App\Entity\Document d
-        //     WHERE d.status IS NULL AND d.front = 1 AND d.publishedAt > :end_date
-        //     '
-        // )
-        // ->setParameters($parameters)
-        // ->getResult();
+        $documents = $this->manager->createQuery(
+            'SELECT d FROM App\Entity\Document d
+            WHERE d.status IS NULL AND d.front = 1 AND d.publishedAt > :end_date
+            '
+        )
+        ->setParameters($parameters)
+        ->getResult();
 
-        // $files = array_merge_recursive($sheets, $documents);
+        $files = array_merge_recursive($sheets, $documents);
 
         // Tri par date
         usort($files, function($a, $b) {

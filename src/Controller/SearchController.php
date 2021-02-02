@@ -34,7 +34,7 @@ class SearchController extends AbstractController
 
             $users = $search->getUsers($query);
             $antennes = $search->getAntennes($query);
-            $files = $search->getSheets($query, $sort);
+            $files = $search->getFiles($query, $sort);
             
         }
 

@@ -66,28 +66,6 @@ class DocumentController extends AbstractController
     }
 
     /**
-     * Permet d'afficher les informations d'un document (Document)
-     * 
-     * @Route("/doc/document/{id}", name="document_show")
-     * @Route("/doc/attachment/{id}", name="attachment_show")
-     * 
-     * @return Response
-     */
-    public function show(Document $document = null, Attachment $attachment = null)
-    {
-        // if($attachment){
-            
-        //     $document = $attachment;
-
-        // }
-
-
-        return $this->render('documentation/document/show.html.twig', [
-            'document' => $document
-        ]);
-    }
-
-    /**
      * Permet d'incrémenter le compteur de vues pour un document (à l'ouverture du fichier)
      * 
      * @Route("/doc/document/views", name="document_views")
@@ -121,7 +99,32 @@ class DocumentController extends AbstractController
         return $this->render('documentation/document/show.html.twig', [
             'document' => $document
         ]);
+
     }
+
+    /**
+     * Permet d'afficher les informations d'un document (Document)
+     * 
+     * @Route("/doc/document/{id}", name="document_show")
+     * @Route("/doc/attachment/{id}", name="attachment_show")
+     * 
+     * @return Response
+     */
+    public function show(Document $document = null, Attachment $attachment = null)
+    {
+        // if($attachment){
+            
+        //     $document = $attachment;
+
+        // }
+
+
+        return $this->render('documentation/document/show.html.twig', [
+            'document' => $document
+        ]);
+    }
+
+    
 
     /**
      * Permet de modifier un document

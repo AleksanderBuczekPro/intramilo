@@ -14,16 +14,33 @@ class Search{
 
     }
 
-    public function getFiles($query){
+    public function getFiles($query, $sort){
 
         $sheets = $this->getSheets($query);
         $documents =  $this->getDocuments($query);
 
         $files = array_merge_recursive($sheets, $documents);
 
-        usort($files, function($a, $b){ 
-            return strcasecmp($a->getTitle(), $b->getTitle());
-        });
+        if($sort == "popular" || $sort == null){
+            usort($files, function($a, $b){ 
+                return strnatcmp($b->getViews(), $a->getViews());
+            });
+        }
+
+        if($sort == "recent"){
+            usort($files, function($a, $b){ 
+                return strtotime($b->getUpdatedAt()->format('Y-m-d H:i:s')) - strtotime($a->getUpdatedAt()->format('Y-m-d H:i:s'));
+                
+            });
+        }
+
+        if($sort == "ancient"){
+            usort($files, function($a, $b){ 
+                return strtotime($a->getUpdatedAt()->format('Y-m-d H:i:s')) - strtotime($b->getUpdatedAt()->format('Y-m-d H:i:s'));
+            });
+        }
+
+        
 
 
         return $files;
@@ -33,25 +50,14 @@ class Search{
 
    
     
-    public function getSheets($query, $sort){
+    public function getSheets($query){
 
-        if($sort == "popular" || $sort == null){
-            $condition = "ORDER BY s.views DESC";
-        }
-
-        if($sort == "recent"){
-            $condition = "ORDER BY s.updatedAt DESC";
-        }
-
-        if($sort == "ancient" || $sort == null){
-            $condition = "ORDER BY s.updatedAt ASC";
-        }
+        $query = trim($query);
 
         $parameters = array(
             'title_query'=> '%'.$query.'%',
             'subtitle_query'=> '%'.$query.'%',
-            'first_name_query'=> '%'.$query.'%',
-            'last_name_query'=> '%'.$query.'%',
+            'name_query'=> '%'.$query.'%',
             'organization_query'=> '%'.$query.'%',
             'attachment_query'=> '%'.$query.'%',
             'introduction_query'=> '%'.$query.'%',
@@ -63,7 +69,7 @@ class Search{
         );
 
         return $this->manager->createQuery(
-            'SELECT DISTINCT s
+            "SELECT DISTINCT s
             FROM
                 App\Entity\Sheet s
 
@@ -81,8 +87,7 @@ class Search{
             AND (
                    s.title        LIKE :title_query
                 OR s.subtitle     LIKE :subtitle_query
-                OR u.firstName    LIKE :first_name_query
-                OR u.lastName     LIKE :last_name_query
+                OR CONCAT(u.firstName, ' ', u.lastName) LIKE :name_query
                 OR o.name         LIKE :organization_query
                 OR a.title        LIKE :attachment_query
                 OR s.introduction LIKE :introduction_query
@@ -92,7 +97,7 @@ class Search{
                 OR p.title        LIKE :paragraph_title_query  
                 OR p.content      LIKE :paragraph_content_query  
             
-            )'. $condition
+            )"
         )
         ->setParameters($parameters)
         ->getResult();
@@ -103,7 +108,8 @@ class Search{
 
         $parameters = array(
             'title_query'=> '%'.$query.'%',
-            'organization_query'=> '%'.$query.'%'
+            'organization_query'=> '%'.$query.'%',
+            'name_query'=> '%'.$query.'%'
         );
 
         $qb = $this->manager->createQueryBuilder();
@@ -111,9 +117,11 @@ class Search{
         $qb->select('d')
             ->from('App\Entity\Document', 'd')
             ->innerJoin('App\Entity\Organization', 'o', 'WITH', 'o.id = d.organization')
+            ->leftJoin('App\Entity\User', 'u', 'WITH', 'u.id = d.author')
             ->where('d.status IS NULL')
             ->andWhere('d.title LIKE :title_query')
             ->orWhere('o.name LIKE :organization_query')
+            ->orWhere("CONCAT(u.firstName, ' ', u.lastName) LIKE :name_query")
             ->setParameters($parameters)
             ->orderBy('d.title', 'ASC');
 
@@ -124,18 +132,17 @@ class Search{
 
     public function getUsers($query){
 
+        $query = trim($query);
+
         $parameters = array(
-            'first_name'=> '%'.$query.'%',
-            'last_name'=> '%'.$query.'%',
-            // 'content_query'=> '%'.$query.'%'
+            'name'=> '%'.$query.'%',
         );
 
         $qb = $this->manager->createQueryBuilder();
 
         $qb->select('u')
             ->from('App\Entity\User', 'u')
-            ->where('u.firstName LIKE :first_name')
-            ->orWhere('u.lastName LIKE :last_name')
+            ->where("CONCAT(u.firstName, ' ',u.lastName) LIKE :name")
             
             ->setParameters($parameters)
             ->orderBy('u.lastName', 'ASC');
@@ -148,6 +155,8 @@ class Search{
     }
 
     public function getAntennes($query){
+
+        $query = trim($query);
 
         $parameters = array(
             'title_query'=> '%'.$query.'%'
