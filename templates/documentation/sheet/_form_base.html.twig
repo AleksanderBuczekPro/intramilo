@@ -261,7 +261,7 @@
                     {% endif %}
 
                     {% set dnone = "d-none" %}
-                    {% if sheet.status == "TO_VALIDATE" and is_granted("ROLE_ADMIN") %}
+                    {% if (sheet.status == "TO_VALIDATE" and is_granted("ROLE_ADMIN")) or (sheet.status is null and is_granted("ROLE_ADMIN") and app.request.attributes.get('_route') starts with 'sheet_edit') %}
 
                         {% set dnone = "" %}
 
@@ -271,17 +271,39 @@
                         <div class="card my-card notification marine bg-marine-transparent no-border my-4">
                             <div class="card-body text-left">
 
+                                {% set state = "" %}
+                                {% set icon = "" %}
+                                {% set state_class = "" %}
+
+                                {% if sheet.status == "TO_VALIDATE" %}
+
+                                    {% set state = "En attente de validation" %}
+                                    {% set icon = "pause-circle" %}
+                                    {% set state_class = "marine" %}
+
+                                {% endif %}
+
+                                {% if sheet.status is null %}
+
+                                    {% set state = "À jour" %}
+                                    {% set icon = "check-circle" %}
+                                    {% set state_class = "success" %}
+
+                                {% endif %}
+
+
+
                                 <table class="my-table notification w-100">
                                     <tbody>
                                         <tr>
                                             <td class="file-icon-state">
-                                                <i class="fas fa-pause-circle marine"></i>
+                                                <i class="fas fa-{{icon}} {{state_class}}"></i>
                                             </td>
                                             <td class="file-content text-left pl-1">
-                                                <div class="file-state">
-                                                    En attente de validation
+                                                <div class="file-state mt-1">
+                                                    {{ state }}
                                                 </div>
-                                                <div class="my-secondary small marine">
+                                                <div class="my-secondary small marine mb-2">
                                                     {{ sheet.updatedAt|localizeddate('none', 'none', 'fr', null, 'd MMMM Y') }}
                                                     à {{ sheet.updatedAt|localizeddate('none', 'none', 'fr', null, 'HH:mm') }}
                                     

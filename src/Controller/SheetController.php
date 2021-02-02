@@ -815,6 +815,12 @@ class SheetController extends AbstractController
                         // Enregistrer en brouillon et Quitter
                         return $this->redirectToRoute('sheet_show', ['id' => $draft->getId()]);                   
                     }
+                
+                // Envoyer à corriger
+                }elseif($action == "to_correct"){
+
+                    $update = $this->update($sheet, $manager, 'TO_CORRECT', $post, $repo, $form, $sheetRepo);
+                    return $this->redirectToRoute('sheet_show', ['id' => $update->getId()]);
 
                 }else{
                 // Envoyer à valider
