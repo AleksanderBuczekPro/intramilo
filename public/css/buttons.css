@@ -659,11 +659,31 @@ ul li a.my-pill.active{
 
 }
 
+
+/* Reponsivity */
 @media (max-width: 1300px) {
+
+    /* #home-sidebar{
+
+        width: 60px!important;
+
+    } */
 
     #home-sidebar{
 
-        width: 60px!important;
+        width: 96vw!important;
+
+    }
+
+    #home-sidebar a{
+
+        display: inline-block;
+
+    }
+
+    .profile-sidebar{
+
+        padding-bottom: 0px;
 
     }
 
@@ -673,11 +693,11 @@ ul li a.my-pill.active{
 
     }
 
-    .app-name{
+    /* .app-name{
 
         display: none;
 
-    }
+    } */
 
     #user-name{
 
@@ -692,7 +712,7 @@ ul li a.my-pill.active{
     }
 
 
-    img.logo.large{
+    /* img.logo.large{
 
         display: none;
 
@@ -708,11 +728,81 @@ ul li a.my-pill.active{
 
         padding-right: 5px!important;
 
+    } */
+
+
+
+  }
+
+  /* col-lg */
+  @media (max-width: 960px) {
+
+    .custom-buttons{
+        
+        width:50vw;
+
+    }
+
+    .custom-buttons{
+        
+        display: inline-block;
+
+    }
+
+    .custom-buttons li{
+        
+        float: left;
+
+    }
+
+    .custom-buttons .my-dropdown{
+
+        min-width: 250px;
+
+    }
+
+    .sheet-buttons{
+
+        margin-top: 20px;
+
+    }
+
+    .search-container .form-group{
+        
+        margin-right : 0px!important;
+
+    }
+
+
+    .search-container select{
+        
+        margin-top : 10px;
+
     }
 
 
 
   }
+
+    /* col-sm */
+    @media (max-width: 576px) {
+
+        .search-container .form-group{
+            
+            margin-right : 0px!important;
+    
+        }
+    
+    
+        .search-container select{
+            
+            margin-top : 10px;
+    
+        }
+    
+    
+    
+      }
 
 
 

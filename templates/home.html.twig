@@ -15,7 +15,7 @@
     <div class="row">
 
         {# Profile Sidebar #}
-        <div class="col-12 col-md-auto profile-sidebar">
+        <div class="col-lg-auto col-md-12 profile-sidebar">
             <div style="width: 150px;" class="sticky" id="home-sidebar">
 
                 {# App Cards #}
@@ -73,7 +73,7 @@
         </div>
 
         {# Content #}
-        <div class="col-12 col-md bg-purple-transparent home-content">
+        <div class="col-sm col-md col-lg bg-purple-transparent home-content">
 
           
 
@@ -85,30 +85,6 @@
 
                     <div class="col-12">
                         {% include 'documentation/_file.html.twig' with {'file': front} only %}
-                        {# <div class="card my-card no-border pb-3 mt-0 mb-3 my-box">
-                            <div class="card-body p-0">
-                                <div class="author">
-                                    <table class="table my-table">
-                                        <tr>
-                                            <td class="init pr-0">{% include '_picture.html.twig' with {'user': front.frontAuthor, 'class': 'medium'} %}</td>
-                                            <td class="pl-2">
-                                                <div class="author-front main">{{ front.frontAuthor }}</div>
-                                                <div class="mb-2 date-front my-secondary">{{ front.publishedAt|localizeddate('none', 'none', 'fr', null, 'd MMMM') }}, à {{ front.publishedAt|localizeddate('none', 'none', 'fr', null, 'H:mm') }}</div>
-                                            </td>
-                                            
-                                            {% if date(front.publishedAt) >= date('-3days', 'Europe/Paris') %}
-                                                <td class="align-top"><div class="badge-new white bg-rose float-right">Nouveau</div></td>
-                                            {% endif %}
-                                        </tr>
-                                    </table>
-                                </div>
-
-
-                                    
-
-                            
-                            </div>
-                        </div> #}
                     
                     </div>
 
@@ -124,7 +100,7 @@
         </div>
 
         {# Event Sidebar #}
-        <div class="col-12 col-md-auto bg-purple-transparent event-sidebar">
+        <div class="col-sm-auto col-6 bg-purple-transparent event-sidebar d-md-none d-lg-block">
             <div style="width: 300px;" class="">
 
                
@@ -153,35 +129,6 @@
 
                 <div class="sticky">
 
-                    {# Today Event Card #}
-                    {# <div class="card my-card no-border my-box">
-                        <div class="card-body">
-                            <div class="card-title black">
-                                Aujourd'hui, {{ "now"|localizeddate('none', 'none', 'fr', null, 'd MMMM') }}            
-                            </div>
-                            <div class="card my-card bg-transparent-violet py-1 px-2 no-border">
-                                <table class="table my-table">
-                                    <tr>
-                                        <td class="violet">
-                                            <div class="event-title">Atelier COG'IDEES</div>
-                                            <div class="event-hour">10:00 - 12:00</div>    
-                                        </td>
-                                        <td class="text-center">
-                                            <div class="event-icon bg-transparent-violet violet">
-                                                <i class="uil uil-calendar-alt"></i>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="pt-0" colspan="2">
-                                            {% include '_picture.html.twig' with {'user': app.user, 'class': 'small'} %}
-                                        </td>
-                                    </tr>
-                                </table>
-                            </div>
-                        </div>
-                    </div> #}
-
                     {# Last Activities #}
                     <div class="mt-4 my-title">Dernières activités</div>
                     <div class="card my-card no-border sticky p-0">
@@ -208,26 +155,8 @@
                                         {% set path = path('document_show', {'id': file.subCategory.category.slug, 'sub_slug': file.subCategory.slug, 'id': file.id }) %}
                                     {% endif %}
 
-                                    {# <a href="{{ path }}">
-                                        <div class="card my-card front-card no-border bg-marine mt-2 px-3">
-                                            <div class="card-body p-0">
-                                                <div class="title-secondary main">
-
-                                                    {% if file.title|length > 32 %}
-                                                        {{ file.title|slice(0, 32) }}...
-                                                    {% else %}
-                                                        {{ file.title }}
-                                                    {% endif %}
-
-                                                </div>
-                                                <div class="my-secondary small">{{ file.updatedAt|localizeddate('none', 'none', 'fr', null, 'd MMMM Y') }}</div>
-                                            </div>
-                                        </div>
-                                    </a> #}
-
                                     <table class="table my-table no-border">
 
-                                        
                                             <tr>
                                                 <td class="w-25">
 
@@ -294,265 +223,6 @@
     </div>
 </div>
 
-{# 
-    <div class="container">
-
-        <div class="row justify-content-around">
-
-            <div class="col-3">
-
-                <div class="card profile-card text-center py-3">
-                    <div class="card-body text-center">
-
-                        {% include '_picture.html.twig' with {'user': app.user, 'class': 'large'} %}
-
-                        <div class="card-title mt-4 mb-2">{{ app.user.firstName }} {{ app.user.lastName|upper }} </div>
-                        <div class="card-text">{{ app.user.poste.title }}</div>
-                        <a href="{{ path('account_index') }}" class="btn btn-outline-light">Voir mon profil</a>
-                        
-                    </div>
-                </div>
-
-                <div class="card website-card p-1">
-                    <div class="card-body">
-                        <h6 class="card-title mb-3">Mes sites favoris
-                            <a href="{{ path('website_index') }}"><i class="mt-1 float-right fas fa-cog fa-xs modify"></i></a>
-                        </h6>
-
-                        {% if websites|length > 0 %}
-
-                            {% for website in websites %}
-
-                                <div class="card-text mb-1">
-                                    <i class="fas fa-star fa-sm mr-2"></i>
-                                    <a class="website" href="{{ website.url }}" target="_blank">
-
-                                        {% if website.title|length > 20 %}
-                                            {{ website.title|slice(0, 20) }}...
-                                        {% else %}
-                                            {{ website.title }}
-                                        {% endif %}
-                                    </a>
-                                </div>
-
-                            {% endfor %}
-
-                        {% else %}
-
-                            <p class="text">Vous n'avez pas encore ajouté de sites favoris.</p>
-
-                            <a href="{{ path('website_index') }}" class="btn btn-outline-dark">Ajouter</a>
-
-                        {% endif %}
-
-
-                        
-                    </div>
-                </div>
-
-            </div>
-
-            <div class="col-6">
-
-                <div class="row justify-content-around align-items-center">
-                    <div class="col-4">
-                    <a class="link" href="http://intramilo21000.fr/intranet/agenda/admin/agendaAdmin.php" target="_blank">
-                        <div class="card home-link">
-                            <div class="card-body text-center agenda">
-                                <i class="fas fa-calendar-alt fa-6x"></i>
-                                <span>AGENDA</span>
-                            </div>
-                        </div>
-                    </a>
-                    </div>
-                    <div class="col-4">
-                    <a class="link" href="http://intramilo21000.fr/intranet/epaflux/calendrier.php" target="_blank">
-                        <div class="card home-link">p
-                            <div class="card-body text-center flux">
-                                <i class="fas fa-bookmark fa-6x"></i>
-                                <span>FLUX</span>
-                            </div>
-                        </div>
-                    </a>
-                    </div>
-                    <div class="col-4">
-                    <a class="link" href="https://app.manatime.com/connexion" target="_blank">
-                        <div class="card home-link">
-                            <div class="card-body text-center options">
-                                <i class="fas fa-chart-pie fa-6x"></i>
-                                <span>MANATIME</span>
-                            </div>
-                        </div>
-                    </a>
-                    </div>
-
-                    <div class="col-12">
-                        <div class="card best-doc-card">
-                            <div class="card-body">
-                                <h6 class="card-title mb-3">Documentations à la Une</h6>
-                                <table class="table last-doc">
-                                    <tbody>
-
-                                    {% if fronts|length > 0 %}
-
-                                        {% for file in fronts %}
-
-                                        {% set subtitle = "organization" %}
-
-                                        {% include 'documentation/_home_list.html.twig' %}
-
-                                        {% endfor %}
-                                    
-                                    {% else %}
-
-                                        <p class="text text-center pt-4">Aucune documentation à la Une</p>
-
-                                    {% endif %}
-
-                            
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12">
-                        <div class="card last-doc-card">
-                            <div class="card-body">
-                                <h6 class="card-title mb-3">Dernières activités</h6>
-                                <table class="table last-doc">
-                                    <tbody>
-                                    
-                                    {% if files|length > 0 %}
-
-                                         {% for file in files %}
-
-                                        
-                                        {% set subtitle = "date" %}
-
-                                        {% include 'documentation/_home_list.html.twig' %}
-
-                                        {% endfor %}
-
-                                    {% else %}
-
-                                        <p class="text text-center pt-4">Aucune activité enregistrée</p>
-
-                                    {% endif %}
-
-                                        
-                            
-                                    </tbody>
-                                </table>
-                                
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-
-
-
-            <div class="col-3">
-                <div class="card">
-                    <div class="card-body weather-card">
-                        <div class="temp">
-                            <span id="temperature"></span>
-                            <i class="wi"></i>
-                        </div> 
-                        <div class="date">{{ "now"|localizeddate('none', 'none', 'fr', null, 'EEEE d MMMM') }}</div>
-                    </div>
-                </div>
-
-                 <div class="card next-events-card">
-                    <div class="card-body">
-                        <h6 class="card-title mb-4">Prochains événements</h6>
-
-                        <div class="card event-card today">
-                            <div class="card-body">
-                                <div class="date">mercredi 26 juin</div>
-                                <div class="hour">9:00 - 12:00</div>
-                                <div class="title mt-2">Atelier COG'IDEES</div>
-                            </div>
-                        </div>
-
-                        <div class="card event-card">
-                            <div class="card-body">
-                                <div class="date">mercredi 26 juin</div>
-                                <div class="hour">9:00 - 12:00</div>
-                                <div class="title mt-2">Atelier COG'IDEES</div>
-                            </div>
-                        </div>
-
-                        <div class="card event-card">
-                            <div class="card-body">
-                                <div class="date">mercredi 26 juin</div>
-                                <div class="hour">9:00 - 12:00</div>
-                                <div class="title mt-2">Atelier COG'IDEES</div>
-                            </div>
-                        </div>
-
-                        <div class="card event-card">
-                            <div class="card-body">
-                                <div class="date">mercredi 26 juin</div>
-                                <div class="hour">9:00 - 12:00</div>
-                                <div class="title mt-2">Atelier COG'IDEES</div>
-                            </div>
-                        </div>
-
-                        <div class="card event-card">
-                            <div class="card-body">
-                                <div class="date">mercredi 26 juin</div>
-                                <div class="hour">9:00 - 12:00</div>
-                                <div class="title mt-2">Atelier COG'IDEES</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card next-events-card">
-                    <div class="card-body">
-                        <h6 class="card-title mb-3">Réunions</h6>
-                        <div class="card event-card">
-                            <div class="card-body">
-                                <div class="title mb-2">Equipe</div>
-                                <div class="date">mercredi 26 juin</div>
-                                <div class="hour">9:00 - 12:00</div>
-                            </div>
-                        </div>
-                        <div class="card event-card">
-                            <div class="card-body">
-                                <div class="title mb-2">Pôle Emploi</div>
-                                <div class="date">mercredi 26 juin</div>
-                                <div class="hour">9:00 - 12:00</div>
-                            </div>
-                        </div>
-                        <div class="card event-card">
-                            <div class="card-body">
-                                <div class="title mb-2">Pôle Formation</div>
-                                <div class="date">mercredi 26 juin</div>
-                                <div class="hour">9:00 - 12:00</div>
-                            </div>
-                        </div>
-                        <div class="card event-card">
-                            <div class="card-body">
-                                <div class="title mb-2">Pôle Vie Sociale</div>
-                                <div class="date">mercredi 26 juin</div>
-                                <div class="hour">9:00 - 12:00</div>
-                            </div>
-                        </div>
-                        
-                    </div>
-                </div>
-            </div>
-
-        </div>
-       
-        
-        
-    </div> #}
-
 {% endblock %}
 
 {% block javascripts %}
@@ -572,6 +242,7 @@
 
 async function main(){
 
+    /*
     // Récupérer la position du PC
 
     const ip = await fetch('https://api.ipify.org?format=json')
@@ -586,6 +257,9 @@ async function main(){
         .then(json => json.city)
 
     console.log(ville);
+    */
+
+    const ville = "Dijon";
 
 
     // Appeler OpenWeatherMap

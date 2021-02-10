@@ -8,10 +8,10 @@
     <div class="container login mt-0">
 
     <div class="row">
-        <div class="offset-md-3 col-md-6 text-center">
+        <div class="offset-xl-3 col-xl-6 offset-lg-3 col-lg-6 offset-md-2 col-md-8 text-center">
 
             {# logo #}
-            <img class="logo large" src="{{ asset('images/logo_intramilo.png') }}" alt="Logo Intramilo">
+            <img class="logo" src="{{ asset('images/logo_intramilo.png') }}" alt="Logo Intramilo">
 
             {# Description #}
             <div class="description">
@@ -63,11 +63,11 @@
                         <button type="submit" class="btn btn-login mt-0">Me connecter</button>
                     </div>
                     <div class="row">
-                        <div class="col-6">
+                        <div class="col-md-6 col-sm">
                             <input class="mr-1" type="checkbox" id="remember_me" name="_remember_me" checked/>
                             <label for="remember_me">Se souvenir de moi</label>
                         </div>
-                        <div class="col-6">
+                        <div class="col-md-6 col-sm">
                             <div class="text-right"><a href="{{ path('account_reset_password') }}">Mot de passe oublié ?</a></div>
                         </div>
                     </div>

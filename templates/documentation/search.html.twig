@@ -53,13 +53,13 @@
         
         <div class="row">
 
-            <div class="col-3">
+            <div class="col-lg-3">
                 <div class="search-sidebar small mt-1 mb-0">
                     {{ files|length + users|length + antennes|length }} résultat{% if (files|length + users|length + antennes|length) > 1 %}s{% endif %} pour "{{ query }}"
                 </div>
             </div>
 
-            <div class="col-9">
+            <div class="col-lg-9">
 
             {% if files|length + users|length + antennes|length > 0 %}
                 

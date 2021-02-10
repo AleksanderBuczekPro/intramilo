@@ -70,7 +70,7 @@
                         <a href="{{ path('doc_show', { 'slug': category.slug, 'sub_slug': subCategory.slug, 'sub_id': subCategory.id  }) }}" class="black"><span class="mx-1 doc-secondary">{{ subCategory }}</span></a>
                     </p>
                 </div>
-                <div class="col-xl-5 col-lg-6 float-right">
+                <div class="col-xl-5 col-lg-6 float-right sheet-buttons">
 
                     {% if not archived %}
 
@@ -216,6 +216,56 @@
                 </div>
             </div>
 
+
+            {# Responsive Header #}
+            <div style="width: 300px;" class="mt-4 d-sm-block d-md-none d-lg-none d-xl-none ">
+
+                <div class="card my-card header-card my-box no-border my-0">
+
+                        {% include '_sheet_picture.html.twig' with {'sheet': sheet} %}
+                </div>
+
+                {# <div class="organization-logo">
+                    {% if sheet.organization %} {% include '_organization_logo.html.twig' with {'organization': sheet.organization, 'class': 'medium'} %} {% endif %} 
+                </div> #}
+                <div class="card my-card organization-card my-0">
+                    <div class="card-body">
+
+                        <div class="organization-title black">{% if sheet.organization %} {{ sheet.organization }} {% else %} <p class="text mb-0"> Organisme non renseigné</p>{% endif %}  </div>
+                        {% if sheet.organization %}
+                            <div class="organization-address small my-secondary black op-70 mt-1">{% if sheet.organization.address %} {{ sheet.organization.address }} <br> {{ sheet.organization.postCode }} {{ sheet.organization.city }}{% endif %}</div>
+                            <div class="organization-phone small my-secondary black  op-70 mt-2 ">
+                                {% if sheet.organization.phoneNumber %} <i class="uil uil-phone-alt"></i> {{ sheet.organization.phoneNumber }} {% endif %}
+                            </div>
+                            <div class="organization-email small my-secondary black">
+                                {% if sheet.organization.email %} <a class="mail-link" href="mailto:{{ sheet.organization.email }}"><i class="uil uil-envelope-alt"></i> {{ sheet.organization.email }}</a> {% endif %}
+                            </div>
+                            <div class="organization-email small my-secondary">
+                                {% if sheet.organization.website %} <a class="violet" href="{{ sheet.organization.website }}" target="_blank"><i class="uil uil-external-link-alt"></i> Voir le site web</a> {% endif %}      
+                                
+                            </div>
+                        {% endif %}
+
+                        
+
+                    </div>
+                </div>
+
+                {% if sheet.interlocutors|length > 0 %}
+                    <div class="interlocutors-container" id="print-interlocutors">
+                        {% for interlocutor in sheet.interlocutors %}
+
+                            {% include 'documentation/_user_interlocutor.html.twig' with {'user': interlocutor} %}
+
+                        {% endfor %}
+                    </div>
+
+                {% endif %}
+
+                
+
+            </div>
+
             {# Notification #}
             <div class="row d-print-none">
                 <div class="col-12">
@@ -240,6 +290,8 @@
                 </div>
 
             {% endif %}
+
+            
 
             {# Introduction #}
             <div class="row">
@@ -359,7 +411,7 @@
         {# Header #}
         <div class="col-md-auto bg-white header pr-0">
 
-            <div style="width: 300px;" class="">
+            <div style="width: 300px;" class="d-none d-sm-none d-md-block d-lg-block d-xl-block">
 
                 <div class="card my-card header-card my-box no-border my-0">
 

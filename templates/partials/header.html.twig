@@ -5,9 +5,10 @@
             <a class="navbar-brand mb-1" href="{{ path('homepage') }}">
                 {# <img src="/images/logo_milo.png" alt="Logo Mission Locale de l'arrondissment de Dijon">/ #}
                 <img class="logo large" src="{{ asset('images/logo_intramilo.png') }}" alt="Logo Intramilo">
-                <img class="logo small d-none" src="{{ asset('images/logo_intra.png') }}" alt="Logo Intramilo">
+                {# <img class="logo small d-none" src="{{ asset('images/logo_intra.png') }}" alt="Logo Intramilo"> #}
             </a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
+            
+            <button class="navbar-toggler my-3" type="button" data-toggle="collapse" data-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
 
@@ -66,7 +67,7 @@
                     </form> #}
                     
                 </ul>   
-                <ul class="navbar-nav ml-auto">
+                <ul class="navbar-nav ml-auto custom-buttons">
                     <li class="nav-item">
                         <span id="notification-counter">
                             {% if counter %}
