@@ -45,7 +45,12 @@
                         </ul>
                     </li>
                     <li class="nav-item px-2">
-                        <a class="btn profile-btn {% if app.request.attributes.get('_route') starts with 'account' %} active {% endif %} my-4 ml-2">
+                        <a class="nav-link home pb-2" href="{{ path('search_index') }}">
+                            Recherche
+                        </a>
+                    </li>
+                    <li class="nav-item px-2">
+                        <a href="{{ path('account_index') }}" class="btn profile-btn {% if app.request.attributes.get('_route') starts with 'account' %} active {% endif %} my-4 ml-2">
                             {% include '_picture.html.twig' with {'user': app.user, 'class': 'small'} %}
                             <span class="ml-2 mr-3">{{ app.user.firstName }}</span>
                         </a>
@@ -60,25 +65,28 @@
                             <li><a class="dropdown-item px-3 py-2" data-toggle="modal" data-target="#subModalDocument" data-title="Nouveau document" href=""><i class="fas fa-file-upload mr-2"></i> Importer un document</a></li>                        
                         </ul>
                     </li>
-                    <li class="nav-item px-2">
+                    {# <li class="nav-item px-2">
                         <a class="nav-link pb-2" href="#" role="button">Mes sous-catégories</a>
                         <ul class="pl-2 no-decoration">
                             {% for sub in app.user.subCategories %}
                                 <a class="dropdown-item px-3 py-2" href="{{ path('doc_show', {'slug': sub.category.slug, 'sub_slug': sub.slug, 'sub_id': sub.id }) }}"><i class="fas fa-folder mr-2"></i> {{ sub }}</a>
                             {% endfor %}                    
                         </ul>
-                    </li>
-                    {% if is_granted('ROLE_ADMIN') %}
+                    </li> #}
+                    
                     <li class="nav-item px-2">
-                        <a class="nav-link home" href="{{ path('admin_users_index') }}">
-                            BackOffice
-                        </a>
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <a class="nav-link home inline-block py-3" href="{{ path('admin_users_index') }}">
+                                BackOffice
+                            </a>
+                        {% endif %} /
+                            <a class="nav-link home rouge inline-block" href="{{ path('account_logout') }}">
+                                Déconnexion
+                            </a>
                     </li>
-                    {% endif %}
+                    
                     <li class="nav-item px-2">
-                        <a class="nav-link home rouge" href="{{ path('account_logout') }}">
-                            Déconnexion
-                        </a>
+                        
                     </li>
                 </ul>
 
