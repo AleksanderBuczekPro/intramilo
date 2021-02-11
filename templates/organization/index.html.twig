@@ -10,16 +10,16 @@
     <div class="row">
 
         <div class="col-12 col-md-auto profile-sidebar contact-sidebar pl-0">
-            <div style="width: 420px;" class="position-fixed">
+            <div style="width: 420px;" class="position-fixed"  id="annuaire-sidebar">
 
                 <div class="col-12 px-0 mb-3">
 
                         <div class="row mb-2">
-                            <div class="col-md-4 pr-1"><a href="{{ path('antennes_show') }}" class="btn btn-my-secondary small w-100 mr-1"> <i class="uil uil-map-marker"></i> Antennes</a></div>
-                            <div class="col-md-4 px-1"><a href="{{ path('organizations_index') }}" class="btn btn-my-primary small w-100 mr-1"> <i class="uil uil-building"></i> Organismes</a></div>
-                            <div class="col-md-4 pl-1 pr-3"><a href="{{ path('users_show') }}" class="btn btn-my-secondary small w-100 mr-1"> <i class="uil uil-users-alt"></i> Employés</a></div>
-
+                            <div class="col-4 pr-1"><a href="{{ path('antennes_show') }}" class="btn btn-my-secondary small w-100 mr-1"> <i class="uil uil-map-marker"></i> <span class="d-none d-sm-inline"> Antennes</span></a></div>
+                            <div class="col-4 px-1"><a href="{{ path('organizations_index') }}" class="btn btn-my-primary small w-100 mr-1"> <i class="uil uil-building"></i><span class="d-none d-sm-inline"> Organismes</span></a></div>
+                            <div class="col-4 pl-1 pr-3"><a href="{{ path('users_show') }}" class="btn btn-my-secondary small w-100 mr-1"> <i class="uil uil-users-alt"></i><span class="d-none d-sm-inline"> Employés</span></a></div>
                         </div>
+
                 
                 </div>
             

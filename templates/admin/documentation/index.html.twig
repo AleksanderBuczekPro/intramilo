@@ -46,20 +46,30 @@
         {# <div class="col-8 offset-md-1"> #}
         <div class="col-12">
 
-            <h1 class="my-h1">
-                Documentation
-                <a href="{{ path('admin_pole_create') }}" class="btn btn-my-primary float-right">
-                    <i class="uil uil-plus"></i>
-                    Ajouter un pôle
-                </a>
+            
+                <div class="row">
+                    <div class="col-md-4">
+                        <h1 class="my-h1">Documentation</h1>
+                    </div>
+                    <div class="col-md-8">
+                        <a href="{{ path('admin_pole_create') }}" class="btn btn-my-primary float-right">
+                            <i class="uil uil-plus"></i>
+                            Ajouter un pôle
+                        </a>
 
-                <a href="{{ path('admin_pole_sort') }}" class="btn btn-my-secondary float-right mr-2">
-                    {# <i class="uil uil-plus"></i> #}
-                    Changer l'ordre
-                </a>    
-            </h1>
+                        <a href="{{ path('admin_pole_sort') }}" class="btn btn-my-secondary float-right mr-2">
+                            {# <i class="uil uil-plus"></i> #}
+                            Changer l'ordre
+                        </a>                        
+                    </div>
+                
+                
+                
+                </div>
+                
+              
 
-            <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <ul class="nav nav-tabs admin-poles" id="myTab" role="tablist">
 
                 {% for pole in poles %}
 
@@ -98,7 +108,7 @@
 
                         {% for category in pole.category %}
 
-                            <div class="col-4">
+                            <div class="col-12 col-md-6 col-lg-4">
                                 <div class="card my-card">
                                     <div class="card-body p-2">
 

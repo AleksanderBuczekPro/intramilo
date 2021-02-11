@@ -39,8 +39,8 @@
                         <th class="switch w-50p">Admin</th>
                         <th colspan="2" class="text-left violet">{{ groupe }} <span class="number text-center">{{ groupe.users|length }}</span></th>
                         {# <th class="">Date de création</th> #}
-                        <th class="text-center">Fiches</th>
-                        <th class="text-center">Sous-catégories</th>
+                        <th class="text-center d-none d-lg-table-cell">Fiches / Documents</th>
+                        <th class="text-center d-none d-lg-table-cell">Sous-catégories</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -50,8 +50,8 @@
                         <th class="switch w-50p"></th>
                         <th colspan="2" class="text-left violet">{{ groupe }} <span class="number text-center">{{ groupe.users|length }}</span></th>
                         {# <th class="">Date de création</th> #}
-                        <th class="text-center">Fiches</th>
-                        <th class="text-center">Sous-catégories</th>
+                        <th class="text-center d-none d-lg-table-cell">Fiches / Documents</th>
+                        <th class="text-center d-none d-lg-table-cell">Sous-catégories</th>
                         <th colspan=""></th>
                     </tr>
                 </thead>
@@ -99,10 +99,10 @@
                         {# <td class="w-25">
                             {{ user.createdAt|localizeddate('none', 'none', 'fr', null, 'd MMMM Y') }}
                         </td> #}
-                        <td class="text-center">
+                        <td class="text-center d-none d-md-none d-lg-table-cell">
                             <span class="number"> {{ user.sheets|length + user.documents|length }} </span>
                         </td>
-                        <td class="text-center">
+                        <td class="text-center d-none d-md-none d-lg-table-cell">
                             <span class="number"> {{ user.subCategories|length }} </span>
                         </td>
                         <td class="pl-0 text-right">

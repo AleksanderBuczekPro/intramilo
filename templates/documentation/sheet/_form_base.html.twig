@@ -16,7 +16,7 @@
 <div class="sheet-nav">
     <div class="container-fluid m-0 p-0 h-100">
         <div class="row h-100">
-            <div class="col-xl-4 text-center action-container px-4 my-auto">
+            <div class=" col-md-4 col-lg-5 col-xl-4 text-center action-container px-4 my-auto">
                     <div class="text my-secondary ml-4">
                             
                         {% if app.request.attributes.get('_route') starts with 'sheet_create' %}
@@ -90,7 +90,7 @@
                     
 
             </div>
-            <div class="col-xl-5 col-lg-9 col-md-8 form-container bg-white px-0 my-auto pr-4">
+            <div class="col-xl-5 col-lg-3 col-md-4 col-sm-6 col-6 form-container bg-white px-0 my-auto pr-4">
 
                 <div class="btn-group {{dnone}} float-right">
                     
@@ -135,8 +135,8 @@
                 {% endif %}
 
             </div>
-            <div class="col-xl-2 col-lg-3 col-md-4 form-header pl-1 my-auto">
-                <div style="width: 300px;" class="pr-1 pl-0 align-middle">
+            <div class="col-xl-2 col-lg-4 col-md-4 col-sm-6 col-6 form-header pl-1 my-auto">
+                <div id="send-form-btn" style="width: 300px;" class="pr-1 pl-0 align-middle">
 
                     <button id="confirm-btn" class="btn btn-my-primary float-right white pl-3 pr-4 w-100" type="button" data-toggle="modal" data-target="#confirmModal">
                     {% if is_granted("ROLE_ADMIN") %}

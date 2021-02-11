@@ -21,10 +21,14 @@
         <div class="container">
             <div class="row">
                 <div class="col-2">
-
-                    <a href="{{ path('doc_pole', {'id': category.pole.id }) }}" class="btn btn-my-secondary"><i class="uil uil-angle-left-b"></i> {{ category.pole }}</a>
+                    
+                    
+                    <a href="{{ path('doc_pole', {'id': category.pole.id }) }}" class="btn btn-my-secondary d-none d-sm-block">
+                        <i class="uil uil-angle-left-b"></i>
+                        <span class="d-none d-sm-none d-xl-inline-block"> {{ category.pole }}</span>
+                    </a>
                 </div>
-                <div class="col-8">
+                <div class="col-sm-10 col-lg-8">
                     <p class="fil-ariane marine">
                         <span href="" class="my-badge mt-1 bg-{{ category.pole.labelColor }} white px-2 py-1">{{ category.pole |slice(0, 1) }}</span>
                         <a href="{{ path('doc_pole', { 'id': category.pole.id }) }}" class="marine"><span class="mx-1 doc-secondary">{{ category.pole }}</span></a>
@@ -84,7 +88,7 @@
 
                 <div class="col-12 ">
                     <div class="row">
-                        <div class="col-8 offset-md-2">
+                        <div class="col-lg-8 offset-lg-2">
 
                             {# <a class="btn btn-my-return" href="{{ path('doc_index') }}">
                                 <i class="uil uil-arrow-left"></i> Retour à la Documentation
@@ -109,7 +113,7 @@
                                 </button>
                                 <div class="dropdown-menu dropdown-menu-right my-dropdown " aria-labelledby="dropdownMenuButton">
                                     <a class="dropdown-item pl-3" href="{{ path('sheet_create_sub', {'id': subCategory.id}) }}"><span class="rounded"><i class="far fa-file my-rounded"></i></span> Créer une fiche</a>
-                                    {# <a class="dropdown-item pl-3" href="{{ path('document_create_sub', {'id': subCategory.id}) }}"><span class="rounded"><i class="fas fa-file-upload my-rounded"></i></span> Importer un document</a> #}
+                                    <a class="dropdown-item pl-3" href="{{ path('document_create_sub', {'id': subCategory.id}) }}"><span class="rounded"><i class="fas fa-file-upload my-rounded"></i></span> Importer un document</a>
                                 </div>
                             </div>
                             {# <a href="{{ path('document_create_sub', {'id': subCategory.id}) }}" class="btn btn-my-secondary float-right">Importer un document</a>
@@ -128,7 +132,7 @@
                                 <div class="row">
                                 {% for file in filesOnline %}
                                     
-                                    <div class="col-8 offset-md-2 col-md-pull-2">
+                                    <div class="col-lg-8 offset-lg-2 col-lg-pull-2">
                                         {% include 'documentation/_file.html.twig' %}
                                     </div>
 
@@ -153,7 +157,7 @@
                                     <div class="row">
                                     {% for file in filesWaiting %}
 
-                                        <div class="col-8 offset-md-2 col-md-pull-2">
+                                        <div class="col-lg-8 offset-lg-2 col-lg-pull-2">
                                             {% include 'documentation/_file.html.twig' %}
                                         </div>
 

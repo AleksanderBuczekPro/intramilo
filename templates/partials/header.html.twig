@@ -16,33 +16,15 @@
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item px-2">
                         <a class="nav-link home {% if app.request.attributes.get('_route') starts with 'home'  %}active{% endif %}" href="{{ path('homepage') }}">
-                        
-                        {# <i class="uil uil-home-alt"></i> #}
-                        Accueil
-                        
+                            Accueil
                         </a>
                     </li>
-                    {# <li class="nav-item">
-                        <a class="nav-link" href="{{ path('ads_index') }}">Annonces</a>
-                    </li> #}
                     <li class="nav-item px-2">
-                        
-
                         <a class="nav-link documentation {% if (app.request.attributes.get('_route') starts with 'doc') or (app.request.attributes.get('_route') starts with 'sheet')%}active{% endif %}" href="{{ path('doc_index') }}">
-                        
-                        {# <i class="uil uil-book-alt"></i> #}
-                        Documentation
-                        
+                            Documentation
                         </a>
                     </li>
-                    {# <li class="nav-item px-2">
-                        <a class="nav-link antennes {% if app.request.attributes.get('_route') starts with 'antennes' or app.request.attributes.get('_route') starts with 'organization' or app.request.attributes.get('_route') starts with 'users' %}active{% endif %}" href="{{ path('antennes_show') }}">
-                        
-                        Annuaire
-                        
-                        </a>
-                    </li> #}
-                     <li class="nav-item px-2 dropdown hover-li">
+                    <li class="nav-item px-2 dropdown hover-li d-none d-sm-none d-md-none d-lg-block">
                         <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Annuaire</a>
                             <div class="dropdown-menu py-1">
                             <a class="dropdown-item px-3 py-2" href="{{ path('antennes_show') }}"><i class="uil uil-map-marker mr-2"></i>Antennes</a>
@@ -50,32 +32,65 @@
                             <a class="dropdown-item px-3 py-2" href="{{ path('users_show') }}"><i class="uil uil-users-alt mr-2"></i>Employés</a>
                         </div>
                     </li>
-    
+                </ul>
 
-                    {# Search #}
-                    {# <form class="search-form inline w-100">
-                        <div class="input-group inline">
+                {# Mobile and Tablette Navbar #}
+                <ul class="navbar-nav mr-auto d-block d-sm-block d-md-block d-lg-none">
+                    <li class="nav-item px-2">
+                        <a class="nav-link pb-2" href="#" role="button">Annuaire</a>
+                        <ul class="pl-2 no-decoration">
+                            <li><a class="dropdown-item px-3 py-2" href="{{ path('antennes_show') }}"><i class="uil uil-map-marker mr-2"></i>Antennes</a></li>
+                            <li><a class="dropdown-item px-3 py-2" href="{{ path('organizations_index') }}"><i class="uil uil-building mr-2"></i>Organismes</a></li>
+                            <li><a class="dropdown-item px-3 py-2" href="{{ path('users_show') }}"><i class="uil uil-users-alt mr-2"></i>Employés</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item px-2">
+                        <a class="btn profile-btn {% if app.request.attributes.get('_route') starts with 'account' %} active {% endif %} my-4 ml-2">
+                            {% include '_picture.html.twig' with {'user': app.user, 'class': 'small'} %}
+                            <span class="ml-2 mr-3">{{ app.user.firstName }}</span>
+                        </a>
+                        {% if counter > 0 %}
+                            <span class="bolder rouge">{{ counter }} notification(s)</span>
+                        {% endif %}
+                    </li>
+                    <li class="nav-item px-2">
+                        <a class="nav-link pb-2" href="#" role="button">Ajout rapide</a>
+                        <ul class="pl-2 no-decoration">
+                            <li><a class="dropdown-item px-3 py-2" data-toggle="modal" data-target="#subModalSheet" data-title="Nouvelle fiche" href=""><i class="far fa-file mr-2"></i> Créer une fiche</a></li>
+                            <li><a class="dropdown-item px-3 py-2" data-toggle="modal" data-target="#subModalDocument" data-title="Nouveau document" href=""><i class="fas fa-file-upload mr-2"></i> Importer un document</a></li>                        
+                        </ul>
+                    </li>
+                    <li class="nav-item px-2">
+                        <a class="nav-link pb-2" href="#" role="button">Mes sous-catégories</a>
+                        <ul class="pl-2 no-decoration">
+                            {% for sub in app.user.subCategories %}
+                                <a class="dropdown-item px-3 py-2" href="{{ path('doc_show', {'slug': sub.category.slug, 'sub_slug': sub.slug, 'sub_id': sub.id }) }}"><i class="fas fa-folder mr-2"></i> {{ sub }}</a>
+                            {% endfor %}                    
+                        </ul>
+                    </li>
+                    {% if is_granted('ROLE_ADMIN') %}
+                    <li class="nav-item px-2">
+                        <a class="nav-link home" href="{{ path('admin_users_index') }}">
+                            BackOffice
+                        </a>
+                    </li>
+                    {% endif %}
+                    <li class="nav-item px-2">
+                        <a class="nav-link home rouge" href="{{ path('account_logout') }}">
+                            Déconnexion
+                        </a>
+                    </li>
+                </ul>
 
-                                <span class="">
-
-                                <form action="{{ path('search_index') }}" method="post" class="inline-block" onsubmit="return redirect()">
-                                    <input id="search-bar" type="text" class="form-control" name="q" value="{% if query is defined %}{{ query }}{% endif %}" placeholder="Recherche">
-                                </form>
-                            </span>
-
-                        </div>
-                    </form> #}
-                    
-                </ul>   
-                <ul class="navbar-nav ml-auto custom-buttons">
+                <ul class="navbar-nav custom-buttons">
                     <li class="nav-item">
+
+                        {# Notificatiosn counter #}
                         <span id="notification-counter">
                             {% if counter %}
-                        
                                 <span id="notification-circle">
                                         <span id="counter">{{ counter }}</span>
                                 </span>
-                        
                             {% endif %}
                         </span>
 
@@ -105,31 +120,17 @@
                                 <h6 class="dropdown-header black pl-3">Ajout rapide</h6>
                                 <button class="dropdown-item pl-3" data-toggle="modal" data-target="#subModalSheet" data-title="Nouvelle fiche"><span class="rounded"><i class="far fa-file my-rounded"></i></span> Créer une fiche</button>
                                 <button class="dropdown-item pl-3" data-toggle="modal" data-target="#subModalDocument" data-title="Nouveau document"><span class="rounded"><i class="fas fa-file-upload my-rounded"></i></span> Importer un document</button>
-                                {# <a class="dropdown-item pl-3" href="{{ path('sheet_create') }}"><span class="rounded"><i class="far fa-file my-rounded"></i></span> Créer une fiche</a> #}
-                                {# <a class="dropdown-item pl-3" href="{{ path('document_create') }}"><span class="rounded"><i class="fas fa-file-upload my-rounded"></i></span> Importer un document</a> #}
                             </div>
                         </div>
 
                         {# Tableau de bord #}
                         <span class="float-right mx-4">
-                            {# <a href=
-                            {% if is_granted("ROLE_ADMIN") %}
-                                {{ path('admin_documents') }}
-                            {% else %}
-                                {{ path('account_documents') }}
-                            {% endif %}
-                            
-                            class="btn btn-my-primary mx-1">
-                                <i class="uil uil-web-grid"></i>
-                            </a> #}
-
                             <a href="{{ path('account_index') }}" class="btn profile-btn {% if app.request.attributes.get('_route') starts with 'account' %} active {% endif %}">
                                 {% include '_picture.html.twig' with {'user': app.user, 'class': 'small'} %}
                                 
                                 <span class="ml-2 mr-3" id="user-name">{{ app.user.firstName }}</span>
                             
                             </a>
-
                         </span>
 
                         {# Search #}
@@ -140,10 +141,7 @@
                                 </button>
                             </a>
                         </div>
-                        
-                        
-                       
-                        
+
                     </li>
 
                 {% if app.user %}
@@ -161,14 +159,7 @@
                             </div>
                             <table class="table my-table" id="table-to-validate">
                                 <tr class="notifications">
-                                    {# <td class="w-25 text-center notif-icon pl-4">
-                                        <span class="icon"><i class="uil uil-book-alt"></i></span>
-                                        <span class="state-icon"><i class='uil uil-times-circle'></i></span>
-                                    </td>
-                                    <td class="w-75 notif-content pl-1 text-left">
-                                        La fiche <strong>Fiche</strong> est obsolète. <br>
-                                        <span class="date">19 avril 2020</span>
-                                    </td> #}
+
                                 </tr>
                             
                             </table>
@@ -205,41 +196,17 @@
                                 </tr>
                             
                             </table>
-                            {# <div class="dropdown-divider"></div> #}
-                            {# <a href="{{ path('account_documents') }}" class="dropdown-item text-center dropdown-footer my-line-h">Voir plus</a> #}
                         </div>
                     </li>
                     
                     <li class="nav-item nav-btn dropdown ml-4">
-                        {# <a class="nav-link" href="#" data-toggle="dropdown" id="accountDropdownLink">
-                            {% include '_picture.html.twig' with {'user': app.user, 'class': 'medium'} %}
-                        
-                            
-                            
-                        </a> #}
+
                             <a class="btn nav-dropdown nav-hover py-1 px-2" href="#" data-toggle="dropdown" id="accountDropdownLink">
                                 <i class="fas fa-sort-down fa-lg"></i>
                             </a>
                         <div class="dropdown-menu my-dropdown dropdown-menu-right account-dropdown box no-border" aria-labelledby="accountDropdownLink">
 
-                            {# <h6 class="dropdown-header">Compte</h6>
-                            <div class="p-2 text-center">
-                                <div class="pr-2 mt-2 mb-2">
-                                    {% include '_picture.html.twig' with {'user': app.user, 'class': 'large'} %}
-                                </div>
-                                <div class="align-middle mt-3">
-                                    <div class="main">{{ app.user.fullName }}</div>
-                                    <div class="my-secondary small text-center mt-0">{{ app.user.email }}</div>
-                                </div>
-                            </div> #}
-
-                            {# <div class="mx-4 text-center">
-                                <a href="{{ path('account_index') }}" class="btn btn-my-secondary my-2">Gérer mon compte</a>
-                            </div> #}
-
                             {% if is_granted('ROLE_ADMIN') %}
-                                {# <div class="dropdown-divider"></div> #}
-                                {# <h6 class="dropdown-header">Administration</h6> #}
                                 <a href="{{ path('admin_users_index') }}" class="dropdown-item text-center py-2">BackOffice</a>
                                 <div class="dropdown-divider"></div>
                             {% endif %}
@@ -248,13 +215,7 @@
                             <a href="{{ path('account_logout') }}" class="dropdown-item text-center py-2">Se déconnecter</a>
                         </div>
                     </li>
-                {% else %}
-                    {# <li class="nav-item active">
-                        <a class="nav-link" href="{{ path('account_register') }}">Inscription</a>
-                    </li>
-                    <li class="nav-item active">
-                        <a class="nav-link" href="{{ path('account_login') }}">Connexion</a>
-                    </li> #}
+
                 {% endif %}
                     
                 </ul>              
@@ -271,35 +232,6 @@
     </div>
 {% endfor %}
 
-{# <script>
-
-    // On récupère toutes les fiches et documents (SAUF ceux qui sont à jour et en cours de validation)
-    $( document ).ready(function() {
-
-        var path = "{{ path('account_notification') }}";
-
-            $.ajax({
-                type: 'POST',
-                url: path,
-                success: function(data) {
-                    console.log(data);
-                    
-                },
-                error: function(data) {
-                    alert("Error !")
-                }
-
-        });
-
-
-    });
-
-</script> #}
-
-{# <a class="dropdown-item pl-3" href="{{ path('sheet_create') }}"><span class="rounded"><i class="far fa-file my-rounded"></i></span> Créer une fiche</a> #}
-{# <a class="dropdown-item pl-3" href="{{ path('document_create') }}"><span class="rounded"><i class="fas fa-file-upload my-rounded"></i></span> Importer un document</a> #}
-
-
 
 
 <!-- Modal -->
@@ -315,8 +247,6 @@
         </button>
         
       </div>
-      {# <p class="px-3 text">Si la sous-catégorie où vous voulez ajouter la fiche n'apparaît pas, contactez votre responsable.</p> #}
-      {# <p class="px-3 op-70">Voici les sous-catégories où vous êtes autorisés à ajouter une nouvelle fiche</p> #}
 
       <div class="modal-body">
 
@@ -419,7 +349,7 @@
         </button>
         
       </div>
-      {# <p class="px-3 op-70">Voici les sous-catégories où vous êtes autorisés à ajouter une nouvelle fiche</p> #}
+
       <div class="modal-body">
 
             {% if is_granted('ROLE_ADMIN') %}

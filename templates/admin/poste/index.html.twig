@@ -30,10 +30,12 @@
                 <td class="text-left main">
                     {{ poste }}
                 </td>
-                <td>
-                    {% for user in poste.users %}
-                        {% include '_picture.html.twig' with {'user': user, 'class': 'medium'} %}
-                    {% endfor %}
+                <td class="">
+                    <span class="d-none d-lg-table-cell">
+                        {% for user in poste.users %}
+                            {% include '_picture.html.twig' with {'user': user, 'class': 'medium'} %}
+                        {% endfor %}
+                    </span>
                 </td>
                 {# <td class="pr-0">
                     <a href="{{ path('admin_poste_edit', {'id':  poste.id }) }}" class="btn btn-my-warning">
