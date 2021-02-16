@@ -661,6 +661,68 @@ ul li a.my-pill.active{
 
 
 /* Reponsivity */
+
+/* Homepage */
+@media (min-width: 1301px) and (max-width: 1339px) {
+
+    .event-sidebar{
+
+        padding-right: 30px;
+
+    }
+
+    .home-content {
+
+        padding-left: 50px;
+        padding-right: 20px;
+        
+    }
+
+}
+
+
+/* Sheet */
+@media (min-width: 1200px) and (max-width: 1300px) {
+
+    .sheet-container .sidebar{
+
+        -webkit-box-flex: 0;
+        -ms-flex: 0 0 12%;
+        flex: 0 0 12%;
+        max-width: 12%;
+    
+
+    }
+
+}
+
+@media (max-width: 960px) {
+
+    .sheet-container .responsive-header{
+
+        display: inline-block!important;
+
+    }
+
+    .sheet-container .sidebar-header{
+
+        display: none!important;
+
+    }
+
+    .sheet-container .content{
+
+        -webkit-box-flex: 0;
+        -ms-flex: 0 0 100%;
+        flex: 0 0 100%;
+        max-width: 100%;
+
+    }
+
+}
+
+
+
 @media (max-width: 1300px) {
 
     /* #home-sidebar{
@@ -711,24 +773,6 @@ ul li a.my-pill.active{
 
     }
 
-
-    /* img.logo.large{
-
-        display: none;
-
-    }
-
-    img.logo.small{
-
-        display: inline!important;
-
-    }
-
-    a.navbar-brand{
-
-        padding-right: 5px!important;
-
-    } */
 
 
 
@@ -787,6 +831,13 @@ ul li a.my-pill.active{
 
     }
 
+    div.form-header{
+
+        margin-left: auto;
+
+    }
+
+
 
   }
 
@@ -806,17 +857,24 @@ ul li a.my-pill.active{
     
         }
 
-        #send-form-btn{
+        .form-container .btn-group{
 
-            width: 150px!important;
-            margin: auto;
-
+            margin-right: 20px;
         }
+
 
         #annuaire-sidebar{
 
             width: 95vw!important;
             margin-left: 7px;
+
+        }
+
+        .backoffice-container{
+
+            padding-left: 25px!important;
+            padding-right: 25px!important;
+            overflow-x: hidden;
 
         }
 
