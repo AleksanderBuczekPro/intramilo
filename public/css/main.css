@@ -1021,7 +1021,7 @@ div.card.my-card .file-title{
     overflow: hidden;
     white-space: nowrap;
 
-    max-width: 490px;
+    max-width: 480px;
     text-overflow: ellipsis;
 }
 
