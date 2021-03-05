@@ -11,6 +11,8 @@ use App\Form\RegistrationType;
 use App\Repository\RoleRepository;
 use App\Repository\UserRepository;
 use App\Repository\GroupeRepository;
+use App\Repository\InterlocutorRepository;
+use App\Repository\OrganizationRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -205,11 +207,29 @@ class AdminUserController extends AbstractController
      * @Route("/admin/user/{id}/delete", name="admin_user_delete")
      * 
      */
-    public function delete(User $user, EntityManagerInterface $manager)
+    public function delete(User $user, EntityManagerInterface $manager, InterlocutorRepository $interRepo, OrganizationRepository $orgRepo)
     {
         $size = sizeof($user->getSheets()) + sizeof($user->getDocuments());
 
         if($size == 0){
+
+             // Reset Author Organizations / Interlocutors Created
+             $interlocutors = $interRepo->findByLastAuthor($user);
+             $organizations = $orgRepo->findByLastAuthor($user);
+ 
+             foreach($interlocutors as $interlocutor){
+ 
+                 $interlocutor->setLastAuthor(null);
+                 $manager->persist($interlocutor);
+                 
+             }
+ 
+             foreach($organizations as $organization){
+ 
+                 $organization->setLastAuthor(null);
+                 $manager->persist($organization);
+                 
+             }
 
             $manager->remove($user);
             $manager->flush();
