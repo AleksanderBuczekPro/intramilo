@@ -34,18 +34,17 @@
             <div class="row">
                 <div class="col-3">
                     {# <img src="/images/logo_mission_locale.png" class="px-4" style="height: 100px;" alt="Logo Mission Locale de l'arrondissment de Dijon"> #}
-                    <img src="{{ asset('files/pictures/' ~ parameters.logoFilename) }}" class="px-4" style="max-height: 100px; max-width: 250px; margin-bottom: 25px;" alt="Logo Mission Locale de l'arrondissment de Dijon">
+                    <img src="{{ asset('files/pictures/' ~ parameters.logoFilename) }}" class="sheet-logo px-4" style="max-height: 100px; max-width: 250px; margin-bottom: 25px;" alt="Logo Mission Locale de l'arrondissment de Dijon">
                     
                 </div>
                 <div class="col-6 text-center">
-                    <p class="fil-ariane mt-2 mb-0 black d-none d-print-block text-center black">
-                        {# <span href="" class="my-badge mt-1 bg-{{ category.pole.labelColor }} white px-2 py-1">{{ category.pole |slice(0, 1) }}</span> #}
+                    {# <p class="fil-ariane mt-2 mb-0 black d-none d-print-block text-center black">
                         <a href="{{ path('doc_pole', { 'id': category.pole.id }) }}" class="black"><span class="mx-1 doc-secondary">{{ category.pole }}</span></a>
                         <span class="">></span>
                         <span class="mx-1 doc-secondary">{{ category }}</span>
                         <span class="">></span>
                         <a href="{{ path('doc_show', { 'slug': category.slug, 'sub_slug': subCategory.slug, 'sub_id': subCategory.id  }) }}" class="black"><span class="mx-1 doc-secondary">{{ subCategory }}</span></a>
-                    </p>
+                    </p> #}
                 </div>
             </div>
             
@@ -253,7 +252,7 @@
                 </div>
 
                 {% if sheet.interlocutors|length > 0 %}
-                    <div class="interlocutors-container" id="print-interlocutors">
+                    <div class="interlocutors-container">
                         {% for interlocutor in sheet.interlocutors %}
 
                             {% include 'documentation/_user_interlocutor.html.twig' with {'user': interlocutor} %}
@@ -781,11 +780,11 @@ $("#print").click(function() {
         $('#print-interlocutors').removeClass("d-print-none");
     }
 
-    if(!$('#header-check').is(':checked')) {
+    /*if(!$('#header-check').is(':checked')) {
         $('#print-interlocutors').addClass("d-print-none");
     }else{
         $('#print-interlocutors').removeClass("d-print-none");
-    }
+    }*/
 
     $(".header-check").each(function() {
         var header_id = $(this).data('id');

@@ -1,13 +1,69 @@
 /* Impression de la fiche */
 
+.col-print-1 {max-width:8%!important;  float:left;}
+.col-print-2 {max-width:16%!important; float:left;}
+.col-print-3 {max-width:25%!important; float:left;}
+.col-print-4 {max-width:33%!important; float:left;}
+.col-print-5 {max-width:42%!important; float:left;}
+.col-print-6 {max-width:50%!important; float:left;}
+.col-print-7 {max-width:58%!important; float:left;}
+.col-print-8 {max-width:66%!important; float:left;}
+.col-print-9 {max-width:75%!important; float:left;}
+.col-print-10{max-width:83%!important; float:left;}
+.col-print-11{max-width:92%!important; float:left;}
+.col-print-12{max-width:100%!important; float:left;}
+
 body{
 
     margin-top: 0px!important;
+    background-color: white;
+
+}
+
+div.card.my-card.paragraph-card { 
+    
+
+    display: block !important;
+    
+}
+
+div.card.my-card{
+
+    border-color: var(--grey-30-color) !important;
+
+}
+
+.btn.btn-paragraph{
+
+    padding-bottom: 10px!important;
+
+}
+
+.modal{
+
+    display: none!important;
 
 }
 
 .sheet-container div.content {
     padding: 0px 20px 0px 40px!important;
+    max-width: 66%;
+}
+
+.sheet-container div.header.sidebar-header {
+    max-width: 33%;
+}
+
+.sheet-container .responsive-header{
+
+    display: none!important;
+
+}
+
+.sheet-container .sheet-content{
+
+    margin-top: 0px;
+
 }
 
 .sheet-subtitle {
@@ -21,7 +77,13 @@ body{
 
 .sheet-title {
 
-    margin-top: 20px;
+    margin-top: 0px;
+
+}
+
+.sheet-logo{
+
+    margin-bottom: 0px!important;
 
 }
 
@@ -36,6 +98,7 @@ div.sheet-introduction, div.sheet-introduction p, div.sheet-introduction li {
     line-height: 28px;
 }
 
+/* Sheet Header */
 .sheet-container div.header {
     padding: 20px 20px 70px 0px;
 }
@@ -44,6 +107,20 @@ div.sheet-introduction, div.sheet-introduction p, div.sheet-introduction li {
     top: 200px;
 
 }
+
+.sheet-container .sidebar-header{
+
+    display: inline-block!important;
+    width: 500px;
+
+}
+
+
+
+
+
+
+
 
 div.sheet-content table th, div.sheet-content table td {
 
